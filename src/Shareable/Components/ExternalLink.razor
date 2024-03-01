@@ -1,0 +1,15 @@
+﻿@using System.Runtime.CompilerServices
+@using System.ComponentModel.DataAnnotations
+
+<MudButton Style="padding:0px; padding-right:2px; vertical-align:central;" Href="@Href" Target="_blank" Variant="Variant.Text" Color="Color.Primary" EndIcon="@Icons.Material.Filled.OpenInNew">@Text</MudButton>
+
+@code {
+
+    [Parameter]
+    [Required]
+    public string Href { get; set; }
+
+    [Parameter]
+    [Required]
+    public string Text { get; set; }
+}

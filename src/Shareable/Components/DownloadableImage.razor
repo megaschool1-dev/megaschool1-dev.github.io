@@ -1,0 +1,20 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<MudLink Href="@LatestImageUri" download>
+    <MudImage Fluid="true" Src="@LatestImageUri" Alt="@Alt" Class="rounded-lg" />
+</MudLink>
+
+@code {
+    private string LatestImageUri => $"{ImageUri}?v={Version}";
+
+    [Parameter]
+    [Required]
+    public string ImageUri { get; set; } = default!;
+
+    [Parameter]
+    [Required]
+    public string Alt { get; set; } = default!;
+
+    [Parameter]
+    public int Version { get; set; } = 1;
+}

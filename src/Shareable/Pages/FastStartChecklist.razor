@@ -1,0 +1,168 @@
+@page "/faststartchecklist"
+@inherits Components.ComponentBase
+@using Components
+@using Shareable.Components
+
+@if (!_pageLoaded)
+{
+    <MudStack Row="true">
+        <MudSpacer />
+        <MudProgressCircular Indeterminate="true" />
+        <MudSpacer />
+    </MudStack>
+    <br />
+}
+
+<MudStack>
+    <MudSpacer />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.PayCard" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6" >MWR Pay Card:</MudText> I located my email from MWRFinancial@globalewallet.com and ordered my card!
+    </MudCheckBox>
+    <br/>
+
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.FastStartTraining" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Fast Start Training:</MudText> I have completed MWR's Fast Start Success System Training!
+    </MudCheckBox>
+    <MudText Align="Align.Center"><MudLink OnClick="@(e => _isFastStartVisible = true)">Watch Now!</MudLink></MudText>
+    <MudOverlay Visible="_isFastStartVisible" DarkBackground="true" Absolute="false" OnClick="@(e => _isFastStartVisible = false)">
+        <iframe id="ifmVdoPop" 
+                style="position:relative;width:100%;height:100%;"
+                src="https://player.vimeo.com/video/882695585?h=80b52d966e&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
+                allowfullscreen="" 
+                data-ready="true"></iframe>
+    </MudOverlay>
+    <br/>
+
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.FirstRoundDraftWorksheet" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">First Round Draft Choices:</MudText>I downloaded the First Round Draft Choice PDF & listed my 1st 30 prospects to contact immediately.
+    </MudCheckBox>
+    <MudText Align="Align.Center"><MudLink Href="/MWR-First-Round-Draft-Choice-English.pdf" Target="_blank">Download First Round Draft Choice PDF</MudLink></MudText>
+    <br/>
+
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.FastStartInterview" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Fast Start Interview:</MudText>I completed this with my Upline and/or Success line Leader
+    </MudCheckBox>
+    <br />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.VirtualBusinessLaunch" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Virtual Business Launch:</MudText>I've scheduled 1 Zoom Launch within 48 hours of joining!
+    </MudCheckBox>
+    <DatePicker Title="Zoom Launch Date:" @bind-Value="_viewModel.VirtualBusinessLaunchDate" ShowYear="false"></DatePicker>
+    <br />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.HomeBusinessLaunch" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">In Home Launch:</MudText>I've scheduled my Lifestyle & Legacy Party within 7 days of joining!
+    </MudCheckBox>
+    <DatePicker Title="Lifestyle & Legacy Party Date:" @bind-Value="_viewModel.HomeBusinessLaunchDate" ShowYear="false"></DatePicker>
+    <br />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.InstantPayRaise" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Reduce My Taxes & Instant Pay Raise:</MudText>I have uploaded my 2 Pay Stubs and Tax Return(s)
+    </MudCheckBox>
+    <br />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.HurdlrSetup" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Mileage & Expense Tracking App:</MudText>I have setup this app on my phone via my <MudLink Href="https://member.mwrfinancial.com/membership/cashback.php" Target="_blank">Membership Portal</MudLink>
+    </MudCheckBox>
+    <br />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.LowerMyBills" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Lower My Bills:</MudText>I have uploaded my bills into this system via my <MudLink Href="https://member.mwrfinancial.com/membership/cashback.php" Target="_blank">Membership Portal</MudLink>
+    </MudCheckBox>
+    <br />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.DebtEliminator" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Eliminate My Debts:</MudText>I have entered all my debts and my analysis shows the following:
+    </MudCheckBox>
+    <br/>
+    <MudStack Row="true">
+        <MudSpacer/>
+        <MudStack>
+            <MudText Align="Align.Center">Interest Savings: </MudText>
+            <MudNumericField @bind-Value="_viewModel.DebtInterestSavings" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" Immediate="true" Variant="Variant.Outlined" />
+        </MudStack>
+        <MudSpacer/>
+    </MudStack>
+    <br/>
+    <DatePicker Title="Debt Free Date:" @bind-Value="_viewModel.DebtFreeDate" ShowTime="false" ShowDayOfWeek="false" />
+    <br />
+    <DatePicker Title="Millionaire Date:" @bind-Value="_viewModel.MillionaireDate" ShowTime="false" ShowDayOfWeek="false" />
+    <br />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.RestoreCredit" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Restore My Credit:</MudText>I have ordered and upload my 3 credit reports via my <MudLink Href="https://member.mwrfinancial.com/membership/cashback.php" Target="_blank">Membership Portal</MudLink>
+    </MudCheckBox>
+    <br />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.DiversifiedCashflowAccount" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Diversified Cashflow Account:</MudText>I have scheduled my consultation.
+    </MudCheckBox>
+    <DatePicker Title="DCA Consultation Date:" Value="_viewModel.DiversifiedCashflowAccountConsultationDate" ShowYear="false"></DatePicker>
+    <br />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.TeamTrainings" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Team Trainings:</MudText>I have included team training details in my calendar.
+    </MudCheckBox>
+    <DatePicker Title="Team Training Day & Time:" @bind-Value="_viewModel.TeamTrainingSchedule" CustomFormat="@("dddd\\s @ h:mm tt")" />
+    <br />
+    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.CorporateEventRegistration" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Corporate Event:</MudText>I am registered for the <ExternalLink Href="https://www.eventbrite.com/e/mwr-2024-ignite-event-tickets-697654081137?aff=ebdsoporgprofile" Text="MWR IGNITE Conference"/> in Atlanta, Georgia on April 26-27, 2024.
+    </MudCheckBox>
+    <br />
+    <MudCheckBox Value="_viewModel.SubscribedToFacebook && _viewModel.SubscribedToYouTube && _viewModel.SubscribedToTwitter && _viewModel.SubscribedToLinkedIn && _viewModel.SubscribedToInstagram" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
+        <MudText Typo="Typo.h6">Plugged In:</MudText>I am following MWR on the Social Media Platforms listed below to stay informed:
+    </MudCheckBox>
+    <MudStack Row="true" Justify="Justify.FlexEnd">
+        <MudSpacer/>
+        <MudContainer Style="width:50%;">
+            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.SubscribedToFacebook" Size="Size.Small" Color="Color.Primary">
+                <ExternalLink Href="https://facebook.com/MWRFinancial" Text="Facebook"/>
+            </MudCheckBox>
+            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.SubscribedToYouTube" Size="Size.Small" Color="Color.Primary">
+                <ExternalLink Href="https://youtube.com/c/mwrfinancial" Text="YouTube"/>
+            </MudCheckBox>
+            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.SubscribedToTwitter" Size="Size.Small" Color="Color.Primary">
+                <ExternalLink Href="https://twitter.com/mwrfinancial" Text="Twitter"/>
+            </MudCheckBox>
+            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.SubscribedToLinkedIn" Size="Size.Small" Color="Color.Primary">
+                <ExternalLink Href="https://www.linkedin.com/company/mwr-financial-official" Text="LinkedIn"/>
+            </MudCheckBox>
+            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.SubscribedToInstagram" Size="Size.Small" Color="Color.Primary">
+                <ExternalLink Href="https://instagram.com/mwrfinancial" Text="Instagram"/>
+            </MudCheckBox>
+        </MudContainer>
+        <MudSpacer/>
+    </MudStack>
+    <br />
+    <br />
+    <MudTooltip Text="Saved!" IsVisible="_showTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+        <MudButton OnClick="OnSaveClick" EndIcon="@Icons.Material.Filled.Save" Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+    </MudTooltip>
+    <MudSpacer />
+</MudStack>
+
+@code {
+    private bool _showTooltip = false;
+    private bool _pageLoaded;
+    private Repository.FastStartChecklist _viewModel = new();
+    private bool _isFastStartVisible;
+    private bool _isDatePickerOpen;
+    private bool _isTimePickerOpen;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _viewModel = (await this.GetSettingsAsync()).FastStartChecklist;
+
+        _pageLoaded = true;
+        base.StateHasChanged();
+    }
+
+    private async Task OnSaveClick()
+    {
+        var settings = await this.GetSettingsAsync();
+
+        settings.FastStartChecklist = _viewModel;
+
+        await this.SaveSettingsAsync(settings);
+
+        _showTooltip = true;
+        base.StateHasChanged();
+
+        await Task.Delay(3 * 1000);
+
+        _showTooltip = false;
+        base.StateHasChanged();
+    }
+}

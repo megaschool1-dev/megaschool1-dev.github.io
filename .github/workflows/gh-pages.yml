@@ -12,9 +12,9 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 8.0.200
     - name: Publish with dotnet
-      run: dotnet publish ./src/MudBlazorPages --configuration Release --output build
+      run: dotnet publish ./src --configuration Release --output build
     - name: Deploy to Github Pages
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
@@ -22,4 +22,14 @@ jobs:
         BASE_BRANCH: main # The branch the action should deploy from.
         BRANCH: gh-pages-from-actions # The branch the action should deploy to.
         FOLDER: build/wwwroot # The folder the action should deploy.
-        SINGLE_COMMIT: true
+        SINGLE_COMMIT: true        
+    # - name: Login to GitHub Container Registry
+    #   uses: docker/login-action@v1
+    #   with:
+    #     registry: ghcr.io
+    #     username: ${{ github.actor }}
+    #     password: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Build the MWR Shareable Docker image
+    #   run: |
+    #         docker build -f src/Shareable/Dockerfile . --tag ghcr.io/third-partay/shareable:latest
+    #         docker push ghcr.io/third-partay/shareable:latest

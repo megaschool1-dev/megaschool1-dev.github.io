@@ -1,0 +1,75 @@
+﻿@inherits ComponentBase
+
+<MudStack>
+    <MudText Align="Align.Center">
+        @Title
+        <br/>
+        @if (Value == null)
+        {
+            <MudText>???</MudText>
+        }
+        else
+        {
+            @(CustomFormat != null ? Value.Value.ToString(CustomFormat) : $"{(!ShowDayOfWeek ? string.Empty : $"{Value?.DayOfWeek.ToString()}, ")}{Value?.ToString("MMMM d")}{(!ShowYear ? string.Empty : $", {Value?.ToString("yyyy")}")}{(!ShowTime ? string.Empty : $" @ {Value?.ToString("hh:mm tt")}")}")
+        }
+        <br/>
+        <br/>
+        @if (ShowTime && this.Value != null)
+        {
+            <MudStack Row="true" Justify="Justify.Center">
+                <DatePickerLink Date="Value" Text="Change Date" DateChanged="OnDateChanged" />
+                <MudText> | </MudText>
+                <TimePickerLink Time="@((Value ?? DateTime.Now).TimeOfDay)" Text="Change Time" TimeChanged="OnTimeChanged"/>
+            </MudStack> 
+        }
+        else
+        {
+            <DatePickerLink Date="Value" Text="Change Date" DateChanged="OnDateChanged" />
+        }
+    </MudText>
+</MudStack>
+@code {
+    [Parameter] public string Title { get; set; } = "My Date & Time Picker";
+
+    private DateTime? _value;
+
+    [Parameter]
+    public DateTime? Value
+    {
+        get => _value;
+        set
+        {
+            if (value != _value)
+            {
+                _value = value;
+
+                _ = ValueChanged.InvokeAsync(_value);
+            }
+        }
+    }
+
+    [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
+
+    [Parameter] public bool ShowTime { get; set; } = true;
+    [Parameter] public bool ShowDayOfWeek { get; set; } = true;
+    [Parameter] public bool ShowYear { get; set; } = true;
+    [Parameter] public string? CustomFormat { get; set; }
+
+    private void OnDateChanged(DateTime? newDateValue)
+    {
+        if (newDateValue != null)
+        {
+            this.Value = new(
+                DateOnly.FromDateTime(newDateValue.Value),
+                this.Value != null ? TimeOnly.FromDateTime(this.Value.Value) : TimeOnly.MinValue);
+        }
+    }
+
+    private void OnTimeChanged(TimeSpan? newTimeValue)
+    {
+        if (newTimeValue != null)
+        {
+            this.Value = new(DateOnly.FromDateTime(this.Value!.Value), new TimeOnly(newTimeValue.Value.Hours, newTimeValue.Value.Minutes));
+        }
+    }
+}

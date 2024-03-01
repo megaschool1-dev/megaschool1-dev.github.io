@@ -1,0 +1,30 @@
+﻿@inherits ComponentBase
+
+<MudLink OnClick="@(async e => { _timePicker.Open(); })">
+    @Text
+    <MudTimePicker @ref="_timePicker" Style="display:none;" @bind-Time="Time" PickerVariant="PickerVariant.Dialog" />
+</MudLink>
+
+@code {
+    private MudTimePicker? _timePicker;
+
+    [Parameter] public string Text { get; set; } = "Change Time";
+
+    private TimeSpan? _time;
+    [Parameter]
+    public TimeSpan? Time
+    {
+        get => _time;
+        set
+        {
+            if (value != _time)
+            {
+                _time = value;
+
+                _ = TimeChanged.InvokeAsync(_time);
+            }
+        }
+    }
+
+    [Parameter] public EventCallback<TimeSpan?> TimeChanged { get; set; }
+}

@@ -1,0 +1,117 @@
+﻿@page "/residuals"
+@inherits Components.ComponentBase
+@inject IJSRuntime JSRuntime
+
+<MudText Typo="Typo.h3" GutterBottom="true" Style="text-align:center;">Cash Flow Equivalents</MudText>
+
+<MudTable Items="_cashflowEquivalents" Breakpoint="Breakpoint.None" Hover="true" SortLabel="Sort By" Elevation="0">
+    <HeaderContent>
+        <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(34,136,195);">Investment <br /> @@ <br /> 5% APY</MudTh>
+        <MudTh Style="text-align:center; vertical-align:top; border-color:rgb(34,136,195);">Monthly <br /> ROI</MudTh>
+        <MudTh Style="text-align:center; vertical-align:top; border-color:rgb(34,136,195);">MWR <br /> Memberships</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd Style="text-align:center;" DataLabel="Investment at 5% APY">$@context.InvestmentPrinciple.ToString("N0")</MudTd>
+        <MudTd Style="text-align:center;" DataLabel="Monthly ROI">$@context.MonthlyRoi.ToString("N0") <br /> ($@((context.MonthlyRoi / 30).ToString("N0"))/day)</MudTd>
+        <MudTd Style="text-align:center;" DataLabel="MWR Memberships">@context.NumMemberships.ToString("N0")</MudTd>
+    </RowTemplate>
+</MudTable>
+<br />
+<br />
+<MudText Typo="Typo.h3" GutterBottom="true">Bill Killer</MudText>
+<br/>
+<MudText>Monthly bill amount: </MudText>
+<MudNumericField @bind-Value="_monthlyBillAmount" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" Immediate="true" HelperText="Monthly Bill Amount" Variant="Variant.Outlined" Min="0" Max="1000000" />
+<br/>
+<br/>
+<MudText>@(_monthlyBillAmount == 0 ? "Memberships pay your bills by creating DAILY, passive, residual income!" : $"Funded w/ {GetNumMembershipsToFundMonthlyBill(this._monthlyBillAmount):N0} Memberships (Direct AND Indirect)")</MudText>
+
+@code {
+    private int _monthlyBillAmount;
+
+    private int GetNumMembershipsToFundMonthlyBill(int monthlyBillAmount)
+    {
+        var numMembershipsToPayMonthlyBill = 0;
+
+        var minimumRankToPayMonthlyBill = DailyGuarantee.First(x => x.Value.MonthlyPay >= monthlyBillAmount);
+        if (minimumRankToPayMonthlyBill.Key != Rank.None)
+        {
+            numMembershipsToPayMonthlyBill = minimumRankToPayMonthlyBill.Value.NumMemberships;
+        }
+
+        return numMembershipsToPayMonthlyBill;
+    }
+
+    private List<CashflowEquivalent> _cashflowEquivalents = new()
+    {
+        new(Rank.ED1),
+        new(Rank.ED2),
+        new(Rank.ED3),
+        new(Rank.ED4),
+        new(Rank.ED5),
+    };
+
+    private static readonly Dictionary<Rank, (int NumMemberships, int MonthlyPay)> DailyGuarantee = new()
+    {
+        { Rank.ED1, (3, 150) },
+        { Rank.ED2, (12, 600 ) },
+        { Rank.ED3, (50, 1500) },
+        { Rank.ED4, (90, 3000) },
+        { Rank.ED5, (180, 4500) },
+        { Rank.Regional1, (300, 6000) },
+        { Rank.Regional2, (480, 9000) },
+        { Rank.Regional3, (750, 12000) },
+        { Rank.Regional4, (1200, 19500) },
+        { Rank.Regional5, (1800, 30000) },
+        { Rank.NationalDirector, (3000, 45000) },
+        { Rank.VicePresidentialDirector, (6000, 90000) },
+        { Rank.PresidentialDirector, (12000, 150000) },
+        { Rank.ExecutiveChairman, (21000, 300000) },
+        { Rank.NationalAmbassador, (33000, 450000) },
+    };
+
+    private class CashflowEquivalent
+    {
+        private Rank _rank;
+
+        public CashflowEquivalent(Rank rank)
+        {
+            _rank = rank;
+            this.InvestmentPrinciple = InvestmentCashFlowEquivalent(DailyGuarantee[_rank].MonthlyPay);
+            this.MonthlyRoi = DailyGuarantee[_rank].MonthlyPay;
+            this.NumMemberships = DailyGuarantee[_rank].NumMemberships;
+        }
+
+        public int InvestmentPrinciple { get; }
+        public int MonthlyRoi { get; }
+        public int NumMemberships { get; }
+
+        private static int InvestmentCashFlowEquivalent(int monthlyCashFlow)
+        {
+            const int MonthsPerYear = 12;
+            const double Apy = 0.05;
+
+            return monthlyCashFlow * MonthsPerYear * (int)(1 / Apy);
+        }
+    }
+
+    public enum Rank
+    {
+        None = 0,
+        ED1 = 1,
+        ED2 = 2,
+        ED3 = 3,
+        ED4 = 4,
+        ED5 = 5,
+        Regional1 = 6,
+        Regional2 = 7,
+        Regional3 = 8,
+        Regional4 = 9,
+        Regional5 = 10,
+        NationalDirector = 11,
+        VicePresidentialDirector = 12,
+        PresidentialDirector = 13,
+        ExecutiveChairman = 14,
+        NationalAmbassador = 15,
+    }
+}

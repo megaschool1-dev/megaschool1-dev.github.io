@@ -1,0 +1,172 @@
+﻿@using System.Runtime.CompilerServices
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject NavigationManager MyNavigationManager
+@inject IJSRuntime JSRuntime
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>MWR Cheat Sheet</PageTitle>
+
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+<div class="page mud-layout">
+
+    <div class="sidebar mud-elevation-1">
+        <div class="top-row mud-drawer-head">
+            <div>
+                <a class="ml-2 navbar-brand">MWR Cheat Sheet</a>
+            </div>
+        </div>
+
+        <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+        <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+            <CascadingValue Value="_appState">
+                <NavMenu/>
+            </CascadingValue>
+        </div>
+
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <MudStack Row="true" Style="width:100%;">
+                <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Style="color: white;" Link="https://github.com/Third-Partay/third-partay.github.io" Target="_blank"/>
+                <MudSpacer />
+                @if (_componentInitialized && _appState.AppIsInstallable)
+                {
+                    <MudButton OnClick="OnInstallClick" EndIcon="@Icons.Material.Filled.InstallMobile" Variant="Variant.Filled" Color="Color.Primary">Install</MudButton>
+                    <MudSpacer />
+                }
+                <MudText Style="color:white;">@GetTitle()</MudText>
+            </MudStack>
+        </div>
+
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="my-2 pt-2">
+            <CascadingValue Value="_appState">
+                @Body
+                @if (_showAppUpdatePrompt)
+                {
+                    <MudFab Style="position:fixed; bottom:0; right:0; padding-right:5;" 
+                            Color="Color.Primary"
+                            EndIcon="@Icons.Material.Filled.Refresh"
+                            OnClick="@(e => NavigationManager.NavigateTo(NavigationManager.BaseUri, true))"
+                            Label="Load Update" />
+                }
+            </CascadingValue>
+        </MudContainer>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@code {
+    private static MainLayout? Instance;
+
+    private readonly AppState _appState = new();
+
+    private bool _showAppUpdatePrompt;
+    private bool _componentInitialized;
+    private DotNetObjectReference<MainLayout>? _thisComponentReference;
+
+    public void Dispose()
+    {
+        _thisComponentReference?.Dispose();
+    }
+
+    protected async void OnInstallClick()
+    {
+        _thisComponentReference = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("promptToInstall", _thisComponentReference);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _componentInitialized = true;
+
+        // start checking for updates
+        _ = CheckForUpdatesAsync();
+
+        // show install button if applicable
+        var maxInstallationStatusWaitTime = Task.Delay(10 * 1000);
+        var keepCheckingInstallationStatus = true;
+        while (keepCheckingInstallationStatus && !maxInstallationStatusWaitTime.IsCompleted)
+        {
+            var installationStatusReady = await JSRuntime.InvokeAsync<bool>("appInstallationStatusReady");
+            if (installationStatusReady)
+            {
+                _appState.AppIsInstallable = (await JSRuntime.InvokeAsync<bool>("appIsInstallable"));
+                keepCheckingInstallationStatus = false;
+            }
+            else
+            {
+                await Task.Delay(2 * 1000);
+            }
+        }
+
+        Instance = this;
+    }
+
+    private async Task CheckForUpdatesAsync()
+    {
+        while (true)
+        {
+            var currentVersion = this.GetType().Assembly.GetName().Version;
+
+            var appInfo = await Http.GetFromJsonAsync<Api.AppInfo>(MakeUrlBypassBrowserCache("AppInfo.json"));
+
+            if (appInfo != null)
+            {
+                var latestVersion = Version.Parse(appInfo.LatestVersion);
+
+                _showAppUpdatePrompt = currentVersion == null || latestVersion > currentVersion;
+                this.StateHasChanged();
+            }
+
+            // check for updates every 5 minutes
+            await Task.Delay(TimeSpan.FromMinutes(5));
+        }
+    }
+
+    /// <summary>
+    ///     Make a URL bypass the browser cache by faking a unique request.
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    private static string MakeUrlBypassBrowserCache(string url) => $"{url}?v={Guid.NewGuid()}";
+
+    [JSInvokable]
+    public static void OnAppInstalled()
+    {
+        if (Instance != null)
+        {
+             _ = Instance.InvokeAsync(() =>
+             {
+                 Instance._appState.AppIsInstallable = false;
+                 Instance.StateHasChanged();
+             });
+        }
+    }
+
+    private string GetTitle()
+    {
+        var page = MyNavigationManager.ToBaseRelativePath(MyNavigationManager.Uri);
+
+        return page switch
+        {
+            "" => "Words",
+            "ipr" => "Instant Pay Raise",
+            "shareables" => "Shareables",
+            "settings" => "Settings",
+            "faststartchecklist" => "Fast Start Checklist",
+            "residuals" => "Residuals",
+            _ => string.Empty
+        };
+    }
+}

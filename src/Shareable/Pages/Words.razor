@@ -1,0 +1,20 @@
+﻿@page "/"
+@inherits Components.ComponentBase
+@using Components
+@using Shareable.Components
+
+<MudStack>
+    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Phrases that Pay!</MudText>
+    <MudText Align="Align.Center">Tap Image to Download</MudText>
+    <DownloadableImage Alt="72-Hour Money Challenge | Share" ImageUri="images/words/72hour-share.jpeg" />
+    <DownloadableImage Alt="72-Hour Money Challenge | Response" ImageUri="images/words/72hour-response.jpeg" />
+    <DownloadableImage Alt="72-Hour Money Challenge | Success Story" ImageUri="images/words/72hour-success-story.jpeg" />
+    <br/>
+    <br/>
+    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Examples!</MudText>
+    <ul style="list-style-type: circle;">
+        <li><MudText>"Hey Jerome, I just took MWR's 72-Hour Money Challenge, and my new team of experts just put $603.58 back in my pockets EVERY MONTH!"</MudText></li>
+        <li><MudText>"Reach out to me if you'd like a guaranteed way to put more money in your pockets, too"</MudText></li>
+        <li><MudText>"...with my help."</MudText></li>
+    </ul>
+</MudStack>

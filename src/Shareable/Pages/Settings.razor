@@ -1,0 +1,54 @@
+﻿@inherits Components.ComponentBase
+@page "/settings"
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<PageTitle>MWR Shareable</PageTitle>
+
+<MudStack>
+    <MudStack Row="true">
+        <MudSpacer/>
+        <MudText>Version: @(this.GetType().Assembly.GetName().Version)</MudText>
+    </MudStack>
+    <MudTextField @bind-Value="_settings.Username" Label="My MWR Username" Placeholder="Your MWR username" HelperText=@($"Tip: If your website is '{MarketingDirectorUrlEnglish("ACME")}' then your username is 'ACME'")/>
+    <br/>
+    <br/>
+    <MudTooltip Text="Saved!" IsVisible="_showTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+        <MudButton OnClick="OnSaveClick" EndIcon="@Icons.Material.Filled.Save" Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+    </MudTooltip>
+    <br/>
+    <br/>
+</MudStack>
+
+@code {
+    private const string SettingsKey = "settings";
+
+    private bool _showTooltip = false;
+
+    private Repository.Settings _settings = new();
+
+    public int IntValue { get; set; }
+    public double DoubleValue { get; set; }
+    public decimal DecimalValue { get; set; }
+    public int MonthlyBillAmount { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (await localStorage.ContainKeyAsync(SettingsKey))
+        {
+            _settings = await localStorage.GetItemAsync<Repository.Settings>(SettingsKey) ?? _settings;
+        }
+    }
+
+    private async Task OnSaveClick()
+    {
+        await localStorage.SetItemAsync(SettingsKey, _settings);
+
+        _showTooltip = true;
+        base.StateHasChanged();
+
+        await Task.Delay(3 * 1000);
+
+        _showTooltip = false;
+        base.StateHasChanged();
+    }
+}

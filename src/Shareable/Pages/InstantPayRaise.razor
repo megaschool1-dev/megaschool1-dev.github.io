@@ -1,0 +1,75 @@
+﻿@page "/ipr"
+@inherits Components.ComponentBase
+@inject NavigationManager MyNavigationManager
+@using Components
+@using Shareable.Components
+
+<MudStack Row="true">
+    <MudSpacer />
+    <MudText Align="Align.Center">
+        Show Instant Pay Raise
+        <br/>
+        <MudLink OnClick="OnEnglishRequested">English</MudLink> | <MudLink OnClick="OnSpanishRequested">Español</MudLink>
+    </MudText>
+    <MudSpacer />
+</MudStack>
+<br />
+
+@if (!_iframeLoaded)
+{
+    <MudStack Row="true">
+        <MudSpacer />
+        <MudProgressCircular Indeterminate="true" />
+        <MudSpacer />
+    </MudStack>
+    <br />
+}
+
+<iframe
+    src="@_iframeUrl"
+    @onload="OnIframeLoaded"
+    style="position:fixed; width:90%"
+    title="Instant Pay Raise"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+
+@code {
+    private static readonly string DefaultUrl = InstantPayRaiseUrlEnglish(DefaultUsername);
+
+    private bool _iframeLoaded;
+    private string _iframeUrl = DefaultUrl;
+    private string? _englishUrl;
+    private string? _spanishUrl;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _englishUrl = InstantPayRaiseUrlEnglish(await this.GetUsernameAsync());
+        _spanishUrl = InstantPayRaiseUrlSpanish(await this.GetUsernameAsync());
+
+        _iframeUrl = _englishUrl;
+    }
+
+    private void OnIframeLoaded(ProgressEventArgs e)
+    {
+        _iframeLoaded = true;
+    }
+
+    private void OnEnglishRequested()
+    {
+        if (_iframeUrl != _englishUrl)
+        {
+            _iframeLoaded = false;
+            _iframeUrl = _englishUrl ?? DefaultUrl;
+        }
+    }
+
+    private void OnSpanishRequested()
+    {
+        if (_iframeUrl != _spanishUrl)
+        {
+            _iframeLoaded = false;
+            _iframeUrl = _spanishUrl ?? DefaultUrl;
+        }
+    }
+}

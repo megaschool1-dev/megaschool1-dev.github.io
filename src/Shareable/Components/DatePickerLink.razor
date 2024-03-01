@@ -1,0 +1,30 @@
+﻿@inherits ComponentBase
+
+<MudLink OnClick="@(async e => { if (this.Date != null) { await _datePicker.GoToDate(this.Date.Value); } _datePicker.Open(); })">
+    @Text
+    <MudDatePicker @ref="_datePicker" Style="display:none;" @bind-Date="Date" PickerVariant="PickerVariant.Dialog" />
+</MudLink>
+
+@code {
+    private MudDatePicker? _datePicker;
+
+    [Parameter] public string Text { get; set; } = "Change Date";
+
+    private DateTime? _date;
+    [Parameter]
+    public DateTime? Date
+    {
+        get => _date;
+        set
+        {
+            if (value != _date)
+            {
+                _date = value;
+
+                _ = DateChanged.InvokeAsync(_date);
+            }
+        }
+    }
+
+    [Parameter] public EventCallback<DateTime?> DateChanged { get; set; }
+}
