@@ -8,7 +8,7 @@
     <base href="/" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
-    <link href="Shareable.styles.css" rel="stylesheet" />
+    <link href="MWRCheatSheet.styles.css" rel="stylesheet" />
     <link href="manifest.webmanifest" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
@@ -97,7 +97,7 @@
             if (outcome === 'accepted') {
                 console.log('User accepted the install prompt.');
 
-                await DotNet.invokeMethodAsync("Shareable", "OnInstallClick");
+                await DotNet.invokeMethodAsync("MWRCheatSheet", "OnInstallClick");
             } else if (outcome === 'dismissed') {
                 console.log('User dismissed the install prompt');
             }
@@ -120,7 +120,7 @@
                 //await componentReference.invokeMethodAsync("ComponentBase", "OnAppInstalled");
                 //componentReference.dispose();
 
-                await DotNet.invokeMethodAsync("Shareable", "OnAppInstalled");
+                await DotNet.invokeMethodAsync("MWRCheatSheet", "OnAppInstalled");
             } else if (outcome === 'dismissed') {
                 console.log('User dismissed the install prompt');
             }

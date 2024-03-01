@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shareable.Api;
+namespace MWRCheatSheet.Api;
 
 public class AppInfo
 {

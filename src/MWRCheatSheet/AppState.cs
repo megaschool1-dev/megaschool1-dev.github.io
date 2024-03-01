@@ -1,4 +1,4 @@
-﻿namespace Shareable;
+﻿namespace MWRCheatSheet;
 
 public class AppState
 {

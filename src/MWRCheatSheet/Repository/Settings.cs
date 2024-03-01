@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shareable.Repository;
+namespace MWRCheatSheet.Repository;
 
 public class Settings
 {
