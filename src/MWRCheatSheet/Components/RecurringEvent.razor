@@ -2,22 +2,37 @@
 @using Components
 @using MWRCheatSheet.Components
 @using System.Runtime.CompilerServices
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
 
-<MudStack>
-    <DownloadableImage ImageUri="@ImageUri" />
-    <CopyText Tooltip="Link copied!"
-              TextToCopy="@Text"
-              ImageUrl="@ImageUri">
-
-        <MudText Align="Align.Center">
-            @(Recurrence.Day)s @@ @GetNextEvent(this.Recurrence.Day, this.Recurrence.Time, this.Recurrence.TimeZone).ToLocalTime().ToString(" h:mm tt") @TimeZoneInfo.Local.StandardName
-        </MudText>
-    </CopyText>
-
-</MudStack>
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.body1">@Header</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardMedia Image="@ImageUri"/>
+    <MudCardContent>
+        <MudText Typo="Typo.body2" Align="Align.Center">@(Recurrence.Day)s @@ @GetNextEvent(this.Recurrence.Day, this.Recurrence.Time, this.Recurrence.TimeZone).ToLocalTime().ToString(" h:mm tt") @TimeZoneInfo.Local.StandardName</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudStack Row="true" Style="width:100%;">
+            <MudSpacer/>
+            <CopyTextMinimal Tooltip="Link copied!"
+                             TextToCopy="@Text"
+                             ImageUrl="@ImageUri"/>
+            <MudSpacer/>
+        </MudStack>
+    </MudCardActions>
+</MudCard>
 
 @code {
     private readonly TimeZoneInfo[] BusinessStandardTimeZonesOrdered = [DefaultTimeZone, ChicagoTimeZone, LosAngelesTimeZone];
+
+    private int _height = 300;
+
+    [Parameter]
+    public string Header { get; set; } = "72-Hour Money Challenge!";
 
     [Parameter]
     public string ImageUri { get; set; }

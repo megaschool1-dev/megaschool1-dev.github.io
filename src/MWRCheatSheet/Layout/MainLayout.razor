@@ -7,14 +7,14 @@
 
 <PageTitle>MWR Cheat Sheet</PageTitle>
 
-<MudThemeProvider/>
+<MudThemeProvider IsDarkMode="true"/>
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
 <div class="page mud-layout">
 
     <div class="sidebar mud-elevation-1">
-        <div class="top-row mud-drawer-head">
+        <div class="top-row mud-drawer-head" style="background-color:rgb(27,53,115);">
             <div>
                 <a class="ml-2 navbar-brand">MWR Cheat Sheet</a>
             </div>
@@ -30,7 +30,7 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
+        <div class="top-row px-4" style="background-color:rgb(27,53,115);">
             <MudStack Row="true" Style="width:100%;">
                 <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Style="color: white;" Link="https://github.com/MakeWealthReal/makewealthreal.github.io" Target="_blank"/>
                 <MudSpacer />
@@ -55,7 +55,7 @@
                             Label="Load Update" />
                 }
                 <MudScrollToTop>
-                    <MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.ArrowCircleUp" />
+                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowCircleUp" />
                 </MudScrollToTop>
             </CascadingValue>
         </MudContainer>

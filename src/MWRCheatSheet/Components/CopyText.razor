@@ -1,35 +1,26 @@
 ﻿@inherits Components.ComponentBase
 
-<MudStack>
-    @if (this.Description != null)
-    {
-        <MudText Align="Align.Center" Class="border-solid border-2 mud-border-primary pa-4">@this.Description</MudText>
-    }
-    else
-    {
-        <div>
-            @this.ChildContent
-        </div>
-    }
-    <MudStack Row="true">
-        <MudSpacer/>
-        <MudPaper Class="align-start d-flex" Outlined="false" Elevation="0">
-            <MudTooltip Text="@Tooltip" IsVisible="_showCopyTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
-                <MudIconButton OnClick="OnCopyClick" Icon="@Icons.Material.Filled.ContentCopy" Color="Color.Primary"/>
-            </MudTooltip>
-            <MudTooltip Text="@Tooltip" IsVisible="_showShareTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
-                <MudIconButton OnClick="OnShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary"/>
-            </MudTooltip>
-        </MudPaper>
-        <MudSpacer/>
-    </MudStack>
-    <MudSpacer />
-</MudStack>
-
+<MudCard>
+    <MudCardContent>
+        @if (this.Description != null)
+        {
+            <MudText Align="Align.Center">@this.Description</MudText>
+        }
+        else
+        {
+            <div>
+                @this.ChildContent
+            </div>
+        }
+    </MudCardContent>
+    <MudCardActions>
+        <CopyTextMinimal Description="@Description"
+                         TextToCopy="@TextToCopy"
+                         Tooltip="@Tooltip"
+                         ImageUrl="@ImageUrl" />
+    </MudCardActions>
+</MudCard>
 @code {
-    private bool _showCopyTooltip;
-    private bool _showShareTooltip;
-
     [Parameter]
     public string? Description { get; set; }
 
@@ -41,30 +32,4 @@
 
     [Parameter]
     public string ImageUrl { get; set; } = GetImageUrl(Image.MoneyChallengeLogo);
-
-    private async Task OnCopyClick()
-    {
-        await this.CopyTextToClipboardAsync(this.TextToCopy);
-
-        _showCopyTooltip = true;
-        base.StateHasChanged();
-
-        await Task.Delay(3 * 1000);
-
-        _showCopyTooltip = false;
-        base.StateHasChanged();
-    }
-
-    private async Task OnShareClick()
-    {
-        await this.ShareMessageAsync(this.TextToCopy, this.ImageUrl);
-
-        _showShareTooltip = true;
-        base.StateHasChanged();
-
-        await Task.Delay(3 * 1000);
-
-        _showShareTooltip = false;
-        base.StateHasChanged();
-    }
 }
