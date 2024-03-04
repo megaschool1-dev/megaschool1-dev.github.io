@@ -30,6 +30,7 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
@@ -52,14 +53,86 @@
     </script>
 
     <script>
+        async function clipboardMethod() {
+            // this works perfectly on Signal Desktop
+
+            var image = await fetch('images/mwr-banner.png');
+            console.log("clipboardMethod - 1");
+
+            var blob = await image.blob();
+            console.log("clipboardMethod - 2");
+
+            console.log("clipboardMethod - blob type: " + blob.type);
+
+            await navigator.clipboard.write([
+                new ClipboardItem({
+                    [blob.type]: blob,
+                    'text/plain': new Blob(["my text value"], { type: 'text/plain' })
+                },
+                {
+                    presentationStyle : "inline"
+                }),
+            ]);
+            console.log("clipboardMethod - 3");
+
+        }
+
+        async function webshare(title, message, imageUrl) {
+
+            var fileExtension = imageUrl.split('.').pop();
+            console.log("webshare - file extension: " + fileExtension);
+
+            if (navigator.canShare) {
+               var image = await fetch(imageUrl);
+            
+                console.log("webshare - 1");
+
+                var blob = await image.blob();
+
+                console.log("webshare - 2");
+
+                const data = {
+                    files: [
+                        new File([blob], 'MWR.' + fileExtension, {
+                            type: blob.type,
+                        }),
+                    ],
+                    title: title,
+                    text: message,
+                };
+
+                await clipboardCopy.copyText(message);
+
+                if (navigator.canShare(data)) {
+
+                    console.log("webshare - 3");
+
+                    await navigator.share(data);
+                }
+            }
+        }
+
+        async function clipboardHTMLMethod() {
+            const myContent = document.getElementById("foobar");
+            const type = "text/html";
+            const myBlob = new Blob([myContent.innerHTML], { type });
+            console.log("clipboardHTMLMethod 1 - innerHTML: " + myContent.innerHTML);
+
+            await navigator.clipboard.write([
+                new ClipboardItem({
+                    [myBlob.type]: myBlob,
+                    //'text/plain': new Blob(["my text value"], { type: 'text/plain' })
+                },
+                    {
+                        presentationStyle: "inline"
+                    }),
+            ]);
+            console.log("clipboardHTMLMethod - 2");
+        }
+
         window.clipboardCopy = {
-            copyText: function (text) {
-                navigator.clipboard.writeText(text).then(function () {
-                    //alert("Copied to clipboard!");
-                })
-                    .catch(function (error) {
-                        //alert(error);
-                    });
+            copyText: async function (text) {
+                await navigator.clipboard.writeText(text);
             }
         };
 

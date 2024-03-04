@@ -54,6 +54,9 @@
                             OnClick="@(e => NavigationManager.NavigateTo(NavigationManager.BaseUri, true))"
                             Label="Load Update" />
                 }
+                <MudScrollToTop>
+                    <MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.ArrowCircleUp" />
+                </MudScrollToTop>
             </CascadingValue>
         </MudContainer>
     </main>
@@ -165,6 +168,7 @@
             "settings" => "Settings",
             "faststartchecklist" => "Fast Start Checklist",
             "revenuesharing" => "Revenue Sharing",
+            "events" => "Events",
             _ => string.Empty
         };
     }

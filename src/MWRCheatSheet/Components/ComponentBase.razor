@@ -6,6 +6,13 @@
 @code {
     public static readonly string DefaultUsername = "MS1";
 
+    protected static readonly TimeZoneInfo NewYorkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
+    protected static readonly TimeZoneInfo ChicagoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Chicago");
+    protected static readonly TimeZoneInfo LosAngelesTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
+    protected static readonly TimeZoneInfo DefaultTimeZone = NewYorkTimeZone;
+
+    protected const string PointingDownEmoji = $"\ud83d\udc47";
+
     private const string SettingsKey = "settings";
 
     [Parameter]
@@ -22,10 +29,35 @@
         this.StateHasChanged();
     }
 
+    protected static DateTimeOffset GetNextEvent(DayOfWeek day, TimeOnly time, TimeZoneInfo timeZone)
+    {
+        var currentTimeInEventTimeZone = DateTimeOffset.Now.ToOffset(timeZone.GetUtcOffset(DateTimeOffset.Now));
+
+        var nextEventTime = currentTimeInEventTimeZone.AddHours(time.Hour - currentTimeInEventTimeZone.Hour);
+        nextEventTime = nextEventTime.AddMinutes(time.Minute - nextEventTime.Minute);
+
+        var nextEvent = nextEventTime;
+        while (nextEvent.DayOfWeek != day)
+        {
+            nextEvent = nextEvent.AddDays(1);
+        }
+
+        return nextEvent;
+    }
+
     protected async Task CopyTextToClipboardAsync(string text)
     {
         await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", text);
     }
+
+    protected async Task ShareMessageAsync(string message, string imageUrl)
+    {
+        const string DefaultWebShareTitle = "MWR";
+
+        await JSRuntime.InvokeVoidAsync("webshare", DefaultWebShareTitle, message, imageUrl);
+    }
+
+    protected Task ShareMessageAsync(string message, Image image) => ShareMessageAsync(message, GetImageUrl(image));
 
     protected static string BusinessEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/join";
     protected static string MembershipEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/signup-financialedge";
@@ -33,6 +65,16 @@
     protected static string InstantPayRaiseUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/iprr/?member={username}";
     protected static string MarketingDirectorUrlEnglish(string username) => $"https://www.mwrfinancial.com/?member={username}";
     protected static string MarketingDirectorUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/?member={username}";
+
+    protected static string GetImageUrl(Image image) => image switch
+    {
+        Image.MWRBanner => "/images/mwr-banner.png",
+        Image.HealthShare => "/images/mwr-healthshare.png",
+        Image.MembershipLogo => "/images/mwr-membership-logo.jpg",
+        Image.MoneyChallengeLogo => "/images/72hour-money-challenge-logo.png",
+        Image.CheatSheetPreview => "images/mwr-cheatsheet-preview.png",
+        _ => throw new Exception($"Image not found: {image}"),
+    };
 
     protected async Task<Repository.Settings> GetSettingsAsync()
     {
@@ -90,5 +132,15 @@
         catch(Exception) { }
 
         return response;
+    }
+
+    public enum Image
+    {
+        None = 0,
+        MoneyChallengeLogo = 1,
+        MWRBanner = 2,
+        HealthShare = 3,
+        MembershipLogo = 4,
+        CheatSheetPreview = 5,
     }
 }

@@ -1,0 +1,30 @@
+﻿@inherits Components.ComponentBase
+@using Components
+@using MWRCheatSheet.Components
+@using System.Runtime.CompilerServices
+
+<MudStack>
+    <DownloadableImage ImageUri="@ImageUri" />
+    <CopyText Tooltip="Link copied!"
+              TextToCopy="@Text"
+              ImageUrl="@ImageUri">
+
+        <MudText Align="Align.Center">
+            @(Recurrence.Day)s @@ @GetNextEvent(this.Recurrence.Day, this.Recurrence.Time, this.Recurrence.TimeZone).ToLocalTime().ToString(" h:mm tt") @TimeZoneInfo.Local.StandardName
+        </MudText>
+    </CopyText>
+
+</MudStack>
+
+@code {
+    private readonly TimeZoneInfo[] BusinessStandardTimeZonesOrdered = [DefaultTimeZone, ChicagoTimeZone, LosAngelesTimeZone];
+
+    [Parameter]
+    public string ImageUri { get; set; }
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public (DayOfWeek Day, TimeOnly Time, TimeZoneInfo TimeZone) Recurrence { get; set; }
+}

@@ -1,25 +1,41 @@
 ﻿@inherits ComponentBase
 @inject IJSRuntime JSRuntime
 
-<MudStack Row="true">
-    <MudSpacer />
-    <MudText Align="Align.Center">
-        @this.Description
-        <br />
-        <MudTooltip Text="@EnglishTooltip" IsVisible="_showEnglishTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
-            <MudButton OnClick="OnEnglishCopyClick" EndIcon="@Icons.Material.Filled.ContentCopy" Variant="Variant.Text" Color="Color.Primary">English</MudButton>
+<MudStack>
+    <MudText Class="border-solid border-2 mud-border-primary pa-4" Align="Align.Center">@this.Description</MudText>
+    <MudStack Row="true">
+        <MudSpacer/>
+        <MudTooltip Text="@EnglishTooltip" IsVisible="_showEnglishCopyTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+            <MudIconButton OnClick="OnEnglishCopyClick" Icon="@Icons.Material.Filled.ContentCopy" Color="Color.Primary" Disabled="false"/>
         </MudTooltip>
-        |
-        <MudTooltip Text="@SpanishTooltip" IsVisible="_showSpanishTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
-            <MudButton OnClick="OnSpanishCopyClick" EndIcon="@Icons.Material.Filled.ContentCopy" Variant="Variant.Text" Color="Color.Primary">Español</MudButton>
+        <MudPaper Class="d-flex align-center" Elevation="0">
+            <MudText Style="">(English)</MudText>
+        </MudPaper>
+        <MudTooltip Text="@EnglishTooltip" IsVisible="_showEnglishShareTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+            <MudIconButton OnClick="OnEnglishShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" Disabled="false"/>
         </MudTooltip>
-    </MudText>
-    <MudSpacer />
+        <MudSpacer/>
+    </MudStack>
+    <MudStack Row="true">
+        <MudSpacer/>
+        <MudTooltip Text="@SpanishTooltip" IsVisible="_showSpanishCopyTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+            <MudIconButton OnClick="OnSpanishCopyClick" Icon="@Icons.Material.Filled.ContentCopy" Color="Color.Primary" Disabled="false"/>
+        </MudTooltip>
+        <MudPaper Class="d-flex align-center" Elevation="0">
+            <MudText>(Español)</MudText>
+        </MudPaper>
+        <MudTooltip Text="@SpanishTooltip" IsVisible="_showSpanishShareTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+            <MudIconButton OnClick="OnSpanishShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" Disabled="false"/>
+        </MudTooltip>
+        <MudSpacer/>
+    </MudStack>
 </MudStack>
 
 @code {
-    private bool _showEnglishTooltip = false;
-    private bool _showSpanishTooltip = false;
+    private bool _showEnglishCopyTooltip;
+    private bool _showEnglishShareTooltip;
+    private bool _showSpanishCopyTooltip;
+    private bool _showSpanishShareTooltip;
 
     [Parameter]
     public string Description { get; set; }
@@ -28,24 +44,43 @@
     public string EnglishTextToCopy { get; set; }
 
     [Parameter]
-    public string SpanishTextToCopy { get; set; }
-
-    [Parameter]
     public string EnglishTooltip { get; set; }
 
     [Parameter]
+    public string EnglishImageUrl { get; set; } = GetImageUrl(Image.MoneyChallengeLogo);
+
+    [Parameter]
+    public string SpanishTextToCopy { get; set; }
+
+    [Parameter]
     public string SpanishTooltip { get; set; }
+
+    [Parameter]
+    public string SpanishImageUrl { get; set; } = GetImageUrl(Image.MoneyChallengeLogo);
 
     private async Task OnEnglishCopyClick()
     {
         await this.CopyTextToClipboardAsync(this.EnglishTextToCopy);
 
-        _showEnglishTooltip = true;
+        _showEnglishCopyTooltip = true;
         base.StateHasChanged();
 
         await Task.Delay(3 * 1000);
 
-        _showEnglishTooltip = false;
+        _showEnglishCopyTooltip = false;
+        base.StateHasChanged();
+    }
+
+    private async Task OnEnglishShareClick()
+    {
+        await this.ShareMessageAsync(this.EnglishTextToCopy, this.EnglishImageUrl);
+
+        _showEnglishShareTooltip = true;
+        base.StateHasChanged();
+
+        await Task.Delay(3 * 1000);
+
+        _showEnglishShareTooltip = false;
         base.StateHasChanged();
     }
 
@@ -53,12 +88,25 @@
     {
         await this.CopyTextToClipboardAsync(this.SpanishTextToCopy);
 
-        _showSpanishTooltip = true;
+        _showSpanishCopyTooltip = true;
         base.StateHasChanged();
 
         await Task.Delay(3 * 1000);
 
-        _showSpanishTooltip = false;
+        _showSpanishCopyTooltip = false;
+        base.StateHasChanged();
+    }
+
+    private async Task OnSpanishShareClick()
+    {
+        await this.ShareMessageAsync(this.SpanishTextToCopy, this.SpanishImageUrl);
+
+        _showSpanishShareTooltip = true;
+        base.StateHasChanged();
+
+        await Task.Delay(3 * 1000);
+
+        _showSpanishShareTooltip = false;
         base.StateHasChanged();
     }
 }

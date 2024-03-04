@@ -2,6 +2,9 @@
 @inherits Components.ComponentBase
 @using Components
 @using MWRCheatSheet.Components
+@using Append.Blazor.WebShare
+@inject IJSRuntime JSRuntime
+@inject IWebShareService WebShareService
 
 <MudStack>
     <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Phrases that Pay!</MudText>
@@ -18,3 +21,11 @@
         <li><MudText>"...with my help."</MudText></li>
     </ul>
 </MudStack>
+
+@code {
+
+    private async Task WebShareAsync(string title, string message, string imageUrl)
+    {
+        await JSRuntime.InvokeVoidAsync("webshare", title, message, imageUrl);
+    }
+}

@@ -1,0 +1,30 @@
+﻿@page "/events"
+@inherits Components.ComponentBase
+@using Components
+@using MWRCheatSheet.Components
+
+<MudStack>
+    <MudText Align="Align.Center">Tap Images to Download</MudText>
+    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Mondays</MudText>
+    <RecurringEvent ImageUri="images/events/mondays-kingdombuilders-overview.jpeg"
+                    Recurrence="@((DayOfWeek.Monday, new TimeOnly(20, 30), NewYorkTimeZone))"
+                    Text="@($"Join us for our MWR Business Overview!!!{Environment.NewLine}{Environment.NewLine}Hosted By: Dr. Gerald W. Parker{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Monday, new(20, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Monday, new(20, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.mwrkingdombuilders.com{Environment.NewLine}{Environment.NewLine}Password:{Environment.NewLine}mwrkb{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
+
+    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Tuesdays</MudText>
+    <RecurringEvent ImageUri="images/events/tuesdays-kingdombuilders-faithandfinance.jpeg"
+                    Recurrence="@((DayOfWeek.Tuesday, new TimeOnly(12, 0), NewYorkTimeZone))"
+                    Text="@($"Join us for our Faith and Finance Conversation!{Environment.NewLine}{Environment.NewLine}Hosted By: Dr. Gerald W. Parker{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Tuesday, new(12, 0), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Tuesday, new(12, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.mwrkingdombuilders.com{Environment.NewLine}{Environment.NewLine}Password:{Environment.NewLine}mwrkb{Environment.NewLine}{Environment.NewLine}Dr. Gerald W. Parker will share how to create wealth and a legacy using Kingdom principles!!!{Environment.NewLine}{Environment.NewLine}#KingdomBuilders #MWR #72HrMoneyChallenge")" />
+
+</MudStack>
+@code {
+    private readonly TimeZoneInfo[] BusinessStandardTimeZonesOrdered = [DefaultTimeZone, ChicagoTimeZone, LosAngelesTimeZone];
+
+    private string GetRegionalTimes(DateTimeOffset dateTime)
+    {
+        var regionalTimes = BusinessStandardTimeZonesOrdered
+            .Select(timeZone => $"{dateTime.ToOffset(timeZone.BaseUtcOffset).ToString("h:mmt").ToLower()}{timeZone.StandardName.First()}{timeZone.StandardName.Substring(1).ToLower()}")
+            .Aggregate((formatted, next) => $"{formatted}/ {next}");
+
+        return regionalTimes;
+    }
+}
