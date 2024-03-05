@@ -149,31 +149,15 @@
 <MudStack>
     @if (_pageLoaded)
     {
-        <CopyText Description="Membership Sign Up"
-                  Tooltip="Link copied!"
-                  TextToCopy="@MembershipEnrollmentUrl(_username!)"
-                  ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
-        <br/>
-    }
-    else
-    {
-        <MudStack Row="true">
-            <MudSpacer />
-            <MudText Align="Align.Center">
-                Membership Sign Up
-                <br/>
-                <MudProgressCircular Indeterminate="true" />
-            </MudText>
-            <MudSpacer />
-        </MudStack>
-        <br/>
-    }
-    @if (_pageLoaded)
-    {
-        <CopyText Description="Business Sign Up"
-                  Tooltip="Link copied!"
-                  TextToCopy="@BusinessEnrollmentUrl(_username!)"
-                  ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+        <CopyTextMultilingual Description="Join MWR"
+
+                              EnglishTextToCopy="@JoinMakeWealthRealEnglish(_username!)"
+                              EnglishTooltip="English link copied!"
+                              EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
+                              
+                              SpanishTextToCopy="@JoinMakeWealthRealSpanish(_username!)"
+                              SpanishTooltip="Español link copied!"
+                              SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
         <br />
     }
     else
@@ -181,7 +165,7 @@
         <MudStack Row="true">
             <MudSpacer />
             <MudText Align="Align.Center">
-                Business Sign Up
+                Join MWR
                 <br />
                 <MudProgressCircular Indeterminate="true" />
             </MudText>
@@ -217,7 +201,7 @@
     }
     <CopyText Description="MWR Cheat Sheet App"
               Tooltip="Link copied!"
-              TextToCopy="https://makewealthreal.github.io/"
+              TextToCopy=@($"MWR Cheat Sheet App{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}https://makewealthreal.github.io/")
               ImageUrl="@GetImageUrl(Image.CheatSheetPreview)"/>
     <br />
     <br />

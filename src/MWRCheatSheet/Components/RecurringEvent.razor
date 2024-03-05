@@ -8,7 +8,7 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderContent>
-            <MudText Typo="Typo.body1">@Header</MudText>
+            <MudText Typo="Typo.body1">@((MarkupString)Header.Replace(Environment.NewLine, "<br/>"))</MudText>
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardMedia Image="@ImageUri"/>
