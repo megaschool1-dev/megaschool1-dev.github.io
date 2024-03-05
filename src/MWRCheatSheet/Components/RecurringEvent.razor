@@ -13,24 +13,29 @@
     </MudCardHeader>
     <MudCardMedia Image="@ImageUri"/>
     <MudCardContent>
-        <MudText Typo="Typo.body2" Align="Align.Center">@(Recurrence.Day)s @@ @GetNextEvent(this.Recurrence.Day, this.Recurrence.Time, this.Recurrence.TimeZone).ToLocalTime().ToString(" h:mm tt") @TimeZoneInfo.Local.StandardName</MudText>
+        <MudStack>
+            <MudText Typo="Typo.body2" Align="Align.Center">@(Recurrence.Day)s @@ @GetNextEvent(this.Recurrence.Day, this.Recurrence.Time, this.Recurrence.TimeZone).ToOffset(TimeZoneInfo.Local.BaseUtcOffset).ToString(" h:mm tt") @TimeZoneInfo.Local.StandardName</MudText>
+        </MudStack>
     </MudCardContent>
     <MudCardActions>
-        <MudStack Row="true" Style="width:100%;">
-            <MudSpacer/>
-            <CopyTextMinimal Tooltip="Link copied!"
-                             TextToCopy="@Text"
-                             ImageUrl="@ImageUri"/>
-            <MudSpacer/>
+        <MudStack Style="width:100%;">
+            <MudStack Row="true" Style="width:100%;">
+                <MudSpacer/>
+                <ExternalLink Href="@Url" Text="Join Now!"/>
+                <MudSpacer/>
+            </MudStack>
+            <MudStack Row="true" Style="width:100%;">
+                <MudSpacer/>
+                <CopyTextMinimal Tooltip="Invitation copied!"
+                                 TextToCopy="@Text"
+                                 ImageUrl="@ImageUri"/>
+                <MudSpacer/>
+            </MudStack>
         </MudStack>
     </MudCardActions>
 </MudCard>
 
 @code {
-    private readonly TimeZoneInfo[] BusinessStandardTimeZonesOrdered = [DefaultTimeZone, ChicagoTimeZone, LosAngelesTimeZone];
-
-    private int _height = 300;
-
     [Parameter]
     public string Header { get; set; } = "72-Hour Money Challenge!";
 
@@ -42,4 +47,7 @@
 
     [Parameter]
     public (DayOfWeek Day, TimeOnly Time, TimeZoneInfo TimeZone) Recurrence { get; set; }
+
+    [Parameter]
+    public string Url { get; set; }
 }

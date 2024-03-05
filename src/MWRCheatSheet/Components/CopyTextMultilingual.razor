@@ -3,7 +3,18 @@
 
 <MudCard>
     <MudCardContent>
-        <MudText Typo="Typo.body2" Align="Align.Center">@Description</MudText>
+        @if (this.Url != null)
+        {
+            <MudStack Row="true">
+                <MudSpacer/>
+                <ExternalLink Text="@Description" Href="@Url"/>
+                <MudSpacer/>
+            </MudStack>
+        }
+        else
+        {
+            <MudText Typo="Typo.body2" Align="Align.Center">@((MarkupString)Description.Replace(Environment.NewLine, "<br/>"))</MudText>
+        }
     </MudCardContent>
     <MudCardActions>
         <MudStack Row="true" Style="width:100%;">
@@ -50,6 +61,9 @@
     public string Description { get; set; }
 
     [Parameter]
+    public RenderFragment DescriptionContent { get; set; }
+
+    [Parameter]
     public string EnglishTextToCopy { get; set; }
 
     [Parameter]
@@ -66,6 +80,9 @@
 
     [Parameter]
     public string SpanishImageUrl { get; set; } = GetImageUrl(Image.MoneyChallengeLogo);
+
+    [Parameter]
+    public string? Url { get; set; }
 
     private async Task OnEnglishCopyClick()
     {

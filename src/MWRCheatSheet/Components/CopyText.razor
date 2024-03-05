@@ -4,7 +4,18 @@
     <MudCardContent>
         @if (this.Description != null)
         {
-            <MudText Align="Align.Center">@this.Description</MudText>
+            @if (this.Url != null)
+            {
+                <MudStack Row="true">
+                    <MudSpacer/>
+                    <ExternalLink Text="@Description" Href="@Url"/>
+                    <MudSpacer/>
+                </MudStack>
+            }
+            else
+            {
+               <MudText Align="Align.Center">@((MarkupString)this.Description.Replace(Environment.NewLine, "<br/>"))</MudText>
+            }
         }
         else
         {
@@ -32,4 +43,7 @@
 
     [Parameter]
     public string ImageUrl { get; set; } = GetImageUrl(Image.MoneyChallengeLogo);
+
+    [Parameter]
+    public string? Url { get; set; }
 }

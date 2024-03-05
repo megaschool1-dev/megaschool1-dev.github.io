@@ -1,7 +1,14 @@
 ﻿@using System.Runtime.CompilerServices
 @using System.ComponentModel.DataAnnotations
 
-<MudButton Style="padding:0px; padding-right:2px; vertical-align:central;" Href="@Href" Target="_blank" Variant="Variant.Text" Color="Color.Primary" EndIcon="@Icons.Material.Filled.OpenInNew">@Text</MudButton>
+<MudLink Href="@Href" Target="_blank">
+    <MudStack Row="true">
+        <MudText Align="Align.Center">
+            @((MarkupString)Text.Replace(Environment.NewLine, "<br/>"))
+            <MudIconButton Size="Size.Small" Color="Color.Primary" Icon="@Icons.Material.Filled.OpenInNew"/>
+        </MudText>
+    </MudStack>
+</MudLink>
 
 @code {
 

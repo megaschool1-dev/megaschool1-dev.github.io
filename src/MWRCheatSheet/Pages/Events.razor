@@ -6,18 +6,21 @@
 <MudStack>
     <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Mondays</MudText>
     <RecurringEvent Header="Kingdom Builders"
+                    Url="http://zoom.mwrkingdombuilders.com"
                     ImageUri="images/events/mondays-kingdombuilders-overview.jpeg"
                     Recurrence="@((DayOfWeek.Monday, new TimeOnly(20, 30), NewYorkTimeZone))"
                     Text="@($"Join us for our MWR Business Overview!!!{Environment.NewLine}{Environment.NewLine}Hosted By: Dr. Gerald W. Parker{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Monday, new(20, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Monday, new(20, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.mwrkingdombuilders.com{Environment.NewLine}{Environment.NewLine}Password:{Environment.NewLine}mwrkb{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
 
     <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Tuesdays</MudText>
     <RecurringEvent Header="Faith and Finance"
+                    Url="http://zoom.mwrkingdombuilders.com"
                     ImageUri="images/events/tuesdays-kingdombuilders-faithandfinance.jpeg"
                     Recurrence="@((DayOfWeek.Tuesday, new TimeOnly(12, 0), NewYorkTimeZone))"
                     Text="@($"Join us for our Faith and Finance Conversation!{Environment.NewLine}{Environment.NewLine}Hosted By: Dr. Gerald W. Parker{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Tuesday, new(12, 0), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Tuesday, new(12, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.mwrkingdombuilders.com{Environment.NewLine}{Environment.NewLine}Password:{Environment.NewLine}mwrkb{Environment.NewLine}{Environment.NewLine}Dr. Gerald W. Parker will share how to create wealth and a legacy using Kingdom principles!!!{Environment.NewLine}{Environment.NewLine}#KingdomBuilders #MWR #72HrMoneyChallenge")" />
 
     <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Wednesdays</MudText>
     <RecurringEvent Header="Lunch & Learn"
+                    Url="http://zoom.thecreditteam.com"
                     ImageUri="images/events/wednesdays-creditteam-overview.jpeg"
                     Recurrence="@((DayOfWeek.Wednesday, new TimeOnly(12, 0), NewYorkTimeZone))"
                     Text="@($"Join Benjamin McCray as he shares life-changing strategies on how to make money on your lunch break!!!{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Wednesday, new(12, 0), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Tuesday, new(12, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.thecreditteam.com{Environment.NewLine}{Environment.NewLine}**No Password Required**{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />

@@ -8,7 +8,8 @@
 <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Essentials</MudText>
 <MudStack>
     <MudSpacer />
-    <CopyTextMultilingual Description="72-Hour Money Challenge (1min 30sec)"
+    <CopyTextMultilingual Description="@($"72-Hour Money Challenge{Environment.NewLine}(1min 30sec)")"
+                          Url="https://www.ms1.megaschool.me/72hr-money-challenge"
 
                           EnglishTextToCopy="@VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new (0, 0, 1, 30))"
                           EnglishTooltip="English link copied!"
@@ -18,11 +19,20 @@
                           SpanishTooltip="Español link copied!"
                           SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"/>
     <br/>
-    <CopyText Description="EDM 72-Hour Money Challenge (2 Parts)"
-              Tooltip="Link copied!"
-              TextToCopy="@($"72-Hour Money Challenge!{Environment.NewLine}{Environment.NewLine}Part 1{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(2min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-money-challenge{Environment.NewLine}{Environment.NewLine}Part 2{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(5min){Environment.NewLine}https://www.ms1.megaschool.me/72hour-challenge-walkthrough")" />
+    <CopyText Description="@($"EDM 72-Hour Money Challenge{Environment.NewLine}(3 Parts)")"
+              Url="https://www.extradigitmovement.com/"
+              Tooltip="Shareable copied!"
+              TextToCopy="@($"72-Hour Money Challenge!{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(2min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-money-challenge{Environment.NewLine}{Environment.NewLine}FAQ - Part 1{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(5min){Environment.NewLine}https://www.ms1.megaschool.me/72hour-challenge-walkthrough{Environment.NewLine}{Environment.NewLine}FAQ - Part 2{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(8min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-moneychallenge-revenuesharing")"
+              ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
     <br />
-    <CopyTextMultilingual Description="MWR Opportunity (10min)"
+    <CopyText Description="@($"72-Hour Money Challenge{Environment.NewLine}Testimonials")"
+              Url="https://www.extradigitmovement.com/72hour"
+              Tooltip="Shareable copied!"
+              TextToCopy="@($"72-Hour Money Challenge Results!{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}https://www.extradigitmovement.com/72hour")"
+              ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+    <br />
+    <CopyTextMultilingual Description="@($"MWR Opportunity{Environment.NewLine}(10min)")"
+                          Url="https://www.ms1.megaschool.me/mwr-opportunity-10min"
 
                           EnglishTextToCopy="@VideoShareable("MWR Opportunity", "https://www.ms1.megaschool.me/mwr-opportunity-10min", new (0, 0, 10, 0))"
                           EnglishTooltip="English link copied!"
@@ -36,8 +46,9 @@
 <br/>
 <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Services</MudText>
 <MudStack>
-    <CopyTextMultilingual Description="MWR Wealth Membership"
-                          
+    <CopyTextMultilingual Description="@($"MWR Wealth Membership{Environment.NewLine}(8min)")"
+                          Url="https://www.ms1.megaschool.me/mwr-membership"
+
                           EnglishTextToCopy="https://www.ms1.megaschool.me/mwr-membership"
                           EnglishTooltip="English link copied!"
                           EnglishImageUrl="@GetImageUrl(Image.MembershipLogo)"
@@ -49,6 +60,7 @@
     @if (_pageLoaded)
     {
         <CopyTextMultilingual Description="Instant Pay Raise"
+                              Url="@InstantPayRaiseUrlEnglish(_username!)"
 
                               EnglishTextToCopy="@InstantPayRaiseUrlEnglish(_username!)"
                               EnglishTooltip="English link copied!"
@@ -72,7 +84,8 @@
         </MudStack>
         <br/>
     }
-    <CopyTextMultilingual Description="MWR Credit Restoration"
+    <CopyTextMultilingual Description="@($"MWR Credit Restoration{Environment.NewLine}(6min)")"
+                          Url="https://www.ms1.megaschool.me/mwr-creditrestoration"
 
                           EnglishTextToCopy="https://www.ms1.megaschool.me/mwr-creditrestoration"
                           EnglishTooltip="English link copied!"
@@ -82,12 +95,14 @@
                           SpanishTooltip="Español link copied!"
                           SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"/>
     <br/>
-    <CopyText Description="MWR Health Share"
+    <CopyText Description=@($"MWR Health Share{Environment.NewLine}(5min)")
+              Url="https://www.ms1.megaschool.me/mwr-healthshare"
               Tooltip="Link copied!"
               TextToCopy="https://www.ms1.megaschool.me/mwr-healthshare"
               ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"/>
     <br/>
-    <CopyTextMultilingual Description="Keys to Home Ownership"
+    <CopyTextMultilingual Description=@($"Keys to Home Ownership{Environment.NewLine}(3min)")
+                          Url="https://www.ms1.megaschool.me/keys-to-homeownership"
 
                           EnglishTextToCopy="https://www.ms1.megaschool.me/keys-to-homeownership"
                           EnglishTooltip="English link copied!"
@@ -97,7 +112,8 @@
                           SpanishTooltip="Español link copied!"
                           SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
     <br/>
-    <CopyTextMultilingual Description="Trust My Assets"
+    <CopyTextMultilingual Description=@($"Trust My Assets{Environment.NewLine}(4min)")
+                          Url="https://www.ms1.megaschool.me/trust-my-assets"
 
                           EnglishTextToCopy="https://www.ms1.megaschool.me/trust-my-assets"
                           EnglishTooltip="English link copied!"
@@ -107,22 +123,20 @@
                           SpanishTooltip="Español link copied!"
                           SpanishImageUrl="@GetImageUrl(Image.MWRBanner)" />
     <br/>
-    <CopyTextMultilingual Description="MWR for Real Estate & Mortgage Professionals"
-
-                          EnglishTextToCopy="https://www.ms1.megaschool.me/mwr-for-realestate"
-                          EnglishTooltip="English link copied!"
-                          EnglishImageUrl="@GetImageUrl(Image.MWRBanner)"
-
-                          SpanishTextToCopy="https://www.ms1.megaschool.me/mwr-for-realestate"
-                          SpanishTooltip="Español link copied!"
-                          SpanishImageUrl="@GetImageUrl(Image.MWRBanner)" />
+    <CopyText Description=@($"MWR for Real Estate & Mortgage Professionals{Environment.NewLine}(11min)")
+                          Url="https://www.ms1.megaschool.me/mwr-for-realestate"
+                          TextToCopy="https://www.ms1.megaschool.me/mwr-for-realestate"
+                          Tooltip="Link copied!"
+                          ImageUrl="@GetImageUrl(Image.MWRBanner)" />
     <br/>
-    <CopyText Description="Protect My Assets"
+    <CopyText Description=@($"Protect My Assets")
+              Url="https://www.ms1.megaschool.me/protect-my-assets"
               Tooltip="Link copied!"
               TextToCopy="https://www.ms1.megaschool.me/protect-my-assets"
               ImageUrl="@GetImageUrl(Image.MWRBanner)"/>
     <br />
     <CopyText Description="Structure My Legacy"
+              Url="https://www.ms1.megaschool.me/structure-my-legacy"
               Tooltip="Link copied!"
               TextToCopy="https://www.ms1.megaschool.me/structure-my-legacy"
               ImageUrl="@GetImageUrl(Image.MWRBanner)" />
