@@ -2,6 +2,8 @@
 @inherits Components.ComponentBase
 @using Components
 @using MWRCheatSheet.Components
+@inject Repository.Repository Repo
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 @if (!_pageLoaded)
 {
@@ -136,14 +138,14 @@
 @code {
     private bool _showTooltip = false;
     private bool _pageLoaded;
-    private Repository.FastStartChecklist _viewModel = new();
+    private Repository.Model.FastStartChecklist _viewModel = new();
     private bool _isFastStartVisible;
     private bool _isDatePickerOpen;
     private bool _isTimePickerOpen;
 
     protected override async Task OnInitializedAsync()
     {
-        _viewModel = (await this.GetSettingsAsync()).FastStartChecklist;
+        _viewModel = (await Repo.GetSettingsAsync(LocalStorage)).FastStartChecklist;
 
         _pageLoaded = true;
         base.StateHasChanged();
@@ -151,11 +153,11 @@
 
     private async Task OnSaveClick()
     {
-        var settings = await this.GetSettingsAsync();
+        var settings = await Repo.GetSettingsAsync(LocalStorage);
 
         settings.FastStartChecklist = _viewModel;
 
-        await this.SaveSettingsAsync(settings);
+        await Repo.SaveSettingsAsync(settings, LocalStorage);
 
         _showTooltip = true;
         base.StateHasChanged();

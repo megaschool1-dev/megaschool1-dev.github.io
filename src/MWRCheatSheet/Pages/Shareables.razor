@@ -4,6 +4,8 @@
 @using MWRCheatSheet.Components
 @using Append.Blazor.WebShare
 @inject IWebShareService WebShareService
+@inject Repository.Repository Repo
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Essentials</MudText>
 <MudStack>
@@ -19,222 +21,272 @@
                           SpanishTooltip="Español shareable copied!"
                           SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"/>
     <br/>
-    <CopyText Description="@($"72-Hour Money Challenge{Environment.NewLine}(EDM 7min){Environment.NewLine}{Environment.NewLine}(Challenge + FAQ)")"
-              Url="https://www.extradigitmovement.com/"
-              Tooltip="Shareable copied!"
-              TextToCopy="@($"72-Hour Money Challenge!{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(2min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-money-challenge{Environment.NewLine}{Environment.NewLine}FAQ{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(5min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-money-challenge-faq")"
-              ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+    <CopyText Description="@MoneyChallenge.Description"
+              Url="@MoneyChallenge.Url"
+              Tooltip="@MoneyChallenge.Tooltip"
+              TextToCopy="@MoneyChallenge.Content"
+              ImageUrl="@MoneyChallenge.ImageUrl" />
     <br />
     <CopyText Description="@($"72-Hour Money Challenge{Environment.NewLine}(EDM 8min){Environment.NewLine}{Environment.NewLine}(Revenue Sharing)")"
               Url="https://www.ms1.megaschool.me/72hr-moneychallenge-revenuesharing"
               Tooltip="Shareable copied!"
               TextToCopy="@($"72-Hour Money Challenge!{Environment.NewLine}{Environment.NewLine}Revenue Sharing{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(8min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-moneychallenge-revenuesharing")"
               ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
-    <br />
-    <CopyText Description="@($"72-Hour Money Challenge{Environment.NewLine}Testimonials")"
-              Url="https://www.extradigitmovement.com/72hour"
-              Tooltip="Shareable copied!"
-              TextToCopy="@($"72-Hour Money Challenge Results!{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}https://www.extradigitmovement.com/72hour")"
-              ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
-    <br />
-    <CopyTextMultilingual Description="@($"MWR Opportunity{Environment.NewLine}(10min)")"
-                          Url="https://www.ms1.megaschool.me/mwr-opportunity-10min"
-
-                          EnglishTextToCopy="@VideoShareable("MWR Opportunity", "https://www.ms1.megaschool.me/mwr-opportunity-10min", new (0, 0, 10, 0))"
-                          EnglishTooltip="English shareable copied!"
-                          EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
-
-                          SpanishTextToCopy="@VideoShareable("MWR Opportunity", "https://www.ms1.megaschool.me/mwr-opportunity-full", new (0, 0, 19,26))"
-                          SpanishTooltip="Español shareable copied!"
-                          SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
 </MudStack>
 <br/>
 <br/>
-<MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Services</MudText>
-<MudStack>
-    <CopyTextMultilingual Description="@($"MWR Wealth Membership{Environment.NewLine}(8min)")"
-                          Url="https://www.ms1.megaschool.me/mwr-membership"
+<MudPaper Class="pa-4">
+    <MudStack Spacing="2">
+        <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">More Info</MudText>
+        <MudButton OnClick="@(() => _moreInfoExpanded = !_moreInfoExpanded)" Color="Color.Primary">@(_moreInfoExpanded ? "Hide" : "Show")</MudButton>
+        <MudDivider />
+        <MudCollapse Expanded="_moreInfoExpanded">
+            <CopyText Description="@($"72-Hour Money Challenge{Environment.NewLine}Testimonials")"
+                      Url="https://www.extradigitmovement.com/72hour"
+                      Tooltip="Shareable copied!"
+                      TextToCopy="@($"72-Hour Money Challenge Results!{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}https://www.extradigitmovement.com/72hour")"
+                      ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+            <br />
+            <CopyTextMultilingual Description="@($"MWR Opportunity{Environment.NewLine}(10min)")"
+                                  Url="https://www.ms1.megaschool.me/mwr-opportunity-10min"
 
-                          EnglishTextToCopy="https://www.ms1.megaschool.me/mwr-membership"
-                          EnglishTooltip="English shareable copied!"
-                          EnglishImageUrl="@GetImageUrl(Image.MembershipLogo)"
+                                  EnglishTextToCopy="@VideoShareable("MWR Opportunity", "https://www.ms1.megaschool.me/mwr-opportunity-10min", new (0, 0, 10, 0))"
+                                  EnglishTooltip="English shareable copied!"
+                                  EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
 
-                          SpanishTextToCopy="https://www.ms1.megaschool.me/mwr-membership"
-                          SpanishTooltip="Español shareable copied!"
-                          SpanishImageUrl="@GetImageUrl(Image.MembershipLogo)"/>
-    <br />
-    @if (_pageLoaded)
-    {
-        <CopyTextMultilingual Description="Instant Pay Raise"
-                              Url="@InstantPayRaiseUrlEnglish(_username!)"
-
-                              EnglishTextToCopy="@InstantPayRaiseUrlEnglish(_username!)"
-                              EnglishTooltip="English shareable copied!"
-                              EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
-
-                              SpanishTextToCopy="@InstantPayRaiseUrlSpanish(_username!)"
-                              SpanishTooltip="Español shareable copied!"
-                              SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
-        <br/>
-    }
-    else
-    {
-        <MudStack Row="true">
-            <MudSpacer/>
-            <MudText Align="Align.Center">
-                Instant Pay Raise
-                <br/>
-                <MudProgressCircular Indeterminate="true"/>
-            </MudText>
-            <MudSpacer/>
-        </MudStack>
-        <br/>
-    }
-    <CopyTextMultilingual Description="@($"MWR Credit Restoration{Environment.NewLine}(6min)")"
-                          Url="https://www.ms1.megaschool.me/mwr-creditrestoration"
-
-                          EnglishTextToCopy="https://www.ms1.megaschool.me/mwr-creditrestoration"
-                          EnglishTooltip="English shareable copied!"
-                          EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
-
-                          SpanishTextToCopy="https://www.ms1.megaschool.me/mwr-creditrestoration"
-                          SpanishTooltip="Español shareable copied!"
-                          SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"/>
-    <br/>
-    <CopyText Description=@($"MWR Health Share{Environment.NewLine}(5min)")
-              Url="https://www.ms1.megaschool.me/mwr-healthshare"
-              Tooltip="Shareable copied!"
-              TextToCopy="https://www.ms1.megaschool.me/mwr-healthshare"
-              ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"/>
-    <br/>
-    <CopyTextMultilingual Description=@($"Keys to Home Ownership{Environment.NewLine}(3min)")
-                          Url="https://www.ms1.megaschool.me/keys-to-homeownership"
-
-                          EnglishTextToCopy="https://www.ms1.megaschool.me/keys-to-homeownership"
-                          EnglishTooltip="English shareable copied!"
-                          EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
-
-                          SpanishTextToCopy="https://www.ms1.megaschool.me/keys-to-homeownership"
-                          SpanishTooltip="Español shareable copied!"
-                          SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
-    <br/>
-    <CopyTextMultilingual Description=@($"Trust My Assets{Environment.NewLine}(4min)")
-                          Url="https://www.ms1.megaschool.me/trust-my-assets"
-
-                          EnglishTextToCopy="https://www.ms1.megaschool.me/trust-my-assets"
-                          EnglishTooltip="English shareable copied!"
-                          EnglishImageUrl="@GetImageUrl(Image.MWRBanner)"
-
-                          SpanishTextToCopy="https://www.ms1.megaschool.me/trust-my-assets"
-                          SpanishTooltip="Español shareable copied!"
-                          SpanishImageUrl="@GetImageUrl(Image.MWRBanner)" />
-    <br/>
-    <CopyText Description=@($"MWR for Real Estate & Mortgage Professionals{Environment.NewLine}(11min)")
+                                  SpanishTextToCopy="@VideoShareable("MWR Opportunity", "https://www.ms1.megaschool.me/mwr-opportunity-full", new (0, 0, 19,26))"
+                                  SpanishTooltip="Español shareable copied!"
+                                  SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+        </MudCollapse>
+    </MudStack>
+</MudPaper>
+<br/>
+<br/>
+<MudPaper Class="pa-4">
+    <MudStack Spacing="2">
+        <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Services</MudText>
+        <MudButton OnClick="@(() => _servicesExpanded = !_servicesExpanded)" Color="Color.Primary">@(_servicesExpanded ? "Hide" : "Show")</MudButton>
+        <MudDivider />
+        <MudCollapse Expanded="_servicesExpanded">
+            <MudStack>
+                <CopyTextMultilingual Description="@($"MWR Wealth Membership{Environment.NewLine}(8min)")"
+                                      Url="https://www.ms1.megaschool.me/mwr-membership"
+                                      
+                                      EnglishTextToCopy="https://www.ms1.megaschool.me/mwr-membership"
+                                      EnglishTooltip="English shareable copied!"
+                                      EnglishImageUrl="@GetImageUrl(Image.MembershipLogo)"
+                                      
+                                      SpanishTextToCopy="https://www.ms1.megaschool.me/mwr-membership"
+                                      SpanishTooltip="Español shareable copied!"
+                                      SpanishImageUrl="@GetImageUrl(Image.MembershipLogo)" />
+                <br />
+                @if (_pageLoaded)
+                {
+                    <CopyTextMultilingual Description="Instant Pay Raise"
+                                          Url="@Constants.InstantPayRaiseUrlEnglish(AppState!.UserName)"
+                                          
+                                          EnglishTextToCopy="@Constants.InstantPayRaiseUrlEnglish(AppState!.UserName)"
+                                          EnglishTooltip="English shareable copied!"
+                                          EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
+                                          
+                                          SpanishTextToCopy="@Constants.InstantPayRaiseUrlSpanish(AppState!.UserName)"
+                                          SpanishTooltip="Español shareable copied!"
+                                          SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+                    <br />
+                }
+                else
+                {
+                    <MudStack Row="true">
+                        <MudSpacer />
+                        <MudText Align="Align.Center">
+                            Instant Pay Raise
+                            <br />
+                            <MudProgressCircular Indeterminate="true" />
+                        </MudText>
+                        <MudSpacer />
+                    </MudStack>
+                    <br />
+                }
+                <CopyTextMultilingual Description="@($"MWR Credit Restoration{Environment.NewLine}(6min)")"
+                                      Url="https://www.ms1.megaschool.me/mwr-creditrestoration"
+                                      
+                                      EnglishTextToCopy="https://www.ms1.megaschool.me/mwr-creditrestoration"
+                                      EnglishTooltip="English shareable copied!"
+                                      EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
+                                      
+                                      SpanishTextToCopy="https://www.ms1.megaschool.me/mwr-creditrestoration"
+                                      SpanishTooltip="Español shareable copied!"
+                                      SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+                <br />
+                <CopyText Description=@($"MWR Health Share{Environment.NewLine}(5min)")
+                          Url="https://www.ms1.megaschool.me/mwr-healthshare"
+                          Tooltip="Shareable copied!"
+                          TextToCopy="https://www.ms1.megaschool.me/mwr-healthshare"
+                          ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+                <br />
+                <CopyTextMultilingual Description=@($"Keys to Home Ownership{Environment.NewLine}(3min)")
+                                      Url="https://www.ms1.megaschool.me/keys-to-homeownership"
+                                     
+                                      EnglishTextToCopy="https://www.ms1.megaschool.me/keys-to-homeownership"
+                                      EnglishTooltip="English shareable copied!"
+                                      EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
+                                      
+                                      SpanishTextToCopy="https://www.ms1.megaschool.me/keys-to-homeownership"
+                                      SpanishTooltip="Español shareable copied!"
+                                      SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+                <br />
+                <CopyTextMultilingual Description=@($"Trust My Assets{Environment.NewLine}(4min)")
+                                      Url="https://www.ms1.megaschool.me/trust-my-assets"
+                                      
+                                      EnglishTextToCopy="https://www.ms1.megaschool.me/trust-my-assets"
+                                      EnglishTooltip="English shareable copied!"
+                                      EnglishImageUrl="@GetImageUrl(Image.MWRBanner)"
+                                      
+                                      SpanishTextToCopy="https://www.ms1.megaschool.me/trust-my-assets"
+                                      SpanishTooltip="Español shareable copied!"
+                                      SpanishImageUrl="@GetImageUrl(Image.MWRBanner)" />
+                <br />
+                <CopyText Description=@($"MWR for Real Estate & Mortgage Professionals{Environment.NewLine}(11min)")
                           Url="https://www.ms1.megaschool.me/mwr-for-realestate"
                           TextToCopy="https://www.ms1.megaschool.me/mwr-for-realestate"
                           Tooltip="Shareable copied!"
                           ImageUrl="@GetImageUrl(Image.MWRBanner)" />
-    <br/>
-    <CopyText Description=@($"Protect My Assets")
-              Url="https://www.ms1.megaschool.me/protect-my-assets"
-              Tooltip="Shareable copied!"
-              TextToCopy="https://www.ms1.megaschool.me/protect-my-assets"
-              ImageUrl="@GetImageUrl(Image.MWRBanner)"/>
-    <br />
-    <CopyText Description="Structure My Legacy"
-              Url="https://www.ms1.megaschool.me/structure-my-legacy"
-              Tooltip="Shareable copied!"
-              TextToCopy="https://www.ms1.megaschool.me/structure-my-legacy"
-              ImageUrl="@GetImageUrl(Image.MWRBanner)" />
-    <MudSpacer />
-</MudStack>
+                <br />
+                <CopyText Description=@($"Protect My Assets")
+                          Url="https://www.ms1.megaschool.me/protect-my-assets"
+                          Tooltip="Shareable copied!"
+                          TextToCopy="https://www.ms1.megaschool.me/protect-my-assets"
+                          ImageUrl="@GetImageUrl(Image.MWRBanner)" />
+                <br />
+                <CopyText Description="Structure My Legacy"
+                          Url="https://www.ms1.megaschool.me/structure-my-legacy"
+                          Tooltip="Shareable copied!"
+                          TextToCopy="https://www.ms1.megaschool.me/structure-my-legacy"
+                          ImageUrl="@GetImageUrl(Image.MWRBanner)" />
+                <MudSpacer />
+            </MudStack>
+        </MudCollapse>
+    </MudStack>
+</MudPaper>
 <br />
 <br/>
-<MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Qualified Marketing Directors</MudText>
-<br/>
-<MudStack>
-    @if (_pageLoaded)
-    {
-        <CopyTextMultilingual Description="Join MWR"
-
-                              EnglishTextToCopy="@JoinMakeWealthRealEnglish(_username!)"
-                              EnglishTooltip="English shareable copied!"
-                              EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
-                              
-                              SpanishTextToCopy="@JoinMakeWealthRealSpanish(_username!)"
-                              SpanishTooltip="Español shareable copied!"
-                              SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
-        <br />
-    }
-    else
-    {
-        <MudStack Row="true">
-            <MudSpacer />
-            <MudText Align="Align.Center">
-                Join MWR
-                <br />
-                <MudProgressCircular Indeterminate="true" />
-            </MudText>
-            <MudSpacer />
-        </MudStack>
-        <br />
-    }
-    @if (_pageLoaded)
-    {
-        <CopyTextMultilingual Description="My Website"
-
-                              EnglishTextToCopy="@MarketingDirectorUrlEnglish(_username!)"
-                              EnglishTooltip="English shareable copied!"
-                              EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
-
-                              SpanishTextToCopy="@MarketingDirectorUrlSpanish(_username!)"
-                              SpanishTooltip="Español shareable copied!"
-                              SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
-        <br/>
-    }
-    else
-    {
-        <MudStack Row="true">
-            <MudSpacer />
-            <MudText Align="Align.Center">
-                My Website
-                <br />
-                <MudProgressCircular Indeterminate="true" />
-            </MudText>
-            <MudSpacer />
-        </MudStack>
-        <br />
-    }
-    <CopyText Description="MWR Cheat Sheet App"
-              Tooltip="Shareable copied!"
-              TextToCopy=@($"MWR Cheat Sheet App{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}https://makewealthreal.github.io/")
-              ImageUrl="@GetImageUrl(Image.CheatSheetPreview)"/>
-    <br />
-    <br />
-    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Images</MudText>
-    <MudText Align="Align.Center">Tap Image to Download</MudText>
-    <MudLink Href="images/72hour-money-challenge-logo.png" download>
-        <MudImage Fluid="true" Src="images/72hour-money-challenge-logo.png" Alt="MWR 72-Hour Money Challenge" Class="rounded-lg" />
-    </MudLink>
-    <MudLink Href="images/mwr-banner.png" download>
-        <MudImage Fluid="true" Src="images/mwr-banner.png" Alt="MWR Banner" Class="rounded-lg" />
-    </MudLink>
-    <MudLink Href="images/mwr-membership-logo.jpg" download>
-        <MudImage Fluid="true" Src="images/mwr-membership-logo.jpg" Alt="MWR Membership Banner" Class="rounded-lg" />
-    </MudLink>
-    <MudLink Href="images/mwr-healthshare.png" download>
-        <MudImage Fluid="true" Src="images/mwr-healthshare.png" Alt="MWR HealthShare" Class="rounded-lg" />
-    </MudLink>
-</MudStack>
-
+<MudPaper Class="pa-4">
+    <MudStack Spacing="2">
+        <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Qualified Marketing Directors</MudText>
+        <MudButton OnClick="@(() => _qmdExpanded = !_qmdExpanded)" Color="Color.Primary">@(_qmdExpanded ? "Hide" : "Show")</MudButton>
+        <MudDivider />
+        <MudCollapse Expanded="_qmdExpanded">
+            <MudStack>
+                @if (_pageLoaded)
+                {
+                    <CopyTextMultilingual Description="Join MWR"
+                                         
+                                          EnglishTextToCopy="@Constants.JoinMakeWealthRealEnglish(AppState!.UserName)"
+                                          EnglishTooltip="English shareable copied!"
+                                          EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
+                                          
+                                          SpanishTextToCopy="@Constants.JoinMakeWealthRealSpanish(AppState!.UserName)"
+                                          SpanishTooltip="Español shareable copied!"
+                                          SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+                    <br />
+                }
+                else
+                {
+                    <MudStack Row="true">
+                        <MudSpacer />
+                        <MudText Align="Align.Center">
+                            Join MWR
+                            <br />
+                            <MudProgressCircular Indeterminate="true" />
+                        </MudText>
+                        <MudSpacer />
+                    </MudStack>
+                    <br />
+                }
+                @if (_pageLoaded)
+                {
+                    <CopyTextMultilingual Description="My Website"
+                                          
+                                          EnglishTextToCopy="@Constants.MarketingDirectorUrlEnglish(AppState!.UserName)"
+                                          EnglishTooltip="English shareable copied!"
+                                          EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
+                                          
+                                          SpanishTextToCopy="@Constants.MarketingDirectorUrlSpanish(AppState!.UserName)"
+                                          SpanishTooltip="Español shareable copied!"
+                                          SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
+                    <br />
+                }
+                else
+                {
+                    <MudStack Row="true">
+                        <MudSpacer />
+                        <MudText Align="Align.Center">
+                            My Website
+                            <br />
+                            <MudProgressCircular Indeterminate="true" />
+                        </MudText>
+                        <MudSpacer />
+                    </MudStack>
+                    <br />
+                }
+                <CopyText Description=@CheatSheet.Description
+                          Tooltip=@CheatSheet.Tooltip
+                          TextToCopy=@CheatSheet.Content
+                          ImageUrl=@CheatSheet.ImageUrl />
+            </MudStack>
+        </MudCollapse>
+    </MudStack>
+</MudPaper>
+<br />
+<br />
+<MudPaper Class="pa-4">
+    <MudStack Spacing="2">
+        <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Images</MudText>
+        <MudButton OnClick="@(() => _imagesExpanded = !_imagesExpanded)" Color="Color.Primary">@(_imagesExpanded ? "Hide" : "Show")</MudButton>
+        <MudDivider />
+        <MudCollapse Expanded="_imagesExpanded">
+            <MudStack>
+                <MudText Align="Align.Center">Tap Image to Download</MudText>
+                <MudLink Href="images/72hour-money-challenge-logo.png" download>
+                    <MudImage Fluid="true" Src="images/72hour-money-challenge-logo.png" Alt="MWR 72-Hour Money Challenge" Class="rounded-lg" />
+                </MudLink>
+                <MudLink Href="images/mwr-banner.png" download>
+                    <MudImage Fluid="true" Src="images/mwr-banner.png" Alt="MWR Banner" Class="rounded-lg" />
+                </MudLink>
+                <MudLink Href="images/mwr-membership-logo.jpg" download>
+                    <MudImage Fluid="true" Src="images/mwr-membership-logo.jpg" Alt="MWR Membership Banner" Class="rounded-lg" />
+                </MudLink>
+                <MudLink Href="images/mwr-healthshare.png" download>
+                    <MudImage Fluid="true" Src="images/mwr-healthshare.png" Alt="MWR HealthShare" Class="rounded-lg" />
+                </MudLink>
+            </MudStack>
+        </MudCollapse>
+    </MudStack>
+</MudPaper>
 @code {
-    private string? _username;
     private bool _pageLoaded;
     private bool _webSharingAvailable;
+    private bool _moreInfoExpanded;
+    private bool _servicesExpanded;
+    private bool _qmdExpanded;
+    private bool _imagesExpanded;
+
+    public static readonly Model.Shareable MoneyChallenge = new (
+        $"72-Hour Money Challenge{Environment.NewLine}(EDM 7min){Environment.NewLine}{Environment.NewLine}(Challenge + FAQ)",
+        "https://www.extradigitmovement.com/",
+        "Shareable copied!",
+        $"72-Hour Money Challenge!{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(2min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-money-challenge{Environment.NewLine}{Environment.NewLine}FAQ{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(5min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-money-challenge-faq",
+        GetImageUrl(Image.MoneyChallengeLogo));
+
+    public static readonly Model.Shareable CheatSheet = new (
+        $"MWR Cheat Sheet App",
+        null!,
+        "Shareable copied!",
+        $"MWR Cheat Sheet App{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}https://makewealthreal.github.io/",
+        "images/mwr-cheatsheet-preview.jpeg");
 
     protected override async Task OnInitializedAsync()
     {
-        _username = await this.GetUsernameAsync();
         _webSharingAvailable = await WebShareService.IsSupportedAsync();
 
         _pageLoaded = true;

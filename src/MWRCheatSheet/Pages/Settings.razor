@@ -7,7 +7,7 @@
         <MudSpacer/>
         <MudText>Version: @(this.GetType().Assembly.GetName().Version)</MudText>
     </MudStack>
-    <MudTextField @bind-Value="_settings.Username" Label="My MWR Username" Placeholder="Your MWR username" HelperText=@($"Tip: If your website is '{MarketingDirectorUrlEnglish("ACME")}' then your username is 'ACME'")/>
+    <MudTextField @bind-Value="_settings.Username" Label="My MWR Username" Placeholder="Your MWR username" HelperText=@($"Tip: If your website is '{Constants.MarketingDirectorUrlEnglish("ACME")}' then your username is 'ACME'")/>
     <br/>
     <br/>
     <MudTooltip Text="Saved!" IsVisible="_showTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
@@ -22,7 +22,7 @@
 
     private bool _showTooltip = false;
 
-    private Repository.Settings _settings = new();
+    private Repository.Model.Settings _settings = new();
 
     public int IntValue { get; set; }
     public double DoubleValue { get; set; }
@@ -33,7 +33,7 @@
     {
         if (await localStorage.ContainKeyAsync(SettingsKey))
         {
-            _settings = await localStorage.GetItemAsync<Repository.Settings>(SettingsKey) ?? _settings;
+            _settings = await localStorage.GetItemAsync<MWRCheatSheet.Repository.Model.Settings>(SettingsKey) ?? _settings;
         }
     }
 

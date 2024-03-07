@@ -1,0 +1,20 @@
+﻿@using MWRCheatSheet.Components
+@using ComponentBase = MWRCheatSheet.Components.ComponentBase
+
+<MudDialog>
+    <DialogContent>
+        <CopyText Description="Take the 72-Hour Money Challenge!"
+                  Url="@Constants.MembershipEnrollmentUrl(AppState!.UserName)"
+                  Tooltip="Shareable copied!"
+                  TextToCopy="@($"Take the 72-Hour Money Challenge!{Environment.NewLine}{ComponentBase.PointingDownEmoji}{Environment.NewLine}{Constants.MembershipEnrollmentUrl(AppState.UserName)}")"
+                  ImageUrl="@ComponentBase.GetImageUrl(ComponentBase.Image.MoneyChallengeLogo)"/>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] 
+    private MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public AppState? AppState { get; set; }
+}

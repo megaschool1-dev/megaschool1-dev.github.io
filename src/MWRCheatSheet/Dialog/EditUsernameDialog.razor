@@ -1,0 +1,82 @@
+﻿@using Blazored.LocalStorage
+@using System.Runtime.CompilerServices
+@inject ILocalStorageService LocalStorage
+@inject Repository.Repository Repo
+@inject HttpClient Http
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @bind-IsValid="@_dataValid">
+            <MudStack>
+                <MudTextField @bind-Value="@_username"
+                              Label="My MWR Username"
+                              Placeholder="Your MWR username"
+                              HelperText="@HelperText"
+                              Validation="@(new Func<string, Task<string?>>(ValidateUsernameAsync))"
+                              Required="true"
+                              RequiredError="MWR username is required."
+                              Immediate="true"
+                              DebounceInterval="1.0" />
+                <br/>
+                <br/>
+                <MudTooltip Text="Saved!" IsVisible="_showTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+                    <MudButton OnClick="OnUsernameSaveClick" Disabled="@(!_dataValid)" EndIcon="@Icons.Material.Filled.Save" Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+                </MudTooltip>
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    private readonly string HelperText = $"Tip: If your website is '{Constants.MarketingDirectorUrlEnglish("ACME")}' then your username is 'ACME'";
+
+    private bool _showTooltip;
+    private bool _dataValid;
+    private string? _username;
+
+    [CascadingParameter] 
+    private MudDialogInstance MudDialog { get; set; }
+
+    private AppState? _appState;
+    [Parameter]
+    public AppState? AppState
+    {
+        get => _appState;
+        set
+        {
+            _username = value?.UserName;
+
+            _appState = value;
+        }
+    }
+
+    private async Task<string?> ValidateUsernameAsync(string username)
+    {
+        _dataValid = false;
+        this.StateHasChanged();
+
+        var usernameValid = await Util.IsUsernameValidAsync(username, Http);
+
+        return usernameValid ? null : $"'{username}' is not a Qualified Marketing Director. ({HelperText})";
+    }
+
+    private async Task OnUsernameSaveClick()
+    {
+        var settings = await Repo.GetSettingsAsync(LocalStorage);
+
+        settings.Username = _username!;
+
+        await Repo.SaveSettingsAsync(settings, LocalStorage);
+
+        this.AppState!.UserName = _username!;
+        this.StateHasChanged();
+
+        _showTooltip = true;
+        this.StateHasChanged();
+
+        await Task.Delay(3 * 1000);
+
+        _showTooltip = false;
+        this.StateHasChanged();
+    }
+}

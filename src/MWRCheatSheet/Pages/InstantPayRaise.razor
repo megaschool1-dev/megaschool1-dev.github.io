@@ -35,17 +35,17 @@
     allowfullscreen></iframe>
 
 @code {
-    private static readonly string DefaultUrl = InstantPayRaiseUrlEnglish(DefaultUsername);
+    private static readonly string DefaultUrl = Constants.InstantPayRaiseUrlEnglish(AppState.DefaultUsername);
 
     private bool _iframeLoaded;
     private string _iframeUrl = DefaultUrl;
     private string? _englishUrl;
     private string? _spanishUrl;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        _englishUrl = InstantPayRaiseUrlEnglish(await this.GetUsernameAsync());
-        _spanishUrl = InstantPayRaiseUrlSpanish(await this.GetUsernameAsync());
+        _englishUrl = Constants.InstantPayRaiseUrlEnglish(AppState.UserName);
+        _spanishUrl = Constants.InstantPayRaiseUrlSpanish(AppState.UserName);
 
         _iframeUrl = _englishUrl;
     }

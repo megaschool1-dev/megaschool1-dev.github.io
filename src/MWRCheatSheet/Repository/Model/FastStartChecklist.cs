@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MWRCheatSheet.Repository;
+namespace MWRCheatSheet.Repository.Model;
 
 public class FastStartChecklist
 {

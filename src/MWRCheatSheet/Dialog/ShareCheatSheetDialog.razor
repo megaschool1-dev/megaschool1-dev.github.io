@@ -1,0 +1,18 @@
+﻿@inherits MWRCheatSheet.Components.ComponentBase
+@using MWRCheatSheet.Components
+@using MWRCheatSheet.Pages
+
+<MudDialog>
+    <DialogContent>
+        <CopyText Description="@Shareables.CheatSheet.Description"
+                  Url="@Shareables.CheatSheet.Url"
+                  Tooltip="@Shareables.CheatSheet.Tooltip"
+                  TextToCopy="@Shareables.CheatSheet.Content"
+                  ImageUrl="@Shareables.CheatSheet.ImageUrl" />
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] 
+    private MudDialogInstance MudDialog { get; set; }
+}

@@ -1,4 +1,6 @@
-﻿@inherits Components.ComponentBase
+﻿@using MWRCheatSheet.Dialog
+@inherits Components.ComponentBase
+@inject IDialogService Dialog
 
 <MudNavMenu>
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.SpatialAudioOff">Words</MudNavLink>
@@ -6,8 +8,14 @@
     <MudNavLink Href="/events" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.CalendarMonth">Events</MudNavLink>
     <MudNavLink Href="/revenuesharing" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.RestartAlt">Revenue Sharing</MudNavLink>
     <MudNavLink Href="/faststartchecklist" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Checklist">Fast Start Checklist</MudNavLink>
-    <MudNavLink Href="/settings" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Settings">Settings</MudNavLink>
+    <MudNavLink OnClick="OnShowCheatSheetShareableDialog" Icon="@Icons.Material.Filled.MobileScreenShare">Share This App!</MudNavLink>
 </MudNavMenu>
 
 @code {
+    private void OnShowCheatSheetShareableDialog()
+    {
+        var options = new DialogOptions() { NoHeader = true };
+
+        Dialog.Show<ShareCheatSheetDialog>("72-Hour Money Challenge", options);
+    }
 }

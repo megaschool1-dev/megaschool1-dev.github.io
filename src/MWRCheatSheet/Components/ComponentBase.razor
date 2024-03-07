@@ -1,19 +1,12 @@
 ﻿@inject IJSRuntime JSRuntime
-@inject Blazored.LocalStorage.ILocalStorageService localStorage
-@inject HttpClient http
-@inject NavigationManager NavigationManager
 
 @code {
-    public static readonly string DefaultUsername = "MS1";
-
     protected static readonly TimeZoneInfo NewYorkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
     protected static readonly TimeZoneInfo ChicagoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Chicago");
     protected static readonly TimeZoneInfo LosAngelesTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
     protected static readonly TimeZoneInfo DefaultTimeZone = NewYorkTimeZone;
 
-    protected const string PointingDownEmoji = $"\ud83d\udc47";
-
-    private const string SettingsKey = "settings";
+    public const string PointingDownEmoji = $"\ud83d\udc47";
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
@@ -59,16 +52,7 @@
 
     protected Task ShareMessageAsync(string message, Image image) => ShareMessageAsync(message, GetImageUrl(image));
 
-    protected static string BusinessEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/join";
-    protected static string MembershipEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/signup-financialedge";
-    protected static string InstantPayRaiseUrlEnglish(string username) => $"https://www.mwrfinancial.com/iprr/?member={username}";
-    protected static string InstantPayRaiseUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/iprr/?member={username}";
-    protected static string MarketingDirectorUrlEnglish(string username) => $"https://www.mwrfinancial.com/?member={username}";
-    protected static string MarketingDirectorUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/?member={username}";
-    protected static string JoinMakeWealthRealEnglish(string username) => $"https://www.mwrfinancial.com/join/?member={username}";
-    protected static string JoinMakeWealthRealSpanish(string username) => $"https://www.mwrfinancial.com/es/join/?member={username}";
-
-    protected static string GetImageUrl(Image image) => image switch
+    public static string GetImageUrl(Image image) => image switch
     {
         Image.MWRBanner => "/images/mwr-banner.png",
         Image.HealthShare => "/images/mwr-healthshare.png",
@@ -77,64 +61,6 @@
         Image.CheatSheetPreview => "images/mwr-cheatsheet-preview.png",
         _ => throw new Exception($"Image not found: {image}"),
     };
-
-    protected async Task<Repository.Settings> GetSettingsAsync()
-    {
-        Repository.Settings? foundSettings = null;
-
-        if (await localStorage.ContainKeyAsync(SettingsKey))
-        {
-            foundSettings = await localStorage.GetItemAsync<Repository.Settings>(SettingsKey);
-        }
-
-        return foundSettings ?? new();
-    }
-
-    protected async Task SaveSettingsAsync(Repository.Settings settings)
-    {
-        await localStorage.SetItemAsync(SettingsKey, settings);
-
-    }
-
-    protected async Task<string> GetUsernameAsync()
-    {
-        string? foundUsername = null;
-
-        if (await localStorage.ContainKeyAsync(SettingsKey))
-        {
-            foundUsername = (await localStorage.GetItemAsync<Repository.Settings>(SettingsKey))?.Username;
-
-            // validate username
-            if (string.IsNullOrWhiteSpace(foundUsername))
-            {
-                foundUsername = null;
-            }
-            else
-            {
-                // check if username belongs to an active Qualified Financial Director (QFD)
-                var userBusinessEnrollmentPage = await GetAsync(BusinessEnrollmentUrl(foundUsername));
-                if (userBusinessEnrollmentPage?.IsSuccessStatusCode is not true)
-                {
-                    foundUsername = null;
-                }
-            }
-        }
-
-        return foundUsername ?? DefaultUsername;
-    }
-
-    private async Task<HttpResponseMessage?> GetAsync(string url)
-    {
-        HttpResponseMessage? response = null;
-
-        try
-        {
-            response = await http.GetAsync(url);
-        }
-        catch(Exception) { }
-
-        return response;
-    }
 
     public enum Image
     {
