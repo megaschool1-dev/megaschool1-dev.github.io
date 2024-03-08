@@ -1,0 +1,22 @@
+﻿@inherits Components.ComponentBase
+
+<MudPaper Class="pa-4">
+    <MudStack Spacing="2">
+        <MudText Typo="Typo.h4" GutterBottom="true" Align="Align.Center">@Title</MudText>
+        <MudButton OnClick="@(() => _expanded = !_expanded)" Color="Color.Primary">@(_expanded ? "Hide" : this.ExpandPrompt)</MudButton>
+        <MudDivider />
+        <MudCollapse Expanded="_expanded">
+            @ChildContent
+        </MudCollapse>
+    </MudStack>
+</MudPaper>
+
+@code {
+    private bool _expanded;
+
+    [Parameter]
+    public string Title { get; set; } = "Change the Title!";
+
+    [Parameter]
+    public string ExpandPrompt { get; set; } = "Show";
+}
