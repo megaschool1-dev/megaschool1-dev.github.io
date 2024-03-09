@@ -19,11 +19,14 @@
     </MudCardContent>
     <MudCardActions>
         <MudStack Style="width:100%;">
-            <MudStack Row="true" Style="width:100%;">
-                <MudSpacer/>
-                <ExternalLink Href="@Url" Text="Join Now!"/>
-                <MudSpacer/>
-            </MudStack>
+            @if (!string.IsNullOrWhiteSpace(this.Url))
+            {
+                <MudStack Row="true" Style="width:100%;">
+                    <MudSpacer/>
+                    <ExternalLink Href="@Url" Text="Join Now!"/>
+                    <MudSpacer/>
+                </MudStack>
+            }
             <MudStack Row="true" Style="width:100%;">
                 <MudSpacer/>
                 <CopyTextMinimal Tooltip="Invitation copied!"
@@ -49,5 +52,5 @@
     public (DayOfWeek Day, TimeOnly Time, TimeZoneInfo TimeZone) Recurrence { get; set; }
 
     [Parameter]
-    public string Url { get; set; }
+    public string? Url { get; set; }
 }

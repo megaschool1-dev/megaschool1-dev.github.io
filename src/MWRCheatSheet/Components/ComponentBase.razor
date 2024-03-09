@@ -24,13 +24,13 @@
 
     protected static DateTimeOffset GetNextEvent(DayOfWeek day, TimeOnly time, TimeZoneInfo timeZone)
     {
-        var currentTimeInEventTimeZone = DateTimeOffset.Now.ToOffset(timeZone.GetUtcOffset(DateTimeOffset.Now));
+        var currentTimeInEventTimeZone = DateTimeOffset.Now.ToOffset(timeZone.BaseUtcOffset);
 
         var nextEventTime = currentTimeInEventTimeZone.AddHours(time.Hour - currentTimeInEventTimeZone.Hour);
         nextEventTime = nextEventTime.AddMinutes(time.Minute - nextEventTime.Minute);
 
         var nextEvent = nextEventTime;
-        while (nextEvent.DayOfWeek != day)
+        while (nextEvent.DayOfWeek != day || nextEvent < currentTimeInEventTimeZone)
         {
             nextEvent = nextEvent.AddDays(1);
         }
