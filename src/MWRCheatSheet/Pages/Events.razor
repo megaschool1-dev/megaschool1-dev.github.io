@@ -64,6 +64,11 @@
     <br />
     <br />
     <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Saturdays</MudText>
+    <RecurringEvent Header="Saturday Reading Club"
+                    Url="http://zoom.thecreditteam.com"
+                    ImageUri="images/events/saturdays-creditteam-readingclub.jpeg"
+                    Recurrence="@((DayOfWeek.Saturday, new TimeOnly(9, 30), NewYorkTimeZone))"
+                    Text="@($"Saturday Reading Club{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Saturday, new(9, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Saturday, new(9, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.thecreditteam.com{Environment.NewLine}{Environment.NewLine}**No Password Required**{Environment.NewLine}{Environment.NewLine}#LeadersAreReaders")" />
     <RecurringEvent Header="Business Overview"
                     Url="http://zoom.thecreditteam.com"
                     ImageUri="images/events/saturdays-creditteam-overview.jpeg"
