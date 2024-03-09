@@ -72,7 +72,7 @@
 <br />
 <br />
 <Collapsable Title="Cash Flow Equivalents">
-    <MudTable Items="_cashflowEquivalents" Breakpoint="Breakpoint.None" Hover="true" SortLabel="Sort By" Elevation="0">
+    <MudTable Items="_cashFlowEquivalents" Breakpoint="Breakpoint.None" Hover="true" SortLabel="Sort By" Elevation="0">
         <HeaderContent>
             <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);">Investment <br /> @@ <br /> 5% APY</MudTh>
             <MudTh Style="text-align:center; vertical-align:top; border-color:rgb(27,53,115);">Monthly <br /> ROI</MudTh>
@@ -140,23 +140,23 @@
         return minimumRankToPayMonthlyBill != Rank.None ? DailyGuarantee[minimumRankToPayMonthlyBill].NumMemberships : 0;
     }
 
-    private List<CashflowEquivalent> _cashflowEquivalents = new()
-    {
-        new(Rank.ED1),
-        new(Rank.ED2),
-        new(Rank.ED3),
-        new(Rank.ED4),
-        new(Rank.ED5),
-    };
+    private readonly List<CashFlowEquivalent> _cashFlowEquivalents =
+    [
+        new(Rank.ExecutiveDirector1),
+        new(Rank.ExecutiveDirector2),
+        new(Rank.ExecutiveDirector3),
+        new(Rank.ExecutiveDirector4),
+        new(Rank.ExecutiveDirector5)
+    ];
 
     private static readonly Dictionary<Rank, (int NumMemberships, int MonthlyPay, string Title)> DailyGuarantee = new()
     {
         { Rank.None, (0, 0, "N/A") },
-        { Rank.ED1, (3, 150, "Executive Director") },
-        { Rank.ED2, (12, 600, "2* Executive Director") },
-        { Rank.ED3, (50, 1500, "3* Executive Director") },
-        { Rank.ED4, (90, 3000, "4* Executive Director") },
-        { Rank.ED5, (180, 4500, "5* Executive Director") },
+        { Rank.ExecutiveDirector1, (3, 150, "Executive Director") },
+        { Rank.ExecutiveDirector2, (12, 600, "2* Executive Director") },
+        { Rank.ExecutiveDirector3, (50, 1500, "3* Executive Director") },
+        { Rank.ExecutiveDirector4, (90, 3000, "4* Executive Director") },
+        { Rank.ExecutiveDirector5, (180, 4500, "5* Executive Director") },
         { Rank.Regional1, (300, 6000, "Regional Director") },
         { Rank.Regional2, (480, 9000, "2* Regional Director") },
         { Rank.Regional3, (750, 12000, "3* Regional Director") },
@@ -200,7 +200,7 @@
         return teamDistribution;
     }
 
-    private static int MaxMonthlyIncomeDemo =
+    private static readonly int MaxMonthlyIncomeDemo =
         GetMonthlyIncome(TeamDistributions[TeamDistribution.TwelveWide].MaxBy(x => x.TeamMembersTotal)!.TeamMembersTotal);
 
     private class TeamLevel
@@ -222,25 +222,14 @@
         public int PersonalEnrollments { get; }
         public int QualifiedMarketingDirectorTotal { get; }
         public int CustomerTotal { get; }
-        public int TotalMembers => this.QualifiedMarketingDirectorTotal + this.CustomerTotal;
-        public int TeamMembersTotal => this.TotalMembers + (_previousLevel?.TeamMembersTotal ?? 0);
+        public int TeamMembersTotal => this.QualifiedMarketingDirectorTotal + this.CustomerTotal + (_previousLevel?.TeamMembersTotal ?? 0);
     }
 
-    private class CashflowEquivalent
+    private class CashFlowEquivalent(Rank rank)
     {
-        private Rank _rank;
-
-        public CashflowEquivalent(Rank rank)
-        {
-            _rank = rank;
-            this.InvestmentPrinciple = InvestmentCashFlowEquivalent(DailyGuarantee[_rank].MonthlyPay);
-            this.MonthlyRoi = DailyGuarantee[_rank].MonthlyPay;
-            this.NumMemberships = DailyGuarantee[_rank].NumMemberships;
-        }
-
-        public int InvestmentPrinciple { get; }
-        public int MonthlyRoi { get; }
-        public int NumMemberships { get; }
+        public int InvestmentPrinciple { get; } = InvestmentCashFlowEquivalent(DailyGuarantee[rank].MonthlyPay);
+        public int MonthlyRoi { get; } = DailyGuarantee[rank].MonthlyPay;
+        public int NumMemberships { get; } = DailyGuarantee[rank].NumMemberships;
 
         private static int InvestmentCashFlowEquivalent(int monthlyCashFlow)
         {
@@ -254,11 +243,11 @@
     public enum Rank
     {
         None = 0,
-        ED1 = 1,
-        ED2 = 2,
-        ED3 = 3,
-        ED4 = 4,
-        ED5 = 5,
+        ExecutiveDirector1 = 1,
+        ExecutiveDirector2 = 2,
+        ExecutiveDirector3 = 3,
+        ExecutiveDirector4 = 4,
+        ExecutiveDirector5 = 5,
         Regional1 = 6,
         Regional2 = 7,
         Regional3 = 8,
