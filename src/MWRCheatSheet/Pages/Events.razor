@@ -22,7 +22,7 @@
                     Text="@(FaithAndFinance(DayOfWeek.Tuesday, new(12, 0), NewYorkTimeZone))" />
     <RecurringEvent Header="QMD Training"
                     Url="http://zoom.thecreditteam.com"
-                    ImageUri="images/mwr-banner.png"
+                    ImageUri="images/events/tuesdays-creditteam-training.jpeg"
                     Recurrence="@((DayOfWeek.Tuesday, new TimeOnly(20, 0), NewYorkTimeZone))"
                     Text="@($"QMD Training{Environment.NewLine}{Environment.NewLine}Hosted By: Benjamin McCray{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Tuesday, new(20, 0), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Tuesday, new(20, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to: http://zoom.thecreditteam.com{Environment.NewLine}{Environment.NewLine}**No Password Required**{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
     <RecurringEvent Header="Wealth Syndicate Sizzle Call"

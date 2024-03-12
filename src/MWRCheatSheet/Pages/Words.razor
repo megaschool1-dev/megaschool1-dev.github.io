@@ -39,49 +39,74 @@
         <MudButton OnClick="@(() => _shareExpanded = !_shareExpanded)" Color="Color.Primary">@(_shareExpanded ? "Hide" : "Show me how!")</MudButton>
         <MudDivider />
         <MudCollapse Expanded="_shareExpanded">
-            <MudStack>
-                <MudStack Row="true">
-                    <MudText>#1: </MudText>
-                    <MudText>"Let me show you this 7min video, rather than me trying to explain it, lol. <br/><br/> If you have any questions, I'm going to connect you with someone FAR more qualified than me for answers."</MudText>
-                </MudStack>
-                <MudStack Row="true">
-                    <MudText>#2: </MudText>
-                    <MudButton OnClick="@(() => Dialog.Show<ShareMoneyChallengeDialog>())" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Tap to Share Link</MudButton>
-                </MudStack>
-                <MudStack Row="true">
-                    <MudText>#3: </MudText>
-                    <MudText>"Did you watch the video?"</MudText>
-                </MudStack>
-                <MudStack Row="true">
-                    <MudText>#4: </MudText>
-                    <MudText>"So are you ready to take the challenge?"</MudText>
-                </MudStack>
-                <MudStack Row="true">
-                    <MudStack>
-                        <MudText GutterBottom="true" Align="Align.Center">"Yes" <br/> @PointingDownEmoji</MudText>
-                        <MudButton OnClick="@(() => _readyForChallengedExpanded = !_readyForChallengedExpanded)" Color="Color.Primary">@(_readyForChallengedExpanded ? "Hide" : "My Response")</MudButton>
-                        <MudDivider />
-                        <MudSpacer/>
-                        <MudCollapse Expanded="_readyForChallengedExpanded">
-                            <MudText Align="Align.Center">"Great, here's how you take the challenge!" <br/><br/></MudText>
-                            <MudStack Row="true">
-                                <MudSpacer/>
-                                <MudButton OnClick="@OnShowMembershipEnrollmentDialog" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Tap to Share Link</MudButton>
-                                <MudSpacer/>
-                            </MudStack>
-                        </MudCollapse>
-                    </MudStack>
-                    <MudStack>
-                        <MudText GutterBottom="true" Align="Align.Center">"Questions" <br /> @PointingDownEmoji</MudText>
-                        <MudButton OnClick="@(() => _questionsExpanded = !_questionsExpanded)" Color="Color.Primary">@(_questionsExpanded ? "Hide" : "My Response")</MudButton>
-                        <MudDivider />
-                        <MudSpacer/>
-                        <MudCollapse Expanded="_questionsExpanded">
-                            <MudText Align="Align.Center"> Go to the "Connect" section below <br/> @(PointingDownEmoji)</MudText>
-                        </MudCollapse>  
-                    </MudStack>
-                </MudStack>
+            <MudText Align="Align.Center">I'm Sharing</MudText>
+            <MudStack Row="true">
+                <MudSpacer/>
+                <MudRadioGroup @bind-Value="_selectedShareOption">
+                    <MudRadio Value="ShareOptions.InPerson" Color="Color.Primary" Size="Size.Small">In Person</MudRadio>
+                    <MudRadio Value="ShareOptions.OnPhone" Color="Color.Secondary" Size="Size.Medium">On the Phone</MudRadio>
+                </MudRadioGroup>
+                <MudSpacer/>
             </MudStack>
+            <br/>
+            <MudDivider />
+            <br/>
+            @if (_selectedShareOption == ShareOptions.InPerson)
+            {
+                <MudText Align="Align.Center">@PointingDownEmoji<br/><br/></MudText>
+                <MudStack Row="true">
+                    <MudSpacer/>
+                    <MudStack>
+                        <MudButton OnClick="@(() => _show1On1Presentation = true)" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Show 1-on1 Presentation</MudButton>
+                    </MudStack>
+                    <MudSpacer/>
+                </MudStack>
+            }
+            @if (_selectedShareOption == ShareOptions.OnPhone)
+            {
+                <MudStack>
+                    <MudStack Row="true">
+                        <MudText>#1: </MudText>
+                        <MudText>"Let me show you this 7min video, rather than me trying to explain it, lol. <br/><br/> If you have any questions, I'm going to connect you with someone FAR more qualified than me for answers."</MudText>
+                    </MudStack>
+                    <MudStack Row="true">
+                        <MudText>#2: </MudText>
+                        <MudButton OnClick="@(() => Dialog.Show<ShareMoneyChallengeDialog>())" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Tap to Share Link</MudButton>
+                    </MudStack>
+                    <MudStack Row="true">
+                        <MudText>#3: </MudText>
+                        <MudText>"Did you watch the video?"</MudText>
+                    </MudStack>
+                    <MudStack Row="true">
+                        <MudText>#4: </MudText>
+                        <MudText>"So are you ready to take the challenge?"</MudText>
+                    </MudStack>
+                    <br/>
+                    <MudText Align="Align.Center">Prospect Response</MudText>
+                    <MudStack Row="true">
+                        <MudSpacer/>
+                        <MudRadioGroup @bind-Value="_selectedProspectResponse">
+                            <MudRadio Value="ProspectResponse.SignUp" Color="Color.Primary" Size="Size.Small">"Yes"</MudRadio>
+                            <MudRadio Value="ProspectResponse.Questions" Color="Color.Secondary" Size="Size.Medium">"I have a question"</MudRadio>
+                        </MudRadioGroup>
+                        <MudSpacer/>
+                    </MudStack>
+                    <MudDivider />
+                    @if (_selectedProspectResponse == ProspectResponse.SignUp)
+                    {
+                        <MudText Align="Align.Center">"Great, here's how you take the challenge!"<br/>@PointingDownEmoji</MudText>
+                        <MudStack Row="true">
+                            <MudSpacer/>
+                            <MudButton OnClick="@OnShowMembershipEnrollmentDialog" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Tap to Share Link</MudButton>
+                            <MudSpacer/>
+                        </MudStack>
+                    }
+                    @if (_selectedProspectResponse == ProspectResponse.Questions)
+                    {
+                        <MudText Align="Align.Center"> Go to the "Connect" section below <br/> @(PointingDownEmoji)</MudText>
+                    }
+                </MudStack>
+            }
         </MudCollapse>
     </MudStack>
 </MudPaper>
@@ -108,12 +133,52 @@
         </MudCollapse>
     </MudStack>
 </MudPaper>
+
+<MudDialog @bind-IsVisible="_show72HourMoneyChallengeVideo">
+    <DialogContent>
+        <MudStack>
+            <MudText Align="Align.Center">English</MudText>
+            <iframe title="vimeo-player" src="https://player.vimeo.com/video/912771676?h=8bc20408ad" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+            <MudText Align="Align.Center">Español</MudText>
+            <iframe title="vimeo-player" src="https://player.vimeo.com/video/912771906?h=475784ef31" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+<MudDialog @bind-IsVisible="_show1On1Presentation" Options="@(new DialogOptions() { FullScreen = true })">
+    <DialogContent>
+        <MudContainer Style="max-height:100vh; overflow-y: scroll;">
+            <MudStack>
+                <MudStack Row="true">
+                    <MudSpacer/>
+                    <MudButton Color="Color.Primary" OnClick="@(() => _show1On1Presentation = false)">Close</MudButton>
+                    <MudSpacer/>
+                </MudStack>
+                <MudStack Row="true">
+                    <MudSpacer/>
+                    <MudText Style="vertical-align:central;"><MudButton Color="Color.Primary" OnClick="@(() => { _72Hr1On1OverviewImageUrl = GetImageUrl(Image.Overview1On1English); _72Hr1On1RevenueSharingImageUrl = GetImageUrl(Image.RevenueShare1On1English); })">English</MudButton> | <MudButton Color="Color.Primary" OnClick="@(() => { _72Hr1On1OverviewImageUrl = GetImageUrl(Image.Overview1On1Spanish); _72Hr1On1RevenueSharingImageUrl = GetImageUrl(Image.RevenueShare1On1Spanish); })">Español</MudButton></MudText>
+                    <MudSpacer/>
+                </MudStack>
+                <MudImage Src="@_72Hr1On1OverviewImageUrl"/>
+                <MudImage Src="@_72Hr1On1RevenueSharingImageUrl"/>
+                <br/>
+                <MudText>&nbsp;</MudText>
+            </MudStack>
+        </MudContainer>
+    </DialogContent>
+</MudDialog>
 @code {
     private bool _askExpanded;
     private bool _shareExpanded;
     private bool _connectExpanded;
     private bool _readyForChallengedExpanded;
     private bool _questionsExpanded;
+    private bool _show72HourMoneyChallengeVideo;
+    private bool _show1On1Presentation;
+    private string _72Hr1On1OverviewImageUrl = GetImageUrl(Image.Overview1On1English);
+    private string _72Hr1On1RevenueSharingImageUrl = GetImageUrl(Image.RevenueShare1On1English);
+    private ShareOptions _selectedShareOption = ShareOptions.InPerson;
+    private ProspectResponse _selectedProspectResponse = ProspectResponse.SignUp;
 
     private void OnShowMembershipEnrollmentDialog()
     {
@@ -121,5 +186,17 @@
         var options = new DialogOptions() { NoHeader = true };
 
         Dialog.Show<ShareMembershipEnrollmentDialog>("72-Hour Money Challenge", parameters, options);
+    }
+
+    private enum ShareOptions
+    {
+        InPerson = 0,
+        OnPhone = 1,
+    }
+
+    private enum ProspectResponse
+    {
+        SignUp = 0,
+        Questions = 1,
     }
 }
