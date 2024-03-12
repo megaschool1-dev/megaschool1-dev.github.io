@@ -61,11 +61,11 @@
     </MudCheckBox>
     <br />
     <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.HurdlrSetup" Size="Size.Medium" Color="Color.Primary">
-        <MudText Typo="Typo.h6">Mileage & Expense Tracking App:</MudText>I have setup this app on my phone via my <MudLink Href="https://member.mwrfinancial.com/membership/cashback.php" Target="_blank">Membership Portal</MudLink>
+        <MudText Typo="Typo.h6">Mileage & Expense Tracking App:</MudText>I have setup this app on my phone via my <ExternalLink Href="https://member.mwrfinancial.com/membership/cashback.php" Text="Membership Portal" />
     </MudCheckBox>
     <br />
     <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.LowerMyBills" Size="Size.Medium" Color="Color.Primary">
-        <MudText Typo="Typo.h6">Lower My Bills:</MudText>I have uploaded my bills into this system via my <MudLink Href="https://member.mwrfinancial.com/membership/cashback.php" Target="_blank">Membership Portal</MudLink>
+        <MudText Typo="Typo.h6">Lower My Bills:</MudText>I have uploaded my bills into this system via my <ExternalLink Href="https://member.mwrfinancial.com/membership/cashback.php" Text="Membership Portal" />
     </MudCheckBox>
     <br />
     <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.DebtEliminator" Size="Size.Medium" Color="Color.Primary">
@@ -86,7 +86,7 @@
     <DatePicker Title="Millionaire Date:" @bind-Value="_viewModel.MillionaireDate" ShowTime="false" ShowDayOfWeek="false" />
     <br />
     <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.RestoreCredit" Size="Size.Medium" Color="Color.Primary">
-        <MudText Typo="Typo.h6">Restore My Credit:</MudText>I have ordered and upload my 3 credit reports via my <MudLink Href="https://member.mwrfinancial.com/membership/cashback.php" Target="_blank">Membership Portal</MudLink>
+        <MudText Typo="Typo.h6">Restore My Credit:</MudText>I have ordered and upload my 3 credit reports via my <ExternalLink Href="https://member.mwrfinancial.com/membership/cashback.php" Text="Membership Portal" />
     </MudCheckBox>
     <br />
     <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.DiversifiedCashflowAccount" Size="Size.Medium" Color="Color.Primary">
@@ -106,9 +106,9 @@
     <MudCheckBox Value="_viewModel.SubscribedToFacebook && _viewModel.SubscribedToYouTube && _viewModel.SubscribedToTwitter && _viewModel.SubscribedToLinkedIn && _viewModel.SubscribedToInstagram" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
         <MudText Typo="Typo.h6">Plugged In:</MudText>I am following MWR on the Social Media Platforms listed below to stay informed:
     </MudCheckBox>
-    <MudStack Row="true" Justify="Justify.FlexEnd">
+    <MudStack Row="true">
         <MudSpacer/>
-        <MudContainer Style="width:50%;">
+        <MudContainer Style="width:75%;">
             <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.SubscribedToFacebook" Size="Size.Small" Color="Color.Primary">
                 <ExternalLink Href="https://facebook.com/MWRFinancial" Text="Facebook"/>
             </MudCheckBox>
@@ -125,7 +125,6 @@
                 <ExternalLink Href="https://instagram.com/mwrfinancial" Text="Instagram"/>
             </MudCheckBox>
         </MudContainer>
-        <MudSpacer/>
     </MudStack>
     <br />
     <br />
@@ -136,12 +135,11 @@
 </MudStack>
 
 @code {
-    private bool _showTooltip = false;
+    private bool _showTooltip;
     private bool _pageLoaded;
     private Repository.Model.FastStartChecklist _viewModel = new();
     private bool _isFastStartVisible;
-    private bool _isDatePickerOpen;
-    private bool _isTimePickerOpen;
+    private MudDialog? _videoDialog;
 
     protected override async Task OnInitializedAsync()
     {

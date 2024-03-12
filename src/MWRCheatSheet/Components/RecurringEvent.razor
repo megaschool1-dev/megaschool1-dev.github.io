@@ -27,6 +27,10 @@
                     <MudSpacer/>
                 </MudStack>
             }
+            @if (!string.IsNullOrWhiteSpace(this.Password))
+            {
+                <MudText Align="Align.Center">Password: @Password</MudText>
+            }
             <MudStack Row="true" Style="width:100%;">
                 <MudSpacer/>
                 <CopyTextMinimal Tooltip="Invitation copied!"
@@ -53,4 +57,7 @@
 
     [Parameter]
     public string? Url { get; set; }
+
+    [Parameter]
+    public string? Password { get; set; }
 }

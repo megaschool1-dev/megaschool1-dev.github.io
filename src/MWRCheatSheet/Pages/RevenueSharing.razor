@@ -81,8 +81,7 @@
             <MudTooltip IsVisible="_millionaireClubTooltipVisible" ShowOnClick="false" ShowOnFocus="false" ShowOnHover="false">
                 <ChildContent>
                     <MudText Color="Color.Primary" Align="Align.Center">
-                        <div @onclick="() => _monthlyIncomeGoal = MillionaireResidualIncomeClubMonthlyThreshold">Show Millionaire Residual Income Club</div>
-                        <MudIconButton @onclick="() => _millionaireClubTooltipVisible = true" Class="mud-theme-primary rounded-circle" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Filled.QuestionMark"/>
+                        <div @onclick="() => _monthlyIncomeGoal = MillionaireResidualIncomeClubMonthlyThreshold">Show Millionaire Residual Income Club</div><MudIconButton @onclick="() => _millionaireClubTooltipVisible = true" Class="mud-theme-primary rounded-circle" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Filled.QuestionMark"/>
                     </MudText>
                 </ChildContent>
                 <TooltipContent>
