@@ -136,6 +136,11 @@
         Instance = this;
     }
 
+    public static void Refresh()
+    {
+        Instance?.StateHasChanged();
+    }
+
     private async Task CheckForUpdatesAsync()
     {
         while (true)

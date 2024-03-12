@@ -71,6 +71,9 @@
         this.AppState!.UserName = _username!;
         this.StateHasChanged();
 
+        MainLayout.Refresh();
+        this.MudDialog.Close();
+
         _showTooltip = true;
         this.StateHasChanged();
 
