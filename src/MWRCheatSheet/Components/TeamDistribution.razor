@@ -1,0 +1,74 @@
+﻿@using MWRCheatSheet.Model
+@inherits Components.ComponentBase
+
+<MudText Align="Align.Center">@(this.Conservative ? "Conservative " : string.Empty)Team Distribution <br /> (@(this.Distribution.First().PersonalEnrollments)-wide)</MudText>
+<MudStack Row="true">
+    <MudSpacer />
+    <MudButton OnClick="@(() => ShowMax(this.Distribution))" Color="Color.Primary">Show Max</MudButton>
+    <MudSpacer />
+</MudStack>
+<br />
+@if (Util.GetTeamLevels(this.MonthlyIncomeGoal, this.Distribution).FirstOrDefault()?.TeamMembersTotal is 0)
+{
+    <MudText Align="Align.Center">$@this.MonthlyIncomeGoal.ToString("N0")/mo cannot be achieved with @(!this.Conservative ? "this team distribution" : $"a {this.Distribution.First().PersonalEnrollments}-wide, conservative team distribution.")</MudText>
+}
+else
+{
+    <MudTable Items="@Util.GetTeamLevels(this.MonthlyIncomeGoal, this.Distribution)" Breakpoint="Breakpoint.None" Hover="true" SortLabel="Sort By" Elevation="0">
+        <HeaderContent>
+            <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);">Level</MudTh>
+            <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);">Avg QMD Enrollment</MudTh>
+            <MudTh Style="text-align:center; vertical-align:top; border-color:rgb(27,53,115);">QMD Total</MudTh>
+            <MudTh Style="text-align:center; vertical-align:top; border-color:rgb(27,53,115);">Customer Total</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd Style="text-align:center;" DataLabel="Level">@context.Name</MudTd>
+            <MudTd Style="text-align:center;" DataLabel="Avg QMD Enrollment">@context.PersonalEnrollments.ToString("N0")</MudTd>
+            <MudTd Style="text-align:center;" DataLabel="QMD Total">@context.QualifiedMarketingDirectorTotal.ToString("N0")</MudTd>
+            <MudTd Style="text-align:center;" DataLabel="Customer Total">@context.CustomerTotal.ToString("N0")</MudTd>
+        </RowTemplate>
+    </MudTable>
+    <br />
+    <MudTextField Label="Total Members" Value="@GetTeamMemberTotal(Util.GetTeamLevels(this.MonthlyIncomeGoal, this.Distribution)).ToString("N0")" Variant="Variant.Outlined" ReadOnly="true" />
+    <MudTextField Label="Guaranteed Monthly Income" Value="@($"${Util.GetMonthlyIncome(GetTeamMemberTotal(Util.GetTeamLevels(this.MonthlyIncomeGoal, this.Distribution))):N0}")" Variant="Variant.Outlined" ReadOnly="true" />
+}
+
+@code {
+    int _monthlyIncomeGoal;
+    [Parameter]
+    public int MonthlyIncomeGoal
+    {
+        get
+        {
+            return _monthlyIncomeGoal;
+        }
+        set
+        {
+            if (value != _monthlyIncomeGoal)
+            {
+                _monthlyIncomeGoal = value;
+
+                _ = MonthlyIncomeGoalChanged.InvokeAsync(_monthlyIncomeGoal);
+            }
+        }
+    }
+
+    [Parameter]
+    public bool Conservative { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<int> MonthlyIncomeGoalChanged { get; set; }
+
+    [Parameter]
+    public TeamLevel[] Distribution { get; set; } = [new("N/A", 0, null)];
+
+    private void ShowMax(TeamLevel[] distribution)
+    {
+        this.MonthlyIncomeGoal = Util.GetMonthlyIncome(distribution.Last().TeamMembersTotal);
+    }
+
+    private int GetTeamMemberTotal(TeamLevel[] teamDistribution)
+    {
+        return teamDistribution.MaxBy(x => x.TeamMembersTotal)?.TeamMembersTotal ?? 0;
+    }
+}

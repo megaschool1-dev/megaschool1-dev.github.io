@@ -1,6 +1,7 @@
 ﻿@page "/revenuesharing"
 @inherits Components.ComponentBase
 @using MWRCheatSheet.Components
+@using MWRCheatSheet.Model
 
 <Collapsable Title="Residual Income Goal" ExpandPrompt="Show me the MONEY!">
     <MudText>Monthly Income Goal:</MudText>
@@ -9,70 +10,49 @@
     <br />
     <MudStack>
         <MudSpacer/>
-        <MudTextField Label="Rank to Achieve" Value="@DailyGuarantee[GetRankForMonthlyIncome(_monthlyIncomeGoal)].Title" Variant="Variant.Outlined" ReadOnly="true"/>
-        <MudTextField Label="Total Members" Value="@GetNumMembershipsToFundMonthlyBill(this._monthlyIncomeGoal).ToString("N0")" Variant="Variant.Outlined" ReadOnly="true"/>
-        <MudTextField Label="Guaranteed Monthly Income" Value="@($"${DailyGuarantee[GetRankForMonthlyIncome(_monthlyIncomeGoal)].MonthlyPay:N0}")" Variant="Variant.Outlined" ReadOnly="true" />
+        <MudTextField Label="Rank to Achieve" Value="@Constants.DailyGuarantee[Util.GetRankForMonthlyIncome(_monthlyIncomeGoal)].Title" Variant="Variant.Outlined" ReadOnly="true" />
+        <MudTextField Label="Total Members" Value="@Util.GetNumMembershipsToFundMonthlyBill(this._monthlyIncomeGoal).ToString("N0")" Variant="Variant.Outlined" ReadOnly="true"/>
+        <MudTextField Label="Guaranteed Monthly Income" Value="@($"${Constants.DailyGuarantee[Util.GetRankForMonthlyIncome(_monthlyIncomeGoal)].MonthlyPay:N0}")" Variant="Variant.Outlined" ReadOnly="true" />
         <br />
         <MudDivider />
-        <br />
-        <MudText Align="Align.Center">Conservative Team Distribution <br /> (12-wide)</MudText>
         <MudStack Row="true">
             <MudSpacer />
-            <MudButton OnClick="@(() => ShowMax(TeamDistribution.TwelveWide))" Color="Color.Primary">Show Max</MudButton>
+            <MudRadioGroup @bind-Value="_selectedDistribution">
+                <MudItem xs="12" md="2">
+                    <MudRadio Value="TeamDistribution.TwelveWide" Color="Color.Primary" Size="Size.Small">12-Wide</MudRadio>
+                </MudItem>
+                <MudItem xs="12" md="2">
+                    <MudRadio Value="TeamDistribution.SixWide" Color="Color.Primary" Size="Size.Small">6-Wide</MudRadio>
+                </MudItem>
+                <MudItem xs="12" md="2">
+                    <MudRadio Value="TeamDistribution.Custom" Color="Color.Primary" Size="Size.Small">Custom</MudRadio>
+                </MudItem>
+            </MudRadioGroup>
             <MudSpacer />
         </MudStack>
-        <br />
-        <MudTable Items="@GetTeamLevels(_monthlyIncomeGoal, TeamDistribution.TwelveWide)" Breakpoint="Breakpoint.None" Hover="true" SortLabel="Sort By" Elevation="0">
-            <HeaderContent>
-                <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);">Level</MudTh>
-                <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);">Avg QMD Enrollment</MudTh>
-                <MudTh Style="text-align:center; vertical-align:top; border-color:rgb(27,53,115);">QMD Total</MudTh>
-                <MudTh Style="text-align:center; vertical-align:top; border-color:rgb(27,53,115);">Customer Total</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd Style="text-align:center;" DataLabel="Level">@context.Name</MudTd>
-                <MudTd Style="text-align:center;" DataLabel="Avg QMD Enrollment">@context.PersonalEnrollments.ToString("N0")</MudTd>
-                <MudTd Style="text-align:center;" DataLabel="QMD Total">@context.QualifiedMarketingDirectorTotal.ToString("N0")</MudTd>
-                <MudTd Style="text-align:center;" DataLabel="Customer Total">@context.CustomerTotal.ToString("N0")</MudTd>
-            </RowTemplate>
-        </MudTable>
-        <br />
-        <MudTextField Label="Total Members" Value="@GetTeamMemberTotal(GetTeamLevels(_monthlyIncomeGoal, TeamDistribution.TwelveWide)).ToString("N0")" Variant="Variant.Outlined" ReadOnly="true" />
-        <MudTextField Label="Guaranteed Monthly Income" Value="@($"${GetMonthlyIncome(GetTeamMemberTotal(GetTeamLevels(_monthlyIncomeGoal, TeamDistribution.TwelveWide))):N0}")" Variant="Variant.Outlined" ReadOnly="true" />
-        <br />
-        <MudDivider />
-        <br />
-        <MudText Align="Align.Center">Conservative Team Distribution <br /> (6-wide)</MudText>
-        <MudStack Row="true">
-            <MudSpacer />
-            <MudButton OnClick="@(() => ShowMax(TeamDistribution.SixWide))" Color="Color.Primary">Show Max</MudButton>
-            <MudSpacer />
-        </MudStack>
-        <br />
-        @if (GetTeamLevels(_monthlyIncomeGoal, TeamDistribution.SixWide).FirstOrDefault()?.TeamMembersTotal is 0)
-        {
-            <MudText Align="Align.Center">$@_monthlyIncomeGoal.ToString("N0")/mo cannot be achieved with a 6-wide, conservative team distribution.</MudText>
-        }
-        else
-        {
-            <MudTable Items="@GetTeamLevels(_monthlyIncomeGoal, TeamDistribution.SixWide)" Breakpoint="Breakpoint.None" Hover="true" SortLabel="Sort By" Elevation="0">
-                <HeaderContent>
-                    <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);">Level</MudTh>
-                    <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);">Avg QMD Enrollment</MudTh>
-                    <MudTh Style="text-align:center; vertical-align:top; border-color:rgb(27,53,115);">QMD Total</MudTh>
-                    <MudTh Style="text-align:center; vertical-align:top; border-color:rgb(27,53,115);">Customer Total</MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd Style="text-align:center;" DataLabel="Level">@context.Name</MudTd>
-                    <MudTd Style="text-align:center;" DataLabel="Avg QMD Enrollment">@context.PersonalEnrollments.ToString("N0")</MudTd>
-                    <MudTd Style="text-align:center;" DataLabel="QMD Total">@context.QualifiedMarketingDirectorTotal.ToString("N0")</MudTd>
-                    <MudTd Style="text-align:center;" DataLabel="Customer Total">@context.CustomerTotal.ToString("N0")</MudTd>
-                </RowTemplate>
-            </MudTable>
+        <br/>
+        <span hidden="@(_selectedDistribution != TeamDistribution.TwelveWide)">
+            <TeamDistribution @bind-MonthlyIncomeGoal="@_monthlyIncomeGoal" Distribution="@(TeamLevel.GetTeamDistribution(TwelveWideTeamDistribution))" Conservative="true" />
+        </span>
+        <span hidden="@(_selectedDistribution != TeamDistribution.SixWide)">
+            <TeamDistribution @bind-MonthlyIncomeGoal="@_monthlyIncomeGoal" Distribution="@(TeamLevel.GetTeamDistribution([6, 3, 2, 1]))" Conservative="true" />
+        </span>
+        <span hidden="@(_selectedDistribution != TeamDistribution.Custom)">
+            <MudStack Row="true">
+                <MudNumericField @bind-Value="_level1Custom" Immediate="true" HelperText="Level 1" Variant="Variant.Outlined" Min="1" Max="12" />
+                <MudNumericField @bind-Value="_level2Custom" Immediate="true" HelperText="Level 2" Variant="Variant.Outlined" Min="1" Max="12" />
+                <MudNumericField @bind-Value="_level3Custom" Immediate="true" HelperText="Level 3" Variant="Variant.Outlined" Min="1" Max="12" />
+            </MudStack>
+            <MudStack Row="true">
+                <MudNumericField @bind-Value="_level4Custom" Immediate="true" HelperText="Level 3" Variant="Variant.Outlined" Min="1" Max="12" />
+                <MudNumericField @bind-Value="_level5Custom" Immediate="true" HelperText="Level 3" Variant="Variant.Outlined" Min="1" Max="12" />
+                <MudNumericField @bind-Value="_level6Custom" Immediate="true" HelperText="Level 3" Variant="Variant.Outlined" Min="1" Max="12" />
+            </MudStack>
             <br />
-            <MudTextField Label="Total Members" Value="@GetTeamMemberTotal(GetTeamLevels(_monthlyIncomeGoal, TeamDistribution.SixWide)).ToString("N0")" Variant="Variant.Outlined" ReadOnly="true" />
-            <MudTextField Label="Guaranteed Monthly Income" Value="@($"${GetMonthlyIncome(GetTeamMemberTotal(GetTeamLevels(_monthlyIncomeGoal, TeamDistribution.SixWide))):N0}")" Variant="Variant.Outlined" ReadOnly="true" />
-        }
+            <br />
+            <TeamDistribution @bind-MonthlyIncomeGoal="@_monthlyIncomeGoal" 
+                Distribution="@(TeamLevel.GetTeamDistribution([_level1Custom, _level2Custom, _level3Custom, _level4Custom, _level5Custom, _level6Custom]))" />
+        </span>
         <br />
         <MudDivider />
         <br />
@@ -111,61 +91,21 @@
 </Collapsable>
 
 @code {
+    private static readonly int[] TwelveWideTeamDistribution = [12, 5, 3, 2, 1];
+    private static readonly int MaxMonthlyIncomeDemo =
+        Util.GetMonthlyIncome(TeamLevel.GetTeamDistribution(TwelveWideTeamDistribution).MaxBy(x => x.TeamMembersTotal)!.TeamMembersTotal);
+
     private const int MillionaireResidualIncomeClubMonthlyThreshold = 8400;
 
+    private TeamDistribution _selectedDistribution = TeamDistribution.TwelveWide;
     private int _monthlyIncomeGoal;
     private bool _millionaireClubTooltipVisible;
-
-    private void ShowMax(TeamDistribution distribution)
-    {
-        _monthlyIncomeGoal = GetMonthlyIncome(TeamDistributions[distribution].Last().TeamMembersTotal);
-    }
-
-    private int GetTeamMemberTotal(List<TeamLevel> teamDistribution)
-    {
-        return teamDistribution.MaxBy(x => x.TeamMembersTotal)?.TeamMembersTotal ?? 0;
-    }
-
-    private static int GetMonthlyIncome(int teamMembers)
-    {
-        return DailyGuarantee.Reverse().First(x => x.Value.NumMemberships <= teamMembers).Value.MonthlyPay;
-    }
-
-    private List<TeamLevel> GetTeamLevels(int monthlyIncomeGoal, TeamDistribution distribution)
-    {
-        if (monthlyIncomeGoal == 0)
-        {
-            return new();
-        }
-        else
-        {
-            var numMembershipToMeetMonthlyIncomeGoal = GetNumMembershipsToFundMonthlyBill(monthlyIncomeGoal);
-            List<TeamLevel> teamLevels;
-
-            var teamDistribution = TeamDistributions[distribution];
-            var minimumRequiredLevel = teamDistribution.FirstOrDefault(teamLevel => teamLevel.TeamMembersTotal >= numMembershipToMeetMonthlyIncomeGoal);
-            if (minimumRequiredLevel == null)
-            {
-                teamLevels = [new("N/A", 0, null)];
-            }
-            else
-            {
-                teamLevels = teamDistribution.Where(teamLevel => teamLevel.TeamMembersTotal <= minimumRequiredLevel.TeamMembersTotal).ToList();
-            }
-
-            return teamLevels.OrderByDescending(x => x.PersonalEnrollments).ToList();
-        }
-    }
-
-    private static Rank GetRankForMonthlyIncome(int monthlyIncome)
-        => DailyGuarantee.First(x => x.Value.MonthlyPay >= monthlyIncome).Key;
-
-    private static int GetNumMembershipsToFundMonthlyBill(int monthlyBillAmount)
-    {
-        var minimumRankToPayMonthlyBill = GetRankForMonthlyIncome(monthlyBillAmount);
-
-        return minimumRankToPayMonthlyBill != Rank.None ? DailyGuarantee[minimumRankToPayMonthlyBill].NumMemberships : 0;
-    }
+    private int _level1Custom = 1;
+    private int _level2Custom = 1;
+    private int _level3Custom = 1;
+    private int _level4Custom = 1;
+    private int _level5Custom = 1;
+    private int _level6Custom = 1;
 
     private readonly List<CashFlowEquivalent> _cashFlowEquivalents =
     [
@@ -176,87 +116,18 @@
         new(Rank.ExecutiveDirector5)
     ];
 
-    private static readonly Dictionary<Rank, (int NumMemberships, int MonthlyPay, string Title)> DailyGuarantee = new()
-    {
-        { Rank.None, (0, 0, "N/A") },
-        { Rank.ExecutiveDirector1, (3, 150, "Executive Director") },
-        { Rank.ExecutiveDirector2, (12, 600, "2* Executive Director") },
-        { Rank.ExecutiveDirector3, (50, 1500, "3* Executive Director") },
-        { Rank.ExecutiveDirector4, (90, 3000, "4* Executive Director") },
-        { Rank.ExecutiveDirector5, (180, 4500, "5* Executive Director") },
-        { Rank.Regional1, (300, 6000, "Regional Director") },
-        { Rank.Regional2, (480, 9000, "2* Regional Director") },
-        { Rank.Regional3, (750, 12000, "3* Regional Director") },
-        { Rank.Regional4, (1200, 19500, "4* Regional Director") },
-        { Rank.Regional5, (1800, 30000, "5* Regional Director") },
-        { Rank.NationalDirector, (3000, 45000, "National Director") },
-        { Rank.VicePresidentialDirector, (6000, 90000, "Vice Presidential Director") },
-        { Rank.PresidentialDirector, (12000, 150000, "Presidential Director") },
-        { Rank.ExecutiveChairman, (21000, 300000, "Executive Chairman") },
-        { Rank.NationalAmbassador, (33000, 450000, "National Ambassador") },
-    };
-
-    public enum TeamDistribution
+    private enum TeamDistribution
     {
         TwelveWide = 0,
         SixWide = 1,
-    }
-
-    private static readonly Dictionary<TeamDistribution, List<TeamLevel>> TeamDistributions = new()
-    {
-        { TeamDistribution.TwelveWide, GetTeamDistribution([12, 5, 3, 2, 1]) },
-        { TeamDistribution.SixWide, GetTeamDistribution([6, 3, 2, 1]) },
-    };
-
-    private static List<TeamLevel> GetTeamDistribution(int[] enrollmentDistribution)
-    {
-        var teamDistribution = new List<TeamLevel>();
-
-        for (var i = 0; i < enrollmentDistribution.Length; i++)
-        {
-            if (i == 0)
-            {
-                teamDistribution.Add(new("You", enrollmentDistribution[i], null));
-            }
-            else
-            {
-                teamDistribution.Add(new($"Level {(i+1)}", enrollmentDistribution[i], teamDistribution[i-1]));
-            }
-        }
-
-        return teamDistribution;
-    }
-
-    private static readonly int MaxMonthlyIncomeDemo =
-        GetMonthlyIncome(TeamDistributions[TeamDistribution.TwelveWide].MaxBy(x => x.TeamMembersTotal)!.TeamMembersTotal);
-
-    private class TeamLevel
-    {
-        private readonly TeamLevel? _previousLevel;
-
-        public TeamLevel(string name, int personalEnrollments, TeamLevel? previousLevel)
-        {
-            _previousLevel = previousLevel;
-            this.Name = name;
-            this.PersonalEnrollments = personalEnrollments;
-            this.QualifiedMarketingDirectorTotal = personalEnrollments * _previousLevel?.QualifiedMarketingDirectorTotal ?? personalEnrollments;
-           
-            // every QMD should have 1 customer
-            this.CustomerTotal = this.QualifiedMarketingDirectorTotal;
-        }
-
-        public string Name { get; }
-        public int PersonalEnrollments { get; }
-        public int QualifiedMarketingDirectorTotal { get; }
-        public int CustomerTotal { get; }
-        public int TeamMembersTotal => this.QualifiedMarketingDirectorTotal + this.CustomerTotal + (_previousLevel?.TeamMembersTotal ?? 0);
+        Custom = 2,
     }
 
     private class CashFlowEquivalent(Rank rank)
     {
-        public int InvestmentPrinciple { get; } = InvestmentCashFlowEquivalent(DailyGuarantee[rank].MonthlyPay);
-        public int MonthlyRoi { get; } = DailyGuarantee[rank].MonthlyPay;
-        public int NumMemberships { get; } = DailyGuarantee[rank].NumMemberships;
+        public int InvestmentPrinciple { get; } = InvestmentCashFlowEquivalent(Constants.DailyGuarantee[rank].MonthlyPay);
+        public int MonthlyRoi { get; } = Constants.DailyGuarantee[rank].MonthlyPay;
+        public int NumMemberships { get; } = Constants.DailyGuarantee[rank].NumMemberships;
 
         private static int InvestmentCashFlowEquivalent(int monthlyCashFlow)
         {
@@ -265,25 +136,5 @@
 
             return monthlyCashFlow * MonthsPerYear * (int)(1 / Apy);
         }
-    }
-
-    public enum Rank
-    {
-        None = 0,
-        ExecutiveDirector1 = 1,
-        ExecutiveDirector2 = 2,
-        ExecutiveDirector3 = 3,
-        ExecutiveDirector4 = 4,
-        ExecutiveDirector5 = 5,
-        Regional1 = 6,
-        Regional2 = 7,
-        Regional3 = 8,
-        Regional4 = 9,
-        Regional5 = 10,
-        NationalDirector = 11,
-        VicePresidentialDirector = 12,
-        PresidentialDirector = 13,
-        ExecutiveChairman = 14,
-        NationalAmbassador = 15,
     }
 }
