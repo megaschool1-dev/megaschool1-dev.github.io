@@ -135,6 +135,17 @@
                                       SpanishTooltip="Español shareable copied!"
                                       SpanishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)" />
                 <br />
+                <CopyTextMultilingual Description=@($"Precious Metals{Environment.NewLine}(5min)")
+                                      Url="https://www.ms1.megaschool.me/mwr-precious-metals"
+                                     
+                                      EnglishTextToCopy=@($"MWR Precious Metals{Environment.NewLine}{Environment.NewLine}Become a ratio player!{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(5min){Environment.NewLine}https://www.ms1.megaschool.me/mwr-precious-metals")
+                                      EnglishTooltip="English shareable copied!"
+                                      EnglishImageUrl="@GetImageUrl(Image.PreciousMetals)"
+
+                                      SpanishTextToCopy="@($"MWR Precious Metals{Environment.NewLine}{Environment.NewLine}Become a ratio player!{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}(6min){Environment.NewLine}https://www.ms1.megaschool.me/mwr-precious-metals")"
+                                      SpanishTooltip="Español shareable copied!"
+                                      SpanishImageUrl="@GetImageUrl(Image.PreciousMetals)" />
+                <br />
                 <CopyTextMultilingual Description=@($"Trust My Assets{Environment.NewLine}(4min)")
                                       Url="https://www.ms1.megaschool.me/trust-my-assets"
                                       
@@ -180,7 +191,8 @@
                 @if (_pageLoaded)
                 {
                     <CopyTextMultilingual Description="Join MWR"
-                                         
+                                          Url="@Constants.JoinMakeWealthRealEnglish(AppState!.UserName)"
+
                                           EnglishTextToCopy="@Constants.JoinMakeWealthRealEnglish(AppState!.UserName)"
                                           EnglishTooltip="English shareable copied!"
                                           EnglishImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
@@ -229,6 +241,11 @@
                     </MudStack>
                     <br />
                 }
+                <CopyText Description="MWR Events"
+                          Url="http://MakeWealthRealEvents.com"
+                          Tooltip="Copied Shareable"
+                          TextToCopy="http://MakeWealthRealEvents.com" />
+                <br />
                 <CopyText Description=@CheatSheet.Description
                           Tooltip=@CheatSheet.Tooltip
                           TextToCopy=@CheatSheet.Content
