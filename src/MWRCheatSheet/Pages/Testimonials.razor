@@ -1,0 +1,71 @@
+﻿@page "/testimonials"
+@using MWRCheatSheet.Components
+
+<MudChipSet @bind-SelectedChips="_selected" MultiSelection="true" Filter="true">
+    @foreach(var filterableValueable in Highlights)
+    {
+        <MudChip Text="@(filterableValueable.Description)" Color="Color.Primary" SelectedColor="Color.Secondary" />
+    }
+</MudChipSet>
+<br/>
+<MudStack>
+    <Testimonial Description="72-Hour Money Challenge - Sonia Howard"
+                 Url="https://www.youtube.com/embed/4JpDgVM_zm4"
+                 Highlights="@([Highlight.MoneyChallenge, Highlight.LandBanking, Highlight.RestoreMyCredit, Highlight.Residuals])"
+                 Filter="@(GetHighlights(_selected))" />
+    <Testimonial Description="72-Hour Money Challenge - Don Wilson & Ruth Rodriguez"
+                 Url="https://www.youtube.com/embed/DVX8ckVGKbc"
+                 Highlights="@([Highlight.MoneyChallenge, Highlight.EliminateMyDebt, Highlight.RestoreMyCredit, Highlight.LandBanking, Highlight.Residuals, Highlight.Couple])"
+                 Filter="@(GetHighlights(_selected))" />
+    <Testimonial Description="72-Hour Money Challenge - Charles & Judith Ivory"
+                 Url="https://www.youtube.com/embed/Un5cFHnszJk"
+                 Highlights="@([Highlight.MoneyChallenge, Highlight.LandBanking, Highlight.Residuals, Highlight.Couple, Highlight.Military])"
+                 Filter="@(GetHighlights(_selected))" />
+    <Testimonial Description="72-Hour Money Challenge - Brian N. Beane"
+                 Url="https://www.youtube.com/embed/Xlg3rp0D4aI"
+                 Highlights="@([Highlight.MoneyChallenge, Highlight.RestoreMyCredit, Highlight.ReduceMyTaxes, Highlight.TrustMyAssets, Highlight.Residuals, Highlight.Bonuses])"
+                 Filter="@(GetHighlights(_selected))" />
+    <Testimonial Description="72-Hour Money Challenge - Mekhi Beane & Zori Williams"
+                 Url="https://www.youtube.com/embed/y0_u_13-2qU"
+                 Highlights="@([Highlight.MoneyChallenge, Highlight.GenYGenZ])"
+                 Filter="@(GetHighlights(_selected))" />
+    <!-- 
+        The hidden component below is a UI hack.  I don't know why, but if you make the component below visible,
+        and you click play on the video, the video DIRECTLY ABOVE IT will start playing.  This seems to always
+        apply to the last video on the page.  Thus, the hack is to make the last video hidden.
+        - Jerome Bell
+    -->
+    <div style="visibility:hidden;">
+        <Testimonial Description="This testimonial is a UI hack, see comment above."
+                     Url="https://www.youtube.com/embed/Xlg3rp0D4aI"
+                     Highlights="@([Highlight.MoneyChallenge])"
+                     Filter="@([Highlight.MoneyChallenge])" />
+    </div>
+</MudStack>
+
+@code {
+    private static readonly (Highlight Highlight, string Description)[] Highlights =
+    [
+        (Highlight.MoneyChallenge, "72Hr Money Challenge"),
+        (Highlight.ReduceMyTaxes, "Reduce My Taxes"),
+        (Highlight.EliminateMyDebt, "Eliminate My Debt"),
+        (Highlight.LowerMyBills, "Lower My Bills"),
+        (Highlight.RestoreMyCredit, "Restore My Credit"),
+        (Highlight.DCA, "DCA"),
+        (Highlight.PRA, "PRA"),
+        (Highlight.LandBanking, "Land Banking"),
+        (Highlight.PreciousMetals, "Precious Metals"),
+        (Highlight.TrustMyAssets, "Trust My Assets"),
+        (Highlight.KeysToHomeOwnership, "Keys to Home Ownership"),
+        (Highlight.Bonuses, "Bonuses"),
+        (Highlight.Residuals, "Residuals"),
+        (Highlight.Couple, "Couple"),
+        (Highlight.Military, "Military"),
+        (Highlight.GenYGenZ, "Millenial/GenZ"),
+    ];
+
+    private MudChip[] _selected = [];
+
+    private static Highlight[] GetHighlights(MudChip[] chips)
+        => !chips.Any() ? Array.Empty<Highlight>() : chips.Select(chip => Highlights.First(v => v.Description == chip.Text).Highlight).ToArray();
+}

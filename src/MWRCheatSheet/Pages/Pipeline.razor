@@ -1,0 +1,31 @@
+﻿@page "/pipeline"
+
+<MudTimeline>
+    <MudTimelineItem Color="Color.Info" Size="Size.Small">
+        <ItemOpposite>
+            <MudText Color="Color.Info" Typo="Typo.h5">Monday</MudText>
+        </ItemOpposite>
+        <ItemContent>
+            <MudText Color="Color.Info" Typo="Typo.h6" GutterBottom="true">72 Hour Money Challenge</MudText>
+            <MudText>Get personal testimony.</MudText>
+        </ItemContent>
+    </MudTimelineItem>
+    <MudTimelineItem Color="Color.Info" Size="Size.Small">
+        <ItemOpposite>
+            <MudText Color="Color.Info" Typo="Typo.h5">Friday</MudText>
+        </ItemOpposite>
+        <ItemContent>
+            <MudText Color="Color.Info" Typo="Typo.h6" GutterBottom="true">Upgrade to QMD</MudText>
+            <MudText>Invite guests to next Money Monday</MudText>
+        </ItemContent>
+    </MudTimelineItem>
+</MudTimeline>
+
+@code {
+
+    bool _click;
+    bool _hover = true;
+    bool _focus = true;
+
+    MudIconButton? _iconButton1;
+}

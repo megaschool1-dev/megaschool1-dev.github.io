@@ -14,7 +14,7 @@
     <MudCardMedia Image="@ImageUri"/>
     <MudCardContent>
         <MudStack>
-            <MudText Typo="Typo.body2" Align="Align.Center">@(Recurrence.Day)s @@ @GetNextEvent(this.Recurrence.Day, this.Recurrence.Time, this.Recurrence.TimeZone).ToOffset(TimeZoneInfo.Local.BaseUtcOffset).ToString(" h:mm tt") @TimeZoneInfo.Local.StandardName</MudText>
+            <MudText Typo="Typo.body2" Align="Align.Center">@((Recurrence.Day is null ? "Daily" : $"{Recurrence.Day}s")) @@ @GetNextEvent(this.Recurrence.Day is null ? DateTime.Now.DayOfWeek : this.Recurrence.Day.Value, this.Recurrence.Time, this.Recurrence.TimeZone).ToOffset(TimeZoneInfo.Local.BaseUtcOffset).ToString(" h:mm tt") @TimeZoneInfo.Local.StandardName</MudText>
         </MudStack>
     </MudCardContent>
     <MudCardActions>
@@ -54,7 +54,7 @@
     public string Text { get; set; }
 
     [Parameter]
-    public (DayOfWeek Day, TimeOnly Time, TimeZoneInfo TimeZone) Recurrence { get; set; }
+    public (DayOfWeek? Day, TimeOnly Time, TimeZoneInfo TimeZone) Recurrence { get; set; }
 
     [Parameter]
     public string? Url { get; set; }

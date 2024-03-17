@@ -4,6 +4,13 @@
 @using MWRCheatSheet.Components
 
 <MudStack>
+    <RecurringEvent Header="72 Day Blitz!"
+                    Url="http://www.mwr.live"
+                    ImageUri="images/events/72day-blitz.jpg"
+                    Recurrence="@((null, new TimeOnly(19, 20), NewYorkTimeZone))"
+                    Text="@($"72 Day Blitz!{Environment.NewLine}{Environment.NewLine}{GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 20), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 20), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://mwr.live{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
+    <br />
+    <br />
     <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Mondays</MudText>
     <RecurringEvent Header="Kingdom Builders"
                     Url="http://zoom.mwrkingdombuilders.com"
@@ -92,6 +99,7 @@
 </MudStack>
 @code {
     private static readonly TimeZoneInfo[] BusinessStandardTimeZonesOrdered = [DefaultTimeZone, ChicagoTimeZone, LosAngelesTimeZone];
+    private static readonly DateTimeOffset LetsGetLoudBlitzStart = new(new DateOnly(2024, 3, 18), new TimeOnly(7, 20), NewYorkTimeZone.BaseUtcOffset);
 
     private static string GetRegionalTimes(DateTimeOffset dateTime)
     {

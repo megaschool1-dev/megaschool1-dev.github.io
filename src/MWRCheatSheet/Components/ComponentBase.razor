@@ -22,6 +22,11 @@
         this.StateHasChanged();
     }
 
+    protected static string VideoShareable(string heading, string videoUrl, TimeSpan videoLength)
+        => $"{heading}{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}({MinuteEstimate(videoLength)}min){Environment.NewLine}{videoUrl}";
+
+    private static int MinuteEstimate(TimeSpan duration) => duration.Minutes + (duration.Seconds >= 30 ? 1 : 0);
+
     protected static DateTimeOffset GetNextEvent(DayOfWeek day, TimeOnly time, TimeZoneInfo timeZone)
     {
         var currentTimeInEventTimeZone = DateTimeOffset.Now.ToOffset(timeZone.BaseUtcOffset);

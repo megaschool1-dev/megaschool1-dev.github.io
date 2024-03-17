@@ -15,6 +15,10 @@
         {
             <MudText Typo="Typo.body2" Align="Align.Center">@((MarkupString)Description.Replace(Environment.NewLine, "<br/>"))</MudText>
         }
+        @if(this.Duration != null)
+        {
+            <MudText Typo="Typo.body2" Align="Align.Center">@($"({(Duration.Value.Minutes > 0 ? $"{Duration.Value.Minutes}min" : string.Empty)}") @($"{(Duration.Value.Seconds > 0 ? $" {Duration.Value.Seconds}sec" : string.Empty)}"))</MudText>
+        }
     </MudCardContent>
     <MudCardActions>
         <MudStack Row="true" Style="width:100%;">
@@ -83,6 +87,9 @@
 
     [Parameter]
     public string? Url { get; set; }
+
+    [Parameter]
+    public TimeSpan? Duration { get; set; }
 
     private async Task OnEnglishCopyClick()
     {

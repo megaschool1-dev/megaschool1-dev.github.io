@@ -20,6 +20,26 @@ public enum Rank
     NationalAmbassador = 15,
 }
 
+public enum Highlight
+{
+    MoneyChallenge,
+    ReduceMyTaxes,
+    EliminateMyDebt,
+    LowerMyBills,
+    RestoreMyCredit,
+    DCA,
+    PRA,
+    LandBanking,
+    PreciousMetals,
+    TrustMyAssets,
+    KeysToHomeOwnership,
+    Bonuses,
+    Residuals,
+    Couple,
+    Military,
+    GenYGenZ,
+}
+
 public class Constants
 {
     public static string BusinessEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/join";

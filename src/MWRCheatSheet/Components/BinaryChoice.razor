@@ -1,0 +1,47 @@
+﻿@inherits Components.ComponentBase
+
+<MudText Align="Align.Center">@Description</MudText>
+<MudStack Row="true">
+    <MudSpacer />
+    <MudRadioGroup @bind-Value="_selectedChoice">
+        <MudRadio Value="Choice.First" Color="Color.Primary" Size="Size.Small">@FirstChoiceLabel</MudRadio>
+        <MudRadio Value="Choice.Second" Color="Color.Secondary" Size="Size.Medium">@SecondChoiceLabel</MudRadio>
+    </MudRadioGroup>
+    <MudSpacer />
+</MudStack>
+<br />
+<MudDivider />
+<br />
+@if(_selectedChoice == Choice.First)
+{
+    @FirstChoiceContent
+}
+@if (_selectedChoice == Choice.Second)
+{
+    @SecondChoiceContent
+}
+
+@code {
+    private Choice _selectedChoice = Choice.First;
+
+    [Parameter]
+    public string Description { get; set; } = "My Binary Choice";
+
+    [Parameter]
+    public string FirstChoiceLabel { get; set; } = "My First Choice";
+
+    [Parameter]
+    public string SecondChoiceLabel { get; set; } = "My Second Choice";
+
+    [Parameter]
+    public RenderFragment? FirstChoiceContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? SecondChoiceContent { get; set; }
+
+    private enum Choice
+    {
+        First = 0,
+        Second = 1,
+    }
+}

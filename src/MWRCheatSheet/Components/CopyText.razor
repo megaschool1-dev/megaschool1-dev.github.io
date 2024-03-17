@@ -16,6 +16,10 @@
             {
                <MudText Align="Align.Center">@((MarkupString)this.Description.Replace(Environment.NewLine, "<br/>"))</MudText>
             }
+            @if (this.Duration != null)
+            {
+                <MudText Typo="Typo.body2" Align="Align.Center">@($"({(Duration.Value.Minutes > 0 ? $"{Duration.Value.Minutes}min" : string.Empty)}")@($"{(Duration.Value.Seconds > 0 ? $" {Duration.Value.Seconds}sec" : string.Empty)}"))</MudText>
+            }
         }
         else
         {
@@ -46,4 +50,7 @@
 
     [Parameter]
     public string? Url { get; set; }
+
+    [Parameter]
+    public TimeSpan? Duration { get; set; }
 }
