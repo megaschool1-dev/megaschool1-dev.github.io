@@ -145,15 +145,10 @@
     {
         while (true)
         {
-            var currentVersion = this.GetType().Assembly.GetName().Version;
-
-            var appInfo = await Http.GetFromJsonAsync<Api.AppInfo>(MakeUrlBypassBrowserCache("AppInfo.json"));
-
-            if (appInfo != null)
+            var updateAvailable = await Util.UpdateAvailableAsync(Http);
+            if(updateAvailable)
             {
-                var latestVersion = Version.Parse(appInfo.LatestVersion);
-
-                _showAppUpdatePrompt = currentVersion == null || latestVersion > currentVersion;
+                _showAppUpdatePrompt = true;
                 this.StateHasChanged();
             }
 
@@ -161,13 +156,6 @@
             await Task.Delay(TimeSpan.FromMinutes(5));
         }
     }
-
-    /// <summary>
-    ///     Make a URL bypass the browser cache by faking a unique request.
-    /// </summary>
-    /// <param name="url"></param>
-    /// <returns></returns>
-    private static string MakeUrlBypassBrowserCache(string url) => $"{url}?v={Guid.NewGuid()}";
 
     [JSInvokable]
     public static void OnAppInstalled()

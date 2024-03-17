@@ -1,6 +1,8 @@
 ﻿@using MWRCheatSheet.Dialog
 @inherits Components.ComponentBase
 @inject IDialogService Dialog
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
 
 <MudNavMenu>
     <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.SpatialAudioOff">Words</MudNavLink>
@@ -20,10 +22,21 @@
             <MudText>Version @this.GetType().Assembly.GetName().Version</MudText>
             <MudSpacer />
         </MudStack>
+        @if(_updateAvailable)
+        {
+            <MudIconButton OnClick="@(e => NavigationManager.NavigateTo(NavigationManager.BaseUri, true))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Refresh" />
+        }
     </MudStack>
 </MudNavMenu>
 
 @code {
+    private bool _updateAvailable;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _updateAvailable = await Util.UpdateAvailableAsync(Http);
+    }
+
     private void OnShowCheatSheetShareableDialog()
     {
         var options = new DialogOptions() { NoHeader = true };

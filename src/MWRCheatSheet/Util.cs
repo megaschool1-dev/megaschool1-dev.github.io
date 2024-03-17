@@ -1,4 +1,5 @@
 ﻿using MWRCheatSheet.Model;
+using System.Net.Http.Json;
 using static System.Net.WebRequestMethods;
 
 namespace MWRCheatSheet;
@@ -12,6 +13,32 @@ public class Util
 
         return userBusinessEnrollmentPage?.IsSuccessStatusCode is true;
     }
+
+    public static async Task<bool> UpdateAvailableAsync(HttpClient http)
+    {
+        var currentVersion = typeof(Util).Assembly.GetName().Version;
+
+        var appInfo = await http.GetFromJsonAsync<Api.AppInfo>(MakeUrlBypassBrowserCache("AppInfo.json"));
+
+        if (appInfo != null)
+        {
+            var latestVersion = Version.Parse(appInfo.LatestVersion);
+
+            return currentVersion == null || latestVersion > currentVersion;
+
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    ///     Make a URL bypass the browser cache by faking a unique request.
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    private static string MakeUrlBypassBrowserCache(string url) => $"{url}?v={Guid.NewGuid()}";
 
     private static async Task<HttpResponseMessage?> GetAsync(string url, HttpClient http)
     {
