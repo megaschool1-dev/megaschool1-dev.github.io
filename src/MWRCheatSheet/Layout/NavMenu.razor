@@ -19,7 +19,7 @@
         <MudSpacer />
         <MudStack>
             <MudSpacer/>
-            <MudText>Version @this.GetType().Assembly.GetName().Version</MudText>
+            <MudLink Underline="Underline.None" Color="Color.Default" OnClick="@OnVersionClick">Version @this.GetType().Assembly.GetName().Version</MudLink>
             <MudSpacer />
         </MudStack>
         @if(_updateAvailable)
@@ -33,6 +33,11 @@
     private bool _updateAvailable;
 
     protected override async Task OnInitializedAsync()
+    {
+        _updateAvailable = await Util.UpdateAvailableAsync(Http);
+    }
+
+    private async Task OnVersionClick()
     {
         _updateAvailable = await Util.UpdateAvailableAsync(Http);
     }
