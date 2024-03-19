@@ -8,8 +8,8 @@
                 <MudSpacer />
                 <ShareableContent Description="@Description"
                                   Tooltip="Testimonial Copied!"
-                                  ImageUrl="@GetImageUrl(Image.MoneyChallengeLogo)"
-                                  TextToCopy="@($"{Description}{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}{Url}")" />
+                                  ImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)"
+                                  TextToCopy="@($"{Description}{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}{Url}")" />
                 <MudSpacer />
             </MudStack>
         </MudStack>

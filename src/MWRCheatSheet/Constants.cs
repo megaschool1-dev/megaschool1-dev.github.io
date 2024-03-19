@@ -1,4 +1,6 @@
-﻿namespace MWRCheatSheet;
+﻿using MWRCheatSheet.Model;
+
+namespace MWRCheatSheet;
 
 public enum Rank
 {
@@ -40,8 +42,32 @@ public enum Highlight
     GenYGenZ,
 }
 
+public enum Image
+{
+    None = 0,
+    MoneyChallengeLogo = 1,
+    MWRBanner = 2,
+    HealthShare = 3,
+    MembershipLogo = 4,
+    CheatSheetPreview = 5,
+    Overview1On1English = 6,
+    RevenueShare1On1English = 7,
+    Overview1On1Spanish = 8,
+    RevenueShare1On1Spanish = 9,
+    PreciousMetals = 10,
+}
+
+public enum Strategy
+{
+    Corporate = 0,
+    ExtraDigitMovement = 1,
+    MegaSchool = 2,
+}
+
 public class Constants
 {
+    public const string PointingDownEmoji = $"\ud83d\udc47";
+
     public static string BusinessEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/join";
     public static string MembershipEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/signup-financialedge";
     public static string InstantPayRaiseUrlEnglish(string username) => $"https://www.mwrfinancial.com/iprr/?member={username}";
@@ -50,6 +76,21 @@ public class Constants
     public static string MarketingDirectorUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/?member={username}";
     public static string JoinMakeWealthRealEnglish(string username) => $"https://www.mwrfinancial.com/join/?member={username}";
     public static string JoinMakeWealthRealSpanish(string username) => $"https://www.mwrfinancial.com/es/join/?member={username}";
+
+    public static string GetImageUrl(Image image) => image switch
+    {
+        Image.MWRBanner => "/images/mwr-banner.png",
+        Image.HealthShare => "/images/mwr-healthshare.png",
+        Image.MembershipLogo => "/images/mwr-membership-logo.jpg",
+        Image.MoneyChallengeLogo => "/images/72hour-money-challenge-logo.png",
+        Image.CheatSheetPreview => "images/mwr-cheatsheet-preview.png",
+        Image.Overview1On1English => "images/72-HourMoneyChallengeOverview_1on1_ENG.png",
+        Image.RevenueShare1On1English => "images/72-HourMoneyChallengeRevenueSharing-1on1-ENG.png",
+        Image.Overview1On1Spanish => "images/72-HourMoneyChallengeOverview_1on1_SPANISH.png",
+        Image.RevenueShare1On1Spanish => "images/72-HourMoneyChallengeRevenueSharing-1on1-SPANISH.png",
+        Image.PreciousMetals => "images/mwr-precious-metals.jpg",
+        _ => throw new Exception($"Image not found: {image}"),
+    };
 
     public static readonly Dictionary<Rank, (int NumMemberships, int MonthlyPay, string Title)> DailyGuarantee = new()
     {
@@ -69,5 +110,17 @@ public class Constants
         { Rank.PresidentialDirector, (12000, 150000, "Presidential Director") },
         { Rank.ExecutiveChairman, (21000, 300000, "Executive Chairman") },
         { Rank.NationalAmbassador, (33000, 450000, "National Ambassador") },
+    };
+
+    public static readonly Dictionary<Strategy, Shareable> MoneyChallenge = new()
+    {
+        {
+            Strategy.Corporate,
+            new ($"72-Hour Money Challenge",
+                    new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30)), "English shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
+                    new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30)), "Español shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
+                    Constants.GetImageUrl(Image.MoneyChallengeLogo),
+                    new(0, 1, 30))
+        },
     };
 }

@@ -2,7 +2,7 @@
 
 <BinaryChoice Description="Prospect Response" FirstChoiceLabel="Yes" SecondChoiceLabel="I have a question">
     <FirstChoiceContent>
-        <MudText Align="Align.Center">"Great, here's how you take the challenge!"<br />@PointingDownEmoji</MudText>
+        <MudText Align="Align.Center">"Great, here's how you take the challenge!"<br />@Constants.PointingDownEmoji</MudText>
         <MudStack Row="true">
             <MudSpacer />
             <MudButton OnClick="@(() => _showMembershipEnrollmentDialog = true)" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Tap to Share Link</MudButton>
@@ -10,7 +10,7 @@
         </MudStack>
     </FirstChoiceContent>
     <SecondChoiceContent>
-        <MudText Align="Align.Center"> Go to the "Connect" section below <br /> @(PointingDownEmoji)</MudText>
+        <MudText Align="Align.Center"> Go to the "Connect" section below <br /> @(Constants.PointingDownEmoji)</MudText>
     </SecondChoiceContent>
 </BinaryChoice>
 
@@ -19,8 +19,8 @@
         <ShareableVideo Description="Take the 72-Hour Money Challenge!"
                         Url="@Url"
                         Tooltip="Shareable copied!"
-                        TextToCopy="@($"Take the 72-Hour Money Challenge!{Environment.NewLine}{ComponentBase.PointingDownEmoji}{Environment.NewLine}{this.Url}")"
-                        ImageUrl="@ComponentBase.GetImageUrl(ComponentBase.Image.MoneyChallengeLogo)" />
+                        TextToCopy="@($"Take the 72-Hour Money Challenge!{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}{this.Url}")"
+                        ImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)" />
     </DialogContent>
 </MudDialog>
 

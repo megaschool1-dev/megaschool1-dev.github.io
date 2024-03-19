@@ -98,7 +98,7 @@
                 </MudStack>
                 <MudStack Row="true">
                     <MudSpacer/>
-                    <MudText Style="vertical-align:central;"><MudButton Color="Color.Primary" OnClick="@(() => { _72Hr1On1OverviewImageUrl = GetImageUrl(Image.Overview1On1English); _72Hr1On1RevenueSharingImageUrl = GetImageUrl(Image.RevenueShare1On1English); })">English</MudButton> | <MudButton Color="Color.Primary" OnClick="@(() => { _72Hr1On1OverviewImageUrl = GetImageUrl(Image.Overview1On1Spanish); _72Hr1On1RevenueSharingImageUrl = GetImageUrl(Image.RevenueShare1On1Spanish); })">Español</MudButton></MudText>
+                    <MudText Style="vertical-align:central;"><MudButton Color="Color.Primary" OnClick="@(() => { _72Hr1On1OverviewImageUrl = Constants.GetImageUrl(Image.Overview1On1English); _72Hr1On1RevenueSharingImageUrl = Constants.GetImageUrl(Image.RevenueShare1On1English); })">English</MudButton> | <MudButton Color="Color.Primary" OnClick="@(() => { _72Hr1On1OverviewImageUrl = Constants.GetImageUrl(Image.Overview1On1Spanish); _72Hr1On1RevenueSharingImageUrl = Constants.GetImageUrl(Image.RevenueShare1On1Spanish); })">Español</MudButton></MudText>
                     <MudSpacer/>
                 </MudStack>
                 <MudImage Src="@_72Hr1On1OverviewImageUrl"/>
@@ -112,17 +112,17 @@
 
 <MudDialog @bind-IsVisible="_show72HourMoneyChallengeShareable">
     <DialogContent>
-        <ShareableVideoMultilingual Description="@Shareables.MoneyChallenge.Description"
-                                    Duration="@Shareables.MoneyChallenge.Duration"
-                                    Url="@Shareables.MoneyChallenge.English.Url"
-                              
-                                    EnglishTextToCopy="@(Shareables.MoneyChallenge.English.Message)"
-                                    EnglishTooltip="@(Shareables.MoneyChallenge.English.Tooltip)"
-                                    EnglishImageUrl="@(Shareables.MoneyChallenge.ImageUrl)"
-                              
-                                    SpanishTextToCopy="@(Shareables.MoneyChallenge.Spanish!.Message)"
-                                    SpanishTooltip="@(Shareables.MoneyChallenge.Spanish!.Tooltip)"
-                                    SpanishImageUrl="@(Shareables.MoneyChallenge.ImageUrl)" />
+        <ShareableVideoMultilingual Description="@Constants.MoneyChallenge[Strategy.Corporate].Description"
+                                    Duration="@Constants.MoneyChallenge[Strategy.Corporate].Duration"
+                                    Url="@Constants.MoneyChallenge[Strategy.Corporate].English.Url"
+                                    
+                                    EnglishTextToCopy="@(Constants.MoneyChallenge[Strategy.Corporate].English.Message)"
+                                    EnglishTooltip="@(Constants.MoneyChallenge[Strategy.Corporate].English.Tooltip)"
+                                    EnglishImageUrl="@(Constants.MoneyChallenge[Strategy.Corporate].ImageUrl)"
+                                    
+                                    SpanishTextToCopy="@(Constants.MoneyChallenge[Strategy.Corporate].Spanish!.Message)"
+                                    SpanishTooltip="@(Constants.MoneyChallenge[Strategy.Corporate].Spanish!.Tooltip)"
+                                    SpanishImageUrl="@(Constants.MoneyChallenge[Strategy.Corporate].ImageUrl)" />
     </DialogContent>
 </MudDialog>
 
@@ -130,8 +130,8 @@
     private bool _show72HourMoneyChallengeVideo;
     private bool _show1On1Presentation;
     private bool _show72HourMoneyChallengeShareable;
-    private string _72Hr1On1OverviewImageUrl = GetImageUrl(Image.Overview1On1English);
-    private string _72Hr1On1RevenueSharingImageUrl = GetImageUrl(Image.RevenueShare1On1English);
+    private string _72Hr1On1OverviewImageUrl = Constants.GetImageUrl(Image.Overview1On1English);
+    private string _72Hr1On1RevenueSharingImageUrl = Constants.GetImageUrl(Image.RevenueShare1On1English);
 
     private void OnShowMembershipEnrollmentDialog()
     {

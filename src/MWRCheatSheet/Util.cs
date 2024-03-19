@@ -92,4 +92,6 @@ public class Util
 
     public static Rank GetRankForMonthlyIncome(int monthlyIncome)
         => Constants.DailyGuarantee.First(x => x.Value.MonthlyPay >= monthlyIncome).Key;
+
+    public static int MinuteEstimate(TimeSpan duration) => duration.Minutes + (duration.Seconds >= 30 ? 1 : 0);
 }

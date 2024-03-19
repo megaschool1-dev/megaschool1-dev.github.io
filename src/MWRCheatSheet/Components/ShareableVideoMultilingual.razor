@@ -75,7 +75,7 @@
     public string EnglishTooltip { get; set; }
 
     [Parameter]
-    public string EnglishImageUrl { get; set; } = GetImageUrl(Image.MoneyChallengeLogo);
+    public string EnglishImageUrl { get; set; } = Constants.GetImageUrl(Image.MoneyChallengeLogo);
 
     [Parameter]
     public string SpanishTextToCopy { get; set; }
@@ -84,7 +84,7 @@
     public string SpanishTooltip { get; set; }
 
     [Parameter]
-    public string SpanishImageUrl { get; set; } = GetImageUrl(Image.MoneyChallengeLogo);
+    public string SpanishImageUrl { get; set; } = Constants.GetImageUrl(Image.MoneyChallengeLogo);
 
     [Parameter]
     public string? Url { get; set; }

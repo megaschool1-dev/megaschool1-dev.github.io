@@ -6,8 +6,6 @@
     protected static readonly TimeZoneInfo LosAngelesTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
     protected static readonly TimeZoneInfo DefaultTimeZone = NewYorkTimeZone;
 
-    public const string PointingDownEmoji = $"\ud83d\udc47";
-
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
@@ -21,11 +19,6 @@
         this.ComponentInitialized = true;
         this.StateHasChanged();
     }
-
-    protected static string VideoShareable(string heading, string videoUrl, TimeSpan videoLength)
-        => $"{heading}{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}({MinuteEstimate(videoLength)}min){Environment.NewLine}{videoUrl}";
-
-    private static int MinuteEstimate(TimeSpan duration) => duration.Minutes + (duration.Seconds >= 30 ? 1 : 0);
 
     protected static DateTimeOffset GetNextEvent(DayOfWeek day, TimeOnly time, TimeZoneInfo timeZone)
     {
@@ -60,35 +53,6 @@
         await JSRuntime.InvokeVoidAsync("webshare", DefaultWebShareTitle, message, imageUrl);
     }
 
-    protected Task ShareMessageAsync(string message, Image image) => ShareMessageAsync(message, GetImageUrl(image));
+    protected Task ShareMessageAsync(string message, Image image) => ShareMessageAsync(message, Constants.GetImageUrl(image));
 
-    public static string GetImageUrl(Image image) => image switch
-    {
-        Image.MWRBanner => "/images/mwr-banner.png",
-        Image.HealthShare => "/images/mwr-healthshare.png",
-        Image.MembershipLogo => "/images/mwr-membership-logo.jpg",
-        Image.MoneyChallengeLogo => "/images/72hour-money-challenge-logo.png",
-        Image.CheatSheetPreview => "images/mwr-cheatsheet-preview.png",
-        Image.Overview1On1English => "images/72-HourMoneyChallengeOverview_1on1_ENG.png",
-        Image.RevenueShare1On1English => "images/72-HourMoneyChallengeRevenueSharing-1on1-ENG.png",
-        Image.Overview1On1Spanish => "images/72-HourMoneyChallengeOverview_1on1_SPANISH.png",
-        Image.RevenueShare1On1Spanish => "images/72-HourMoneyChallengeRevenueSharing-1on1-SPANISH.png",
-        Image.PreciousMetals => "images/mwr-precious-metals.jpg",
-        _ => throw new Exception($"Image not found: {image}"),
-    };
-
-    public enum Image
-    {
-        None = 0,
-        MoneyChallengeLogo = 1,
-        MWRBanner = 2,
-        HealthShare = 3,
-        MembershipLogo = 4,
-        CheatSheetPreview = 5,
-        Overview1On1English = 6,
-        RevenueShare1On1English = 7,
-        Overview1On1Spanish = 8,
-        RevenueShare1On1Spanish = 9,
-        PreciousMetals = 10,
-    }
 }
