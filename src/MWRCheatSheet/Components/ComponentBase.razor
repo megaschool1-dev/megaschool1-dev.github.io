@@ -48,6 +48,11 @@
         await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", text);
     }
 
+    protected async Task<bool> WebShareAllowedAsync()
+    {
+        return await JSRuntime.InvokeAsync<bool>("webshareAllowed");
+    }
+
     protected async Task ShareMessageAsync(string message, string imageUrl)
     {
         const string DefaultWebShareTitle = "MWR";

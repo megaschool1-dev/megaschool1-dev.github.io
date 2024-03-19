@@ -38,7 +38,7 @@ public class Util
     /// </summary>
     /// <param name="url"></param>
     /// <returns></returns>
-    private static string MakeUrlBypassBrowserCache(string url) => $"{url}?v={Guid.NewGuid()}";
+    public static string MakeUrlBypassBrowserCache(string url) => $"{url}?v={Guid.NewGuid()}";
 
     private static async Task<HttpResponseMessage?> GetAsync(string url, HttpClient http)
     {

@@ -71,14 +71,21 @@
             ]);
         }
 
-        async function webshare(title, message, imageUrl) {
+        function webshareAllowed() {
+            return navigator.canShare && navigator.canShare({ title: "Value Does Not Matter", text: "Value Does Not Matter" });
+        }
 
-            var fileExtension = imageUrl.split('.').pop();
+        async function webshare(title, message, imageUrl) {
+            const urlParameterIndex = imageUrl.indexOf('?');
+
+            const fileExtension =
+                urlParameterIndex == -1
+                    ? imageUrl.split('.').pop()
+                    : imageUrl.substring(0, urlParameterIndex).split('.').pop();    
 
             if (navigator.canShare) {
-               var image = await fetch(imageUrl);
-            
-                var blob = await image.blob();
+                const image = await fetch(imageUrl);            
+                const blob = await image.blob();
 
                 const data = {
                     files: [

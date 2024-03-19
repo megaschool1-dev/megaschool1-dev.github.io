@@ -5,14 +5,18 @@
     <MudTooltip Text="@Tooltip" IsVisible="_showCopyTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
         <MudIconButton OnClick="OnCopyClick" Icon="@Icons.Material.Filled.ContentCopy" Color="Color.Primary"/>
     </MudTooltip>
-    <MudTooltip Text="@Tooltip" IsVisible="_showShareTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
-        <MudIconButton OnClick="OnShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary"/>
-    </MudTooltip>
+    @if(_webshareAllowed)
+    {
+        <MudTooltip Text="@Tooltip" IsVisible="_showShareTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+            <MudIconButton OnClick="OnShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" />
+        </MudTooltip>
+    }
     <MudSpacer/>
 </MudStack>
 @code {
     private bool _showCopyTooltip;
     private bool _showShareTooltip;
+    private bool _webshareAllowed = false;
 
     [Parameter]
     public string? Description { get; set; }
@@ -25,6 +29,11 @@
 
     [Parameter]
     public string ImageUrl { get; set; } = GetImageUrl(Image.MoneyChallengeLogo);
+
+    protected override async Task OnInitializedAsync()
+    {
+        _webshareAllowed = await this.WebShareAllowedAsync();
+    }
 
     private async Task OnCopyClick()
     {

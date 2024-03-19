@@ -33,7 +33,7 @@
                         <MudText Style="">(English)</MudText>
                     </MudPaper>
                     <MudTooltip Text="@EnglishTooltip" IsVisible="_showEnglishShareTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
-                        <MudIconButton OnClick="OnEnglishShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" Disabled="false"/>
+                        <MudIconButton OnClick="OnEnglishShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" Disabled="@(!_webshareAllowed)"/>
                     </MudTooltip>
                     <MudSpacer/>
                 </MudStack>
@@ -46,7 +46,7 @@
                         <MudText>(Español)</MudText>
                     </MudPaper>
                     <MudTooltip Text="@SpanishTooltip" IsVisible="_showSpanishShareTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
-                        <MudIconButton OnClick="OnSpanishShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" Disabled="false"/>
+                        <MudIconButton OnClick="OnSpanishShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" Disabled="@(!_webshareAllowed)" />
                     </MudTooltip>
                     <MudSpacer/>
                 </MudStack>
@@ -60,6 +60,7 @@
     private bool _showEnglishShareTooltip;
     private bool _showSpanishCopyTooltip;
     private bool _showSpanishShareTooltip;
+    private bool _webshareAllowed = false;
 
     [Parameter]
     public string Description { get; set; }
@@ -90,6 +91,11 @@
 
     [Parameter]
     public TimeSpan? Duration { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _webshareAllowed = await this.WebShareAllowedAsync();
+    }
 
     private async Task OnEnglishCopyClick()
     {
