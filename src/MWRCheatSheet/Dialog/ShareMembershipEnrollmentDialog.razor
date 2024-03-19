@@ -3,11 +3,11 @@
 
 <MudDialog>
     <DialogContent>
-        <CopyText Description="Take the 72-Hour Money Challenge!"
-                  Url="@Constants.MembershipEnrollmentUrl(AppState!.UserName)"
-                  Tooltip="Shareable copied!"
-                  TextToCopy="@($"Take the 72-Hour Money Challenge!{Environment.NewLine}{ComponentBase.PointingDownEmoji}{Environment.NewLine}{Constants.MembershipEnrollmentUrl(AppState.UserName)}")"
-                  ImageUrl="@ComponentBase.GetImageUrl(ComponentBase.Image.MoneyChallengeLogo)"/>
+        <ShareableVideo Description="Take the 72-Hour Money Challenge!"
+                        Url="@Constants.MembershipEnrollmentUrl(AppState!.UserName)"
+                        Tooltip="Shareable copied!"
+                        TextToCopy="@($"Take the 72-Hour Money Challenge!{Environment.NewLine}{ComponentBase.PointingDownEmoji}{Environment.NewLine}{Constants.MembershipEnrollmentUrl(AppState.UserName)}")"
+                        ImageUrl="@ComponentBase.GetImageUrl(ComponentBase.Image.MoneyChallengeLogo)"/>
     </DialogContent>
 </MudDialog>
 
