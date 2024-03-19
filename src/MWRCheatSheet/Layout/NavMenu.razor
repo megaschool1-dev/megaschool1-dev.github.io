@@ -39,7 +39,13 @@
 
     private async Task OnVersionClick()
     {
+        var updatePreviouslyAvailable = _updateAvailable;
         _updateAvailable = await Util.UpdateAvailableAsync(Http);
+
+        if(_updateAvailable != updatePreviouslyAvailable)
+        {
+            this.StateHasChanged();
+        }
     }
 
     private void OnShowCheatSheetShareableDialog()
