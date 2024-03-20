@@ -119,7 +119,23 @@ public class Constants
             new ($"72-Hour Money Challenge",
                     new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30)), "English shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
                     new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30)), "Español shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
-                    Constants.GetImageUrl(Image.MoneyChallengeLogo),
+                    GetImageUrl(Image.MoneyChallengeLogo),
+                    new(0, 1, 30))
+        },
+        {
+            Strategy.ExtraDigitMovement,
+            new ($"72-Hour Money Challenge Overview",
+                    new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-overview", new(0, 0, 15, 0)), "Shareable copied!", "https://www.ms1.megaschool.me/72hr-overview"),
+                    null,
+                    GetImageUrl(Image.MoneyChallengeLogo),
+                    new(0, 15, 0))
+        },
+        {
+            Strategy.MegaSchool,
+            new ($"72-Hour Money Challenge",
+                    new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30)), "English shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
+                    new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30)), "Español shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
+                    GetImageUrl(Image.MoneyChallengeLogo),
                     new(0, 1, 30))
         },
     };

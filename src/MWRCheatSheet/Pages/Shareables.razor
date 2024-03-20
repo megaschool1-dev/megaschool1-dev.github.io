@@ -9,41 +9,41 @@
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <Collapsable Title="Essentials" ExpandPrompt="Show">
-    <BinaryChoice Description="Strategy" FirstChoiceLabel="Corporate" SecondChoiceLabel="EDM">
-        <FirstChoiceContent>
+    <MudTabs Elevation="0" Rounded="true" Centered="true" Color="@Color.Primary" ApplyEffectsToContainer="true" PanelClass="pa-6">
+        <MudTabPanel Text="Corporate">
             <MudStack>
                 <ShareableVideoMultilingual Description="@Constants.MoneyChallenge[Strategy.Corporate].Description"
                                             Duration="@Constants.MoneyChallenge[Strategy.Corporate].Duration"
                                             Url="@Constants.MoneyChallenge[Strategy.Corporate].English.Url"
-                                            
+                                        
                                             EnglishTextToCopy="@(Constants.MoneyChallenge[Strategy.Corporate].English.Message)"
                                             EnglishTooltip="@(Constants.MoneyChallenge[Strategy.Corporate].English.Tooltip)"
                                             EnglishImageUrl="@(Constants.MoneyChallenge[Strategy.Corporate].ImageUrl)"
-                                            
+                                        
                                             SpanishTextToCopy="@(Constants.MoneyChallenge[Strategy.Corporate].Spanish!.Message)"
                                             SpanishTooltip="@(Constants.MoneyChallenge[Strategy.Corporate].Spanish!.Tooltip)"
                                             SpanishImageUrl="@(Constants.MoneyChallenge[Strategy.Corporate].ImageUrl)" />
                 <ShareableVideoMultilingual Description="@($"MWR Opportunity")"
                                             Duration="new(0, 10, 0)"
                                             Url="https://www.ms1.megaschool.me/mwr-opportunity-10min"
-
+                                        
                                             EnglishTextToCopy="@Shareable.VideoShareable("MWR Opportunity", "https://www.ms1.megaschool.me/mwr-opportunity-10min", new (0, 0, 10, 0))"
                                             EnglishTooltip="English shareable copied!"
                                             EnglishImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)"
-                                            
+                                        
                                             SpanishTextToCopy="@Shareable.VideoShareable("MWR Opportunity", "https://www.ms1.megaschool.me/mwr-opportunity-full", new (0, 0, 19,26))"
                                             SpanishTooltip="Español shareable copied!"
                                             SpanishImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)" />
             </MudStack>
-        </FirstChoiceContent>
-        <SecondChoiceContent>
+        </MudTabPanel>
+        <MudTabPanel Text="EDM">
             <MudStack>
-                <ShareableVideo Description="72-Hour Money Challenge Overview"
-                                Duration="new(0, 15, 0)"
-                                Url="https://www.ms1.megaschool.me/72hr-overview"
-                                Tooltip="Shareable copied!"
-                                TextToCopy="@($"72-Hour Money Challenge Overview{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}(15min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-overview")"
-                                ImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)" />
+                <ShareableVideo Description="@Constants.MoneyChallenge[Strategy.ExtraDigitMovement].Description"
+                                Duration="@Constants.MoneyChallenge[Strategy.ExtraDigitMovement].Duration"
+                                Url="@Constants.MoneyChallenge[Strategy.ExtraDigitMovement].English.Url"
+                                Tooltip="@(Constants.MoneyChallenge[Strategy.ExtraDigitMovement].English.Tooltip)"
+                                TextToCopy="@(Constants.MoneyChallenge[Strategy.ExtraDigitMovement].English.Message)"
+                                ImageUrl="@(Constants.MoneyChallenge[Strategy.ExtraDigitMovement].ImageUrl)" />
                 <ShareableVideo Description="Need More Info?"
                                 Duration="new(0, 25, 0)"
                                 Url="https://www.ms1.megaschool.me/72hr-moreinfo"
@@ -51,8 +51,21 @@
                                 TextToCopy="@($"72-Hour Money Challenge - More Information{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}(25min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-moreinfo")"
                                 ImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)" />
             </MudStack>
-        </SecondChoiceContent>
-    </BinaryChoice>
+        </MudTabPanel>
+        <MudTabPanel Text="Mega School">
+            <ShareableVideoMultilingual Description="@Constants.MoneyChallenge[Strategy.MegaSchool].Description"
+                                        Duration="@Constants.MoneyChallenge[Strategy.MegaSchool].Duration"
+                                        Url="@Constants.MoneyChallenge[Strategy.MegaSchool].English.Url"
+                                        
+                                        EnglishTextToCopy="@(Constants.MoneyChallenge[Strategy.MegaSchool].English.Message)"
+                                        EnglishTooltip="@(Constants.MoneyChallenge[Strategy.MegaSchool].English.Tooltip)"
+                                        EnglishImageUrl="@(Constants.MoneyChallenge[Strategy.MegaSchool].ImageUrl)"
+                                        
+                                        SpanishTextToCopy="@(Constants.MoneyChallenge[Strategy.MegaSchool].Spanish!.Message)"
+                                        SpanishTooltip="@(Constants.MoneyChallenge[Strategy.MegaSchool].Spanish!.Tooltip)"
+                                        SpanishImageUrl="@(Constants.MoneyChallenge[Strategy.MegaSchool].ImageUrl)" />
+        </MudTabPanel>
+    </MudTabs>
 </Collapsable>
 <br/>
 <br/>
