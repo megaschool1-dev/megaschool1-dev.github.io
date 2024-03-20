@@ -1,0 +1,31 @@
+﻿@inherits Components.ComponentBase
+
+<iframe @onload="OnIframeLoaded"
+        src="@Url"
+        width="560"
+        height="315"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+</iframe>
+
+@if (!_iframeLoaded)
+{
+    <MudStack Row="true">
+        <MudSpacer />
+        <MudProgressCircular Indeterminate="true" />
+        <MudSpacer />
+    </MudStack>
+    <br />
+}
+@code {
+    private bool _iframeLoaded;
+
+    [Parameter]
+    public string Url { get; set; }
+
+    private void OnIframeLoaded(ProgressEventArgs e)
+    {
+        _iframeLoaded = true;
+    }
+}

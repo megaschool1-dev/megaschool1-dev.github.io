@@ -53,17 +53,19 @@
             </MudStack>
         </MudTabPanel>
         <MudTabPanel Text="Mega School">
-            <ShareableVideoMultilingual Description="@Constants.MoneyChallenge[Strategy.MegaSchool].Description"
-                                        Duration="@Constants.MoneyChallenge[Strategy.MegaSchool].Duration"
-                                        Url="@Constants.MoneyChallenge[Strategy.MegaSchool].English.Url"
-                                        
-                                        EnglishTextToCopy="@(Constants.MoneyChallenge[Strategy.MegaSchool].English.Message)"
-                                        EnglishTooltip="@(Constants.MoneyChallenge[Strategy.MegaSchool].English.Tooltip)"
-                                        EnglishImageUrl="@(Constants.MoneyChallenge[Strategy.MegaSchool].ImageUrl)"
-                                        
-                                        SpanishTextToCopy="@(Constants.MoneyChallenge[Strategy.MegaSchool].Spanish!.Message)"
-                                        SpanishTooltip="@(Constants.MoneyChallenge[Strategy.MegaSchool].Spanish!.Tooltip)"
-                                        SpanishImageUrl="@(Constants.MoneyChallenge[Strategy.MegaSchool].ImageUrl)" />
+            <MudStack>
+                <ShareableVideoMultilingual Description="@Constants.MoneyChallenge[Strategy.MegaSchool].Description"
+                                            Duration="@Constants.MoneyChallenge[Strategy.MegaSchool].Duration"
+                                            Url="@Constants.MoneyChallenge[Strategy.MegaSchool].English.Url"
+                                            
+                                            EnglishTextToCopy="@(Constants.MoneyChallenge[Strategy.MegaSchool].English.Message)"
+                                            EnglishTooltip="@(Constants.MoneyChallenge[Strategy.MegaSchool].English.Tooltip)"
+                                            EnglishImageUrl="@(Constants.MoneyChallenge[Strategy.MegaSchool].ImageUrl)"
+                                            
+                                            SpanishTextToCopy="@(Constants.MoneyChallenge[Strategy.MegaSchool].Spanish!.Message)"
+                                            SpanishTooltip="@(Constants.MoneyChallenge[Strategy.MegaSchool].Spanish!.Tooltip)"
+                                            SpanishImageUrl="@(Constants.MoneyChallenge[Strategy.MegaSchool].ImageUrl)" />
+            </MudStack>
         </MudTabPanel>
     </MudTabs>
 </Collapsable>
@@ -71,12 +73,12 @@
 <br/>
 <Collapsable Title="Explainers" ExpandPrompt="Show">
     <MudStack>
-        <ShareableVideo Description="72-Hour Money Challenge FAQ"
-                        Duration="new(0, 5, 0)"
-                        Url="https://www.ms1.megaschool.me/72hr-faq"
-                        Tooltip="Shareable copied!"
-                        TextToCopy="@($"72-Hour Money Challenge FAQ{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}(5min){Environment.NewLine}https://www.ms1.megaschool.me/72hr-faq")"
-                        ImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)" />
+        <ShareableVideo Description="@(Constants.MoneyChallengeFAQ.Description)"
+                        Duration="@(Constants.MoneyChallengeFAQ.Duration)"
+                        Url="@(Constants.MoneyChallengeFAQ.English.Url)"
+                        Tooltip="@(Constants.MoneyChallengeFAQ.English.Tooltip)"
+                        TextToCopy="@(Constants.MoneyChallengeFAQ.English.Message)"
+                        ImageUrl="@(Constants.MoneyChallengeFAQ.ImageUrl)" />
         <ShareableVideo Description="Reduce My Taxes"
                         Duration="new(0, 5, 0)"
                         Url="https://www.ms1.megaschool.me/72hr-reducemytaxes"
@@ -289,10 +291,10 @@
                         Tooltip="Copied Shareable"
                         TextToCopy="http://MakeWealthRealEvents.com" />
         <br />
-        <ShareableVideo Description=@CheatSheet.Description
-                        Tooltip=@CheatSheet.English.Tooltip
-                        TextToCopy=@CheatSheet.English.Message
-                        ImageUrl=@CheatSheet.ImageUrl />
+        <ShareableVideo Description=@Constants.CheatSheet.Description
+                        Tooltip=@Constants.CheatSheet.English.Tooltip
+                        TextToCopy=@Constants.CheatSheet.English.Message
+                        ImageUrl=@Constants.CheatSheet.ImageUrl />
     </MudStack>
 </Collapsable>
 <br />
@@ -316,13 +318,6 @@
 </Collapsable>
 @code {
     private bool _pageLoaded;
-
-    public static readonly Model.Shareable CheatSheet = new (
-        $"MWR Cheat Sheet App",
-        new($"MWR Cheat Sheet App{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}https://makewealthreal.github.io/", "Shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
-        null,
-        "images/mwr-cheatsheet-preview.jpeg",
-        null);
 
     protected override void OnInitialized()
     {

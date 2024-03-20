@@ -133,10 +133,24 @@ public class Constants
         {
             Strategy.MegaSchool,
             new ($"72-Hour Money Challenge",
-                    new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30)), "English shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
-                    new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30)), "Español shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
+                    new($"{Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30))}{Environment.NewLine}{Environment.NewLine}{Shareable.VideoShareable("FAQ", "https://www.ms1.megaschool.me/72hr-faq", new(0, 0, 5, 0))}", "Shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
+                    new($"{Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30))}{Environment.NewLine}{Environment.NewLine}{Shareable.VideoShareable("FAQ", "https://www.ms1.megaschool.me/72hr-faq", new(0, 0, 5, 0))}", "Shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
                     GetImageUrl(Image.MoneyChallengeLogo),
-                    new(0, 1, 30))
+                    new(0, 7, 0))
         },
     };
+
+    public static readonly Shareable CheatSheet = new(
+        $"MWR Cheat Sheet App",
+        new($"MWR Cheat Sheet App{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}https://makewealthreal.github.io/", "Shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
+        null,
+        "images/mwr-cheatsheet-preview.jpeg",
+        null);
+
+    public static readonly Shareable MoneyChallengeFAQ = new(
+        "72-Hour Money Challenge FAQ",
+        new(Shareable.VideoShareable("72-Hour Money Challenge - FAQ", "https://www.ms1.megaschool.me/72hr-faq", new(0, 0, 5, 0)), "Shareable copied!", "https://www.ms1.megaschool.me/72hr-faq"),
+        null,
+        GetImageUrl(Image.MoneyChallengeLogo),
+        null);
 }

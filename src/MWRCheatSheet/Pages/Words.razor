@@ -9,8 +9,8 @@
 <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">How to Share</MudText>
 <br/>
 <br/>
-<MudTabs Elevation="2" Rounded="true" Centered="true" Color="@Color.Primary" ApplyEffectsToContainer="true" PanelClass="pa-6">
-    <MudTabPanel Text="Corporate">
+<MudTabs @ref="_strategy" Elevation="2" Rounded="true" Centered="true" Color="@Color.Primary" ApplyEffectsToContainer="true" PanelClass="pa-6">
+    <MudTabPanel Text="Corporate" Tag="@Strategy.Corporate">
         <Collapsable Title="Ask" ExpandPrompt="Show me how!">
             <MudText Align="Align.Center">Tap Image to Download</MudText>
             <DownloadableImage Alt="72-Hour Money Challenge | Share" ImageUri="images/words/72hour-share.jpeg" />
@@ -58,7 +58,7 @@
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>#2: </MudText>
-                            <MudButton OnClick="@(() => _show72HourMoneyChallengeShareable = true)" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Tap to Share Link</MudButton>
+                            <MudButton OnClick="@(() => _show72HourMoneyChallengeShareable = true)" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Share Video</MudButton>
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>#3: </MudText>
@@ -100,7 +100,7 @@
             </MudStack>
         </Collapsable>
     </MudTabPanel>
-    <MudTabPanel Text="Mega School">
+    <MudTabPanel Text="Mega School" Tag="@Strategy.MegaSchool">
         <Collapsable Title="Ask" ExpandPrompt="Show me how!">
             <MudText Align="Align.Center">Tap Image to Download</MudText>
             <DownloadableImage Alt="72-Hour Money Challenge | Share" ImageUri="images/words/72hour-share.jpeg" />
@@ -144,11 +144,11 @@
                     <MudStack>
                         <MudStack Row="true">
                             <MudText>#1: </MudText>
-                            <MudText>"Let me show you this 2min video, it explains it perfectly, lol. <br /><br /> If you have any questions, I'm going to connect you with someone FAR more qualified than me for answers."</MudText>
+                            <MudText>"Let me show you this 7min video, it explains it perfectly, lol. <br /><br /> If you have any questions, I'm going to connect you with someone FAR more qualified than me for answers."</MudText>
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>#2: </MudText>
-                            <MudButton OnClick="@(() => _show72HourMoneyChallengeShareable = true)" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Tap to Share Link</MudButton>
+                            <MudButton OnClick="@(() => _show72HourMoneyChallengeShareable = true)" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Share Video</MudButton>
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>#3: </MudText>
@@ -198,9 +198,9 @@
     <DialogContent>
         <MudStack>
             <MudText Align="Align.Center">English</MudText>
-            <iframe title="vimeo-player" src="https://player.vimeo.com/video/912771676?h=8bc20408ad" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+            <Video Url="https://player.vimeo.com/video/912771676?h=8bc20408ad"/>
             <MudText Align="Align.Center">Español</MudText>
-            <iframe title="vimeo-player" src="https://player.vimeo.com/video/912771906?h=475784ef31" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+            <Video Url="https://player.vimeo.com/video/912771906?h=475784ef31" />
         </MudStack>
     </DialogContent>
 </MudDialog>
@@ -230,17 +230,17 @@
 
 <MudDialog @bind-IsVisible="_show72HourMoneyChallengeShareable">
     <DialogContent>
-        <ShareableVideoMultilingual Description="@Constants.MoneyChallenge[Strategy.Corporate].Description"
-                                    Duration="@Constants.MoneyChallenge[Strategy.Corporate].Duration"
-                                    Url="@Constants.MoneyChallenge[Strategy.Corporate].English.Url"
+        <ShareableVideoMultilingual Description="@Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].Description"
+                                    Duration="@Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].Duration"
+                                    Url="@Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].English.Url"
                                     
-                                    EnglishTextToCopy="@(Constants.MoneyChallenge[Strategy.Corporate].English.Message)"
-                                    EnglishTooltip="@(Constants.MoneyChallenge[Strategy.Corporate].English.Tooltip)"
-                                    EnglishImageUrl="@(Constants.MoneyChallenge[Strategy.Corporate].ImageUrl)"
+                                    EnglishTextToCopy="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].English.Message)"
+                                    EnglishTooltip="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].English.Tooltip)"
+                                    EnglishImageUrl="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].ImageUrl)"
                                     
-                                    SpanishTextToCopy="@(Constants.MoneyChallenge[Strategy.Corporate].Spanish!.Message)"
-                                    SpanishTooltip="@(Constants.MoneyChallenge[Strategy.Corporate].Spanish!.Tooltip)"
-                                    SpanishImageUrl="@(Constants.MoneyChallenge[Strategy.Corporate].ImageUrl)" />
+                                    SpanishTextToCopy="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].Spanish!.Message)"
+                                    SpanishTooltip="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].Spanish!.Tooltip)"
+                                    SpanishImageUrl="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].ImageUrl)" />
     </DialogContent>
 </MudDialog>
 
@@ -250,4 +250,5 @@
     private bool _show72HourMoneyChallengeShareable;
     private string _72Hr1On1OverviewImageUrl = Constants.GetImageUrl(Image.Overview1On1English);
     private string _72Hr1On1RevenueSharingImageUrl = Constants.GetImageUrl(Image.RevenueShare1On1English);
+    private MudTabs? _strategy;
 }
