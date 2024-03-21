@@ -1,7 +1,7 @@
 ﻿@inherits Components.ComponentBase
 @using Components
 
-<div style="display:@(!this.Filter.Any() || this.Highlights.Intersect(this.Filter).Any() ? "block" : "none");">
+<div style="display:@(!this.Filter.Any() || this.Filter.All(f => this.Highlights.Contains(f)) ? "block" : "none");">
     <MudCard>
         <MudStack>
             <Video Url="@Url"/>

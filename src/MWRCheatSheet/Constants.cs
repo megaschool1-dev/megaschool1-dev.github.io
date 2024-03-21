@@ -152,5 +152,5 @@ public class Constants
         new(Shareable.VideoShareable("72-Hour Money Challenge - FAQ", "https://www.ms1.megaschool.me/72hr-faq", new(0, 0, 5, 0)), "Shareable copied!", "https://www.ms1.megaschool.me/72hr-faq"),
         null,
         GetImageUrl(Image.MoneyChallengeLogo),
-        null);
+        new(0, 0, 5, 0));
 }

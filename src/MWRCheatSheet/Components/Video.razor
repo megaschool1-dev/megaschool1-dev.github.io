@@ -11,12 +11,7 @@
 
 @if (!_iframeLoaded)
 {
-    <MudStack Row="true">
-        <MudSpacer />
-        <MudProgressCircular Indeterminate="true" />
-        <MudSpacer />
-    </MudStack>
-    <br />
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="200px" />
 }
 @code {
     private bool _iframeLoaded;

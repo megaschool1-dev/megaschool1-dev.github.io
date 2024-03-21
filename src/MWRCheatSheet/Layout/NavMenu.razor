@@ -37,7 +37,7 @@
         _updateAvailable = await Util.UpdateAvailableAsync(Http);
     }
 
-    private async Task OnVersionClick()
+    private async Task OnVersionClick(MouseEventArgs e)
     {
         var updatePreviouslyAvailable = _updateAvailable;
         _updateAvailable = await Util.UpdateAvailableAsync(Http);
