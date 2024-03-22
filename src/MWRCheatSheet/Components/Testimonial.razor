@@ -4,13 +4,16 @@
 <div style="display:@(!this.Filter.Any() || this.Filter.All(f => this.Highlights.Contains(f)) ? "block" : "none");">
     <MudCard>
         <MudStack>
-            <Video Url="@Url"/>
+            @if (this.YouTube != null)
+            {
+                <Video YouTube="@YouTube" />
+            }
             <MudStack Row="true">
                 <MudSpacer />
                 <ShareableContent Description="@Description"
                                   Tooltip="Testimonial Copied!"
                                   ImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)"
-                                  TextToCopy="@($"{Description}{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}{Url}")" />
+                                  TextToCopy="@($"{Description}{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}{this.VideoUrl}")" />
                 <MudSpacer />
             </MudStack>
         </MudStack>
@@ -19,7 +22,7 @@
 
 @code {
     [Parameter]
-    public string Url { get; set; }
+    public string? YouTube { get; set; }
 
     [Parameter]
     public string Description { get; set; }
@@ -29,4 +32,9 @@
 
     [Parameter]
     public Highlight[] Filter { get; set; }
+
+    private string? VideoUrl => 
+        this.YouTube != null
+        ? $"{Constants.MinimalistYouTubeVideoLinkPrefix}{this.YouTube}"
+        : null;
 }

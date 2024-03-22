@@ -66,7 +66,9 @@ public enum Strategy
 
 public class Constants
 {
-    public const string PointingDownEmoji = $"\ud83d\udc47";
+    public static readonly string PointingDownEmoji = $"\ud83d\udc47";
+    public static readonly string YouTubeEmbedLinkPrefix = "https://www.youtube.com/embed/";
+    public static readonly string MinimalistYouTubeVideoLinkPrefix = "https://megaschool.me/v?y=";
 
     public static string BusinessEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/join";
     public static string MembershipEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/signup-financialedge";

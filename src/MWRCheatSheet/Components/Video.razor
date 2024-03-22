@@ -1,13 +1,16 @@
 ﻿@inherits Components.ComponentBase
 
-<iframe @onload="OnIframeLoaded"
-        src="@Url"
-        width="560"
-        height="315"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-</iframe>
+@if(this.YouTube != null)
+{
+    <iframe @onload="OnIframeLoaded"
+            src="@($"{Constants.YouTubeEmbedLinkPrefix}{YouTube}")"
+            width="560"
+            height="315"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+    </iframe>
+}
 
 @if (!_iframeLoaded)
 {
@@ -17,7 +20,7 @@
     private bool _iframeLoaded;
 
     [Parameter]
-    public string Url { get; set; }
+    public string? YouTube { get; set; }
 
     private void OnIframeLoaded(ProgressEventArgs e)
     {
