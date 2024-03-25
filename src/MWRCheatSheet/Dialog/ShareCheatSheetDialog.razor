@@ -1,11 +1,12 @@
 ﻿@inherits MWRCheatSheet.Components.ComponentBase
 @using MWRCheatSheet.Components
 @using MWRCheatSheet.Pages
+@using MWRCheatSheet.Model
 
 <MudDialog>
     <DialogContent>
         <ShareableVideo Description="@Constants.CheatSheet.Description"
-                        Url="@Constants.CheatSheet.English.Url"
+                        Url="@Constants.CheatSheet.PreviewUrl"
                         Tooltip="@Constants.CheatSheet.English.Tooltip"
                         TextToCopy="@Constants.CheatSheet.English.Message"
                         ImageUrl="@Constants.CheatSheet.ImageUrl" />

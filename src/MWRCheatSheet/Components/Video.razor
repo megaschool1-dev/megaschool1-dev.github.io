@@ -1,23 +1,27 @@
-﻿@inherits Components.ComponentBase
+﻿@using MWRCheatSheet.Model
+@inherits Components.ComponentBase
 
 @if(this.YouTube != null)
 {
-    <iframe @onload="OnIframeLoaded"
-            src="@($"{Constants.YouTubeEmbedLinkPrefix}{YouTube}")"
-            width="560"
-            height="315"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-    </iframe>
+    <div style="display:@_display;">
+        <iframe @onload="OnIframeLoaded"
+                src="@($"{Constants.YouTubeEmbedLinkPrefix}{YouTube}")"
+                width="560"
+                height="315"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+        </iframe>
+    </div>
 }
 
 @if (!_iframeLoaded)
 {
-    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="200px" />
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="auto" Height="100px;" />
 }
 @code {
     private bool _iframeLoaded;
+    private string _display = "none";
 
     [Parameter]
     public string? YouTube { get; set; }
@@ -25,5 +29,6 @@
     private void OnIframeLoaded(ProgressEventArgs e)
     {
         _iframeLoaded = true;
+        _display = "block";
     }
 }

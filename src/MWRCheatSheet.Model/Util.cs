@@ -18,11 +18,11 @@ public class Util
     {
         var currentVersion = typeof(Util).Assembly.GetName().Version;
 
-        var appInfo = await http.GetFromJsonAsync<Api.AppInfo>(MakeUrlBypassBrowserCache("AppInfo.json"));
+        var clientSettings = await http.GetFromJsonAsync<ClientSettings>("appsettings.json");
 
-        if (appInfo != null)
+        if (clientSettings != null)
         {
-            var latestVersion = Version.Parse(appInfo.LatestVersion);
+            var latestVersion = Version.Parse(clientSettings.LatestVersion);
 
             return currentVersion == null || latestVersion > currentVersion;
 

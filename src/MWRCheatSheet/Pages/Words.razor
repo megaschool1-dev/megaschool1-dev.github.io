@@ -4,7 +4,11 @@
 @using MWRCheatSheet.Components
 @using Append.Blazor.WebShare
 @using MWRCheatSheet.Dialog
+@using MWRCheatSheet.Model
+@using MWRCheatSheet
 @inject IDialogService Dialog
+@inject MWRCheatSheet.Model.UISettings UI
+@inject Model.Constants Constants
 
 <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">How to Share</MudText>
 <br/>
@@ -194,13 +198,13 @@
 <br />
 <br />
 
-<MudDialog @bind-IsVisible="_show72HourMoneyChallengeVideo">
+<MudDialog @bind-IsVisible="_show72HourMoneyChallengeVideo" Options="@(new DialogOptions() { FullWidth = true, NoHeader = true })">
     <DialogContent>
         <MudStack>
             <MudText Align="Align.Center">English</MudText>
-            <Video YouTube="https://player.vimeo.com/video/912771676?h=8bc20408ad"/>
+            <Video YouTube="@(Constants.MoneyChallenge[CurrentStrategy].English.YouTubeId)" />
             <MudText Align="Align.Center">Español</MudText>
-            <Video YouTube="https://player.vimeo.com/video/912771906?h=475784ef31" />
+            <Video YouTube="@(Constants.MoneyChallenge[CurrentStrategy].Spanish!.YouTubeId)" />
         </MudStack>
     </DialogContent>
 </MudDialog>
@@ -228,19 +232,19 @@
     </DialogContent>
 </MudDialog>
 
-<MudDialog @bind-IsVisible="_show72HourMoneyChallengeShareable">
+<MudDialog @bind-IsVisible="_show72HourMoneyChallengeShareable" Options="@(new DialogOptions() { NoHeader = true })">
     <DialogContent>
-        <ShareableVideoMultilingual Description="@Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].Description"
-                                    Duration="@Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].Duration"
-                                    Url="@Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].English.Url"
+        <ShareableVideoMultilingual Description="@Constants.MoneyChallenge[CurrentStrategy].Description"
+                                    Duration="@Constants.MoneyChallenge[CurrentStrategy].Duration"
+                                    Url="@Constants.MoneyChallenge[CurrentStrategy].PreviewUrl"
                                     
-                                    EnglishTextToCopy="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].English.Message)"
-                                    EnglishTooltip="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].English.Tooltip)"
-                                    EnglishImageUrl="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].ImageUrl)"
+                                    EnglishTextToCopy="@(Constants.MoneyChallenge[CurrentStrategy].English.Message)"
+                                    EnglishTooltip="@(Constants.MoneyChallenge[CurrentStrategy].English.Tooltip)"
+                                    EnglishImageUrl="@(Constants.MoneyChallenge[CurrentStrategy].ImageUrl)"
                                     
-                                    SpanishTextToCopy="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].Spanish!.Message)"
-                                    SpanishTooltip="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].Spanish!.Tooltip)"
-                                    SpanishImageUrl="@(Constants.MoneyChallenge[(Strategy)_strategy.ActivePanel.Tag!].ImageUrl)" />
+                                    SpanishTextToCopy="@(Constants.MoneyChallenge[CurrentStrategy].Spanish!.Message)"
+                                    SpanishTooltip="@(Constants.MoneyChallenge[CurrentStrategy].Spanish!.Tooltip)"
+                                    SpanishImageUrl="@(Constants.MoneyChallenge[CurrentStrategy].ImageUrl)" />
     </DialogContent>
 </MudDialog>
 
@@ -251,4 +255,6 @@
     private string _72Hr1On1OverviewImageUrl = Constants.GetImageUrl(Image.Overview1On1English);
     private string _72Hr1On1RevenueSharingImageUrl = Constants.GetImageUrl(Image.RevenueShare1On1English);
     private MudTabs? _strategy;
+
+    private Strategy CurrentStrategy => (Strategy)_strategy!.ActivePanel.Tag!;
 }

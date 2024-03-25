@@ -1,4 +1,5 @@
-﻿@inject IJSRuntime JSRuntime
+﻿@using MWRCheatSheet.Model
+@inject IJSRuntime JSRuntime
 
 @code {
     protected static readonly TimeZoneInfo NewYorkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
@@ -19,6 +20,9 @@
         this.ComponentInitialized = true;
         this.StateHasChanged();
     }
+
+    protected static string FormatTimeSpan(TimeSpan Duration)
+        => $"({(Duration.Hours > 0 ? $"{Duration.Hours}hr " : string.Empty)}{(Duration.Minutes > 0 ? $"{Duration.Minutes}min" : string.Empty)}{(Duration.Seconds > 0 ? $" {Duration.Seconds}sec" : string.Empty)})";
 
     protected static DateTimeOffset GetNextEvent(DayOfWeek day, TimeOnly time, TimeZoneInfo timeZone)
     {

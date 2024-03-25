@@ -1,4 +1,5 @@
 ﻿@page "/testimonials"
+@using MWRCheatSheet.Model
 @using MWRCheatSheet.Components
 
 <MudChipSet @bind-SelectedChips="_selected" MultiSelection="true" Filter="true">
@@ -11,7 +12,7 @@
 <MudStack>
     <Testimonial Description="72-Hour Money Challenge - Sonia Howard"
                  YouTube="4JpDgVM_zm4"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.LandBanking, Highlight.RestoreMyCredit, Highlight.Residuals])"
+                 Highlights="@([Highlight.MoneyChallenge, Highlight.LandBanking, Highlight.RestoreMyCredit, Highlight.Residuals, Highlight.Military])"
                  Filter="@(GetHighlights(_selected))" />
     <Testimonial Description="72-Hour Money Challenge - Don Wilson & Ruth Rodriguez"
                  YouTube="DVX8ckVGKbc"

@@ -1,6 +1,6 @@
-﻿using MWRCheatSheet.Model;
+﻿using MWRCheatSheet.Model.UI;
 
-namespace MWRCheatSheet;
+namespace MWRCheatSheet.Model;
 
 public enum Rank
 {
@@ -64,11 +64,59 @@ public enum Strategy
     MegaSchool = 2,
 }
 
-public class Constants
+public enum VideoPlatform
+{
+    None = 0,
+    YouTube = 1,
+    Vimeo = 2,
+}
+
+public enum Content
+{
+    None = 0,
+    MoneyChallenge = 1,
+    MoneyChallengeFAQ = 2,
+    CorporateBusinessOverview = 3,
+    EDMBusinessOverview = 4,
+    EDMNeedMoreInfo = 5,
+    ReduceMyTaxesExplainer = 6,
+    EliminateMyDebtExplainer = 7,
+    InvestmentsExplainer = 8,
+    TrustsExplainer = 9,
+    RevenueShareExplainer = 10,
+    Membership = 11,
+    CreditRestoration = 12,
+    HealthShare = 13,
+    KeysToHomeOwnership = 14,
+    PreciousMetals = 15,
+    TrustMyAssets = 16,
+    RealEstatePros = 17,
+    ProtectMyAssets = 18,
+    StructureMyLegacy = 19,
+}
+
+public enum Video
+{
+    None = 0,
+    MoneyChallenge = 1,
+    MoneyChallengeFAQ = 2,
+}
+
+public enum Language
+{
+    None = 0,
+    English = 1,
+    Spanish = 2,
+}
+
+public class Constants(UISettings ui)
 {
     public static readonly string PointingDownEmoji = $"\ud83d\udc47";
     public static readonly string YouTubeEmbedLinkPrefix = "https://www.youtube.com/embed/";
-    public static readonly string MinimalistYouTubeVideoLinkPrefix = "https://megaschool.me/v?y=";
+    public static readonly string VimeoEmbedLinkPrefix = "https://player.vimeo.com/video/";
+    public static readonly string MinimalistVideoLinkPrefix = "https://megaschool.me/v";
+    public static readonly string MinimalistYouTubeVideoLinkPrefix = $"{MinimalistVideoLinkPrefix}?y=";
+    public static readonly string MinimalistVimeoVideoLinkPrefix = $"{MinimalistVideoLinkPrefix}?v=";
 
     public static string BusinessEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/join";
     public static string MembershipEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/signup-financialedge";
@@ -78,6 +126,11 @@ public class Constants
     public static string MarketingDirectorUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/?member={username}";
     public static string JoinMakeWealthRealEnglish(string username) => $"https://www.mwrfinancial.com/join/?member={username}";
     public static string JoinMakeWealthRealSpanish(string username) => $"https://www.mwrfinancial.com/es/join/?member={username}";
+
+    public static string MinimalistYouTubeLink(string youTubeId) => $"{MinimalistYouTubeVideoLinkPrefix}{youTubeId}";
+    public static string MinimalistVimeoLink(string vimeoId) => $"{MinimalistVimeoVideoLinkPrefix}{vimeoId}";
+    public static string EmbeddableYouTubeLink(string youTubeId) => $"{YouTubeEmbedLinkPrefix}{youTubeId}";
+    public static string EmbeddableVimeoLink(string vimeoId) => $"{VimeoEmbedLinkPrefix}{vimeoId}";
 
     public static string GetImageUrl(Image image) => image switch
     {
@@ -114,45 +167,52 @@ public class Constants
         { Rank.NationalAmbassador, (33000, 450000, "National Ambassador") },
     };
 
-    public static readonly Dictionary<Strategy, Shareable> MoneyChallenge = new()
+    private readonly Dictionary<Strategy, Shareable> _moneyChallengeShareable = new()
     {
         {
             Strategy.Corporate,
             new ($"72-Hour Money Challenge",
-                    new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30)), "English shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
-                    new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30)), "Español shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
+                    new(Shareable.VideoShareable("72-Hour Money Challenge!", ui.EnglishLocale[Content.MoneyChallenge]!.MinimalistUrl(), new(0, 0, 1, 30)), "English shareable copied!", ui.EnglishLocale[Content.MoneyChallenge]!.MinimalistUrl()),
+                    new(Shareable.VideoShareable("72-Hour Money Challenge!", ui.SpanishLocale[Content.MoneyChallenge]!.MinimalistUrl(), new(0, 0, 1, 53)), "Español shareable copied!", ui.SpanishLocale[Content.MoneyChallenge]!.MinimalistUrl()),
                     GetImageUrl(Image.MoneyChallengeLogo),
-                    new(0, 1, 30))
+                    new(0, 1, 30),
+                    ui.EnglishLocale[Content.MoneyChallenge]!.MinimalistUrl())
         },
         {
             Strategy.ExtraDigitMovement,
             new ($"72-Hour Money Challenge Overview",
-                    new(Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-overview", new(0, 0, 15, 0)), "Shareable copied!", "https://www.ms1.megaschool.me/72hr-overview"),
+                    new(Shareable.VideoShareable("72-Hour Money Challenge!", ui.EnglishLocale[Content.EDMBusinessOverview]!.MinimalistUrl(), new(0, 0, 15, 0)), "Shareable copied!", ui.EnglishLocale[Content.EDMBusinessOverview]!.MinimalistUrl()),
                     null,
                     GetImageUrl(Image.MoneyChallengeLogo),
-                    new(0, 15, 0))
+                    new(0, 15, 0),
+                    ui.EnglishLocale[Content.EDMBusinessOverview]!.MinimalistUrl())
         },
         {
             Strategy.MegaSchool,
             new ($"72-Hour Money Challenge",
-                    new($"{Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30))}{Environment.NewLine}{Environment.NewLine}{Shareable.VideoShareable("FAQ", "https://www.ms1.megaschool.me/72hr-faq", new(0, 0, 5, 0))}", "Shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
-                    new($"{Shareable.VideoShareable("72-Hour Money Challenge!", "https://www.ms1.megaschool.me/72hr-money-challenge", new(0, 0, 1, 30))}{Environment.NewLine}{Environment.NewLine}{Shareable.VideoShareable("FAQ", "https://www.ms1.megaschool.me/72hr-faq", new(0, 0, 5, 0))}", "Shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
+                    new($"{Shareable.VideoShareable("72-Hour Money Challenge!", ui.EnglishLocale[Content.MoneyChallenge]!.MinimalistUrl(), new(0, 0, 1, 30))}{Environment.NewLine}{Environment.NewLine}{Shareable.VideoShareable("FAQ", ui.EnglishLocale[Content.MoneyChallengeFAQ]!.MinimalistUrl(), new(0, 0, 5, 0))}", "Shareable copied!",  ui.EnglishLocale[Content.MoneyChallenge]!.Id),
+                    new($"{Shareable.VideoShareable("72-Hour Money Challenge!", ui.SpanishLocale[Content.MoneyChallenge]!.MinimalistUrl(), new(0, 0, 1, 30))}{Environment.NewLine}{Environment.NewLine}{Shareable.VideoShareable("FAQ", ui.EnglishLocale[Content.MoneyChallengeFAQ]!.MinimalistUrl(), new(0, 0, 5, 0))}", "Shareable copied!", ui.SpanishLocale[Content.MoneyChallenge]!.Id),
                     GetImageUrl(Image.MoneyChallengeLogo),
-                    new(0, 7, 0))
+                    new(0, 7, 0),
+                    ui.EnglishLocale[Content.MoneyChallenge]!.MinimalistUrl())
         },
     };
+    public Dictionary<Strategy, Shareable> MoneyChallenge => _moneyChallengeShareable;
 
     public static readonly Shareable CheatSheet = new(
         $"MWR Cheat Sheet App",
         new($"MWR Cheat Sheet App{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}https://makewealthreal.github.io/", "Shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
         null,
         "images/mwr-cheatsheet-preview.jpeg",
-        null);
+        null,
+        null!);
 
-    public static readonly Shareable MoneyChallengeFAQ = new(
+    private readonly Shareable _moneyChallengeFAQ = new(
         "72-Hour Money Challenge FAQ",
-        new(Shareable.VideoShareable("72-Hour Money Challenge - FAQ", "https://www.ms1.megaschool.me/72hr-faq", new(0, 0, 5, 0)), "Shareable copied!", "https://www.ms1.megaschool.me/72hr-faq"),
+        new(Shareable.VideoShareable("72-Hour Money Challenge - FAQ", ui.EnglishLocale[Content.MoneyChallengeFAQ]!.MinimalistUrl(), new(0, 0, 5, 0)), "Shareable copied!", ui.EnglishLocale[Content.MoneyChallengeFAQ]!.MinimalistUrl()),
         null,
         GetImageUrl(Image.MoneyChallengeLogo),
-        new(0, 0, 5, 0));
+        new(0, 0, 5, 0),
+        ui.EnglishLocale[Content.MoneyChallengeFAQ]!.MinimalistUrl());
+    public Shareable MoneyChallengeFAQ => _moneyChallengeFAQ;
 }
