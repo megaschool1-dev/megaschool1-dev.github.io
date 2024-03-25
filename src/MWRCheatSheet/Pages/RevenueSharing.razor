@@ -2,9 +2,10 @@
 @inherits Components.ComponentBase
 @using MWRCheatSheet.Components
 @using MWRCheatSheet.Model
+@inject NavigationManager NavigationManager
 
 <Collapsable Title="Residual Income Goal" ExpandPrompt="Show me the MONEY!">
-    <MudText>Monthly Income Goal:</MudText>
+    <MudText id="monthly_income_goal">Monthly Income Goal:</MudText>
     <MudNumericField @bind-Value="_monthlyIncomeGoal" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" Immediate="true" HelperText="Monthly Income Goal" Variant="Variant.Outlined" Min="0" Max="@MaxMonthlyIncomeDemo" />
     <br />
     <br />
@@ -13,6 +14,16 @@
         <MudTextField Label="Rank to Achieve" Value="@Constants.DailyGuarantee[Util.GetRankForMonthlyIncome(_monthlyIncomeGoal)].Title" Variant="Variant.Outlined" ReadOnly="true" />
         <MudTextField Label="Total Members" Value="@Util.GetNumMembershipsToFundMonthlyBill(this._monthlyIncomeGoal).ToString("N0")" Variant="Variant.Outlined" ReadOnly="true"/>
         <MudTextField Label="Guaranteed Monthly Income" Value="@($"${Constants.DailyGuarantee[Util.GetRankForMonthlyIncome(_monthlyIncomeGoal)].MonthlyPay:N0}")" Variant="Variant.Outlined" ReadOnly="true" />
+        @if (_monthlyIncomeGoal >= MillionaireResidualIncomeClubMonthlyThreshold)
+        {
+            <MudText Color="Color.Secondary" Align="Align.Center">
+                This is enough to be in the Millionaire Residual Income Club ($8,400/mo+)!
+                <br/>
+                <Tooltip Text="Once your residuals reach the equivalent of $1Million at a 10% rate of return (rounded to $8,400/mo), you enter the Millionaire Residual Income Club.  In this club, you additionally participate in corporate revenue sharing.">
+                    <MudIconButton ClickPropagation="true" Class="mud-theme-primary rounded-circle" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Filled.QuestionMark" />
+                </Tooltip>
+            </MudText>
+        }
         <br />
         <MudDivider />
         <MudStack Row="true">
@@ -58,16 +69,12 @@
         <br />
         <MudStack Row="true">
             <MudSpacer />
-            <MudTooltip IsVisible="_millionaireClubTooltipVisible" ShowOnClick="false" ShowOnFocus="false" ShowOnHover="false">
-                <ChildContent>
-                    <MudText Color="Color.Primary" Align="Align.Center">
-                        <div @onclick="() => _monthlyIncomeGoal = MillionaireResidualIncomeClubMonthlyThreshold">Show Millionaire Residual Income Club</div><MudIconButton @onclick="() => _millionaireClubTooltipVisible = true" Class="mud-theme-primary rounded-circle" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Filled.QuestionMark"/>
-                    </MudText>
-                </ChildContent>
-                <TooltipContent>
-                    <MudText @onclick="() => _millionaireClubTooltipVisible = false">Once your residuals reach the equivalent of $1Million at a 10% rate of return (rounded to $8,400/mo), you enter the Millionaire Residual Income Club.  In this club, you additionally participate in corporate revenue sharing.</MudText>
-                </TooltipContent>
-            </MudTooltip>
+            <MudText Color="Color.Primary" Align="Align.Center">
+                <div @onclick="@(() => { NavigationManager.NavigateTo("/revenuesharing#monthly_income_goal"); _monthlyIncomeGoal = MillionaireResidualIncomeClubMonthlyThreshold; })">Show Millionaire Residual Income Club</div>
+                <Tooltip Text="Once your residuals reach the equivalent of $1Million at a 10% rate of return (rounded to $8,400/mo), you enter the Millionaire Residual Income Club.  In this club, you additionally participate in corporate revenue sharing.">
+                    <MudIconButton ClickPropagation="true" Class="mud-theme-primary rounded-circle" Color="Color.Primary" Size="Size.Small" Icon="@Icons.Material.Filled.QuestionMark" />
+                </Tooltip>
+            </MudText>
             <MudSpacer />
         </MudStack>
         <MudSpacer />
