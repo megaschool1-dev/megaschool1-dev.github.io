@@ -138,7 +138,7 @@ public class Constants(UISettings ui)
         Image.HealthShare => "/images/mwr-healthshare.png",
         Image.MembershipLogo => "/images/mwr-membership-logo.jpg",
         Image.MoneyChallengeLogo => "/images/72hour-money-challenge-logo.png",
-        Image.CheatSheetPreview => "images/mwr-cheatsheet-preview.png",
+        Image.CheatSheetPreview => "images/mwr-cheatsheet-preview.jpeg?v=2",
         Image.Overview1On1English => "images/72-HourMoneyChallengeOverview_1on1_ENG.png",
         Image.RevenueShare1On1English => "images/72-HourMoneyChallengeRevenueSharing-1on1-ENG.png",
         Image.Overview1On1Spanish => "images/72-HourMoneyChallengeOverview_1on1_SPANISH.png",
@@ -203,7 +203,7 @@ public class Constants(UISettings ui)
         $"MWR Cheat Sheet App",
         new($"MWR Cheat Sheet App{Environment.NewLine}{PointingDownEmoji}{Environment.NewLine}https://makewealthreal.github.io/", "Shareable copied!", "https://www.ms1.megaschool.me/72hr-money-challenge"),
         null,
-        "images/mwr-cheatsheet-preview.jpeg",
+        GetImageUrl(Image.CheatSheetPreview),
         null,
         null!);
 

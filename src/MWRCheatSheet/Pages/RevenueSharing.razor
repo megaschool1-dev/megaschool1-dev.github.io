@@ -4,6 +4,13 @@
 @using MWRCheatSheet.Model
 @inject NavigationManager NavigationManager
 
+<MudStack Row="true">
+    <MudSpacer/>
+    <ExternalLink Text="Official Income Goal Simulator" Href="https://www.mwrfinancial.com/simulator/" />
+    <MudSpacer/>
+</MudStack>
+<br/>
+<br/>
 <Collapsable Title="Residual Income Goal" ExpandPrompt="Show me the MONEY!">
     <MudText id="monthly_income_goal">Monthly Income Goal:</MudText>
     <MudNumericField @bind-Value="_monthlyIncomeGoal" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" Immediate="true" HelperText="Monthly Income Goal" Variant="Variant.Outlined" Min="0" Max="@MaxMonthlyIncomeDemo" />

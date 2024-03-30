@@ -291,6 +291,14 @@
             </MudStack>
             <br />
         }
+        <ShareableVideoMultilingual Description="Income Goal Simulator"
+                                    Url="https://www.mwrfinancial.com/simulator/"
+                                    EnglishTextToCopy="@($"MWR Income Goal Simulator{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}https://www.mwrfinancial.com/simulator/")"
+                                    EnglishTooltip="English shareable copied!"
+                                    EnglishImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)"
+                                    SpanishTextToCopy="@($"MWR Income Goal Simulator{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}https://www.mwrfinancial.com/es/simulator/")"
+                                    SpanishTooltip="Español shareable copied!"
+                                    SpanishImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)" />
         <ShareableVideo Description="MWR Events"
                         Url="http://MakeWealthRealEvents.com"
                         Tooltip="Copied Shareable"
@@ -307,17 +315,17 @@
 <Collapsable Title="Images" ExpandPrompt="Show">
     <MudStack>
         <MudText Align="Align.Center">Tap Image to Download</MudText>
-        <MudLink Href="images/72hour-money-challenge-logo.png" download>
-            <MudImage Fluid="true" Src="images/72hour-money-challenge-logo.png" Alt="MWR 72-Hour Money Challenge" Class="rounded-lg" />
+        <MudLink Href="@Constants.GetImageUrl(Image.MoneyChallengeLogo)" download>
+            <MudImage Fluid="true" Src="@Constants.GetImageUrl(Image.MoneyChallengeLogo)" Alt="MWR 72-Hour Money Challenge" Class="rounded-lg" />
         </MudLink>
-        <MudLink Href="images/mwr-banner.png" download>
-            <MudImage Fluid="true" Src="images/mwr-banner.png" Alt="MWR Banner" Class="rounded-lg" />
+        <MudLink Href="@Constants.GetImageUrl(Image.MWRBanner)" download>
+            <MudImage Fluid="true" Src="@Constants.GetImageUrl(Image.MWRBanner)" Alt="MWR Banner" Class="rounded-lg" />
         </MudLink>
-        <MudLink Href="images/mwr-membership-logo.jpg" download>
-            <MudImage Fluid="true" Src="images/mwr-membership-logo.jpg" Alt="MWR Membership Banner" Class="rounded-lg" />
+        <MudLink Href="@Constants.GetImageUrl(Image.MembershipLogo)" download>
+            <MudImage Fluid="true" Src="@Constants.GetImageUrl(Image.MembershipLogo)" Alt="MWR Membership Banner" Class="rounded-lg" />
         </MudLink>
-        <MudLink Href="images/mwr-healthshare.png" download>
-            <MudImage Fluid="true" Src="images/mwr-healthshare.png" Alt="MWR HealthShare" Class="rounded-lg" />
+        <MudLink Href="@Constants.GetImageUrl(Image.HealthShare)" download>
+            <MudImage Fluid="true" Src="@Constants.GetImageUrl(Image.HealthShare)" Alt="MWR HealthShare" Class="rounded-lg" />
         </MudLink>
     </MudStack>
 </Collapsable>

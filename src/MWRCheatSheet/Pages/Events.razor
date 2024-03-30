@@ -2,6 +2,7 @@
 @inherits Components.ComponentBase
 @using Components
 @using MWRCheatSheet.Components
+@using MWRCheatSheet.Model
 
 <MudStack>
     <RecurringEvent Header="72 Day Blitz!"
@@ -65,7 +66,7 @@
     <RecurringEvent Header="EDM Team Training"
                     Url="http://www.howtobuildmywealth.com"
                     Password="72hours"
-                    ImageUri="images/mwr-banner.png"
+                    ImageUri="@Constants.GetImageUrl(Image.MWRBanner)"
                     Recurrence="@((DayOfWeek.Wednesday, new TimeOnly(21, 30), NewYorkTimeZone))"
                     Text="@($"EDM Team Training{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Wednesday, new(21, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Wednesday, new(21, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://HowToBuildMyWealth.com{Environment.NewLine}{Environment.NewLine}Pasword: 72hours{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
     <br />
@@ -73,7 +74,7 @@
     <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Thursdays</MudText>
     <RecurringEvent Header="Membership Services Training"
                     Url="https://mwr.live"
-                    ImageUri="images/mwr-banner.png"
+                    ImageUri="@Constants.GetImageUrl(Image.MWRBanner)"
                     Recurrence="@((DayOfWeek.Thursday, new TimeOnly(20, 30), NewYorkTimeZone))"
                     Text="@($"MWR Membership Services Training{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Thursday, new(20, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Thursday, new(20, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}https://mwr.live{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
     <br />
