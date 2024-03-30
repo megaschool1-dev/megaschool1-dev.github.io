@@ -20,13 +20,19 @@
     <br />
     <br />
     <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Mondays</MudText>
+    <RecurringEvent Header="72-Hour Money Challenge Q&A"
+                    Url="http://zoom.megaschool.me"
+                    Password="72hours"
+                    ImageUri="images/events/mondays-megaschool-overview.jpg"
+                    Recurrence="@((DayOfWeek.Monday, new TimeOnly(20, 0), NewYorkTimeZone))"
+                    Text="@($"72-Hour Money Challenge Q&A!{Environment.NewLine}{Environment.NewLine}Got questions about the 72-Hour Money Challenge? Get answers in 30min!{Environment.NewLine}{Environment.NewLine}Hosted By: Jerome Bell{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Monday, new(20, 0), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Monday, new(20, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.megaschool.me{Environment.NewLine}{Environment.NewLine}Password:{Environment.NewLine}72hours{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge #MWR")" />
     <RecurringEvent Header="Kingdom Builders"
                     Url="http://zoom.mwrkingdombuilders.com"
                     Password="mwrkb"
                     ImageUri="images/events/mondays-kingdombuilders-overview.jpeg"
                     Recurrence="@((DayOfWeek.Monday, new TimeOnly(20, 30), NewYorkTimeZone))"
                     Text="@($"72-Hour Money Challenge!{Environment.NewLine}{Environment.NewLine}Join us for our MWR Business Overview!!!{Environment.NewLine}{Environment.NewLine}Hosted By: Dr. Gerald W. Parker{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Monday, new(20, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Monday, new(20, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.mwrkingdombuilders.com{Environment.NewLine}{Environment.NewLine}Password:{Environment.NewLine}mwrkb{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
-    <br/>
+    <br />
     <br/>
     <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Tuesdays</MudText>
     <RecurringEvent Header="Faith & Finance"
