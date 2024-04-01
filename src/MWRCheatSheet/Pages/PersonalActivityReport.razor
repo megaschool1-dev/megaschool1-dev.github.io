@@ -1,0 +1,46 @@
+﻿@page "/par"
+@inherits Components.ComponentBase
+@using Components
+@using MWRCheatSheet.Components
+@using Append.Blazor.WebShare
+@using MWRCheatSheet.Dialog
+@using MWRCheatSheet.Model
+@using MWRCheatSheet
+@using Microsoft.AspNetCore.Components
+@using System.ComponentModel.DataAnnotations
+@inject IDialogService Dialog
+@inject MWRCheatSheet.Model.UISettings UI
+@inject Model.Constants Constants
+
+
+<MudSelect T="Strategy" Label="Strategy" @bind-Value="_selectedStrategy" ToStringFunc="@StrategyDisplay" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter">
+	<MudSelectItem Value="@(Strategy.ExtraDigitMovement)" />
+	<MudSelectItem Value="@(Strategy.MegaSchool)" />
+</MudSelect>
+
+@switch(_selectedStrategy)
+{
+	case Strategy.MegaSchool:
+	{
+		<MWRCheatSheet.Components.Generic.PersonalActivityReport TPipeline="MegaSchoolPipeline" Pipeline="@(new MWRCheatSheet.ViewModel.MegaSchoolPipeline())" />
+		break;
+	}
+
+	case Strategy.ExtraDigitMovement:
+	{
+		<MWRCheatSheet.Components.Generic.PersonalActivityReport TPipeline="ExtraDigitMovementPipeline" Pipeline="@(new MWRCheatSheet.ViewModel.ExtraDigitMovementPipeline())" />
+		break;
+	}
+}
+@code {
+
+	private Strategy _selectedStrategy = Strategy.MegaSchool;
+
+	private static string StrategyDisplay(Strategy strategy) => strategy switch
+	{
+		Strategy.Corporate => "Corporate",
+		Strategy.ExtraDigitMovement => "Extra Digit Movement",
+		Strategy.MegaSchool => "Mega School",
+		_ => $"Update '{nameof(StrategyDisplay)}' Method"
+	};
+}

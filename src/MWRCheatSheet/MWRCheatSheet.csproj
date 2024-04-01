@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-    <AssemblyVersion>0.13.0.45</AssemblyVersion>
+    <AssemblyVersion>0.13.0.46</AssemblyVersion>
   </PropertyGroup>
 
 
@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MWRCheatSheet.Model\MWRCheatSheet.Model.csproj" />
+    <ProjectReference Include="..\MWRCheatSheet.ViewModel\MWRCheatSheet.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

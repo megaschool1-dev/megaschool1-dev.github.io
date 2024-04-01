@@ -109,6 +109,25 @@ public enum Language
     Spanish = 2,
 }
 
+public enum ExtraDigitMovementPipeline
+{
+	None = 0,
+    Enqueue = 1,
+	Question = 2,
+	Connection = 3,
+	Invitation = 4,
+	Decision = 5,
+}
+
+public enum MegaSchoolPipeline
+{
+	None = 0,
+	Enqueue = 1,
+	Share = 2,
+	Invitation = 3,
+	Decision = 4,
+}
+
 public class Constants(UISettings ui)
 {
     public static readonly string PointingDownEmoji = $"\ud83d\udc47";
