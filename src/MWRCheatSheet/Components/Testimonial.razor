@@ -9,6 +9,10 @@
             {
                 <Video YouTube="@YouTube" />
             }
+            @if (this.TikTok != null)
+            {
+                <Video TikTok="@TikTok" />
+            }
             <MudStack Row="true">
                 <MudSpacer />
                 <ShareableContent Description="@Description"
@@ -26,6 +30,9 @@
     public string? YouTube { get; set; }
 
     [Parameter]
+    public (string UserHandle, string VideoId)? TikTok { get; set; }
+
+    [Parameter]
     public string Description { get; set; }
 
     [Parameter]
@@ -36,6 +43,9 @@
 
     private string? VideoUrl => 
         this.YouTube != null
-        ? $"{Constants.MinimalistYouTubeVideoLinkPrefix}{this.YouTube}"
+        ? Constants.MinimalistYouTubeLink(this.YouTube)
+
+        : this.TikTok != null
+        ? Constants.MinimalistTikTokLink(this.TikTok?.UserHandle!, this.TikTok?.VideoId!)
         : null;
 }

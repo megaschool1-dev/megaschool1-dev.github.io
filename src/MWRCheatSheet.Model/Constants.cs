@@ -148,6 +148,7 @@ public class Constants(UISettings ui)
 
     public static string MinimalistYouTubeLink(string youTubeId) => $"{MinimalistYouTubeVideoLinkPrefix}{youTubeId}";
     public static string MinimalistVimeoLink(string vimeoId) => $"{MinimalistVimeoVideoLinkPrefix}{vimeoId}";
+    public static string MinimalistTikTokLink(string tikTokHandle, string videoId) => $"{MinimalistVideoLinkPrefix}?th={tikTokHandle}&t={videoId}";
     public static string EmbeddableYouTubeLink(string youTubeId) => $"{YouTubeEmbedLinkPrefix}{youTubeId}";
     public static string EmbeddableVimeoLink(string vimeoId) => $"{VimeoEmbedLinkPrefix}{vimeoId}";
 
