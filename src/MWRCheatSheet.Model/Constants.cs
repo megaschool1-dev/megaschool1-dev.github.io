@@ -124,8 +124,11 @@ public enum MegaSchoolPipeline
 	None = 0,
 	Enqueue = 1,
 	Share = 2,
-	Invitation = 3,
-	Decision = 4,
+	MembershipInvitation = 3,
+	MembershipDecision = 4,
+    Connection = 5,
+    BusinessOpportunityInvitation = 6,
+    BusinessOpportunityDecision = 7,
 }
 
 public class Constants(UISettings ui)

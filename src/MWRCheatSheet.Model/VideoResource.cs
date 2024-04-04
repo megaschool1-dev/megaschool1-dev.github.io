@@ -6,7 +6,7 @@ public class VideoResource
 {
     [JsonPropertyName("contentId")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public Content Content { get; set; }
+    public Content ContentId { get; set; }
 
     [JsonPropertyName("videoId")]
     public string Id { get; set; } = default!;

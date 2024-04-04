@@ -3,7 +3,7 @@
 public static class ExtentionMethods
 {
     public static VideoResource? Content(this VideoResource[] videos, Content content)
-        => videos.FirstOrDefault(v => v.Content == content);
+        => videos.FirstOrDefault(v => v.ContentId == content);
 
     public static string MinimalistUrl(this VideoResource video)
         => video.Platform switch

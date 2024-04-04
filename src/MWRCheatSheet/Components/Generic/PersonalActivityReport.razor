@@ -97,20 +97,20 @@
 
 		_tasks = [
 			new KanbanTaskItem("W2 & No Biz", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Has Vehicle", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Has Cell", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Takes Vacations", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Has Kids 7-17", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Money Motivated", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Positive & Wants Better", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Would Kill the Biz", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Mad if you DIDN'T Share", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Friends", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Co-Workers", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Family Members", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Friends of Sig Other", this.Pipeline.FirstStep.ToString()),
-	new KanbanTaskItem("Referrals", this.Pipeline.FirstStep.ToString()),
-	];
+			new KanbanTaskItem("Has Vehicle", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Has Cell", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Takes Vacations", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Has Kids 7-17", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Money Motivated", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Positive & Wants Better", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Would Kill the Biz", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Mad if you DIDN'T Share", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Friends", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Co-Workers", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Family Members", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Friends of Sig Other", this.Pipeline.FirstStep.ToString()),
+			new KanbanTaskItem("Referrals", this.Pipeline.FirstStep.ToString()),
+		];
 
 		for(var i = 0; i < _tasks.Count; i++)
 		{
@@ -120,14 +120,11 @@
 
 	private void TaskUpdated(MudItemDropInfo<KanbanTaskItem> dropItem)
 	{
-		// var originalStatus = dropItem.Item.Status;
-
 		dropItem.Item.Status = dropItem.DropzoneIdentifier;
 
 		var zoneOffset = dropItem.DropzoneIdentifier == this.Pipeline.FirstStep.ToString()
 			? 0 : _tasks.Count(t => (int)(object)Enum.Parse<TPipeline>(t.Status) < (int)(object)Enum.Parse<TPipeline>(dropItem.DropzoneIdentifier));
 
-		//dropItem.Item.Order = zoneOffset + dropItem.IndexInZone;
 		_tasks.UpdateOrder(dropItem, item => item.Order, zoneOffset);
 		_tasks = _tasks.OrderBy(t => t.Order).ToList();
 
