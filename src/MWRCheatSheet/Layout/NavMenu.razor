@@ -22,12 +22,12 @@
         <MudSpacer />
         <MudStack>
             <MudSpacer/>
-            <MudLink Underline="Underline.None" Color="Color.Default" OnClick="@OnVersionClick">Version @this.GetType().Assembly.GetName().Version</MudLink>
+            <MudLink Underline="Underline.None" Color="Color.Default" OnClick="@(e => NavigationManager.NavigateTo(Util.MakeUrlBypassBrowserCache(NavigationManager.BaseUri), true))">Version @this.GetType().Assembly.GetName().Version</MudLink>
             <MudSpacer />
         </MudStack>
         @if(_updateAvailable)
         {
-            <MudIconButton OnClick="@(e => NavigationManager.NavigateTo(NavigationManager.BaseUri, true))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Refresh" />
+            <MudIconButton OnClick="@(e => NavigationManager.NavigateTo(Util.MakeUrlBypassBrowserCache(NavigationManager.BaseUri), true))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Refresh" />
         }
     </MudStack>
 </MudNavMenu>

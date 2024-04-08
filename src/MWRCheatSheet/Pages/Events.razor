@@ -6,17 +6,17 @@
 
 <MudStack>
     <RecurringEvent Header="72 Day Blitz!"
-                    Url="http://www.mwr.live"
+                    Url="https://www.mwr.live"
                     ImageUri="images/events/72day-blitz.jpg?v=2"
                     Recurrence="@((null, new TimeOnly(19, 20), NewYorkTimeZone))"
-                    Text="@($"72 Day Blitz!{Environment.NewLine}{Environment.NewLine}{GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 20), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 20), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://mwr.live{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
+                    Text="@($"72 Day Blitz!{Environment.NewLine}{Environment.NewLine}{GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 20), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 20), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}www.MWR.Live{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
     <br />
     <br />
     <RecurringEvent Header="72 Day Blitz! - SPANISH"
-                    Url="http://www.mwr.live"
+                    Url="https://www.mwr.live"
                     ImageUri="images/events/72day-blitz.jpg?v=2"
                     Recurrence="@((null, new TimeOnly(19, 40), NewYorkTimeZone))"
-                    Text="@($"72 Day Blitz! - Spanish{Environment.NewLine}{Environment.NewLine}{GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 40), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 40), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://mwr.live{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
+                    Text="@($"72 Day Blitz! - Spanish{Environment.NewLine}{Environment.NewLine}{GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 40), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 40), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}www.MWR.Live{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
     <br />
     <br />
     <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Mondays</MudText>
@@ -70,7 +70,8 @@
                     Password="72hours"
                     ImageUri="images/events/wednesdays-edm-overview.jpeg"
                     Recurrence="@((DayOfWeek.Wednesday, new TimeOnly(20, 30), NewYorkTimeZone))"
-                    Text="@($"72-Hour Money Challenge!{Environment.NewLine}{Environment.NewLine}Join Brian N. Beane for the 72-Hour Money Challenge Overview!{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Wednesday, new(20, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Wednesday, new(20, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://HowToBuildMyWealth.com{Environment.NewLine}{Environment.NewLine}Pasword: 72hours{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
+                    Text="@($"72-Hour Money Challenge!{Environment.NewLine}{Environment.NewLine}Join Brian N. Beane for the 72-Hour Money Challenge Overview!{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Wednesday, new(20, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Wednesday, new(20, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://HowToBuildMyWealth.com{Environment.NewLine}{Environment.NewLine}Pasword: 72hours{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")"
+                    Archive="https://www.facebook.com/ExtraDigit/" />
     <RecurringEvent Header="EDM Team Training"
                     Url="http://www.howtobuildmywealth.com"
                     Password="72hours"
