@@ -15,8 +15,7 @@
             }
             <MudStack Row="true">
                 <MudSpacer />
-                <ShareableContent Description="@Description"
-                                  Tooltip="Testimonial Copied!"
+                <ShareableContent Tooltip="Testimonial Copied!"
                                   ImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)"
                                   TextToCopy="@($"{Description}{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}{this.VideoUrl}")" />
                 <MudSpacer />

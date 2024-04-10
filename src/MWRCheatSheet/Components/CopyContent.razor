@@ -1,0 +1,29 @@
+﻿@using MWRCheatSheet.Model
+@inherits Components.ComponentBase
+
+<MudTooltip Text="@Tooltip" IsVisible="_showCopyTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+    <MudIconButton OnClick="OnCopyClick" Icon="@Icons.Material.Filled.ContentCopy" Color="Color.Primary" />
+</MudTooltip>
+
+@code {
+    private bool _showCopyTooltip;
+
+    [Parameter]
+    public string TextToCopy { get; set; }
+
+    [Parameter]
+    public string Tooltip { get; set; } = "Copied!";
+
+    private async Task OnCopyClick()
+    {
+        await this.CopyTextToClipboardAsync(this.TextToCopy);
+
+        _showCopyTooltip = true;
+        base.StateHasChanged();
+
+        await Task.Delay(3 * 1000);
+
+        _showCopyTooltip = false;
+        base.StateHasChanged();
+    }
+}

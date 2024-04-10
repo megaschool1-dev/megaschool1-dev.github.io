@@ -1,0 +1,40 @@
+﻿@using MWRCheatSheet.Model
+@inherits Components.ComponentBase
+
+@if (_webshareAllowed)
+{
+    <MudTooltip Text="@Tooltip" IsVisible="_showShareTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+        <MudIconButton OnClick="OnShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" />
+    </MudTooltip>
+}
+@code {
+    private bool _showShareTooltip;
+    private bool _webshareAllowed = false;
+
+    [Parameter]
+    public string TextToCopy { get; set; }
+
+    [Parameter]
+    public string Tooltip { get; set; }
+
+    [Parameter]
+    public string ImageUrl { get; set; } = Constants.GetImageUrl(Image.MoneyChallengeLogo);
+
+    protected override async Task OnInitializedAsync()
+    {
+        _webshareAllowed = await this.WebShareAllowedAsync();
+    }
+
+    private async Task OnShareClick()
+    {
+        await this.ShareMessageAsync(this.TextToCopy, this.ImageUrl);
+
+        _showShareTooltip = true;
+        base.StateHasChanged();
+
+        await Task.Delay(3 * 1000);
+
+        _showShareTooltip = false;
+        base.StateHasChanged();
+    }
+}
