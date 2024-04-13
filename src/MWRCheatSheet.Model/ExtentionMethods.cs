@@ -9,7 +9,7 @@ public static class ExtentionMethods
         => video.Platform switch
         {
             VideoPlatform.YouTube => Constants.MinimalistYouTubeLink(video.Id),
-            VideoPlatform.Vimeo => $"{Constants.MinimalistVimeoLink(video.Id)}{(string.IsNullOrWhiteSpace(video.Hash) ? string.Empty : $"&h={video.Hash}")}",
+            VideoPlatform.Vimeo => $"{Constants.MinimalistVimeoLink(video.Id, video.Hash)}",
             _ => throw new Exception("No video set!")
         };
 

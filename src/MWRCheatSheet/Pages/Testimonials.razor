@@ -1,6 +1,7 @@
 ﻿@page "/testimonials"
 @using MWRCheatSheet.Model
 @using MWRCheatSheet.Components
+@inject MWRCheatSheet.Model.UISettings UI
 
 <MudChipSet @bind-SelectedChips="_selected" MultiSelection="true" Filter="true">
     @foreach(var filterableValueable in Highlights)
@@ -10,98 +11,32 @@
 </MudChipSet>
 <br/>
 <MudStack>
-    <Testimonial Description="72-Hour Money Challenge - Jerome Bell"
-                 TikTok="@(("guywhoknowstheguy", "7348859899713195310"))"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.GenYGenZ])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Sonia Howard"
-                 YouTube="4JpDgVM_zm4"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.LandBanking, Highlight.RestoreMyCredit, Highlight.Residuals, Highlight.Military])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Don Wilson & Ruth Rodriguez"
-                 YouTube="DVX8ckVGKbc"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.EliminateMyDebt, Highlight.RestoreMyCredit, Highlight.LandBanking, Highlight.Residuals, Highlight.Couple])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Charles & Judith Ivory"
-                 YouTube="Un5cFHnszJk"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.LandBanking, Highlight.Residuals, Highlight.Couple, Highlight.Military])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Brian N. Beane"
-                 YouTube="Xlg3rp0D4aI"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.RestoreMyCredit, Highlight.ReduceMyTaxes, Highlight.TrustMyAssets, Highlight.Residuals, Highlight.Bonuses])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Mekhi Beane & Zori Williams"
-                 YouTube="y0_u_13-2qU"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.GenYGenZ])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Quana Sims"
-                 YouTube="_eMpB4i_N5s"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.Residuals])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Crystal Anderson"
-                 YouTube="5RhP2MNImvs"
-                 Highlights="@([Highlight.MoneyChallenge])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Ebony Ramseur"
-                 YouTube="IuzVwl2reww"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.RestoreMyCredit, Highlight.Residuals, Highlight.Military])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Nickeisha Christie"
-                 YouTube="sXfiTMQvE20"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.Military])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Sara Malvé-Murphy & William Murphy"
-                 YouTube="3V_kObdfJU8"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.Couple])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Angela Johnson"
-                 YouTube="2jC0CGH0--4"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.RestoreMyCredit, Highlight.EliminateMyDebt, Highlight.Residuals])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Delilah Sylvester"
-                 YouTube="n1i7shP31_4"
-                 Highlights="@([Highlight.MoneyChallenge])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Marcella Garner"
-                 YouTube="JVx8fGpv9Ic"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.RestoreMyCredit, Highlight.Residuals])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Tamekia Williams"
-                 YouTube="KGvw190t_FQ"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.EliminateMyDebt, Highlight.RestoreMyCredit, Highlight.Residuals])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Shrawnda Harris"
-                 YouTube="dygYeI7IuEw"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.RestoreMyCredit])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Debra Johnson"
-                 YouTube="jHQXEfly0Dw"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.RestoreMyCredit])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Jimmy Slaton"
-                 YouTube="ZociTiCDksQ"
-                 Highlights="@([Highlight.MoneyChallenge])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Chuck Hardon"
-                 YouTube="vlz1qw33Sog"
-                 Highlights="@([Highlight.MoneyChallenge])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Ken Hayes"
-                 YouTube="_o27KKKgZsU"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.EliminateMyDebt])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Jarrod Cheek"
-                 YouTube="MST9zof9two"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.EliminateMyDebt, Highlight.RestoreMyCredit])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Bernard Ponder"
-                 YouTube="5wv3U8WLb3M"
-                 Highlights="@([Highlight.MoneyChallenge, Highlight.EliminateMyDebt, Highlight.ReduceMyTaxes, Highlight.RestoreMyCredit, Highlight.Residuals])"
-                 Filter="@(GetHighlights(_selected))" />
-    <Testimonial Description="72-Hour Money Challenge - Emil Matute"
-                 YouTube="VeV96Kvfyy0"
-                 Highlights="@([Highlight.MoneyChallenge])"
-                 Filter="@(GetHighlights(_selected))" />
+    @foreach(var testimonial in UI.EnglishLocale.Testimonials)
+    {
+        switch(testimonial.Video.Platform)
+        {
+            case VideoPlatform.TikTok:
+                <Testimonial Description="@testimonial.Description"
+                             TikTok="@((testimonial.Video.UserHandle, testimonial.Video.Id))"
+                             Highlights="@(testimonial.Highlights)"
+                             Filter="@(GetHighlights(_selected))" />
+                break;
+
+            case VideoPlatform.YouTube:
+                <Testimonial Description="@testimonial.Description"
+                             YouTube="@testimonial.Video.Id"
+                             Highlights="@(testimonial.Highlights)"
+                             Filter="@(GetHighlights(_selected))" />
+                break;
+
+            case VideoPlatform.Vimeo:
+                <Testimonial Description="@testimonial.Description"
+                             Vimeo="@((testimonial.Video.Id, testimonial.Video.Hash))"
+                             Highlights="@(testimonial.Highlights)"
+                             Filter="@(GetHighlights(_selected))" />
+                break;
+        }
+    }
 
     <!--
         The hidden component below is a UI hack.  I don't know why, but if you make the component below visible,

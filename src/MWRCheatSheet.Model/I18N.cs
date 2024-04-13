@@ -10,6 +10,9 @@ public class I18N
     [JsonPropertyName("videos")]
     public VideoResource[] Videos { get; set; } = [];
 
+    [JsonPropertyName("testimonials")]
+    public Testimonial[] Testimonials { get; set; } = [];
+
     public VideoResource? this[Content content]
     {
         get

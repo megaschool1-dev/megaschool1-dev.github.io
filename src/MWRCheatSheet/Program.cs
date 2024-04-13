@@ -7,6 +7,7 @@ using MWRCheatSheet;
 using MWRCheatSheet.Model;
 using MWRCheatSheet.Repository;
 using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -17,7 +18,7 @@ builder.Services.AddScoped(sp => http);
 
 builder.Services.AddSingleton<Repository>();
 
-var clientSettings = await http.GetFromJsonAsync<ClientSettings>("appsettings.json");
+var clientSettings = await http.GetFromJsonAsync<ClientSettings>("appsettings.json", new System.Text.Json.JsonSerializerOptions() { Converters = { new JsonStringEnumConverter() } });
 
 builder.Services.AddSingleton(sp =>
 {

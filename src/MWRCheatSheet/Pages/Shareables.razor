@@ -42,14 +42,14 @@
                                             SpanishTooltip="@(Constants.MoneyChallenge[Strategy.Corporate].Spanish!.Tooltip)"
                                             SpanishImageUrl="@(Constants.MoneyChallenge[Strategy.Corporate].ImageUrl)" />
                 <ShareableVideoMultilingual Description="@($"MWR Opportunity")"
-                                            Duration="new(0, 10, 0)"
+                                            Duration="new(0, 5, 0)"
                                             Url="@(UI.EnglishLocale[Model.Content.CorporateBusinessOverview]!.MinimalistUrl())"
                                             
-                                            EnglishTextToCopy="@Shareable.VideoShareable("MWR Opportunity", UI.EnglishLocale[Model.Content.CorporateBusinessOverview]!.MinimalistUrl(), new (0, 0, 10, 0))"
+                                            EnglishTextToCopy="@Shareable.VideoShareable("MWR Opportunity", UI.EnglishLocale[Model.Content.CorporateBusinessOverview]!.MinimalistUrl(), new (0, 0, 5, 0))"
                                             EnglishTooltip="English shareable copied!"
                                             EnglishImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)"
                                             
-                                            SpanishTextToCopy="@Shareable.VideoShareable("MWR Opportunity", UI.SpanishLocale[Model.Content.CorporateBusinessOverview]!.MinimalistUrl(), new (0, 0, 12, 9))"
+                                            SpanishTextToCopy="@Shareable.VideoShareable("MWR Opportunity", UI.SpanishLocale[Model.Content.CorporateBusinessOverview]!.MinimalistUrl(), new (0, 0, 6, 0))"
                                             SpanishTooltip="Español shareable copied!"
                                             SpanishImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)" />
             </MudStack>
@@ -305,7 +305,14 @@
                         Url="http://MakeWealthRealEvents.com"
                         Tooltip="Copied Shareable"
                         TextToCopy="http://MakeWealthRealEvents.com" />
-        <br />
+        <ShareableVideo Description="MWR Corporate Calendar"
+                        Url="https://calendar.time.ly/zb6amxcw/posterboard"
+                        Tooltip="Copied Shareable"
+                        TextToCopy="@($"MWR Corporate Calendar{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}https://calendar.time.ly/zb6amxcw/posterboard")" />
+        <ShareableVideo Description="MWR Corporate Telegram Group"
+                        Url="https://t.me/+gpFmytqMETExNDUx"
+                        Tooltip="Copied Shareable"
+                        TextToCopy="@($"MWR Corporate Telegram Group{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}https://t.me/+gpFmytqMETExNDUx")" />
         <ShareableVideo Description=@Constants.CheatSheet.Description
                         Tooltip=@Constants.CheatSheet.English.Tooltip
                         TextToCopy=@Constants.CheatSheet.English.Message

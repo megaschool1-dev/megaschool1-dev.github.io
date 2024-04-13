@@ -2,7 +2,7 @@
 @inherits Components.ComponentBase
 
 <div style="display:@_display;">
-    @if (this.YouTube != null)
+    @if (ValidYouTube)
     {
         <iframe @onload="OnVideoLoaded"
                 src="@($"{Constants.YouTubeEmbedLinkPrefix}{YouTube}")"
@@ -14,12 +14,17 @@
         </iframe>
     }
 
-    @if(this.TikTok != null)
+    @if(ValidTikTok)
     {
         <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@@@(this.TikTok.Value.UserHandle)/video/@TikTok" data-video-id="@TikTok.Value.VideoId" style="max-width: 605px;min-width: 325px;">
             <section />
         </blockquote>
         <script async src="https://www.tiktok.com/embed.js"></script>
+    }
+
+    @if (ValidVimeo)
+    {
+        <iframe src="@($"https://player.vimeo.com/video/{Vimeo?.VideoId}{(string.IsNullOrWhiteSpace(Vimeo?.Hash) ? string.Empty : $"?h={Vimeo?.Hash}")}")" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" data-ready="true"></iframe>
     }
 </div>
 
@@ -37,9 +42,24 @@
     [Parameter]
     public (string UserHandle, string VideoId)? TikTok { get; set; }
 
+    /// <summary>
+    ///     Hash - Required for private Vimeo videos. See https://www.drupal.org/project/video_embed_field/issues/3238136
+    /// </summary>
+    [Parameter]
+    public (string VideoId, string? Hash)? Vimeo { get; set; }
+
+    private bool ValidYouTube => !string.IsNullOrWhiteSpace(YouTube);
+    private bool ValidVimeo => !string.IsNullOrWhiteSpace(Vimeo?.VideoId);
+    private bool ValidTikTok => !string.IsNullOrWhiteSpace(TikTok?.UserHandle) && !string.IsNullOrWhiteSpace(TikTok?.VideoId);
+
     protected override void OnInitialized()
     {
-        if(this.TikTok != null)
+        if(ValidTikTok)
+        {
+            this.ShowVideo();
+        }
+
+        if (ValidVimeo)
         {
             this.ShowVideo();
         }

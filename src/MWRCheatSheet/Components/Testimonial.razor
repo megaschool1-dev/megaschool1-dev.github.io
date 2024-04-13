@@ -13,6 +13,10 @@
             {
                 <Video TikTok="@TikTok" />
             }
+            @if (this.Vimeo != null)
+            {
+                <Video Vimeo="@Vimeo" />
+            }
             <MudStack Row="true">
                 <MudSpacer />
                 <ShareableContent Tooltip="Testimonial Copied!"
@@ -31,6 +35,12 @@
     [Parameter]
     public (string UserHandle, string VideoId)? TikTok { get; set; }
 
+    /// <summary>
+    ///     Hash - Required for private Vimeo videos. See https://www.drupal.org/project/video_embed_field/issues/3238136
+    /// </summary>
+    [Parameter]
+    public (string VideoId, string? Hash)? Vimeo { get; set; }
+
     [Parameter]
     public string Description { get; set; }
 
@@ -40,11 +50,14 @@
     [Parameter]
     public Highlight[] Filter { get; set; }
 
-    private string? VideoUrl => 
+    private string? VideoUrl =>
         this.YouTube != null
         ? Constants.MinimalistYouTubeLink(this.YouTube)
 
         : this.TikTok != null
         ? Constants.MinimalistTikTokLink(this.TikTok?.UserHandle!, this.TikTok?.VideoId!)
+
+        : this.Vimeo != null
+        ? Constants.MinimalistVimeoLink(this.Vimeo?.VideoId!, this.Vimeo?.Hash)
         : null;
 }

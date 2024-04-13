@@ -69,6 +69,7 @@ public enum VideoPlatform
     None = 0,
     YouTube = 1,
     Vimeo = 2,
+    TikTok = 3,
 }
 
 public enum Content
@@ -138,7 +139,6 @@ public class Constants(UISettings ui)
     public static readonly string VimeoEmbedLinkPrefix = "https://player.vimeo.com/video/";
     public static readonly string MinimalistVideoLinkPrefix = "https://megaschool.me/v";
     public static readonly string MinimalistYouTubeVideoLinkPrefix = $"{MinimalistVideoLinkPrefix}?y=";
-    public static readonly string MinimalistVimeoVideoLinkPrefix = $"{MinimalistVideoLinkPrefix}?v=";
 
     public static string BusinessEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/join";
     public static string MembershipEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/signup-financialedge";
@@ -150,7 +150,7 @@ public class Constants(UISettings ui)
     public static string JoinMakeWealthRealSpanish(string username) => $"https://www.mwrfinancial.com/es/join/?member={username}";
 
     public static string MinimalistYouTubeLink(string youTubeId) => $"{MinimalistYouTubeVideoLinkPrefix}{youTubeId}";
-    public static string MinimalistVimeoLink(string vimeoId) => $"{MinimalistVimeoVideoLinkPrefix}{vimeoId}";
+    public static string MinimalistVimeoLink(string vimeoId, string? hash) => $"{MinimalistVideoLinkPrefix}?v={vimeoId}{(string.IsNullOrWhiteSpace(hash) ? string.Empty : $"&h={hash}")}";
     public static string MinimalistTikTokLink(string tikTokHandle, string videoId) => $"{MinimalistVideoLinkPrefix}?th={tikTokHandle}&t={videoId}";
     public static string EmbeddableYouTubeLink(string youTubeId) => $"{YouTubeEmbedLinkPrefix}{youTubeId}";
     public static string EmbeddableVimeoLink(string vimeoId) => $"{VimeoEmbedLinkPrefix}{vimeoId}";

@@ -17,4 +17,7 @@ public class VideoResource
 
     [JsonPropertyName("videoHash")]
     public string? Hash { get; set; }
+
+    [JsonPropertyName("userHandle")]
+    public string? UserHandle { get; set; }
 }

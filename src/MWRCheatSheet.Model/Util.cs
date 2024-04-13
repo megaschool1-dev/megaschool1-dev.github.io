@@ -1,6 +1,6 @@
 ﻿using MWRCheatSheet.Model;
 using System.Net.Http.Json;
-using static System.Net.WebRequestMethods;
+using System.Text.Json.Serialization;
 
 namespace MWRCheatSheet;
 
@@ -18,7 +18,7 @@ public class Util
     {
         var currentVersion = typeof(Util).Assembly.GetName().Version;
 
-        var clientSettings = await http.GetFromJsonAsync<ClientSettings>("appsettings.json");
+        var clientSettings = await http.GetFromJsonAsync<ClientSettings>("appsettings.json", new System.Text.Json.JsonSerializerOptions() { Converters = { new JsonStringEnumConverter() } });
 
         if (clientSettings != null)
         {
