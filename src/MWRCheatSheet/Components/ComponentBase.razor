@@ -2,11 +2,6 @@
 @inject IJSRuntime JSRuntime
 
 @code {
-    public static readonly TimeZoneInfo NewYorkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
-    public static readonly TimeZoneInfo ChicagoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Chicago");
-    public static readonly TimeZoneInfo LosAngelesTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
-    public static readonly TimeZoneInfo DefaultTimeZone = NewYorkTimeZone;
-
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -21,8 +16,8 @@
         this.StateHasChanged();
     }
 
-    protected static string FormatTimeSpan(TimeSpan Duration)
-        => $"({(Duration.Hours > 0 ? $"{Duration.Hours}hr " : string.Empty)}{(Duration.Minutes > 0 ? $"{Duration.Minutes}min" : string.Empty)}{(Duration.Seconds > 0 ? $" {Duration.Seconds}sec" : string.Empty)})";
+    protected static string FormatTimeSpan(TimeSpan duration)
+        => $"({(duration.Hours > 0 ? $"{duration.Hours}hr " : string.Empty)}{(duration.Minutes > 0 ? $"{duration.Minutes}min" : string.Empty)}{(duration.Seconds > 0 ? $" {duration.Seconds}sec" : string.Empty)})";
 
     protected static DateTimeOffset GetNextEvent(DayOfWeek day, TimeOnly time, TimeZoneInfo timeZone)
     {
@@ -30,6 +25,9 @@
 
         var nextEventTime = currentTimeInEventTimeZone.AddHours(time.Hour - currentTimeInEventTimeZone.Hour);
         nextEventTime = nextEventTime.AddMinutes(time.Minute - nextEventTime.Minute);
+
+        // remove seconds
+        nextEventTime = nextEventTime.AddSeconds(-1 * nextEventTime.Second);
 
         var nextEvent = nextEventTime;
         while (nextEvent.DayOfWeek != day || nextEvent < currentTimeInEventTimeZone)
@@ -58,5 +56,4 @@
     }
 
     protected Task ShareMessageAsync(string message, Image image) => ShareMessageAsync(message, Constants.GetImageUrl(image));
-
 }

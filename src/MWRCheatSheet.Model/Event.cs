@@ -2,7 +2,7 @@
 
 namespace MWRCheatSheet.Model;
 
-public class Event
+public record Event
 {
     [JsonPropertyName("header")]
     public string Header { get; set; } = default!;

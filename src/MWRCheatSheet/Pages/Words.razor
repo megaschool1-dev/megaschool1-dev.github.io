@@ -284,8 +284,8 @@
     {
         var time = new TimeOnly(20, 0);
 
-        var nextMondayEvent = GetNextEvent(DayOfWeek.Monday, time, NewYorkTimeZone);
-        var nextThursdayEvent = GetNextEvent(DayOfWeek.Thursday, time, NewYorkTimeZone);
+        var nextMondayEvent = GetNextEvent(DayOfWeek.Monday, time, Constants.DefaultTimeZone);
+        var nextThursdayEvent = GetNextEvent(DayOfWeek.Thursday, time, Constants.DefaultTimeZone);
 
         return (nextMondayEvent < nextThursdayEvent ? "mondays-megaschool-overview" : "thursdays-megaschool-overview");
     }
