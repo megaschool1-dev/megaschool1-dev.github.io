@@ -3,135 +3,57 @@
 @using Components
 @using MWRCheatSheet.Components
 @using MWRCheatSheet.Model
+@inject MWRCheatSheet.Model.UISettings UI
+@inject NavigationManager NavigationManager
 
 <MudStack>
-    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Daily</MudText>
-    <RecurringEvent Header="72 Day Blitz!"
-                    Url="https://www.mwr.live"
-                    ImageUri="images/events/72day-blitz.jpg?v=2"
-                    Recurrence="@((null, new TimeOnly(19, 20), NewYorkTimeZone))"
-                    Text="@($"72 Day Blitz!{Environment.NewLine}{Environment.NewLine}{GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 20), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 20), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}www.MWR.Live{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
-    <br />
-    <br />
-    <RecurringEvent Header="72 Day Blitz! - SPANISH"
-                    Url="https://www.mwr.live"
-                    ImageUri="images/events/72day-blitz.jpg?v=2"
-                    Recurrence="@((null, new TimeOnly(19, 40), NewYorkTimeZone))"
-                    Text="@($"72 Day Blitz! - Spanish{Environment.NewLine}{Environment.NewLine}{GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 40), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent((DateTimeOffset.Now > LetsGetLoudBlitzStart ? DateTimeOffset.Now : LetsGetLoudBlitzStart).DayOfWeek, new(19, 40), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}www.MWR.Live{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
-    <br />
-    <br />
-    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Mondays</MudText>
-    <div id="mondays-megaschool-overview">
-        <RecurringEvent Header="72-Hour Money Challenge Live Q&A"
-                        Archive="https://www.youtube.com/playlist?list=PL0wtaOscxNjvRScHA5qKRVcbOug_EF7F1"
-                        Url="http://zoom.megaschool.me"
-                        Password="72hours"
-                        ImageUri="images/events/mondays-megaschool-overview.jpg?v=3"
-                        Recurrence="@((DayOfWeek.Monday, new TimeOnly(20, 0), NewYorkTimeZone))"
-                        Text="@($@"72-Hour Money Challenge Live Q&A!{Environment.NewLine}{Environment.NewLine}Hosted By:{Environment.NewLine}Mr. Jerome Bell{Environment.NewLine}{Environment.NewLine}Featuring:{Environment.NewLine}3 Star Executive Director Mr. Marvin ""Footsoldier"" McGhee!{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Monday, new(20, 0), NewYorkTimeZone):dddd, MMMM d}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Monday, new(20, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://Zoom.MegaSchool.Me{Environment.NewLine}{Environment.NewLine}ID: 853-8413-3968{Environment.NewLine}Password: 72hours{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge #MakeWealthReal")" />
-    </div>
-    <RecurringEvent Header="Kingdom Builders"
-                    Archive="@("https://www.youtube.com/@mwrkingdombuilders")"
-                    Url="http://zoom.mwrkingdombuilders.com"
-                    Password="mwrkb"
-                    ImageUri="images/events/mondays-kingdombuilders-overview.jpeg"
-                    Recurrence="@((DayOfWeek.Monday, new TimeOnly(20, 30), NewYorkTimeZone))"
-                    Text="@($"72-Hour Money Challenge!{Environment.NewLine}{Environment.NewLine}Join us for our MWR Business Overview!!!{Environment.NewLine}{Environment.NewLine}Hosted By: Dr. Gerald W. Parker{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Monday, new(20, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Monday, new(20, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.mwrkingdombuilders.com{Environment.NewLine}{Environment.NewLine}Password:{Environment.NewLine}mwrkb{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge")" />
-    <br />
-    <br/>
-    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Tuesdays</MudText>
-    <RecurringEvent Header="Faith & Finance"
-                    Archive="@("https://www.youtube.com/@mwrkingdombuilders")"
-                    Url="http://zoom.mwrkingdombuilders.com"
-                    Password="mwrkb"
-                    ImageUri="images/events/tuesdays-kingdombuilders-faithandfinance.jpeg"
-                    Recurrence="@((DayOfWeek.Tuesday, new TimeOnly(12, 0), NewYorkTimeZone))"
-                    Text="@(FaithAndFinance(DayOfWeek.Tuesday, new(12, 0), NewYorkTimeZone))" />
-    <RecurringEvent Header="QMD Training"
-                    Url="http://theultimatecashflowsystem.com"
-                    ImageUri="images/events/tuesdays-creditteam-training.jpeg?v=2"
-                    Recurrence="@((DayOfWeek.Tuesday, new TimeOnly(20, 0), NewYorkTimeZone))"
-                    Text="@($"QMD Training{Environment.NewLine}{Environment.NewLine}Hosted By: Benjamin McCray{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Tuesday, new(20, 0), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Tuesday, new(20, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to: http://TheUltimateCashFlowSystem.com{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
-    <RecurringEvent Header="Wealth Syndicate Sizzle Call"
-                    ImageUri="images/events/tuesdays-edm-sizzlecall.jpeg"
-                    Recurrence="@((DayOfWeek.Tuesday, new TimeOnly(20, 0), NewYorkTimeZone))"
-                    Text="@($"Wealth Syndicate Sizzle Call{Environment.NewLine}{Environment.NewLine}Hosted By: Barry Donaldson{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Tuesday, new(20, 0), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Tuesday, new(20, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Call: (667) 776-9261{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge #EDM")" />
-    <br/>
-    <br/>
-    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Wednesdays</MudText>
-    <RecurringEvent Header="Lunch & Learn"
-                    Url="http://theultimatecashflowsystem.com"
-                    ImageUri="images/events/wednesdays-creditteam-noon_overview.jpeg?v=2"
-                    Recurrence="@((DayOfWeek.Wednesday, new TimeOnly(12, 0), NewYorkTimeZone))"
-                    Text="@($"72-Hour Money Challenge!{Environment.NewLine}{Environment.NewLine}Join Benjamin McCray as he shares life-changing strategies on how to make money on your lunch break!!!{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Wednesday, new(12, 0), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Tuesday, new(12, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://theultimatecashflowsystem.com{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
-    <RecurringEvent Header=@($"Wendell Philp & Eric Willner{Environment.NewLine}Business Overview")
-                    Url="http://zoom.thecreditteam.com"
-                    ImageUri="images/events/wednesdays-creditteam-overview.jpeg"
-                    Recurrence="@((DayOfWeek.Wednesday, new TimeOnly(20, 30), NewYorkTimeZone))"
-                    Text="@($"72-Hour Money Challenge!{Environment.NewLine}{Environment.NewLine}Learn from experts in the real estate market with more than 50 years of combined experience.{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Wednesday, new(20, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Wednesday, new(20, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://Zoom.TheCreditTeam.com{Environment.NewLine}{Environment.NewLine}**No Password Required**{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
-    <RecurringEvent Header="EDM Business Overview"
-                    Archive="https://www.facebook.com/ExtraDigit/"
-                    Url="http://www.howtobuildmywealth.com"
-                    Password="wealth"
-                    ImageUri="images/events/wednesdays-edm-overview.jpeg?v=2"
-                    Recurrence="@((DayOfWeek.Wednesday, new TimeOnly(20, 30), NewYorkTimeZone))"
-                    Text="@($"72-Hour Money Challenge!{Environment.NewLine}{Environment.NewLine}Join Brian N. Beane for the 72-Hour Money Challenge Overview!{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Wednesday, new(20, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Wednesday, new(20, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://HowToBuildMyWealth.com{Environment.NewLine}{Environment.NewLine}Pasword: wealth{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
-    <RecurringEvent Header="EDM Team Training"
-                    Archive="https://www.facebook.com/ExtraDigit/"
-                    Url="http://www.howtobuildmywealth.com"
-                    Password="wealth"
-                    ImageUri="@Constants.GetImageUrl(Image.MWRBanner)"
-                    Recurrence="@((DayOfWeek.Wednesday, new TimeOnly(21, 30), NewYorkTimeZone))"
-                    Text="@($"EDM Team Training{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Wednesday, new(21, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Wednesday, new(21, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://HowToBuildMyWealth.com{Environment.NewLine}{Environment.NewLine}Pasword: wealth{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
-    <br />
-    <br />
-    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Thursdays</MudText>
-    <div id="thursdays-megaschool-overview">
-        <RecurringEvent Header="72-Hour Money Challenge Live Q&A"
-                        Archive="https://www.youtube.com/playlist?list=PL0wtaOscxNjvRScHA5qKRVcbOug_EF7F1"
-                        Url="http://zoom.megaschool.me"
-                        Password="72hours"
-                        ImageUri="images/events/thursdays-megaschool-overview.jpg"
-                        Recurrence="@((DayOfWeek.Thursday, new TimeOnly(20, 0), NewYorkTimeZone))"
-                        Text="@($@"72-Hour Money Challenge Live Q&A!{Environment.NewLine}{Environment.NewLine}Hosted By:{Environment.NewLine}Mr. Jerome Bell{Environment.NewLine}{Environment.NewLine}Featuring:{Environment.NewLine}3 Star Executive Director Mr. Marvin ""Footsoldier"" McGhee!{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Thursday, new(20, 0), NewYorkTimeZone):dddd, MMMM d}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Thursday, new(20, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://Zoom.MegaSchool.Me{Environment.NewLine}{Environment.NewLine}ID: 853-8413-3968{Environment.NewLine}Password: 72hours{Environment.NewLine}{Environment.NewLine}#72HrMoneyChallenge #MakeWealthReal")" />
-    </div>
-    <RecurringEvent Header="Membership Services Training"
-                    Url="https://mwr.live"
-                    ImageUri="@Constants.GetImageUrl(Image.MWRBanner)"
-                    Recurrence="@((DayOfWeek.Thursday, new TimeOnly(20, 30), NewYorkTimeZone))"
-                    Text="@($"MWR Membership Services Training{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Thursday, new(20, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Thursday, new(20, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}https://mwr.live{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
-    <br />
-    <br />
-    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Fridays</MudText>
-    <RecurringEvent Header="Faith & Finance"
-                    Archive="@("https://www.youtube.com/@mwrkingdombuilders")"
-                    Url="http://zoom.mwrkingdombuilders.com"
-                    Password="mwrkb"
-                    ImageUri="images/events/fridays-kingdombuilders-faithandfinance.jpeg"
-                    Recurrence="@((DayOfWeek.Friday, new TimeOnly(20, 30), NewYorkTimeZone))"
-                    Text="@(FaithAndFinance(DayOfWeek.Friday, new(20, 30), NewYorkTimeZone))" />
-    <br />
-    <br />
-    <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Saturdays</MudText>
-    <RecurringEvent Header="Saturday Reading Club"
-                    Url="http://zoom.thecreditteam.com"
-                    ImageUri="images/events/saturdays-creditteam-readingclub.jpeg"
-                    Recurrence="@((DayOfWeek.Saturday, new TimeOnly(9, 30), NewYorkTimeZone))"
-                    Text="@($"Saturday Reading Club{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Saturday, new(9, 30), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Saturday, new(9, 30), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.thecreditteam.com{Environment.NewLine}{Environment.NewLine}**No Password Required**{Environment.NewLine}{Environment.NewLine}#LeadersAreReaders")" />
-    <RecurringEvent Header="Business Overview"
-                    Url="http://zoom.thecreditteam.com"
-                    ImageUri="images/events/saturdays-creditteam-overview.jpeg"
-                    Recurrence="@((DayOfWeek.Saturday, new TimeOnly(11, 0), NewYorkTimeZone))"
-                    Text="@($"72-Hour Money Challenge!{Environment.NewLine}{Environment.NewLine}Join Benjamin McCray as he shares life-changing strategies on how to turn your expenses into income and MORE!!!{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Saturday, new(11, 0), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Saturday, new(11, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.thecreditteam.com{Environment.NewLine}{Environment.NewLine}**No Password Required**{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
-    <RecurringEvent Header="QMD Training"
-                    Url="http://zoom.thecreditteam.com"
-                    ImageUri="images/events/saturdays-creditteam-training.jpeg"
-                    Recurrence="@((DayOfWeek.Saturday, new TimeOnly(20, 0), NewYorkTimeZone))"
-                    Text="@($"QMD Saturday Training{Environment.NewLine}{Environment.NewLine}{GetNextEvent(DayOfWeek.Saturday, new(20, 0), NewYorkTimeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DayOfWeek.Saturday, new(20, 0), NewYorkTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.thecreditteam.com{Environment.NewLine}{Environment.NewLine}**No Password Required**{Environment.NewLine}{Environment.NewLine}#MWR #72HrMoneyChallenge")" />
+    @if(UI.EnglishLocale.Events.Any(e => e.Day == null))
+    {
+        <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">Daily</MudText>
+        @foreach (var recurringEvent in UI.EnglishLocale.Events.Where(e => e.Day == null))
+        {
+            <div id="@recurringEvent.Anchor">
+                <RecurringEvent Header="@recurringEvent.Header"
+                                Archive="@recurringEvent.Archive"
+                                Url="@recurringEvent.Link"
+                                Password="@recurringEvent.Password"
+                                ImageUri="@recurringEvent.Image"
+                                Recurrence="@((recurringEvent.Day, recurringEvent.Time, DefaultTimeZone))"
+                                Text="@($"{recurringEvent.ShareableHeader}{Environment.NewLine}{Environment.NewLine}{(recurringEvent.ShareableHost == null ? string.Empty : $"Hosted By:{Environment.NewLine}{recurringEvent.ShareableHost}{Environment.NewLine}{Environment.NewLine}")}{(recurringEvent.ShareableGuest == null ? string.Empty : $"Featuring:{Environment.NewLine}{recurringEvent.ShareableGuest}{Environment.NewLine}{Environment.NewLine}")}{GetNextEvent(DateTime.Now.DayOfWeek, recurringEvent.Time, DefaultTimeZone):dddd, MMMM d}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(DateTime.Now.DayOfWeek, recurringEvent.Time, DefaultTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}{recurringEvent.VanityLink}{(recurringEvent.MeetingId == null ? string.Empty : $"{Environment.NewLine}{Environment.NewLine}ID: {recurringEvent.MeetingId}")}{(recurringEvent.Password == null ? string.Empty : $"{Environment.NewLine}{Environment.NewLine}Password: {recurringEvent.Password}")}{Environment.NewLine}{Environment.NewLine}{recurringEvent.HashTags}")" />
+            </div>
+        }
+    }
+
+    @foreach(var day in UI.EnglishLocale.Events.Where(e => e.Day != null).Select(e => e.Day).Distinct())
+    {
+        <br />
+        <br />
+        <div id="@day">
+            <MudText Typo="Typo.h3" GutterBottom="true" Align="Align.Center">@day</MudText>
+            <MudStack>
+                @foreach (var recurringEvent in UI.EnglishLocale.Events.Where(e => e.Day == day).OrderBy(e => e.Time))
+                {
+                    <div id="@recurringEvent.Anchor">
+                        <RecurringEvent Header="@recurringEvent.Header"
+                                        Archive="@recurringEvent.Archive"
+                                        Url="@recurringEvent.Link"
+                                        Password="@recurringEvent.Password"
+                                        ImageUri="@recurringEvent.Image"
+                                        Recurrence="@((recurringEvent.Day, recurringEvent.Time, DefaultTimeZone))"
+                                        Text="@($"{recurringEvent.ShareableHeader}{Environment.NewLine}{Environment.NewLine}{(recurringEvent.ShareableHost == null ? string.Empty : $"Hosted By:{Environment.NewLine}{recurringEvent.ShareableHost}{Environment.NewLine}{Environment.NewLine}")}{(recurringEvent.ShareableGuest == null ? string.Empty : $"Featuring:{Environment.NewLine}{recurringEvent.ShareableGuest}{Environment.NewLine}{Environment.NewLine}")}{GetNextEvent(recurringEvent.Day!.Value, recurringEvent.Time, DefaultTimeZone):dddd, MMMM d}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(recurringEvent.Day!.Value, recurringEvent.Time, DefaultTimeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}{recurringEvent.VanityLink}{(recurringEvent.MeetingId == null ? string.Empty : $"{Environment.NewLine}{Environment.NewLine}ID: {recurringEvent.MeetingId}")}{(recurringEvent.Password == null ? string.Empty : $"{Environment.NewLine}{Environment.NewLine}Password: {recurringEvent.Password}")}{Environment.NewLine}{Environment.NewLine}{recurringEvent.HashTags}")" />
+                    </div>
+                }
+            </MudStack>
+        </div>
+    }
 </MudStack>
 @code {
     private static readonly TimeZoneInfo[] BusinessStandardTimeZonesOrdered = [DefaultTimeZone, ChicagoTimeZone, LosAngelesTimeZone];
-    private static readonly DateTimeOffset LetsGetLoudBlitzStart = new(new DateOnly(2024, 3, 18), new TimeOnly(7, 20), NewYorkTimeZone.BaseUtcOffset);
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.NavigateTo($"/events#{DateTime.Now.DayOfWeek}", true);
+    }
 
     private static string GetRegionalTimes(DateTimeOffset dateTime)
     {
@@ -141,7 +63,4 @@
 
         return regionalTimes;
     }
-
-    private static string FaithAndFinance(DayOfWeek day, TimeOnly time, TimeZoneInfo timeZone)
-        => $"Join us for our Faith & Finance Conversation!{Environment.NewLine}{Environment.NewLine}Hosted By: Dr. Gerald W. Parker{Environment.NewLine}{Environment.NewLine}{GetNextEvent(day, time, timeZone):dddd, MMMM d, yyyy}{Environment.NewLine}{Environment.NewLine}{GetRegionalTimes(GetNextEvent(day, time, timeZone))}{Environment.NewLine}{Environment.NewLine}Go to:{Environment.NewLine}http://zoom.mwrkingdombuilders.com{Environment.NewLine}{Environment.NewLine}Password:{Environment.NewLine}mwrkb{Environment.NewLine}{Environment.NewLine}Dr. Gerald W. Parker will share how to create wealth and a legacy using Kingdom principles!!!{Environment.NewLine}{Environment.NewLine}#KingdomBuilders #FaithAndFinance #MWR #72HrMoneyChallenge";
 }

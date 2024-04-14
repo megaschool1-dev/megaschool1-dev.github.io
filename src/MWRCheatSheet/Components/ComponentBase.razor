@@ -2,10 +2,10 @@
 @inject IJSRuntime JSRuntime
 
 @code {
-    protected static readonly TimeZoneInfo NewYorkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
-    protected static readonly TimeZoneInfo ChicagoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Chicago");
-    protected static readonly TimeZoneInfo LosAngelesTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
-    protected static readonly TimeZoneInfo DefaultTimeZone = NewYorkTimeZone;
+    public static readonly TimeZoneInfo NewYorkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
+    public static readonly TimeZoneInfo ChicagoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Chicago");
+    public static readonly TimeZoneInfo LosAngelesTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
+    public static readonly TimeZoneInfo DefaultTimeZone = NewYorkTimeZone;
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

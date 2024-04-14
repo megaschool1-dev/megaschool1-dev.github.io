@@ -16,7 +16,7 @@
 
     private async Task OnCopyClick()
     {
-        await this.CopyTextToClipboardAsync(this.TextToCopy);
+        await this.CopyTextToClipboardAsync(this.TextToCopy.Replace("<br/>", Environment.NewLine));
 
         _showCopyTooltip = true;
         base.StateHasChanged();

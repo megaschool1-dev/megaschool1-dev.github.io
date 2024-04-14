@@ -13,6 +13,9 @@ public class I18N
     [JsonPropertyName("testimonials")]
     public Testimonial[] Testimonials { get; set; } = [];
 
+    [JsonPropertyName("events")]
+    public Event[] Events { get; set; } = [];
+
     public VideoResource? this[Content content]
     {
         get

@@ -27,7 +27,7 @@
 
     private async Task OnShareClick()
     {
-        await this.ShareMessageAsync(this.TextToCopy, this.ImageUrl);
+        await this.ShareMessageAsync(this.TextToCopy.Replace("<br/>", Environment.NewLine), this.ImageUrl);
 
         _showShareTooltip = true;
         base.StateHasChanged();

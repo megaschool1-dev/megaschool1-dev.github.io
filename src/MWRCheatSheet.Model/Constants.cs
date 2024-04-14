@@ -134,6 +134,11 @@ public enum MegaSchoolPipeline
 
 public class Constants(UISettings ui)
 {
+    public static readonly TimeZoneInfo NewYorkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
+    public static readonly TimeZoneInfo ChicagoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Chicago");
+    public static readonly TimeZoneInfo LosAngelesTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
+    public static readonly TimeZoneInfo DefaultTimeZone = NewYorkTimeZone;
+
     public static readonly string PointingDownEmoji = $"\ud83d\udc47";
     public static readonly string YouTubeEmbedLinkPrefix = "https://www.youtube.com/embed/";
     public static readonly string VimeoEmbedLinkPrefix = "https://player.vimeo.com/video/";
