@@ -11,7 +11,6 @@
             <MudText Typo="Typo.h6">@((MarkupString)Header.Replace(Environment.NewLine, "<br/>"))</MudText>
             @if(!string.IsNullOrWhiteSpace(this.Archive))
             {
-                <br/>
                 <ExternalLink Href="@Archive" Text="Watch Replays" />
                 <CopyContent TextToCopy="@Archive" />
             }

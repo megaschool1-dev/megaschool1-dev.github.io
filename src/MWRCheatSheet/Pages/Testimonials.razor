@@ -76,5 +76,5 @@
     private MudChip[] _selected = [];
 
     private static Highlight[] GetHighlights(MudChip[] chips)
-        => !chips.Any() ? Array.Empty<Highlight>() : chips.Select(chip => Highlights.First(v => v.Description == chip.Text).Highlight).ToArray();
+        => !chips.Any() ? [] : chips.Select(chip => Highlights.First(v => v.Description == chip.Text).Highlight).ToArray();
 }

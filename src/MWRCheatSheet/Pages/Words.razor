@@ -73,7 +73,7 @@
                     <MudStack>
                         <MudStack Row="true">
                             <MudText>#1: </MudText>
-                            <MudText>"Let me show you this 7min video, it explains it perfectly.</MudText>
+                            <MudText>"Let me show you this 2min video, it explains it perfectly.</MudText>
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>#2: </MudText>
@@ -139,10 +139,10 @@
                             <MudButton OnClick="@(() => _show1On1Presentation = true)" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled">Show 1-on-1 Presentation</MudButton>
                         </MudStack>
                         <MudStack Row="true">
-                            <MudText>#2: </MudText>
+                            <MudText>#3: </MudText>
                             <MudText>"So, do you want some of the money, or all of the money?"</MudText>
                         </MudStack>
-                        <BinaryChoice Description="Prospect Response" FirstChoiceLabel="Yes" SecondChoiceLabel="I have a question">
+                        <BinaryChoice Description="Prospect Response" FirstChoiceLabel="@("\"Yes\"")" SecondChoiceLabel="@("\"I have a question\"")">
                             <FirstChoiceContent>
                                 <MudText Align="Align.Center">"Great, here's how you take the challenge!"<br />@Constants.PointingDownEmoji</MudText>
                                 <MudStack Row="true">
@@ -175,7 +175,7 @@
                             <MudText>#4: </MudText>
                             <MudText>"So are you ready to take the challenge?"</MudText>
                         </MudStack>
-                        <BinaryChoice Description="Prospect Response" FirstChoiceLabel="Yes" SecondChoiceLabel="I have a question">
+                        <BinaryChoice Description="Prospect Response" FirstChoiceLabel="@("\"Yes\"")" SecondChoiceLabel="@("\"I have a question\"")">
                             <FirstChoiceContent>
                                 <MudText Align="Align.Center">"Great, here's how you take the challenge!"<br />@Constants.PointingDownEmoji</MudText>
                                 <MudStack Row="true">
