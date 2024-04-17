@@ -132,6 +132,13 @@ public enum MegaSchoolPipeline
     BusinessOpportunityDecision = 7,
 }
 
+public enum LivestreamPlatform
+{
+    Facebook = 0,
+    YouTube = 1,
+    LinkedIn = 2,
+}
+
 public class Constants(UISettings ui)
 {
     public static readonly TimeZoneInfo NewYorkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
@@ -140,6 +147,7 @@ public class Constants(UISettings ui)
     public static readonly TimeZoneInfo DefaultTimeZone = NewYorkTimeZone;
 
     public static readonly string PointingDownEmoji = $"\ud83d\udc47";
+    public static readonly string LivestreamVideoPlaceholder = "{Corporate.Livestream}";
     public static readonly string YouTubeEmbedLinkPrefix = "https://www.youtube.com/embed/";
     public static readonly string VimeoEmbedLinkPrefix = "https://player.vimeo.com/video/";
     public static readonly string MinimalistVideoLinkPrefix = "https://megaschool.me/v";
@@ -173,6 +181,13 @@ public class Constants(UISettings ui)
         Image.RevenueShare1On1Spanish => "images/72-HourMoneyChallengeRevenueSharing-1on1-SPANISH.png",
         Image.PreciousMetals => "images/mwr-precious-metals.jpg",
         _ => throw new Exception($"Image not found: {image}"),
+    };
+
+    public static readonly Dictionary<LivestreamPlatform, string> CorporateLivestreamLink = new()
+    {
+        { LivestreamPlatform.Facebook, "https://www.mwr.live/" },
+        { LivestreamPlatform.YouTube, "https://www.youtube.com/@MWRFinancial/streams" },
+        { LivestreamPlatform.LinkedIn, "https://www.linkedin.com/company/mwr-financial-official/mycompany/" },
     };
 
     public static readonly Dictionary<Rank, (int NumMemberships, int MonthlyPay, string Title)> DailyGuarantee = new()

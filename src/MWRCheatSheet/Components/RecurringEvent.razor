@@ -2,21 +2,21 @@
 @using Components
 @using MWRCheatSheet.Components
 @using System.Runtime.CompilerServices
+@using Blazored.LocalStorage
+@using MWRCheatSheet.Model
+@using MWRCheatSheet.Repository.Model
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+@inject Repository.Repository Repo
 
 <MudCard>
     <MudCardHeader>
         <CardHeaderContent>
             <MudText Typo="Typo.h6">@((MarkupString)Header.Replace(Environment.NewLine, "<br/>"))</MudText>
-            @if(!string.IsNullOrWhiteSpace(this.Archive))
-            {
-                <ExternalLink Href="@Archive" Text="Watch Replays" />
-                <CopyContent TextToCopy="@Archive" />
-            }
         </CardHeaderContent>
     </MudCardHeader>
-    <center><MudImage Src="@ImageUri" Fluid="true" /></center>
+    <Center><MudImage Src="@ImageUri" Fluid="true" /></Center>
     <MudCardContent>
         <MudStack>
             <MudText Typo="Typo.body2" Align="Align.Center">@((Recurrence.Day is null ? "Daily" : $"{Recurrence.Day}s")) @@ @GetNextEvent(this.Recurrence.Day is null ? DateTime.Now.DayOfWeek : this.Recurrence.Day.Value, this.Recurrence.Time, this.Recurrence.TimeZone).ToOffset(TimeZoneInfo.Local.BaseUtcOffset).ToString(" h:mm tt") @TimeZoneInfo.Local.StandardName</MudText>
@@ -37,6 +37,18 @@
                 <MudText Align="Align.Center">Password: @Password</MudText>
             }
             <br/>
+            @if (Constants.CorporateLivestreamLink.ContainsValue(this.Url))
+            {
+                <MudStack Row="true">
+                    <MudSpacer/>
+                    <MudChipSet SelectedValues="@([LivestreamPlatform?.Platform])" SelectedChipChanged="OnSelectedLivestreamPlatformChanged" Filter="true" Mandatory="true">
+                        <MudChip Size="Size.Small" Value="Model.LivestreamPlatform.Facebook" Text="@nameof(Model.LivestreamPlatform.Facebook)" Color="Color.Primary" Variant="Variant.Outlined" Default="@(LivestreamPlatform?.Platform == Model.LivestreamPlatform.Facebook)" OnClose="() => { }" CloseIcon="@Icons.Material.Filled.ClosedCaption">Facebook</MudChip>
+                        <MudChip Size="Size.Small" Value="Model.LivestreamPlatform.YouTube" Text="@nameof(Model.LivestreamPlatform.YouTube)" Color="Color.Primary" Variant="Variant.Outlined" Default="@(LivestreamPlatform?.Platform == Model.LivestreamPlatform.YouTube)">YouTube</MudChip>
+                        <MudChip Size="Size.Small" Value="Model.LivestreamPlatform.LinkedIn" Text="@nameof(Model.LivestreamPlatform.LinkedIn)" Color="Color.Primary" Variant="Variant.Outlined" Default="@(LivestreamPlatform?.Platform == Model.LivestreamPlatform.LinkedIn)" OnClose="() => { }" CloseIcon="@Icons.Material.Filled.ClosedCaption">LinkedIn</MudChip>
+                    </MudChipSet>
+                    <MudSpacer/>
+                </MudStack>
+            }
             <MudStack Row="true" Style="width:100%;">
                 <MudSpacer/>
                 <ShareableContent Tooltip="Invitation copied!"
@@ -44,6 +56,16 @@
                                   ImageUrl="@ImageUri"/>
                 <MudSpacer/>
             </MudStack>
+            @if(!string.IsNullOrWhiteSpace(this.Archive))
+            {
+                <MudDivider Class="my-2" />
+                <MudStack Row="true">
+                    <MudSpacer/>
+                    <ExternalLink Href="@Archive" Text="Watch Replays" />
+                    <CopyContent TextToCopy="@Archive" />
+                    <MudSpacer/>
+                </MudStack>
+            }
         </MudStack>
     </MudCardActions>
 </MudCard>
@@ -56,7 +78,7 @@
 
 @code {
     private (bool ShowImageDialog, string ImageUri) _showImageDialog;
-    
+
     [Parameter]
     public string Header { get; set; } = "72-Hour Money Challenge!";
 
@@ -77,4 +99,19 @@
 
     [Parameter]
     public string? Archive { get; set; }
+
+    [Parameter]
+    public (string EventId, LivestreamPlatform Platform)? LivestreamPlatform { get; set; }
+
+    [Parameter]
+    public EventCallback<(string EventId, LivestreamPlatform Platform)?> LivestreamPlatformSelectionChanged { get; set; }
+
+    private void OnSelectedLivestreamPlatformChanged(MudChip selectedLivestreamPlatform)
+    {
+        var newStreamingPlatform = (this.LivestreamPlatform?.EventId!, Enum.Parse<LivestreamPlatform>(selectedLivestreamPlatform.Text));
+        if (newStreamingPlatform.Item2 != this.LivestreamPlatform?.Platform)
+        {
+            this.LivestreamPlatformSelectionChanged.InvokeAsync(newStreamingPlatform);
+        }
+    }
 }

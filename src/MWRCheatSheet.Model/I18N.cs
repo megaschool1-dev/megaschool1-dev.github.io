@@ -14,7 +14,7 @@ public class I18N
     public Testimonial[] Testimonials { get; set; } = [];
 
     [JsonPropertyName("events")]
-    public Event[] Events { get; set; } = [];
+    public EventDto[] Events { get; set; } = [];
 
     public VideoResource? this[Content content]
     {

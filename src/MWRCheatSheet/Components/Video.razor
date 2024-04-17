@@ -26,6 +26,11 @@
     {
         <iframe src="@($"https://player.vimeo.com/video/{Vimeo?.VideoId}{(string.IsNullOrWhiteSpace(Vimeo?.Hash) ? string.Empty : $"?h={Vimeo?.Hash}")}")" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" data-ready="true"></iframe>
     }
+    
+    @if (ValidFacebook)
+    {
+        <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2F@(Facebook?.ChannelId)%2Fvideos%2F@(Facebook?.VideoId)%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+    }
 </div>
 
 @if (!_iframeLoaded)
@@ -48,9 +53,13 @@
     [Parameter]
     public (string VideoId, string? Hash)? Vimeo { get; set; }
 
+    [Parameter]
+    public (string ChannelId, string VideoId)? Facebook { get; set; }
+
     private bool ValidYouTube => !string.IsNullOrWhiteSpace(YouTube);
     private bool ValidVimeo => !string.IsNullOrWhiteSpace(Vimeo?.VideoId);
     private bool ValidTikTok => !string.IsNullOrWhiteSpace(TikTok?.UserHandle) && !string.IsNullOrWhiteSpace(TikTok?.VideoId);
+    private bool ValidFacebook => !string.IsNullOrWhiteSpace(Facebook?.ChannelId) && !string.IsNullOrWhiteSpace(Facebook?.VideoId);
 
     protected override void OnInitialized()
     {
@@ -60,6 +69,11 @@
         }
 
         if (ValidVimeo)
+        {
+            this.ShowVideo();
+        }
+
+        if (ValidFacebook)
         {
             this.ShowVideo();
         }
