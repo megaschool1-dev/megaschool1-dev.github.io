@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MWRCheatSheet.Model\MWRCheatSheet.Model.csproj" />
-    <ProjectReference Include="..\MWRCheatSheet.ViewModel\MWRCheatSheet.ViewModel.csproj" />
+    <ProjectReference Include="..\MegaSchool1.Model\MegaSchool1.Model.csproj" />
+    <ProjectReference Include="..\MegaSchool1.ViewModel\MegaSchool1.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>
