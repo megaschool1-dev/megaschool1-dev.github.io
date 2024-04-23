@@ -55,13 +55,17 @@ public enum Image
     Overview1On1Spanish = 8,
     RevenueShare1On1Spanish = 9,
     PreciousMetals = 10,
+    FaithAndFinance = 11,
 }
 
 public enum Strategy
 {
-    Corporate = 0,
-    ExtraDigitMovement = 1,
-    MegaSchool = 2,
+    MegaSchool = 0,
+    Corporate = 1,
+    ExtraDigitMovement = 2,
+    FaithAndFinance = 3,
+    RealEstate = 4,
+    Latino = 5,
 }
 
 public enum VideoPlatform
@@ -94,6 +98,7 @@ public enum Content
     RealEstatePros = 17,
     ProtectMyAssets = 18,
     StructureMyLegacy = 19,
+    FaithAndFinance = 20,
 }
 
 public enum Video
@@ -180,6 +185,7 @@ public class Constants(UISettings ui)
         Image.Overview1On1Spanish => "images/72-HourMoneyChallengeOverview_1on1_SPANISH.png",
         Image.RevenueShare1On1Spanish => "images/72-HourMoneyChallengeRevenueSharing-1on1-SPANISH.png",
         Image.PreciousMetals => "images/mwr-precious-metals.jpg",
+        Image.FaithAndFinance => "images/faithandfinance.jpg",
         _ => throw new Exception($"Image not found: {image}"),
     };
 
