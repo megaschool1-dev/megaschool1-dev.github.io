@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @using Blazored.LocalStorage
+@using MegaSchool1.Components
 @using MegaSchool1.Dialog
 @using MegaSchool1.Model
 @implements IDisposable
@@ -62,6 +63,7 @@ else
                             if (_appState.AppIsInstallable)
                             {
                                 <MudButton OnClick="OnInstallClick" EndIcon="@Icons.Material.Filled.InstallMobile" Variant="Variant.Filled" Color="Color.Primary">Install</MudButton>
+                                <MudIconButton OnClick="@(() => _showInstallInstructions = true)" Icon="@Icons.Material.Filled.OndemandVideo" aria-label="video" Variant="Variant.Filled" Color="Color.Primary" />
                             }
                             else
                             {
@@ -102,6 +104,34 @@ else
     <a class="dismiss">🗙</a>
 </div>
 
+<MudDialog @bind-IsVisible="_showInstallInstructions" Options="@(new DialogOptions() { FullScreen = true })">
+    <TitleContent>
+        <Centered><MudButton Color="Color.Primary" OnClick="@(() => _showInstallInstructions = false)">Close</MudButton></Centered>
+        <br/>
+        <MudText Align="Align.Center">App Installation Instructions</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudContainer Style="max-height:100vh; overflow-y: scroll;">
+            <MudStack>
+                <MudCard>
+                    <MudText Align="Align.Center">Android</MudText>
+                    <br/>
+                    <video width="100%" controls>
+                        <source src="https://video.wixstatic.com/video/5f35ec_33bda4fc60fd41cf8c3a09924f204746/480p/mp4/file.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </MudCard>
+                <MudCard>
+                    <MudStack>
+                        <MudText Align="Align.Center">iPhone</MudText>
+                        <MudText Align="Align.Center">Coming Soon!</MudText>
+                    </MudStack>
+                </MudCard>
+            </MudStack>
+        </MudContainer>
+    </DialogContent>
+</MudDialog>
+
 @code {
     private static MainLayout? Instance;
 
@@ -110,6 +140,7 @@ else
     private bool _showAppUpdatePrompt;
     private bool _componentInitialized;
     private DotNetObjectReference<MainLayout>? _thisComponentReference;
+    private bool _showInstallInstructions;
 
     public void Dispose()
     {
