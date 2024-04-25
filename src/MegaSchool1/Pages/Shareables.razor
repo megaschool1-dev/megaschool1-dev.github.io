@@ -98,6 +98,9 @@
 <br/>
 <Collapsable Title="Explainers" ExpandPrompt="Show">
     <MudStack>
+        <ShareableVideo Description="Teen Car Purhcase"
+                        Tooltip="Copied!"
+                        TextToCopy="@($"Teen Car Purchase{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}https://megaschool1.github.io/carpurchase")" />
         <ShareableVideo Description="@(Constants.MoneyChallengeFAQ.Description)"
                         Duration="@(Constants.MoneyChallengeFAQ.Duration)"
                         Url="@(Constants.MoneyChallengeFAQ.PreviewUrl)"
@@ -339,6 +342,11 @@
                         Tooltip=@Constants.AppShareable.English.Tooltip
                         TextToCopy=@Constants.AppShareable.English.Message
                         ImageUrl=@Constants.AppShareable.ImageUrl />
+        <ShareableVideo Description="@("Mega School App Install Instructions")"
+                        Url="@Constants.AppInstallTutorialUrl"
+                        Tooltip="Copied!"
+                        TextToCopy="@($"Mega School App Install Instructions{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}{Constants.AppInstallTutorialUrl}")"
+                        ImageUrl="@Constants.GetImageUrl(Image.AppScreenshot)"/>
     </MudStack>
 </Collapsable>
 <br />
