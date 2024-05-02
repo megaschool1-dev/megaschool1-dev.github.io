@@ -1,5 +1,6 @@
 ﻿using MegaSchool1.Model.UI;
 using Microsoft.AspNetCore.Components;
+using System.Net.NetworkInformation;
 
 namespace MegaSchool1.Model;
 
@@ -164,14 +165,15 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
     public static readonly string MinimalistYouTubeVideoLinkPrefix = $"{MinimalistVideoLinkPrefix}?y=";
     public const string AppInstallTutorialUrl = "https://video.wixstatic.com/video/5f35ec_33bda4fc60fd41cf8c3a09924f204746/480p/mp4/file.mp4";
 
+    private static readonly DateTimeOffset PayItForwardPromoExpiration = new(2024, 5, 7, 11, 59, 59, NewYorkTimeZone.BaseUtcOffset);
+
     public static string BusinessEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/join";
     public static string MembershipEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/signup-financialedge";
     public static string InstantPayRaiseUrlEnglish(string username) => $"https://www.mwrfinancial.com/iprr/?member={username}";
     public static string InstantPayRaiseUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/iprr/?member={username}";
     public static string MarketingDirectorUrlEnglish(string username) => $"https://www.mwrfinancial.com/?member={username}";
     public static string MarketingDirectorUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/?member={username}";
-    public static string JoinMakeWealthRealEnglish(string username) => $"https://www.mwrfinancial.com/join/?member={username}";
-    public static string JoinMakeWealthRealSpanish(string username) => $"https://www.mwrfinancial.com/es/join/?member={username}";
+    public static string JoinMakeWealthReal(string username, Language language) => $"https://www.mwrfinancial.com{(language == Language.Spanish ? "/es" : string.Empty)}/join/?member={username}";
 
     public static string MinimalistYouTubeLink(string youTubeId) => $"{MinimalistYouTubeVideoLinkPrefix}{youTubeId}";
     public static string MinimalistVimeoLink(string vimeoId, string? hash) => $"{MinimalistVideoLinkPrefix}?v={vimeoId}{(string.IsNullOrWhiteSpace(hash) ? string.Empty : $"&h={hash}")}";
@@ -196,6 +198,22 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
         Image.StudentLoanDebtReliefTile => "/images/student-loan-debt-relief-tile.png",
         _ => throw new Exception($"Image not found: {image}"),
     };
+
+    public static string? GetBusinessEnrollmentPromo(string memberId)
+    {
+        string? promo;
+
+        if (DateTimeOffset.Now <= PayItForwardPromoExpiration)
+        {
+            promo = $"{Environment.NewLine}{Environment.NewLine}For $100 off, use coupon code:{Environment.NewLine}{Environment.NewLine}{memberId}code";
+        }
+        else
+        {
+            promo = null;
+        }
+
+        return promo;
+    }
 
     public string GetCapturePage(Content content, Language language, string memberId, string referralId) => content switch
     {
