@@ -1,0 +1,85 @@
+﻿@inherits Components.ComponentBase
+@using MegaSchool1.Repository.Model
+@inject Repository.Repository Repo
+
+@if (!_settings.TeamMembers.Any())
+{
+    @ChildContent
+}
+else
+{
+    <MudCard Outlined="true">
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <Centered>
+                    <BinaryChoice @ref="_choice" Description="@Description" FirstChoiceLabel="Me" SecondChoiceLabel="My Teammate" SelectedChoiceChanged="OnSelectedChoiceChanged">
+                        <SecondChoiceContent>
+                            <MudSelect T="TeamMember" Label="Team Members" @bind-Value="SelectedTeamMember" ToStringFunc="@(teamMember => teamMember.Name)" Variant="Variant.Outlined" Style="width:300px;">
+                                @foreach (var teamMember in _settings.TeamMembers)
+                                {
+                                    <MudSelectItem Value="@teamMember">
+                                        <MudStack Row="true">
+                                            <MudText>@teamMember.Name</MudText>
+                                            <MudSpacer/>
+                                        </MudStack>
+                                    </MudSelectItem>
+                                }
+                            </MudSelect>
+                        </SecondChoiceContent>
+                    </BinaryChoice>
+                </Centered>
+                @ChildContent
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+}
+
+@code {
+    private Settings _settings = new();
+    private BinaryChoice? _choice;
+
+    [Parameter]
+    public string Description { get; set; } = "My Description";
+
+    private TeamMember? _selectedTeamMember;
+    [Parameter]
+    public TeamMember? SelectedTeamMember
+    {
+        get => _selectedTeamMember;
+        set
+        {
+            if (_selectedTeamMember != value)
+            {
+                _selectedTeamMember = value;
+                _ = SelectedTeamMemberChanged.InvokeAsync(_selectedTeamMember);
+
+                // update selected choice
+                if (_choice != null)
+                {
+                    _choice.SelectedChoice = _selectedTeamMember == this.User ? BinaryChoice.Choice.First : BinaryChoice.Choice.Second;
+                }
+            }
+        }
+    }
+
+    [Parameter]
+    public EventCallback<TeamMember> SelectedTeamMemberChanged { get; set; }
+
+    [Parameter]
+    public TeamMember? User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _settings = await Repo.GetSettingsAsync();
+
+        this.User ??= AppState?.User;
+
+        this.SelectedTeamMember = this.User;
+    }
+
+    private void OnSelectedChoiceChanged(BinaryChoice.Choice choice)
+    {
+        this.SelectedTeamMember = choice == BinaryChoice.Choice.First 
+            ? this.User : (_settings.TeamMembers.FirstOrDefault() ?? this.User);
+    }
+}
