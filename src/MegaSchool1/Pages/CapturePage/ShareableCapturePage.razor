@@ -4,7 +4,7 @@
 @using MegaSchool1.Model
 @inject UISettings UI
 
-<PageTitle>MWR 72-Hour Money Challenge!</PageTitle>
+<PageTitle>@Video?.ShareableTitle</PageTitle>
 
 <MudStack Spacing="3" Style="height:100%;">
     <Centered><MudImage Src="@GetImageUrl()" Fluid="true" Width="300" /></Centered>
@@ -21,10 +21,17 @@
         {
             <EmbeddedVideo TikTok="@((Video?.UserHandle, Video?.Id))" />
         }
+        @if (this.Video?.Platform is VideoPlatform.Html5)
+        {
+            <video width="100%" controls>
+                <source src="@Video?.Url" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        }
     </Centered>
     @if (!string.IsNullOrWhiteSpace(this.Video?.DownloadUrl))
     {
-        <Centered><ExternalLink Text="Download" Href="@this.Video?.DownloadUrl" /></Centered>
+        <Centered><ExternalLink Text="@(Video?.DownloadText ?? "Download")" Href="@this.Video?.DownloadUrl" /></Centered>
     }
     @if (DateTimeOffset.Now <= Video?.Event?.StartDate)
     {
@@ -38,8 +45,11 @@
     {
         <MudText Align="Align.Center"><ExternalLink Text="Sign Up NOW!" Href="@Constants.BusinessEnrollmentUrl(this.MemberId)" /></MudText>
     }
-    <br />
-    <Centered><MudText Style="color:white;" Align="Align.Center">@((DateTimeOffset.Now <= Video?.PromoExpiration && Video?.Promo != null ? Video?.Promo : "To get started or ask questions, text"))<br /><br />'@ReferralId' to @QMDPhoneNumber</MudText></Centered>
+    @if(Video?.HideShortCodePrompt is not true)
+    {
+        <br />
+        <Centered><MudText Style="color:white;" Align="Align.Center">@((DateTimeOffset.Now <= Video?.PromoExpiration && Video?.Promo != null ? Video?.Promo : "To get started or ask questions, text"))<br /><br />'@ReferralId' to @QMDPhoneNumber</MudText></Centered>
+    }
     <MudSpacer/>
 </MudStack>
 
