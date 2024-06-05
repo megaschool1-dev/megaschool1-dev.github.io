@@ -63,12 +63,12 @@
     {
         var settings = await Repo.GetSettingsAsync();
 
-        settings.Username = _username!;
+        settings.User = settings.User with { MemberId = _username! };
 
         await Repo.SaveSettingsAsync(settings);
 
         var qmdInfo = await Repo.GetQMDInfo(_username!);
-        this.AppState!.User = Util.GetUserInfo(_username!, qmdInfo!);
+        this.AppState!.User = Util.GetUserInfo(_username!, qmdInfo!, settings.User.GivBuxCode);
         this.StateHasChanged();
 
         MainLayout.Refresh();
