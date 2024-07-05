@@ -8,6 +8,8 @@
 @using MegaSchool1.ViewModel
 @using OneOf
 @using OneOf.Types
+@using Serilog
+@using System.Web
 @implements IDisposable
 @inject NavigationManager MyNavigationManager
 @inject IJSRuntime JSRuntime
@@ -148,7 +150,6 @@ else
     private static MainLayout? Instance;
 
     private readonly AppState _appState = new();
-    private readonly List<string> _pageHistory = [];
     private readonly MudTheme _capturePageTheme = new()
     {
         Palette = new PaletteDark()
@@ -161,6 +162,10 @@ else
     private bool _componentInitialized;
     private DotNetObjectReference<MainLayout>? _thisComponentReference;
     private bool _showInstallInstructions;
+    private object? _windowMode;
+
+    [SupplyParameterFromQuery(Name = "r")]
+    public string? Redirect { get; set; }
 
     public void Dispose()
     {
@@ -204,13 +209,50 @@ else
         }
     }
 
+    private static string RemoveQueryStringByKey(string url, string key)
+    {
+        var uri = new Uri(url);
+
+        // this gets all the query string key value pairs as a collection
+        var newQueryString = HttpUtility.ParseQueryString(uri.Query);
+
+        // this removes the key if exists
+        newQueryString.Remove(key);
+
+        // this gets the page path from root without QueryString
+        string pagePathWithoutQueryString = uri.GetLeftPart(UriPartial.Path);
+
+        return newQueryString.Count > 0
+            ? String.Format("{0}?{1}", pagePathWithoutQueryString, newQueryString)
+            : pagePathWithoutQueryString;
+    }
+
+    private bool _inIFrame;
+
     protected override async Task OnInitializedAsync()
     {
-        _componentInitialized = true;
+        _windowMode = await JSRuntime.InvokeAsync<object>("isStandalone");
 
-        _pageHistory.Add(MyNavigationManager.BaseUri);
+        _inIFrame = await JSRuntime.InvokeAsync<bool>("inIframe");
+        Log.Information($"In iFrame: {_inIFrame}");
+        if (!_inIFrame)
+        {
+            var isStandaloneMode = await JSRuntime.InvokeAsync<bool>("isStandalone");
+            Log.Information($"isStandalone: {isStandaloneMode}");
+            if (isStandaloneMode)
+            {
+                if (IsCapturePage)
+                {
+                    Log.Information($"1");
 
-        NavigationManager.LocationChanged += NavigationManagerOnLocationChanged;
+                    var capturePageUrl = NavigationManager.Uri;
+
+                    NavigationManager.NavigateTo(NavigationManager.BaseUri);
+
+                    this.RedirectTo(capturePageUrl);
+                }
+            }
+        }
 
         // get user info
         var settings = await Repo.GetSettingsAsync();
@@ -228,8 +270,12 @@ else
             async error => error
         );
 
+        NavigationManager.LocationChanged += NavigationManagerOnLocationChanged;
+
         // navigate to prospect page if applicable
         this.NavigateToProspectPageIfApplicable();
+
+        _componentInitialized = true;
 
         // start checking for updates
         _ = CheckForUpdatesAsync();
@@ -254,18 +300,35 @@ else
         Instance = this;
     }
 
+    private void RedirectTo(string url)
+    {
+        NavigationManager.NavigateTo($"https://theotherstuff.github.io/iframe?url={HttpUtility.UrlEncode(url)}");
+    }
+
     private async void NavigationManagerOnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
         this.NavigateToProspectPageIfApplicable();
 
-        if(IsCapturePage)
+        if(!IsCapturePage)
         {
-            await JSRuntime.InvokeVoidAsync("openLinkInNewWindow", e.Location);
-            MyNavigationManager.NavigateTo(_pageHistory.Last());
-        }
-        else
-        {
-            _pageHistory.Add(e.Location);
+            var userData = (await Repo.GetUserDataAsync())
+                .Match(
+                    userData =>
+                    {
+                        userData.LastPage = e.Location;
+
+                        return userData;
+                    },
+                    notFound => new UserData() { LastPage = e.Location },
+                    error =>
+                    {
+                        Log.Error("Failed to load user data");
+
+                        return new UserData() { LastPage = e.Location };
+                    }
+                );
+
+            await Repo.SaveUserDataAsync(userData);
         }
     }
 
