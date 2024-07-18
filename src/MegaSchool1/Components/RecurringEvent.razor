@@ -34,9 +34,9 @@
                 <MudStack Row="true">
                     <MudSpacer/>
                     <MudChipSet SelectedValues="@([LivestreamPlatform?.Platform])" SelectedChipChanged="OnSelectedLivestreamPlatformChanged" Filter="true" Mandatory="true">
-                        <MudChip Size="Size.Small" Value="Model.LivestreamPlatform.Facebook" Text="@nameof(Model.LivestreamPlatform.Facebook)" Color="Color.Primary" Variant="Variant.Outlined" Default="@(LivestreamPlatform?.Platform == Model.LivestreamPlatform.Facebook)" OnClose="() => { }" CloseIcon="@Icons.Material.Filled.ClosedCaption">Facebook</MudChip>
+                        <MudChip Size="Size.Small" Value="Model.LivestreamPlatform.Facebook" Text="@nameof(Model.LivestreamPlatform.Facebook)" Color="Color.Primary" Variant="Variant.Outlined" Default="@(LivestreamPlatform?.Platform == Model.LivestreamPlatform.Facebook)" OnClose="(MudChip<LivestreamPlatform> _) => { }" CloseIcon="@Icons.Material.Filled.ClosedCaption">Facebook</MudChip>
                         <MudChip Size="Size.Small" Value="Model.LivestreamPlatform.YouTube" Text="@nameof(Model.LivestreamPlatform.YouTube)" Color="Color.Primary" Variant="Variant.Outlined" Default="@(LivestreamPlatform?.Platform == Model.LivestreamPlatform.YouTube)">YouTube</MudChip>
-                        <MudChip Size="Size.Small" Value="Model.LivestreamPlatform.LinkedIn" Text="@nameof(Model.LivestreamPlatform.LinkedIn)" Color="Color.Primary" Variant="Variant.Outlined" Default="@(LivestreamPlatform?.Platform == Model.LivestreamPlatform.LinkedIn)" OnClose="() => { }" CloseIcon="@Icons.Material.Filled.ClosedCaption">LinkedIn</MudChip>
+                        <MudChip Size="Size.Small" Value="Model.LivestreamPlatform.LinkedIn" Text="@nameof(Model.LivestreamPlatform.LinkedIn)" Color="Color.Primary" Variant="Variant.Outlined" Default="@(LivestreamPlatform?.Platform == Model.LivestreamPlatform.LinkedIn)" OnClose="(MudChip<LivestreamPlatform> _) => { }" CloseIcon="@Icons.Material.Filled.ClosedCaption">LinkedIn</MudChip>
                     </MudChipSet>
                     <MudSpacer/>
                 </MudStack>
@@ -101,9 +101,9 @@
     [Parameter]
     public string Id { get; set; } = string.Empty;
 
-    private void OnSelectedLivestreamPlatformChanged(MudChip selectedLivestreamPlatform)
+    private void OnSelectedLivestreamPlatformChanged(LivestreamPlatform selectedLivestreamPlatform)
     {
-        var newStreamingPlatform = (this.LivestreamPlatform?.EventId!, Enum.Parse<LivestreamPlatform>(selectedLivestreamPlatform.Text));
+        var newStreamingPlatform = (this.LivestreamPlatform?.EventId!, selectedLivestreamPlatform);
         if (newStreamingPlatform.Item2 != this.LivestreamPlatform?.Platform)
         {
             this.LivestreamPlatformSelectionChanged.InvokeAsync(newStreamingPlatform);

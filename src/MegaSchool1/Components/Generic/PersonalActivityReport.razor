@@ -78,7 +78,7 @@
             <MudStack>
                 <MudText>@context.Name</MudText>
                 <MudStack Row="true">
-                    <MudIconButton OnClick="@(() => (_prospectEditDialog = (context, _prospectEditDialog.ProspectEdit, default)).ProspectEdit.IsVisible = true)" Icon="@Icons.Material.Filled.Edit"/>
+                    <MudIconButton OnClick="@(() => (_prospectEditDialog = (context, _prospectEditDialog.ProspectEdit, default)).ProspectEdit.Visible = true)" Icon="@Icons.Material.Filled.Edit"/>
                     <MudSpacer/>
 					<MudIconButton OnClick="@(e => _deleteProspectDialog = (@context, true))" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
                 </MudStack>

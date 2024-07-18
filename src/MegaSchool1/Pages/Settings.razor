@@ -62,15 +62,13 @@
                 </MudStack>
                 <Centered>
                     <MudFileUpload T="IBrowserFile" Accept=".json" FilesChanged="OnImportData" MaximumFileCount="100">
-                        <ButtonTemplate>
-                            <MudButton HtmlTag="label"
-                                       Variant="Variant.Filled"
+                        <ActivatorContent>
+                            <MudButton Variant="Variant.Filled"
                                        Color="Color.Primary"
-                                       StartIcon="@Icons.Material.Filled.CloudUpload"
-                                       for="@context.Id">
+                                       StartIcon="@Icons.Material.Filled.CloudUpload">
                                 Import Data
                             </MudButton>
-                        </ButtonTemplate>
+                        </ActivatorContent>
                     </MudFileUpload>
                 </Centered>
                 <MudStack Row="true">
@@ -98,7 +96,7 @@
         <Centered>
             <MudStack>
                 <MudImage Src="/images/givbux-logo.png" Fluid="true" />
-                <MudText Align="Align.Center">Send to <span style="color:@(Theme.Palette.Secondary);">megaschool</span></MudText>
+                <MudText Align="Align.Center">Send to <span style="color:@(Theme.PaletteDark.Secondary);">megaschool</span></MudText>
             </MudStack>
         </Centered>
     </MudStack>

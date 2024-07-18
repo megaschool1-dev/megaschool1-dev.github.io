@@ -293,7 +293,7 @@
     private RenderFragment PayCard => __builder =>
     {
         <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.PayCard" Validation="@SaveAndValidateTrueAsync()" Size="Size.Medium" Color="Color.Primary">
-            <MudText Typo="Typo.h6">MWR Pay Card:</MudText> I located my email from <span style="color:@(Theme.Palette.Primary);">MWRFinancial@globalewallet.com</span> and ordered my card!
+            <MudText Typo="Typo.h6">MWR Pay Card:</MudText> I located my email from <span style="color:@(Theme.PaletteDark.Primary);">MWRFinancial@globalewallet.com</span> and ordered my card!
         </MudCheckBox>
     };
 
@@ -315,7 +315,7 @@
     private RenderFragment ExtraDigitPlugin => __builder =>
     {
         <MudCheckBox @bind-Value="_viewModel.ExtraDigitMovement.EmailExtraDigit" Validation="@SaveAndValidateTrueAsync()" Size="Size.Medium" Color="Color.Primary">
-            <MudText Typo="Typo.h6">Get Connected:</MudText>Email your <span style="color:@(Theme.Palette.Secondary);">NAME</span> and <span style="color:@(Theme.Palette.Secondary);">STATE</span> to <MudLink Href="@("mailto:connect@extradigitmovement.com")">@("connect@extradigitmovement.com")</MudLink>.
+            <MudText Typo="Typo.h6">Get Connected:</MudText>Email your <span style="color:@(Theme.PaletteDark.Secondary);">NAME</span> and <span style="color:@(Theme.PaletteDark.Secondary);">STATE</span> to <MudLink Href="@("mailto:connect@extradigitmovement.com")">@("connect@extradigitmovement.com")</MudLink>.
         </MudCheckBox>
     };
 

@@ -136,10 +136,10 @@
 
     private (Color Color, string Pallette) GetColor(int step) => (step % 4) switch
     {
-        0 => (Color.Info, _theme.Palette.Info.Value),
-        1 => (Color.Success, _theme.Palette.Success.Value),
-        2 => (Color.Primary, _theme.Palette.Primary.Value),
-        3 => (Color.Warning, _theme.Palette.Warning.Value),
+        0 => (Color.Info, _theme.PaletteDark.Info.Value),
+        1 => (Color.Success, _theme.PaletteDark.Success.Value),
+        2 => (Color.Primary, _theme.PaletteDark.Primary.Value),
+        3 => (Color.Warning, _theme.PaletteDark.Warning.Value),
     };
 
     private MarkupString FormatDescription(string description)
