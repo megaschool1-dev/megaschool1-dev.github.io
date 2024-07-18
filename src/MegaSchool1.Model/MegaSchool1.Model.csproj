@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<AssemblyVersion>0.1.0.89</AssemblyVersion>
+	<AssemblyVersion>0.1.0.90</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.7" />
     <PackageReference Include="OneOf" Version="3.0.271" />
     <PackageReference Include="OneOf.SourceGenerator" Version="3.0.271" />
+    <PackageReference Include="Serilog" Version="4.0.0" />
   </ItemGroup>
 
 </Project>
