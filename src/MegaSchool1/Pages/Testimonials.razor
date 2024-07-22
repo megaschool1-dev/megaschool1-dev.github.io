@@ -3,10 +3,10 @@
 @using MegaSchool1.Model
 @inject UISettings UI
 
-<MudChipSet @bind-SelectedChips="_selected" MultiSelection="true" Filter="true">
+<MudChipSet T="Highlight" @bind-SelectedValues="_selected" SelectionMode="SelectionMode.MultiSelection" CheckMark="true">
     @foreach(var filterableValueable in Highlights)
     {
-        <MudChip Text="@(filterableValueable.Description)" Color="Color.Primary" SelectedColor="Color.Secondary" />
+        <MudChip Value="@filterableValueable.Highlight" Text="@(filterableValueable.Description)" Color="Color.Primary" SelectedColor="Color.Secondary" />
     }
 </MudChipSet>
 <br/>
@@ -19,21 +19,21 @@
                 <Testimonial Description="@testimonial.Description"
                              TikTok="@((testimonial.Video.UserHandle, testimonial.Video.Id))"
                              Highlights="@(testimonial.Highlights)"
-                             Filter="@(GetHighlights(_selected))" />
+                             Filter="_selected.ToArray()" />
                 break;
 
             case VideoPlatform.YouTube:
                 <Testimonial Description="@testimonial.Description"
                              YouTube="@testimonial.Video.Id"
                              Highlights="@(testimonial.Highlights)"
-                             Filter="@(GetHighlights(_selected))" />
+                             Filter="_selected.ToArray()" />
                 break;
 
             case VideoPlatform.Vimeo:
                 <Testimonial Description="@testimonial.Description"
                              Vimeo="@((testimonial.Video.Id, testimonial.Video.Hash))"
                              Highlights="@(testimonial.Highlights)"
-                             Filter="@(GetHighlights(_selected))" />
+                             Filter="_selected.ToArray()" />
                 break;
         }
     }
@@ -73,8 +73,5 @@
         (Highlight.GenYGenZ, "Millenial/GenZ"),
     ];
 
-    private MudChip[] _selected = [];
-
-    private static Highlight[] GetHighlights(MudChip[] chips)
-        => !chips.Any() ? [] : chips.Select(chip => Highlights.First(v => v.Description == chip.Text).Highlight).ToArray();
+    private IReadOnlyCollection<Highlight> _selected = [];
 }

@@ -28,8 +28,9 @@
     <meta property="twitter:url" content="@NavigationManager.Uri" />
 </HeadContent>
 
-<MudThemeProvider Theme="@((IsCapturePage ? _capturePageTheme : new() { Palette = new PaletteDark() }))" />
-<MudDialogProvider/>
+<MudThemeProvider IsDarkMode="true" Theme="@((IsCapturePage ? _capturePageTheme : new()))" />
+<MudPopoverProvider />
+<MudDialogProvider />
 <MudSnackbarProvider/>
 
 @if (IsCapturePage)
@@ -46,7 +47,6 @@
 else
 {
     <div class="page mud-layout">
-
         <div class="sidebar mud-elevation-1">
             <div class="top-row mud-drawer-head" style="background-color:@(Colors.Green.Default);">
                 <div>
@@ -151,7 +151,7 @@ else
     private readonly AppState _appState = new();
     private readonly MudTheme _capturePageTheme = new()
     {
-        Palette = new PaletteDark()
+        PaletteDark = new PaletteDark()
         {
             Background = "rgb(22,19,44)",
         }
