@@ -1,6 +1,6 @@
 name: gh-pages
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   push:
@@ -29,8 +29,8 @@ jobs:
     # - name: Get Pull Request Number
     #   run: echo "PULL_NUMBER=$(echo "$GITHUB_REF")" >> $GITHUB_ENV
     #   shell: bash
-    # - name: Test 3
-    #   run: echo "${{ env.PULL_NUMBER }}"
+    - name: Test 4
+      run: echo "Debug 4"
     # - uses: actions/checkout@v2
     # - name: Setup .NET
     #   uses: actions/setup-dotnet@v1
