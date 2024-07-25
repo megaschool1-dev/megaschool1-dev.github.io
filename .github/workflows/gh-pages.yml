@@ -16,7 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.pr.outputs.pull_request_number }}
-      - run: echo $PR_NUMBER
+      - run: echo ${{ steps.pr.outputs.pull_request_number }}
 
   pull-request:
     runs-on: ubuntu-latest
