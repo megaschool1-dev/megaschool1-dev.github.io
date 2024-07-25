@@ -27,7 +27,8 @@ jobs:
     steps:
       - id: get_pr_number
         run: echo "pull_request_number=$(echo ${{ steps.pr.outputs.pull_request_number }} || echo ${{ github.event.number }})" >> $GITHUB_OUTPUT
-    pr_number: needs.globals.steps.get_pr_number.pull_request_number
+    outputs:
+      pr_number: needs.globals.steps.get_pr_number.pull_request_number
 
   build:
     runs-on: ubuntu-latest
@@ -36,7 +37,7 @@ jobs:
     #   run: echo "PULL_NUMBER=$(echo "$GITHUB_REF")" >> $GITHUB_ENV
     #   shell: bash
     - name: Test 5
-      run: echo ${{ needs.globals.pr_number }}
+      run: echo ${{ needs.globals.outputs:pr_number }}
     # - uses: actions/checkout@v2
     # - name: Setup .NET
     #   uses: actions/setup-dotnet@v1
