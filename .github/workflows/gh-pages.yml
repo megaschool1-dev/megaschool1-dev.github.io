@@ -16,13 +16,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: $pull_request_number
+          FOO: bar
       - run: echo ${{ steps.pr.outputs.pull_request_number }}
 
   pull-request:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' }}
     steps:
-      - run: echo ${{ github.event.number }}    
+      - run: echo ${{ github.event.number }}
+      - run: echo $FOO    
   
   build:
     runs-on: ubuntu-latest
