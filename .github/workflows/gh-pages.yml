@@ -15,18 +15,20 @@ jobs:
         run: echo "pull_request_number=$(gh pr view --json number -q .number || echo "")" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: $pull_request_number
-          FOO: bar
-      - run: echo ${{ steps.pr.outputs.pull_request_number }}
-      - run: echo ${{ env.pull_request_number }}
 
   pull-request:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' }}
     steps:
       - run: echo ${{ github.event.number }}
-      - run: echo $FOO    
   
+  globals:
+    runs-on: ubuntu-latest
+    steps:
+      - id: get_pr_number
+        run: echo "pull_request_number=$(echo ${{ steps.pr.outputs.pull_request_number }} || echo ${{ github.event.number }})" >> $GITHUB_OUTPUT
+    pr_number: needs.globals.steps.get_pr_number.pull_request_number
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +36,7 @@ jobs:
     #   run: echo "PULL_NUMBER=$(echo "$GITHUB_REF")" >> $GITHUB_ENV
     #   shell: bash
     - name: Test 5
-      run: echo ${{ env.FOO }}
+      run: echo ${{ needs.globals.pr_number }}
     # - uses: actions/checkout@v2
     # - name: Setup .NET
     #   uses: actions/setup-dotnet@v1
