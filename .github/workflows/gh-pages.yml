@@ -18,6 +18,7 @@ jobs:
           PR_NUMBER: $pull_request_number
           FOO: bar
       - run: echo ${{ steps.pr.outputs.pull_request_number }}
+      - run: echo $FOO    
 
   pull-request:
     runs-on: ubuntu-latest
