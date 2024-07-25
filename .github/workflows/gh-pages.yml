@@ -15,7 +15,7 @@ jobs:
         run: echo "pull_request_number=$(gh pr view --json number -q .number || echo "")" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo ${{ env.pull_request_number }}
+      - run: echo ${{ steps.pr.outputs.pull_request_number }}
 
   pull-request:
     runs-on: ubuntu-latest
@@ -29,8 +29,8 @@ jobs:
     # - name: Get Pull Request Number
     #   run: echo "PULL_NUMBER=$(echo "$GITHUB_REF")" >> $GITHUB_ENV
     #   shell: bash
-    - name: Test 4
-      run: echo "Debug 4"
+    - name: Test 5
+      run: echo "Debug 5"
     # - uses: actions/checkout@v2
     # - name: Setup .NET
     #   uses: actions/setup-dotnet@v1
