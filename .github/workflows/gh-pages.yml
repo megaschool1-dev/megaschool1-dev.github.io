@@ -2,6 +2,9 @@ name: gh-pages
 
 on: [push, pull_request]
 
+env:
+  pr_number: $(gh pr view --json number -q .number || ${{ github.event.number }})
+
 jobs:
   push:
     runs-on: ubuntu-latest
@@ -34,7 +37,7 @@ jobs:
     #   run: echo "PULL_NUMBER=$(echo "$GITHUB_REF")" >> $GITHUB_ENV
     #   shell: bash
     - name: Test 5
-      run: echo "Debug 5"
+      run: echo ${{ env.pr_number }}
     # - uses: actions/checkout@v2
     # - name: Setup .NET
     #   uses: actions/setup-dotnet@v1
