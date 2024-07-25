@@ -9,9 +9,9 @@ jobs:
 
     steps:
     - name: Get Pull Request Number
-      run: echo "PULL_NUMBER=$(echo "$GITHUB_REF" | awk -F / '{print $3}')" >> $GITHUB_ENV
+      run: echo "PULL_NUMBER=$(echo "$GITHUB_REF")" >> $GITHUB_ENV
       shell: bash
-    - name: Test 2
+    - name: Test 3
       run: echo "${{ env.PULL_NUMBER }}"
     # - uses: actions/checkout@v2
     # - name: Setup .NET
