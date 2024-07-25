@@ -8,8 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Test 1
-      run: echo "${{ github.event_name }}"
+    - name: Get Pull Request Number
+      run: echo "PULL_NUMBER=$(echo "$GITHUB_REF" | awk -F / '{print $3}')" >> $GITHUB_ENV
+      shell: bash
+    - name: Test 2
+      run: echo "${{ env.PULL_NUMBER }}"
     # - uses: actions/checkout@v2
     # - name: Setup .NET
     #   uses: actions/setup-dotnet@v1
