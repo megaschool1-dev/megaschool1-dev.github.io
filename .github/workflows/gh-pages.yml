@@ -26,9 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: get_pr_number
-        run: echo "pull_request_number=$(echo ${{ steps.pr.outputs.pull_request_number }} || echo ${{ github.event.number }})" >> $GITHUB_OUTPUT
+        run: echo "pull_request_number=$(echo ${{ needs.steps.pr.outputs.pull_request_number }} || echo ${{ github.event.number }})" >> $GITHUB_OUTPUT
+      - run: echo ${{ steps.get_pr_number.pull_request_number }}
     outputs:
-      pr_number: needs.globals.steps.get_pr_number.pull_request_number
+      pr_number: steps.get_pr_number.pull_request_number
 
   build:
     runs-on: ubuntu-latest
