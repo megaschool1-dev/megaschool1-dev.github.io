@@ -76,28 +76,18 @@
     <Collapsable Title="Miscellaneous" ExpandPrompt="Show">
         <MudStack Spacing="6">
             <MudCard Outlined="true">
+                <MudCardHeader>
+                    <MudText Align="Align.Center" Style="width:100%;">Video Shareable</MudText>
+                </MudCardHeader>
                 <MudCardContent>
                     <MudStack Spacing="3">
-                        <MudSelect T="Content" Label="Explainers" @bind-Value="_selectedMiscellaneous" ToStringFunc="@(content => (UI.EnglishLocale[content]?.AppTitle ?? content.ToString()).Replace("<br/>", " "))" Variant="Variant.Outlined" Style="width:300px;">
-                            @foreach (var content in new[] { Content.TeenCarPurchase, Content.MoneyChallengeFAQ, Content.ReduceMyTaxesExplainer, Content.EliminateMyDebtExplainer, Content.InvestmentsExplainer, Content.TrustsExplainer, Content.RevenueShareExplainer })
+                        <MudSelect T="Content" Label="Video Shareable" @bind-Value="_videoShareableContent" ToStringFunc="@(content => (UI.EnglishLocale[content]?.AppTitle ?? content.ToString()).Replace("<br/>", " "))" Variant="Variant.Outlined" Style="width:300px;">
+                            @foreach (var content in Constants.OrderedContent.Where(c => UI.EnglishLocale[c]?.Platform != VideoPlatform.None))
                             {
                                 <MudSelectItem Value="@content" />
                             }
                         </MudSelect>
-                        @ContentView(_selectedMiscellaneous)
-                    </MudStack>
-                </MudCardContent>
-            </MudCard>
-            <MudCard Outlined="true">
-                <MudCardContent>
-                    <MudStack Spacing="3">
-                        <MudSelect T="Content" Label="Services" @bind-Value="_selectedService" ToStringFunc="@(content => (UI.EnglishLocale[content]?.AppTitle ?? content.ToString()).Replace("<br/>", " "))" Variant="Variant.Outlined" Style="width:300px;">
-                            @foreach (var content in new[] { Content.GivBux, Content.GivBuxMerchant, Content.GivBuxCharity, Content.NextLevelStrategies, Content.Membership, Content.CreditRestoration, Content.StudentLoanDebtRelief, Content.HealthShare, Content.KeysToHomeOwnership, Content.PreciousMetals, Content.TrustMyAssets, Content.RealEstatePros, Content.ProtectMyAssets, Content.StructureMyLegacy })
-                            {
-                                <MudSelectItem Value="@content" />
-                            }
-                        </MudSelect>
-                        @ContentView(_selectedService)
+                        @ContentView(_videoShareableContent)
                     </MudStack>
                 </MudCardContent>
             </MudCard>
@@ -230,10 +220,9 @@
     private readonly ShareableViewModel _corporateEssentials = new() { Content = Content.Opportunity202407 };
     private readonly ShareableViewModel _capturePage = new() { Content = Content.GivBux };
 
+    private Content _videoShareableContent = Content.GivBux;
     private TeamMember? _selectedTeamMemberMarketingDirector;
     private TeamMember? _selectedTeamMemberWebsite;
-    private Content _selectedMiscellaneous = Content.TeenCarPurchase;
-    private Content _selectedService = Content.GivBux;
 
 
     protected override void OnParametersSet()
