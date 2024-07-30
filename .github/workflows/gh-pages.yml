@@ -30,6 +30,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: [push, pull-request]
+    if: always() && !failure() && !cancelled()
     steps:
     - name: Test 7
       run: echo ${{ needs.push.outputs.pull_request_number }}
