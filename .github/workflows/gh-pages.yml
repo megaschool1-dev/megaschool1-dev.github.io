@@ -32,8 +32,6 @@ jobs:
     needs: [push, pull-request]
     if: always() && !failure() && !cancelled()
     steps:
-    - name: Test 7
-      run: echo ${{ needs.push.outputs.pull_request_number }}
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
