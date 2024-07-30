@@ -23,8 +23,8 @@ jobs:
         run: echo "pr_num=$(gh pr view --json number -q .number || echo "")" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # outputs:
-      #     sanity: ${{ steps.pr2.outputs.pr_num }}
+    outputs:
+        sanity: ${{ steps.pr2.outputs.pr_num }}
 
   pull-request:
     runs-on: ubuntu-latest
