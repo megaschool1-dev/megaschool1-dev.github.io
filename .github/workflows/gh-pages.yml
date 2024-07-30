@@ -44,7 +44,7 @@ jobs:
       with:
           version_file: "**/*.csproj"
           version_mask: "0.0.0.1"
-          version_overwrite: "*.*.*.${{ needs.push.outputs.pull_request_number || needs.pull-request.outputs.pull_request_number }}" 
+          version_overwrite: "*.*.*.${{ needs.push.outputs.pull_request_number || needs.pull-request.outputs.pull_request_number || 9999 }}" 
     - name: Publish with dotnet
       run: dotnet publish ./src --configuration Release --output build
     - name: Deploy to Github Pages
