@@ -13,7 +13,9 @@ jobs:
       - name: Get Pull Request Number
         id: pr
         run: echo "pull_request_number=$(gh pr view --json number -q .number || echo "")" >> $GITHUB_OUTPUT
-      - run: gh pr view --json number
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+     - run: gh pr view --json number
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: echo $pull_request_number
