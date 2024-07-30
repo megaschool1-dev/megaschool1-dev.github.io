@@ -37,7 +37,7 @@ jobs:
     # - name: Get Pull Request Number
     #   run: echo "PULL_NUMBER=$(echo "$GITHUB_REF")" >> $GITHUB_ENV
     #   shell: bash
-    - name: Test 5
+    - name: Test 6
       run: echo ${{ needs.globals.outputs:pr_number }}
     # - uses: actions/checkout@v2
     # - name: Setup .NET
