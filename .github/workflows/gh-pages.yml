@@ -31,9 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [push, pull-request]
     steps:
-    # - name: Get Pull Request Number
-    #   run: echo "PULL_NUMBER=$(echo "$GITHUB_REF")" >> $GITHUB_ENV
-    #   shell: bash
     - name: Test 7
       run: echo ${{ needs.push.outputs.pull_request_number }}
     # - uses: actions/checkout@v2
