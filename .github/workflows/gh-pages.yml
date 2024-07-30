@@ -34,24 +34,26 @@ jobs:
     steps:
     - name: Test 7
       run: echo ${{ needs.push.outputs.pull_request_number }}
-    # - uses: actions/checkout@v2
-    # - name: Setup .NET
-    #   uses: actions/setup-dotnet@v1
-    #   with:
-    #     dotnet-version: 8.0.x
-    # - name: DotNet Bump Versions
-    #   uses: SiqiLu/dotnet-bump-version@2.0.0
-    #   with:
-    #       version_file: "**/*.csproj"
-    #       version_mask: "0.0.0.1"
-    #       version_overwrite: "*.*.*.${{ github.event.pull_request.number }}" 
-    # - name: Publish with dotnet
-    #   run: dotnet publish ./src --configuration Release --output build
-    # - name: Deploy to Github Pages
-    #   uses: JamesIves/github-pages-deploy-action@releases/v3
-    #   with:
-    #     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-    #     BASE_BRANCH: main # The branch the action should deploy from.
-    #     BRANCH: gh-pages-from-actions # The branch the action should deploy to.
-    #     FOLDER: build/wwwroot # The folder the action should deploy.      
-    #     SINGLE_COMMIT: true              
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 8.0.x
+    - name: DotNet Bump Versions
+      uses: SiqiLu/dotnet-bump-version@2.0.0
+      with:
+          version_file: "**/*.csproj"
+          version_mask: "0.0.0.1"
+          version_overwrite: "*.*.*.${{ needs.push.outputs.pull_request_number || needs.pull-request.outputs.pull_request_number }}" 
+    - name: Publish with dotnet
+      run: dotnet publish ./src --configuration Release --output build
+    - name: Deploy to Github Pages
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BASE_BRANCH: main # The branch the action should deploy from.
+        BRANCH: gh-pages-from-actions # The branch the action should deploy to.
+        FOLDER: build/wwwroot # The folder the action should deploy.      
+        SINGLE_COMMIT: true              
