@@ -34,10 +34,4 @@
     <ProjectReference Include="..\MegaSchool1.ViewModel\MegaSchool1.ViewModel.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="Pages\TrustFundMyBaby.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-  </ItemGroup>
-
 </Project>

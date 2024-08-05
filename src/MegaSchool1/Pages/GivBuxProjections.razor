@@ -1,0 +1,46 @@
+﻿@page "/givbuxfundraiserprojections"
+@using MegaSchool1.Components
+@using MegaSchool1.Model
+@inherits Components.ComponentBase
+
+<MudStack Spacing="3">
+    <MudTextField Label="Total App Referal Rewards (Monthly)" Value="@($"${_projections.Select(p => p.NumUsersMultiplier * _avgAppUserSpend * p.RewardPercentage).Sum():N0}")" Variant="Variant.Outlined" ReadOnly="true" />
+    <MudNumericField @bind-Value="_avgAppUserSpend" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" Immediate="true" Label="Avg App User Spend (Monthly)" Variant="Variant.Outlined" Min="0" />
+    <MudText Align="Align.Center" Typo="Typo.h3">GivBux Fundraising Projection</MudText>
+    <MudTable Items="_projections" Breakpoint="Breakpoint.None" Hover="true" SortLabel="Sort By" Elevation="0">
+        <HeaderContent>
+            <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);">Reward %</MudTh>
+            <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);">Level</MudTh>
+            <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);"># Users Multiplier</MudTh>
+            <MudTh Style="text-align:center; vertical-align:text-top; border-color:rgb(27,53,115);">App Referral Rewards (Monthly)</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd Style="text-align:center;">@($"{context.RewardPercentage:P2}")</MudTd>
+            <MudTd Style="text-align:center;">@($"L{Array.IndexOf(_projections, context)}")</MudTd>
+            <MudTd Style="text-align:center;">@($"{context.NumUsersMultiplier:N0}")</MudTd>
+            <MudTd Style="text-align:center;">@($"${(context.NumUsersMultiplier * _avgAppUserSpend * context.RewardPercentage):N0}")</MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudStack>
+
+@code {
+    private static readonly ProjectionViewModel[] _projections =
+    [
+        new() { RewardPercentage = 0.0200, NumUsersMultiplier = 1 },
+        new() { RewardPercentage = 0.0050, NumUsersMultiplier = 5 },
+        new() { RewardPercentage = 0.0050, NumUsersMultiplier = 25 },
+        new() { RewardPercentage = 0.0100, NumUsersMultiplier = 125 },
+        new() { RewardPercentage = 0.0025, NumUsersMultiplier = 625 },
+        new() { RewardPercentage = 0.0025, NumUsersMultiplier = 3125 },
+        new() { RewardPercentage = 0.0025, NumUsersMultiplier = 15625 },
+        new() { RewardPercentage = 0.0025, NumUsersMultiplier = 78125 },
+   ];
+
+    private int _avgAppUserSpend = 100;
+
+    public class ProjectionViewModel()
+    {
+        public double RewardPercentage { get; set; }
+        public int NumUsersMultiplier { get; set; }
+    }
+}
