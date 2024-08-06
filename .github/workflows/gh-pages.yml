@@ -79,7 +79,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     if: always() && !failure() && !cancelled() && github.ref_name == 'dev'
-    # force release 2
     steps:
     - name: Version Increment
       id: version
@@ -87,7 +86,6 @@ jobs:
       with:
         scheme: calver
         use_api: true
-        release_branch: dev
     - uses: "marvinpinto/action-automatic-releases@v1.2.1"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
