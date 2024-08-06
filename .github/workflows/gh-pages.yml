@@ -80,9 +80,6 @@ jobs:
     needs: [build]
     if: always() && !failure() && !cancelled() && github.ref_name == 'dev'
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
     - name: Version Increment
       id: version
       uses: reecetech/version-increment@2024.4.4
