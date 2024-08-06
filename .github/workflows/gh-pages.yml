@@ -80,17 +80,14 @@ jobs:
     needs: [build]
     if: always() && !failure() && !cancelled() && github.ref_name == 'main'
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
     - name: Version Increment
       id: version
       uses: reecetech/version-increment@2024.4.4
       with:
         scheme: calver
-        increment: patch
+        use_api: true
     - uses: "marvinpinto/action-automatic-releases@v1.2.1"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
-        automatic_release_tag: "${{ steps.version.outputs.major-version }}.${{ steps.version.outputs.minor-version }}.${{ steps.version.outputs.patch-version }}.0"
+        automatic_release_tag: "v${{ steps.version.outputs.major-version }}.${{ steps.version.outputs.minor-version }}.${{ steps.version.outputs.patch-version }}"
