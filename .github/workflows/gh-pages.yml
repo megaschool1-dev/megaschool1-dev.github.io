@@ -87,6 +87,7 @@ jobs:
       with:
         scheme: calver
         use_api: true
+        release_branch: dev
     - uses: "marvinpinto/action-automatic-releases@v1.2.1"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
