@@ -1,70 +1,17 @@
 ﻿@using MegaSchool1.Model
-@using System.Web
-@using OneOf
-@using OneOf.Types
+@using MegaSchool1.Model.Dto
 @inherits Components.ComponentBase
-@inject Model.Constants Constants
+@inject UISettings UI
 
-<MudCard Outlined="true">
-    <MudCardContent>
-        <MudStack Spacing="3">
-            <EmbeddedVideo Video="Video" />
-            @if (this.Description != null)
-            {
-                @if (this.Url != null)
-                {
-                    <MudStack Row="true">
-                        <MudSpacer />
-                        <MudText Align="Align.Center"><ExternalLink Href="@($"https://theotherstuff.github.io/iframe?url={HttpUtility.UrlEncode(Url)}")">@Description</ExternalLink></MudText>
-                        <MudSpacer />
-                    </MudStack>
-                }
-                else
-                {
-                    <MudText Align="Align.Center">@((MarkupString)this.Description.Replace(Environment.NewLine, "<br/>"))</MudText>
-                }
-                @if (this.Duration != null)
-                {
-                    <MudText Typo="Typo.body2" Align="Align.Center">@FormatTimeSpan(Duration.Value)</MudText>
-                }
-            }
-            else
-            {
-                <div>
-                    @this.ChildContent
-                </div>
-            }
-        </MudStack>
-    </MudCardContent>
-    <MudCardActions>
-        <ShareableContent TextToCopy="@TextToCopy"
-                          Tooltip="@Tooltip"
-                          QRCode="@QRCode"
-                          ImageUrl="@ImageUrl" />
-    </MudCardActions>
-</MudCard>
+@if (UI.SpanishLocale[this.Content] != null)
+{
+    <ShareableMultilingual Content="Content" />
+}
+else
+{
+    <Shareable Content="Content"/>
+}
 @code {
     [Parameter]
-    public OneOf<Video, None> Video { get; set; } = new None();
-  
-    [Parameter]
-    public string? Description { get; set; }
-
-    [Parameter]
-    public string TextToCopy { get; set; }
-
-    [Parameter]
-    public string Tooltip { get; set; }
-
-    [Parameter]
-    public string ImageUrl { get; set; } = Constants.GetImageUrl(Image.MoneyChallengeLogo);
-
-    [Parameter]
-    public string? Url { get; set; }
-
-    [Parameter]
-    public (string Content, string FileName)? QRCode { get; set; }
-
-    [Parameter]
-    public TimeSpan? Duration { get; set; }
+    public Content Content { get; set; } = Content.Membership;
 }
