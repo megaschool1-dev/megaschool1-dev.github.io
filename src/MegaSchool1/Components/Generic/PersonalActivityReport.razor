@@ -80,7 +80,7 @@
             <MudStack>
                 <MudText>@context.Name</MudText>
                 <MudStack Row="true">
-                    <MudIconButton OnClick="@(() => _prospectEditDialog = (context, true, default))" Icon="@Icons.Material.Filled.Edit"/>
+                    <MudIconButton OnClick="@(() => OnEditProspect(context))" Icon="@Icons.Material.Filled.Edit"/>
                     <MudSpacer/>
 					<MudIconButton OnClick="@(e => _deleteProspectDialog = (@context, true))" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
                 </MudStack>
@@ -145,6 +145,18 @@
 
     private string ShareableContentPrefix() =>
         _selectedTeamMember?.MemberId == null || _selectedTeamMember?.MemberId == AppState?.User?.MemberId ? string.Empty : $"For {_prospectEditDialog.Prospect.Name}: {Environment.NewLine}{Environment.NewLine}";
+
+    private void OnEditProspect(Prospect prospect)
+    {
+        try
+        {
+            _prospectEditDialog = (prospect, true, _prospectEditDialog.ValidEdit);
+        }
+        catch (Exception e)
+        {
+            Log.ForContext<PersonalActivityReport<TPipeline>>().Error(e.Message);
+        }
+    }
 
     private async Task SelectedTeamMemberChanged(TeamMember teamMember)
     {
