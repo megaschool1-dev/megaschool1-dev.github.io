@@ -187,8 +187,9 @@
                 await SaveAsync();
             }
 
-            _dropContainer?.Refresh();
+            _prospectEditDialog = (_prospectEditDialog.Prospect, isVisible, _prospectEditDialog.ValidEdit);
 
+            _dropContainer?.Refresh();
         }
         catch (Exception e)
         {
