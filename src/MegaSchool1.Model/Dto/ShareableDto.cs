@@ -71,4 +71,6 @@ public class ShareableDto
 
     [JsonPropertyName("metadata")]
     public string? Metadata { get; set; }
+
+    public override string ToString() => $"{ContentId}";
 }

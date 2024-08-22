@@ -77,7 +77,7 @@
     [Parameter]
     public OneOf<(string MemberId, string ReferralCode), None> CapturePage { get; set; } = new None();
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
         if (this.Content.TryPickT0(out var content, out _))
         {
