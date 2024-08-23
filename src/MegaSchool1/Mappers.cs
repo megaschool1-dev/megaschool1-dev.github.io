@@ -18,12 +18,13 @@ public partial class Mappers
 
         viewModel.Id = dto.ContentId;
 
-        OneOf<YouTube, TikTok, Vimeo, Facebook, None> video = dto.Platform switch
+        OneOf<YouTube, TikTok, Vimeo, Facebook, StartMeeting, None> video = dto.Platform switch
         {
             VideoPlatform.YouTube => !string.IsNullOrWhiteSpace(dto.Id) ? new YouTube(dto.Id) : new None(),
             VideoPlatform.TikTok => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? new TikTok(dto.UserHandle, dto.Id) : new None(),
             VideoPlatform.Vimeo => !string.IsNullOrWhiteSpace(dto.Id) ? new Vimeo(dto.Id, !string.IsNullOrWhiteSpace(dto.Hash) ? dto.Hash : new None()) : new None(),
             VideoPlatform.Facebook => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? new Facebook(dto.UserHandle, dto.Id) : new None(),
+            VideoPlatform.StartMeeting => !string.IsNullOrWhiteSpace(dto.Id) ? new StartMeeting(dto.Id) : new None(),
             _ => new None()
         };
 
@@ -34,6 +35,7 @@ public partial class Mappers
             tikTok => new VideoViewModel(tikTok, duration),
             vimeo => new VideoViewModel(vimeo, duration),
             facebook => new VideoViewModel(facebook, duration),
+            startMeeting => new VideoViewModel(startMeeting, duration),
             none => none);
 
         viewModel.Url = !string.IsNullOrWhiteSpace(dto.Url) ? dto.Url : new None();

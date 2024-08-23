@@ -1,0 +1,49 @@
+﻿@inherits Components.ComponentBase
+@using MegaSchool1.Model
+@using MegaSchool1.ViewModel
+@using OneOf
+@using OneOf.Types
+@inject UISettings UI
+
+<MudStack Spacing="3">
+    <MudSelect T="Content" Label="@Label.Match(label => label, none => $"Select Your Shareable {Constants.JeromePointingDownEmoji}")" @bind-Value="_selected" ToStringFunc="@(content => (UI.EnglishLocale[content]?.AppTitle ?? content.ToString()).Replace("<br/>", " "))" Variant="Variant.Outlined" Style="width:300px;">
+        @foreach (var shareable in Shareables)
+        {
+            <MudSelectItem Value="@shareable.Id" />
+        }
+    </MudSelect>
+    @{
+        var selectedShareable = Shareables.FirstOrDefault(s => s.Id == _selected);
+        if (selectedShareable != null)
+        {
+            if (selectedShareable.CapturePage.TryPickT0(out var capturePageInfo, out _))
+            {
+                <CapturePage Content="selectedShareable.Id" TeamMember="capturePageInfo.TeamMember" ShowReferralCode="capturePageInfo.ShowReferralCode" />
+            }
+            else
+            {
+                <Shareable Content="selectedShareable.Id" />
+            }
+        }
+    }
+</MudStack>
+
+@code {
+    private const Content DefaultShareable = Content.Membership;
+
+    private Content _selected = DefaultShareable;
+
+    [Parameter]
+    public OneOf<string, None> Label { get; set; } = new None();
+
+    [Parameter]
+    public OneOf<ShareableViewModel, None> Default { get; set; } = new None();
+
+    [Parameter]
+    public ShareableViewModel[] Shareables { get; set; } = [];
+
+    protected override void OnInitialized()
+    {
+        _selected = this.Default.Match(@default => @default.Id, none => this.Shareables.FirstOrDefault()?.Id ?? DefaultShareable);
+    }
+}
