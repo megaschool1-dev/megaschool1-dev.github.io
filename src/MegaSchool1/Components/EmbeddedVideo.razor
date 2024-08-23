@@ -4,7 +4,7 @@
 @inherits Components.ComponentBase
 
 <div style="display:@_display;">
-    @if (ValidYouTube)
+    @if (ValidYouTube && Video.IsT1)
     {
         <iframe @onload="OnVideoLoaded"
                 src="@($"{Constants.YouTubeEmbedLinkPrefix}{YouTube}")"
@@ -16,7 +16,7 @@
         </iframe>
     }
 
-    @if(ValidTikTok)
+    @if (ValidTikTok && Video.IsT1)
     {
         <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@@@(this.TikTok?.UserHandle)/video/@TikTok" data-video-id="@TikTok.Value.VideoId" style="max-width: 605px;min-width: 300px;">
             <section></section>
@@ -24,15 +24,24 @@
         <script async src="https://www.tiktok.com/embed.js"></script>
     }
 
-    @if (ValidVimeo)
+    @if (ValidVimeo && Video.IsT1)
     {
         <iframe src="@($"https://player.vimeo.com/video/{Vimeo?.VideoId}{(string.IsNullOrWhiteSpace(Vimeo?.Hash) ? string.Empty : $"?h={Vimeo?.Hash}")}")" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" data-ready="true"></iframe>
     }
     
-    @if (ValidFacebook)
+    @if (ValidFacebook && Video.IsT1)
     {
         <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2F@(Facebook?.ChannelId)%2Fvideos%2F@(Facebook?.VideoId)%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
     }
+    
+    @(Video.Match<RenderFragment?>(
+        video => video.Match<RenderFragment>(
+            youTube => YouTubeView(youTube),
+            tikTok => TikTokView(tikTok),
+            vimeo => VimeoView(vimeo),
+            facebook => FacebookView(facebook),
+            startMeeting => StartMeetingView(startMeeting)),
+        none => null))
 </div>
 
 @if (!_iframeLoaded)
@@ -66,6 +75,41 @@
     private bool ValidTikTok => !string.IsNullOrWhiteSpace(TikTok?.UserHandle) && !string.IsNullOrWhiteSpace(TikTok?.VideoId);
     private bool ValidFacebook => !string.IsNullOrWhiteSpace(Facebook?.ChannelId) && !string.IsNullOrWhiteSpace(Facebook?.VideoId);
 
+    private RenderFragment YouTubeView(YouTube youTube) => __builder =>
+    {
+        <iframe @onload="OnVideoLoaded"
+                src="@($"{Constants.YouTubeEmbedLinkPrefix}{youTube.VideoId}")"
+                width="560"
+                height="315"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+        </iframe>
+    };
+
+    private RenderFragment TikTokView(TikTok tikTok) => __builder =>
+    {
+        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@@@(tikTok.UserHandle)/video/@tikTok.VideoId" data-video-id="@tikTok.VideoId" style="max-width: 605px;min-width: 300px;">
+            <section></section>
+        </blockquote>
+        <script async src="https://www.tiktok.com/embed.js"></script>
+    };
+
+    private RenderFragment VimeoView(Vimeo vimeo) => __builder =>
+    {
+        <iframe src="@($"https://player.vimeo.com/video/{vimeo.VideoId}{vimeo.Hash.Match(hash => $"?h={hash}", none => string.Empty)}")" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" data-ready="true"></iframe>
+    };
+
+    private RenderFragment FacebookView(Facebook facebook) => __builder =>
+    {
+        <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2F@(facebook.ChannelId)%2Fvideos%2F@(facebook.VideoId)%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+    };
+
+    private RenderFragment StartMeetingView(StartMeeting startMeeting) => __builder =>
+    {
+        <iframe allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://stme.in/@startMeeting.VideoId" scrolling="no" frameborder="0" height="300" width="538"></iframe>
+    };
+
     protected override void OnParametersSet()
     {
         if(Video.TryPickT0(out var video, out var _))
@@ -76,7 +120,7 @@
             this.Facebook = video.IsT3 ? (video.AsT3.ChannelId, video.AsT3.VideoId) : null;
         }
   
-        if (ValidTikTok || ValidVimeo || ValidFacebook || Video.IsT1)
+        if (video?.Value is StartMeeting || ValidYouTube || ValidTikTok || ValidVimeo || ValidFacebook || Video.IsT1)
         {
             this.ShowVideo();
         }

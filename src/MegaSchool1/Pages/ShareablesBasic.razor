@@ -9,7 +9,7 @@
     <MudCard>
         <MudCardContent>
             <MudStack Spacing="6">
-                <MudSelect T="Content" Label="Shareable" @bind-Value="_selectedShareable" ToStringFunc="@(content => ShareableTitle(content))" Variant="Variant.Outlined" Style="width:300px;">
+                <MudSelect T="Content" Label="@($"Select Your Shareable {Constants.JeromePointingDownEmoji}")" @bind-Value="_selectedShareable" ToStringFunc="@(content => ShareableTitle(content))" Variant="Variant.Outlined" Style="width:300px;">
                     @foreach (var content in Shareables)
                     {
                         <MudSelectItem Value="@content" />
@@ -20,6 +20,8 @@
         </MudCardContent>
     </MudCard>
     <MudDivider/>
+    <MembershipTrainings/>
+    <MudDivider/>
     <Collapsable Title="Everything Else">
         <MudCard>
             <MudCardHeader>
@@ -27,7 +29,7 @@
             </MudCardHeader>
             <MudCardContent>
                 <MudStack Spacing="3">
-                    <MudSelect T="Content" Label="Video Shareable" @bind-Value="_selectedInCompleteVideoLibrary" ToStringFunc="@(content => ShareableTitle(content))" Variant="Variant.Outlined" Style="width:300px;">
+                    <MudSelect T="Content" Label="@($"Select Your Shareable {Constants.JeromePointingDownEmoji}")" @bind-Value="_selectedInCompleteVideoLibrary" ToStringFunc="@(content => ShareableTitle(content))" Variant="Variant.Outlined" Style="width:300px;">
                         @foreach (var content in Constants.OrderedContent.Where(c => UI.EnglishLocale[c]?.Platform != VideoPlatform.None).OrderBy(c => ShareableTitle(c) ))
                         {
                             <MudSelectItem Value="@content" />
