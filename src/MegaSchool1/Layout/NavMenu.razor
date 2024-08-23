@@ -27,7 +27,7 @@
         <MudSpacer />
         <MudStack>
             <MudSpacer/>
-            <MudLink Underline="Underline.None" Color="Color.Default" OnClick="@(e => NavigationManager.NavigateTo(Util.MakeUrlBypassBrowserCache(NavigationManager.BaseUri), true))">Version @this.GetType().Assembly.GetName().Version</MudLink>
+            <MudLink Underline="Underline.None" Color="Color.Default" OnClick="@(e => NavigationManager.NavigateTo(Util.MakeUrlBypassBrowserCache(NavigationManager.BaseUri), true))">Version @this.GetType().Assembly.GetName().Version?.ToString(3)</MudLink>
             <MudSpacer />
         </MudStack>
         @if(_updateAvailable)
