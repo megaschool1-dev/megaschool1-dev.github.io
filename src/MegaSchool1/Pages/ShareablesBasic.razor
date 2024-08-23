@@ -1,18 +1,15 @@
 ﻿@page "/shareables"
 @using MegaSchool1.Components
 @using MegaSchool1.Model
-@using MegaSchool1.ViewModel
 @using Content = MegaSchool1.Model.Content
-@using OneOf
-@using OneOf.Types
 @inherits Components.ComponentBase
 @inject UISettings UI
 
 <MudStack Spacing="3">
     <MudCard>
         <MudCardContent>
-            <MudStack Spacing="3">
-                <MudSelect T="Content" Label="Shareable" @bind-Value="_selectedShareable" ToStringFunc="@(content => (UI.EnglishLocale[content]?.AppTitle ?? content.ToString()).Replace("<br/>", " "))" Variant="Variant.Outlined" Style="width:300px;">
+            <MudStack Spacing="6">
+                <MudSelect T="Content" Label="Shareable" @bind-Value="_selectedShareable" ToStringFunc="@(content => ShareableTitle(content))" Variant="Variant.Outlined" Style="width:300px;">
                     @foreach (var content in Shareables)
                     {
                         <MudSelectItem Value="@content" />
@@ -23,17 +20,20 @@
         </MudCardContent>
     </MudCard>
     <MudDivider/>
-    <Collapsable Title="Training">
+    <Collapsable Title="Everything Else">
         <MudCard>
+            <MudCardHeader>
+                <MudText Align="Align.Center" Style="width:100%;">Video Shareable</MudText>
+            </MudCardHeader>
             <MudCardContent>
                 <MudStack Spacing="3">
-                    <MudSelect T="Content" Label="Shareable" @bind-Value="_selectedTraining" ToStringFunc="@(content => (UI.EnglishLocale[content]?.AppTitle ?? content.ToString()).Replace("<br/>", " "))" Variant="Variant.Outlined" Style="width:300px;">
-                        @foreach (var content in new[] { Content.FastStart, Content.GivBuxAccountSetup, Content.GivBuxUberDemo })
+                    <MudSelect T="Content" Label="Video Shareable" @bind-Value="_selectedInCompleteVideoLibrary" ToStringFunc="@(content => ShareableTitle(content))" Variant="Variant.Outlined" Style="width:300px;">
+                        @foreach (var content in Constants.OrderedContent.Where(c => UI.EnglishLocale[c]?.Platform != VideoPlatform.None).OrderBy(c => ShareableTitle(c) ))
                         {
                             <MudSelectItem Value="@content" />
                         }
                     </MudSelect>
-                    <ShareableVideo Content="_selectedTraining"/>
+                    <ShareableVideo Content="_selectedInCompleteVideoLibrary"/>
                 </MudStack>
             </MudCardContent>
         </MudCard>
@@ -41,7 +41,7 @@
 </MudStack>
 @code {
     private Content _selectedShareable = Content.Membership;
-    private Content _selectedTraining = Content.FastStart;
+    private Content _selectedInCompleteVideoLibrary = Content.MoneyChallenge;
 
     private readonly Content[] Shareables =
     [
@@ -67,4 +67,6 @@
         Content.HowBanksMakeMoney,
         Content.PayoffMortgage,
     ];
+
+    private string ShareableTitle(Content content) => (UI.EnglishLocale[content]?.AppTitle ?? content.ToString()).Replace("<br/>", " ");
 }
