@@ -1,0 +1,25 @@
+﻿@using System.Runtime.CompilerServices
+@using System.ComponentModel.DataAnnotations
+@using MegaSchool1.Model
+@using MegaSchool1.ViewModel
+@inherits Components.ComponentBase
+@inject UISettings UI
+
+<MudCard Outlined="true">
+    <MudCardHeader>
+        <CardHeaderContent><MudText Typo="Typo.h6">Membership Training</MudText></CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        @{
+            var mapper = new Mappers();
+            var @default = mapper.ShareableDtoToViewModel(UI.EnglishLocale[Content.MembershipOrientation]!);
+
+            ShareableViewModel[] membershipTrainings =
+            [
+                @default,
+                mapper.ShareableDtoToViewModel(UI.EnglishLocale[Content.MyRewards]!)
+            ];
+        }
+        <ShareableCollection Label="@($"Select Your Training {Constants.JeromePointingDownEmoji}")" Default="@(@default)" Shareables="membershipTrainings"/>
+    </MudCardContent>
+</MudCard>

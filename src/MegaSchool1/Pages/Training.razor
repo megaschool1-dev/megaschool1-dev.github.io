@@ -2,10 +2,12 @@
 @inherits Components.ComponentBase
 @using MegaSchool1.Components
 @using MegaSchool1.Model
+@using MegaSchool1.ViewModel
 @inject NavigationManager NavigationManager
 @inject UISettings UI
 
 <MudStack Spacing="3">
+    <MembershipTrainings/>
     <Collapsable Title="GivBux">
         <MudStack Spacing="3">
             <MudCard Outlined="true">
@@ -105,43 +107,24 @@
             </MudCard>
         </MudStack>
     </Collapsable>
-    <Collapsable Title="Membership">
-        <MudStack Spacing="3">
-            <MudCard Outlined="true">
-                <MudCardHeader>72-Hour Money Challenge Deep Dive</MudCardHeader>
-                <MudCardContent>
-                    <EmbeddedVideo YouTube="WLGXDgmIbxc"  />
-                </MudCardContent>
-                <MudCardActions>
-                    <MudStack Style="width:100%;">
-                        <Centered>
-                            <ShareableContent Tooltip="Copied!"
-                                              ImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)"
-                                              TextToCopy="@($"72-Hour Money Challenge Deep Dive{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}{Constants.MinimalistYouTubeLink("WLGXDgmIbxc")}")" />
-                        </Centered>
-                    </MudStack>
-                </MudCardActions>
-            </MudCard>
-        </MudStack>
-    </Collapsable>
     <Collapsable Title="The Pipeline">
         <MudStack Spacing="3">
             <MudCard Outlined="true">
                 <MudCardHeader>Piquing - Basic Personality Types</MudCardHeader>
                 <MudCardContent>
-                    <EmbeddedVideo Facebook="@(("wendell.philp", "2331619170366551"))" />
+                    <EmbeddedVideo Facebook="@(("wendell.philp", "2331619170366551"))"/>
                 </MudCardContent>
             </MudCard>
             <MudCard Outlined="true">
                 <MudCardHeader>The Power of Connection</MudCardHeader>
                 <MudCardContent>
-                    <EmbeddedVideo Facebook="@(("ExtraDigit", "798265578574333"))" />
+                    <EmbeddedVideo Facebook="@(("ExtraDigit", "798265578574333"))"/>
                 </MudCardContent>
             </MudCard>
             <MudCard Outlined="true">
                 <MudCardHeader>Collecting the Decision</MudCardHeader>
                 <MudCardContent>
-                    <EmbeddedVideo Facebook="@(("ExtraDigit", "436886989067883"))" />
+                    <EmbeddedVideo Facebook="@(("ExtraDigit", "436886989067883"))"/>
                 </MudCardContent>
             </MudCard>
         </MudStack>
@@ -157,15 +140,15 @@
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>#2: </MudText>
-                            <MudText>Always have music playing in a browser tab (No Silence!).  Use <ExternalLink Href="https://www.youtube.com/watch?v=I140iNpx1xM">Lofi HipHop Mix</ExternalLink></MudText>
+                            <MudText>Always have music playing in a browser tab (No Silence!). Use <ExternalLink Href="https://www.youtube.com/watch?v=I140iNpx1xM">Lofi HipHop Mix</ExternalLink></MudText>
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>#3: </MudText>
-                            <MudText>Have your back office website open in a browser tab.  Be <span style="color:@(Theme.PaletteDark.Secondary);">LOGGED OUT</span>, so you can show the demo step by step.</MudText>
+                            <MudText>Have your back office website open in a browser tab. Be <span style="color:@(Theme.PaletteDark.Secondary);">LOGGED OUT</span>, so you can show the demo step by step.</MudText>
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>#4: </MudText>
-                            <MudText>Show the PowerPoint in a browser tab (full screen!).  <ExternalLink Href="https://5f35ec78-8acd-4f4f-9b98-5439adb647ec.usrfiles.com/ugd/5f35ec_54475ca86db342f59bb7bd9c9a8d9daa.ppsx">Open Opportunity PowerPoint in browser tab</ExternalLink>.</MudText>
+                            <MudText>Show the PowerPoint in a browser tab (full screen!). <ExternalLink Href="https://5f35ec78-8acd-4f4f-9b98-5439adb647ec.usrfiles.com/ugd/5f35ec_54475ca86db342f59bb7bd9c9a8d9daa.ppsx">Open Opportunity PowerPoint in browser tab</ExternalLink>.</MudText>
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>#5: </MudText>
@@ -176,10 +159,10 @@
                                         <MudText Typo="Typo.h4">Demo Data</MudText>
                                         <MudText>Balance:<br/>$226,616.38</MudText>
                                         <MudText>Rate:<br/>2.5%</MudText>
-                                        <MudText>Minimum Payment:<br />$1,040.92</MudText>
-                                        <MudText>Current Payment:<br />$1,040.92</MudText>
-                                        <MudText>Escrow:<br />$128.43</MudText>
-                                        <MudText>Tax Savings:<br />$600</MudText>
+                                        <MudText>Minimum Payment:<br/>$1,040.92</MudText>
+                                        <MudText>Current Payment:<br/>$1,040.92</MudText>
+                                        <MudText>Escrow:<br/>$128.43</MudText>
+                                        <MudText>Tax Savings:<br/>$600</MudText>
                                     </MudStack>
                                 </Centered>
                             </MudStack>
@@ -201,12 +184,12 @@
                         <MudStack Row="true">
                             <MudText>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</MudText>
                             <MudText>#1a: </MudText>
-                            <MudText>Tell QMD to use the default username YOU chose (eg. "JohnSmith", "MarySue", etc).  They can chagne it later.</MudText>
+                            <MudText>Tell QMD to use the default username YOU chose (eg. "JohnSmith", "MarySue", etc). They can chagne it later.</MudText>
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</MudText>
                             <MudText>#1b: </MudText>
-                            <MudText>Tell QMD to use the password <span style="color:@(Theme.PaletteDark.Primary);">password1</span>.  Tell them to change it afterwards.</MudText>
+                            <MudText>Tell QMD to use the password <span style="color:@(Theme.PaletteDark.Primary);">password1</span>. Tell them to change it afterwards.</MudText>
                         </MudStack>
                         <MudStack Row="true">
                             <MudText>#2: </MudText>
@@ -237,7 +220,7 @@
                             <MudStack>
                                 <MudText>Upload <ExternalLink Href="https://mwrpromos.com/">new member banner</ExternalLink> to:</MudText>
                                 <MudStack Row="true">
-                                    <MudSpacer />
+                                    <MudSpacer/>
                                     <MudContainer>
                                         <MudStack>
                                             <MudStack Row="true">

@@ -8,8 +8,8 @@ public class I18N
     [JsonPropertyName("language")]
     public string Language { get; set; } = default!;
 
-    [JsonPropertyName("videos")]
-    public ShareableDto[] Videos { get; set; } = [];
+    [JsonPropertyName("shareables")]
+    public ShareableDto[] Shareables { get; set; } = [];
 
     [JsonPropertyName("testimonials")]
     public Testimonial[] Testimonials { get; set; } = [];
@@ -21,7 +21,7 @@ public class I18N
     {
         get
         {
-            return Videos.Content(content);
+            return Shareables.Content(content);
         }
     }
 }

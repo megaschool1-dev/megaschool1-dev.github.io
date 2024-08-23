@@ -1,8 +1,8 @@
 ﻿using MegaSchool1.Model;
+using MegaSchool1.Model.Repository;
 using Microsoft.AspNetCore.Components;
 using OneOf;
 using OneOf.Types;
-using System;
 
 namespace MegaSchool1.ViewModel;
 
@@ -37,7 +37,9 @@ public class ShareableViewModel
     public OneOf<string, None> AuxiliaryText { get; set; } = new None();
  
     public OneOf<string, None> Metadata { get; set; } = new None();
-    
+
+    public OneOf<(TeamMember TeamMember, bool ShowReferralCode), None> CapturePage { get; set; } = new None();
+
     public static string VideoShareable(ShareableViewModel shareable)
     {
         var durationEstimate = shareable.Video.Match(

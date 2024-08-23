@@ -88,7 +88,8 @@ public enum VideoPlatform
     Vimeo = 2,
     TikTok = 3,
     Facebook = 4,
-    Html5 = 5,
+    StartMeeting = 5,
+    Html5 = 6,
 }
 
 public enum Content
@@ -140,6 +141,8 @@ public enum Content
     FastStart = 44,
     HowBanksMakeMoney = 45,
     PayoffMortgage = 46,
+    MembershipOrientation = 47,
+    MyRewards = 48,
 }
 
 public enum Language
@@ -191,8 +194,10 @@ public record Vimeo(string VideoId, OneOf<string, None> Hash);
 
 public record Facebook(string ChannelId, string VideoId);
 
+public record StartMeeting(string VideoId);
+
 [GenerateOneOf]
-public partial class Video : OneOfBase<YouTube, TikTok, Vimeo, Facebook> { }
+public partial class Video : OneOfBase<YouTube, TikTok, Vimeo, Facebook, StartMeeting> { }
 
 public class Constants(UISettings ui, NavigationManager navigationManager)
 {
@@ -205,6 +210,7 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
     public static readonly TimeZoneInfo DefaultTimeZone = NewYorkTimeZone;
 
     public static readonly string PointingDownEmoji = $"\ud83d\udc47";
+    public static readonly string JeromePointingDownEmoji = "\ud83d\udc47\ud83c\udffd";
     public static readonly string MultiPlatformLivestreamUrlPlaceholder = "{Corporate.Livestream}";
     public static readonly string YouTubeEmbedLinkPrefix = "https://www.youtube.com/embed/";
     public static readonly string VimeoEmbedLinkPrefix = "https://player.vimeo.com/video/";
