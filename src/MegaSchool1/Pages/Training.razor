@@ -3,10 +3,24 @@
 @using MegaSchool1.Components
 @using MegaSchool1.Model
 @inject NavigationManager NavigationManager
+@inject UISettings UI
 
 <MudStack Spacing="3">
     <Collapsable Title="GivBux">
         <MudStack Spacing="3">
+            <MudCard Outlined="true">
+                <MudCardContent>
+                    <MudStack Spacing="3">
+                        <MudSelect T="Content" Label="Shareable" @bind-Value="_selectedGivBuxTraining" ToStringFunc="@(content => (UI.EnglishLocale[content]?.AppTitle ?? content.ToString()).Replace("<br/>", " "))" Variant="Variant.Outlined" Style="width:300px;">
+                            @foreach (var content in new[] { Content.GivBuxAccountSetup, Content.GivBuxUberDemo })
+                            {
+                                <MudSelectItem Value="@content"/>
+                            }
+                        </MudSelect>
+                        <ShareableVideo Content="_selectedGivBuxTraining"/>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
             <MudCard Outlined="true">
                 <MudCardHeader>
                     <MudText Typo="Typo.h6" Align="Align.Center" Style="width:100%;">Pre-Registered QMD Sign-in</MudText>
@@ -14,60 +28,60 @@
                 <MudCardContent>
                     <MudText>
                         Because you were once a part of MWR, you can now trigger a new Residual Income Stream for FREE! 💰🤩🤑
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         (Make money at over 500 Store Icons like Amazon, Home Depot😱, Uber, LongHorns, Lowe’s😱, Nike, CVS, Kroger 😱!)
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         Step 1 - Downlowd GivBux App from App Store✅!
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         Step 2 - Choose “Log In” (Not Sign Up) & Click “Forgot Password”✅!
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         Step 3 - Enter the email you have on file with MWR✅!
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         Step 4 - Check your email for Code GivBux sent to you✅!
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         Step 5 - Return to Create your Profile✅!
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         (Note: 🛑The Username you create cannot be changed!)
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         (Note 2: Use the same password every time they ask you to create or enter password✅.)
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         NOW, SHARE THE APP: Note: (For Now)
-                        <br />
+                        <br/>
                         ✅Apple can TEXT invite to Apple!
-                        <br />
+                        <br/>
                         ✅Android can TEXT invite to Android!
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         ❌Apple CANNOT text invite Android.
-                        <br />
+                        <br/>
                         ❌Android CANNOT text invite Apple.
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         ✅Solution:
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         1. User must download the GivBux App!
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         2. You must give the new user the Vanity Name you created in order for you to receive credit!
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         We will load/fund apps by Wed.🤩💰💵🤑
                     </MudText>
                 </MudCardContent>
                 <MudCardActions>
                     <MudStack Style="width:100%;">
-                        <MudDivider />
-                        <ShareableContent TextToCopy="@(NavigationManager.Uri)" />
+                        <MudDivider/>
+                        <ShareableContent TextToCopy="@(NavigationManager.Uri)"/>
                     </MudStack>
                 </MudCardActions>
             </MudCard>
@@ -84,8 +98,8 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudStack Style="width:100%;">
-                        <MudDivider />
-                        <ShareableContent TextToCopy="@(NavigationManager.Uri)" />
+                        <MudDivider/>
+                        <ShareableContent TextToCopy="@(NavigationManager.Uri)"/>
                     </MudStack>
                 </MudCardActions>
             </MudCard>
@@ -257,3 +271,6 @@
         </StrategyChooser>
     </Collapsable>
 </MudStack>
+@code{
+    private Content _selectedGivBuxTraining = Content.GivBuxAccountSetup;
+}
