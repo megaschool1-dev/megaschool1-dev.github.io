@@ -40,7 +40,8 @@
             tikTok => TikTokView(tikTok),
             vimeo => VimeoView(vimeo),
             facebook => FacebookView(facebook),
-            startMeeting => StartMeetingView(startMeeting)),
+            startMeeting => StartMeetingView(startMeeting),
+            html5 => Html5View(html5)),
         none => null))
 </div>
 
@@ -110,6 +111,14 @@
         <iframe allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" src="https://stme.in/@startMeeting.VideoId" scrolling="no" frameborder="0" height="300" width="538"></iframe>
     };
 
+    private RenderFragment Html5View(Html5 html5) => __builder =>
+    {
+        <video width="100%" controls>
+            <source src="@html5.Uri.AbsoluteUri" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    };
+
     protected override void OnParametersSet()
     {
         if(Video.TryPickT0(out var video, out var _))
@@ -120,7 +129,7 @@
             this.Facebook = video.IsT3 ? (video.AsT3.ChannelId, video.AsT3.VideoId) : null;
         }
   
-        if (video?.Value is StartMeeting || ValidYouTube || ValidTikTok || ValidVimeo || ValidFacebook || Video.IsT1)
+        if (Video.IsT0 || ValidYouTube || ValidTikTok || ValidVimeo || ValidFacebook)
         {
             this.ShowVideo();
         }

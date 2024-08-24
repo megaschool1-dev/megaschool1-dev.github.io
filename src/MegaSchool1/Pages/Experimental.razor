@@ -1,11 +1,27 @@
 ﻿@page "/experimental"
 @using MegaSchool1.Components
-@using Serilog
-@using System.Web
 
 <MudStack Spacing="6">
     <Centered><MudIcon Icon="@Icons.Material.Filled.School" /><MudLink Href="/wealthmap">Mega GED</MudLink></Centered>
     <Centered><MudIcon Icon="@Icons.Material.Filled.DirectionsCar" /><MudLink Href="/carpurchase">Teen Car Purchase</MudLink></Centered>
     <Centered><MudIcon Icon="@Icons.Material.Filled.Security" /><MudLink Href="/trustfundmybaby">Trust Fund My Baby</MudLink></Centered>
     <Centered><MudIcon Icon="@Icons.Material.Filled.Handshake" /><MudLink Href="/givbuxfundraiserprojections">GivBux Fundraiser Projections</MudLink></Centered>
+    <MudDivider/>
+    <Collapsable Title="Tests">
+        <MudStack Spacing="3">
+            <MudCard Outlined="true">
+                <MudCardHeader>
+                    <MudText Typo="Typo.h6">Capture Pages</MudText>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudStack Spacing="3">
+                        <ExternalLink Href="/en/thankyou/MS1/megaschool">Thank You (english)</ExternalLink>
+                        <ExternalLink Href="/es/thankyou/MS1/megaschool">Thank You (spanish)</ExternalLink>
+                        <ExternalLink Href="/en/MegaSchoolAppInstall/MS1/megaschool">App Install Shareable - YouTube</ExternalLink>
+                        <ExternalLink Href="/72/MS1/megaschool">72-Hour Money Challenge (legacy)</ExternalLink>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudStack>
+    </Collapsable>
 </MudStack>

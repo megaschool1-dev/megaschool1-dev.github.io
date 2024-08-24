@@ -4,68 +4,52 @@
 @using MegaSchool1.Model
 @using System.Web
 @using MegaSchool1.Model.Dto
+@using MegaSchool1.ViewModel
 @inject UISettings UI
+@inject Mappers Mappers
 
 <PageTitle>@Video?.ShareableTitle</PageTitle>
 
 <MudStack Spacing="3" Style="height:100%;">
     <Centered><MudImage Src="@GetImageUrl()" Fluid="true" Width="300" /></Centered>
     <Centered>
-        @if (this.Video?.Platform is VideoPlatform.YouTube)
-        {
-            <EmbeddedVideo YouTube="@Video?.Id" />
-        }
-        @if (this.Video?.Platform is VideoPlatform.Vimeo)
-        {
-            <EmbeddedVideo Vimeo="@((Video?.Id, Video?.Hash))" />
-        }
-        @if (this.Video?.Platform is VideoPlatform.TikTok)
-        {
-            <EmbeddedVideo TikTok="@((Video?.UserHandle, Video?.Id))" />
-        }
-        @if (this.Video?.Platform is VideoPlatform.Html5)
-        {
-            <video width="100%" controls>
-                <source src="@Video?.Url" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        }
+        <EmbeddedVideo Video="@(_shareable.Video.MapT0(video => video.Video))"/>
     </Centered>
     @if (!string.IsNullOrWhiteSpace(this.Video?.DownloadUrl))
     {
         <Centered><ExternalLink Href="@this.Video?.DownloadUrl">@(Video?.DownloadText ?? "Download")</ExternalLink></Centered>
     }
-    @if (!string.IsNullOrWhiteSpace(this.Video?.AuxiliaryText))
+    @if (_shareable.AuxiliaryText.TryPickT0(out var aux, out _))
     {
         <br/>
-        <Centered><MudText Align="Align.Center">@((MarkupString)HttpUtility.UrlDecode(Video?.AuxiliaryText.Replace("{ReferralCode}", $@"<span style=""color:{Theme.PaletteDark.Secondary};"">{ReferralId}</span>")))</MudText></Centered>
+        <Centered><MudText Align="Align.Center">@((MarkupString)HttpUtility.UrlDecode(aux.Replace("{ReferralCode}", $@"<span style=""color:{Theme.PaletteDark.Secondary};"">{ReferralId}</span>")))</MudText></Centered>
     }
     <MudSpacer/>
-    @if (Video?.Images.Any() is true)
+    @if (_shareable.Images.TryPickT0(out var images, out _))
     {
         <br/>
         <Centered>
             <MudStack Row="true">
-                @foreach (var image in Video?.Images ?? [])
+                @foreach (var image in images)
                 {
                     <a href="@image.Href" target="_blank"><div style="max-width:300px;"><MudImage Src="@image.Url" Fluid="true" /></div></a>
                 }
             </MudStack>
         </Centered>
     }
-    @if (DateTimeOffset.Now <= Video?.Event?.StartDate)
+    @if (_shareable.Event.TryPickT0(out var @event, out _) && @event.StartDate.TryPickT0(out var startDate, out _) && DateTimeOffset.Now <= startDate)
     {
-        @if (!string.IsNullOrWhiteSpace(this.Video?.Event?.Header))
+        @if (!string.IsNullOrWhiteSpace(@event.Header))
         {
-            <MudText Align="Align.Center" Color="Color.Secondary">@Video?.Event?.Header</MudText>
+            <MudText Align="Align.Center" Color="Color.Secondary">@(@event.Header)</MudText>
         }
-        <MudText Align="Align.Center"><ExternalLink Href="@Video?.Event?.Link">@Video?.Event?.ShareableHeader</ExternalLink> <br /> @($"{Video?.Event?.StartDate:dddd, MMMM d} @ {Video?.Event?.StartDate?.ToOffset(TimeZoneInfo.Local.BaseUtcOffset): h:mm tt} {TimeZoneInfo.Local.StandardName}")</MudText>
+        <MudText Align="Align.Center"><ExternalLink Href="@Video?.Event?.Link">@(@event.ShareableHeader)</ExternalLink> <br /> @($"{startDate:dddd, MMMM d} @ {startDate.ToOffset(TimeZoneInfo.Local.BaseUtcOffset): h:mm tt} {TimeZoneInfo.Local.StandardName}")</MudText>
     }
-    @if (Video?.ShowBusinessSignUp is true)
+    @if (_shareable.ShowBusinessSignUp)
     {
         <MudText Align="Align.Center"><ExternalLink Href="@Constants.JoinMakeWealthReal(this.MemberId, Model.Language.English)">Join MWR NOW!</ExternalLink></MudText>
     }
-    @if(Video?.HideShortCodePrompt is not true)
+    @if(!_shareable.HideShortCodePrompt)
     {
         <br />
         <Centered><MudText Style="color:white;" Align="Align.Center">@((DateTimeOffset.Now <= Video?.PromoExpiration && Video?.Promo != null ? Video?.Promo : "To get started or ask questions, text"))<br /><br />'@ReferralId' to @QMDPhoneNumber</MudText></Centered>
@@ -74,12 +58,19 @@
 </MudStack>
 
 @code {
+    private ShareableViewModel _shareable = new();
+
     [Parameter]
     public string ContentId { get; set; } = Content.MoneyChallenge.ToString();
 
-    private Content ContentValue => Enum.Parse<Content>(this.ContentId);
+    private Content ContentValue => Enum.TryParse<Content>(this.ContentId, out var content) ? content : Content.MoneyChallenge;
 
     private ShareableDto? Video => this.Language == Spanish ? UI.SpanishLocale[ContentValue] : UI.EnglishLocale[ContentValue];
 
     private string GetImageUrl() => Constants.GetImageUrl(Video?.CapturePageImage ?? Video?.Image ?? Image.MoneyChallengeTransparent);
+
+    protected override void OnInitialized()
+    {
+        _shareable = Mappers.ShareableDtoToViewModel((this.Language == Spanish ? UI.SpanishLocale[ContentValue] : UI.EnglishLocale[ContentValue]) ?? UI.EnglishLocale[ContentValue]!);
+    }
 }

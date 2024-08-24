@@ -196,8 +196,10 @@ public record Facebook(string ChannelId, string VideoId);
 
 public record StartMeeting(string VideoId);
 
+public record Html5(Uri Uri);
+
 [GenerateOneOf]
-public partial class Video : OneOfBase<YouTube, TikTok, Vimeo, Facebook, StartMeeting> { }
+public partial class Video : OneOfBase<YouTube, TikTok, Vimeo, Facebook, StartMeeting, Html5> { }
 
 public class Constants(UISettings ui, NavigationManager navigationManager)
 {
@@ -238,7 +240,8 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
         tikTok => MinimalistTikTokLink(tikTok.UserHandle, tikTok.VideoId),
         vimeo => MinimalistVimeoLink(vimeo.VideoId, vimeo.Hash.Match<string?>(h => h, none => null)),
         facebook => $"https://www.facebook.com/watch/live/?ref=watch_permalink&v={facebook.VideoId}",
-        startMeeting => $"https://stme.in/{startMeeting.VideoId}");
+        startMeeting => $"https://stme.in/{startMeeting.VideoId}",
+        html5 => html5.Uri.AbsoluteUri);
 
     public static string GetImageUrl(Image image) => image switch
     {
