@@ -1,27 +1,20 @@
 ﻿@using MegaSchool1.Model
+@using OneOf
+@using OneOf.Types
+@using MegaSchool1.ViewModel
 @inherits Components.ComponentBase
+@inject Mappers Mappers
 
 <div style="display:@(!this.Filter.Any() || this.Filter.All(f => this.Highlights.Contains(f)) ? "block" : "none");">
     <MudCard>
         <MudStack>
-            @if (this.YouTube != null)
-            {
-                <EmbeddedVideo YouTube="@YouTube" />
-            }
-            @if (this.TikTok != null)
-            {
-                <EmbeddedVideo TikTok="@TikTok" />
-            }
-            @if (this.Vimeo != null)
-            {
-                <EmbeddedVideo Vimeo="@Vimeo" />
-            }
+            <EmbeddedVideo Video="Video" />
             <MudStack Row="true">
-                <MudSpacer />
+                <MudSpacer/>
                 <ShareableContent Tooltip="Testimonial Copied!"
                                   ImageUrl="@Constants.GetImageUrl(Image.MoneyChallengeLogo)"
-                                  TextToCopy="@($"{Description}{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}{this.VideoUrl}")" />
-                <MudSpacer />
+                                  TextToCopy="@($"{Description}{Environment.NewLine}{Constants.PointingDownEmoji}{Environment.NewLine}{Video.Match(video => video.MinimalistUrl(), none => string.Empty)}")"/>
+                <MudSpacer/>
             </MudStack>
         </MudStack>
     </MudCard>
@@ -29,34 +22,14 @@
 
 @code {
     [Parameter]
-    public string? YouTube { get; set; }
+    public OneOf<Video, None> Video { get; set; } = new None();
 
     [Parameter]
-    public (string UserHandle, string VideoId)? TikTok { get; set; }
-
-    /// <summary>
-    ///     Hash - Required for private Vimeo videos. See https://www.drupal.org/project/video_embed_field/issues/3238136
-    /// </summary>
-    [Parameter]
-    public (string VideoId, string? Hash)? Vimeo { get; set; }
+    public string Description { get; set; } = "Testimonial";
 
     [Parameter]
-    public string Description { get; set; }
+    public Highlight[] Highlights { get; set; } = [];
 
     [Parameter]
-    public Highlight[] Highlights { get; set; }
-
-    [Parameter]
-    public Highlight[] Filter { get; set; }
-
-    private string? VideoUrl =>
-        this.YouTube != null
-        ? Constants.MinimalistYouTubeLink(this.YouTube)
-
-        : this.TikTok != null
-        ? Constants.MinimalistTikTokLink(this.TikTok?.UserHandle!, this.TikTok?.VideoId!)
-
-        : this.Vimeo != null
-        ? Constants.MinimalistVimeoLink(this.Vimeo?.VideoId!, this.Vimeo?.Hash)
-        : null;
+    public Highlight[] Filter { get; set; } = [];
 }
