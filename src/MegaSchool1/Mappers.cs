@@ -10,6 +10,7 @@ namespace MegaSchool1;
 [Mapper]
 public partial class Mappers
 {
+    [MapProperty(nameof(EventDto.StartDate), nameof(EventViewModel.StartDate), Use = nameof(NullableToOption))]
     public partial EventViewModel EventDtoToEventViewModel(EventDto eventDto);
 
     public static OneOf<Video, None> TestimonialToVideo(Testimonial testimonial) => GetVideo(testimonial.Video);
@@ -21,6 +22,7 @@ public partial class Mappers
         VideoPlatform.Vimeo => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new Vimeo(dto.Id, !string.IsNullOrWhiteSpace(dto.Hash) ? dto.Hash : new None()) : new None(),
         VideoPlatform.Facebook => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? (Video)new Facebook(dto.UserHandle, dto.Id) : new None(),
         VideoPlatform.StartMeeting => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new StartMeeting(dto.Id) : new None(),
+        VideoPlatform.Html5 => Uri.IsWellFormedUriString(dto.Url, UriKind.Absolute) ? (Video)new Html5(new(dto.Url)) : new None(),
         _ => new None()
     };
 
@@ -54,4 +56,7 @@ public partial class Mappers
 
         return viewModel;
     }
+
+    public static OneOf<T, None> GetNullableToOption<T>(T? value) where T : struct => value.HasValue ? value.Value : new None();
+    public static OneOf<DateTimeOffset, None> NullableToOption(DateTimeOffset? value) => GetNullableToOption(value);
 }
