@@ -3,12 +3,13 @@
 @using MegaSchool1.Components
 @using MegaSchool1.Model
 @inject UISettings UI
+@inject Mappers Mappers
 
-<PageTitle>¡Gracias!</PageTitle>
+<PageTitle>Thank You!</PageTitle>
 
 <MudStack Spacing="3">
-    <MudText Typo="Typo.h2" Align="Align.Center">¡Gracias!</MudText>
-    <Centered><EmbeddedVideo YouTube="@(Language == English ? UI.EnglishLocale[Content.MoneyChallenge]!.Id : UI.SpanishLocale[Content.MoneyChallenge]!.Id)" /></Centered>
+    <MudText Typo="Typo.h2" Align="Align.Center">Thank You!</MudText>
+    <Centered><EmbeddedVideo Video="@(Mappers.ShareableDtoToViewModel(Language == Spanish ? UI.SpanishLocale[Content.GivBuxCharity]! : UI.EnglishLocale[Content.GivBuxCharity]!).Video.MapT0(video => video.Video))" /></Centered>
     <br />
     <MudText Align="Align.Center">Thanks again!  For more info, let's connect.</MudText>
     <MudText Align="Align.Center">Text '@ReferralId' to @QMDPhoneNumber</MudText>

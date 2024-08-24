@@ -1,4 +1,6 @@
 ﻿using MegaSchool1.Model;
+using OneOf;
+using OneOf.Types;
 
 namespace MegaSchool1.ViewModel;
 
@@ -33,4 +35,6 @@ public class EventViewModel
     public string? Password { get; set; }
 
     public LivestreamPlatform LivestreamPlatform { get; set; } = LivestreamPlatform.YouTube;
+
+    public OneOf<DateTimeOffset, None> StartDate { get; set; } = new None();
 }
