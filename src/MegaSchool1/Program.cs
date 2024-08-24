@@ -22,15 +22,10 @@ builder.Services.AddScoped<Repository>(sp => new(sp.GetRequiredService<ILocalSto
 
 var clientSettings = await http.GetFromJsonAsync<ClientSettings>("appsettings.json", new System.Text.Json.JsonSerializerOptions() { Converters = { new JsonStringEnumConverter() } });
 
-builder.Services.AddSingleton(sp =>
-{
-    return clientSettings?.UI ?? new();
-});
-
-builder.Services.AddSingleton(sp =>
-{
-    return new Constants(sp.GetRequiredService<UISettings>(), sp.GetRequiredService<NavigationManager>());
-});
+builder.Services
+    .AddSingleton(sp => clientSettings?.UI ?? new())
+    .AddSingleton(sp => new Constants(sp.GetRequiredService<UISettings>(), sp.GetRequiredService<NavigationManager>()))
+    .AddSingleton(sp => new Mappers());
 
 builder.Services.AddMudServices();
 builder.Services.AddWebShare();

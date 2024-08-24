@@ -4,38 +4,19 @@
 @inject UISettings UI
 
 <MudChipSet T="Highlight" @bind-SelectedValues="_selected" SelectionMode="SelectionMode.MultiSelection" CheckMark="true">
-    @foreach(var filterableValueable in Highlights)
+    @foreach(var filterableValue in Highlights)
     {
-        <MudChip Value="@filterableValueable.Highlight" Text="@(filterableValueable.Description)" Color="Color.Primary" SelectedColor="Color.Secondary" />
+        <MudChip Value="@filterableValue.Highlight" Text="@(filterableValue.Description)" Color="Color.Primary" SelectedColor="Color.Secondary" />
     }
 </MudChipSet>
 <br/>
 <MudStack>
     @foreach(var testimonial in UI.EnglishLocale.Testimonials)
     {
-        switch(testimonial.Video.Platform)
-        {
-            case VideoPlatform.TikTok:
-                <Testimonial Description="@testimonial.Description"
-                             TikTok="@((testimonial.Video.UserHandle, testimonial.Video.Id))"
-                             Highlights="@(testimonial.Highlights)"
-                             Filter="_selected.ToArray()" />
-                break;
-
-            case VideoPlatform.YouTube:
-                <Testimonial Description="@testimonial.Description"
-                             YouTube="@testimonial.Video.Id"
-                             Highlights="@(testimonial.Highlights)"
-                             Filter="_selected.ToArray()" />
-                break;
-
-            case VideoPlatform.Vimeo:
-                <Testimonial Description="@testimonial.Description"
-                             Vimeo="@((testimonial.Video.Id, testimonial.Video.Hash))"
-                             Highlights="@(testimonial.Highlights)"
-                             Filter="_selected.ToArray()" />
-                break;
-        }
+        <Testimonial Description="@testimonial.Description"
+                     Video="Mappers.TestimonialToVideo(testimonial)"
+                     Highlights="@(testimonial.Highlights)"
+                     Filter="_selected.ToArray()" />
     }
 
     <!--
@@ -46,14 +27,14 @@
     -->
     <div style="visibility:hidden;">
         <Testimonial Description="This testimonial is a UI hack, see comment above."
-                     YouTube="Xlg3rp0D4aI"
+                     Video="@((Video)new YouTube("Xlg3rp0D4aI"))"
                      Highlights="@([Highlight.MoneyChallenge])"
                      Filter="@([Highlight.MoneyChallenge])" />
     </div>
 </MudStack>
 
 @code {
-    private static readonly (Model.Highlight Highlight, string Description)[] Highlights =
+    private static readonly (Highlight Highlight, string Description)[] Highlights =
     [
         (Highlight.MoneyChallenge, "72Hr Money Challenge"),
         (Highlight.ReduceMyTaxes, "Reduce My Taxes"),
