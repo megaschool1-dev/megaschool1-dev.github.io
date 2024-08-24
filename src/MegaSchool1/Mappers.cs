@@ -12,32 +12,24 @@ public partial class Mappers
 {
     public partial EventViewModel EventDtoToEventViewModel(EventDto eventDto);
 
+    public static OneOf<Video, None> TestimonialToVideo(Testimonial testimonial) => GetVideo(testimonial.Video);
+
+    private static OneOf<Video, None> GetVideo(ShareableDto dto) => dto.Platform switch
+    {
+        VideoPlatform.YouTube => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new YouTube(dto.Id) : new None(),
+        VideoPlatform.TikTok => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? (Video)new TikTok(dto.UserHandle, dto.Id) : new None(),
+        VideoPlatform.Vimeo => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new Vimeo(dto.Id, !string.IsNullOrWhiteSpace(dto.Hash) ? dto.Hash : new None()) : new None(),
+        VideoPlatform.Facebook => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? (Video)new Facebook(dto.UserHandle, dto.Id) : new None(),
+        VideoPlatform.StartMeeting => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new StartMeeting(dto.Id) : new None(),
+        _ => new None()
+    };
+
     public ShareableViewModel ShareableDtoToViewModel(ShareableDto dto)
     {
         var viewModel = new ShareableViewModel();
 
         viewModel.Id = dto.ContentId;
-
-        OneOf<YouTube, TikTok, Vimeo, Facebook, StartMeeting, None> video = dto.Platform switch
-        {
-            VideoPlatform.YouTube => !string.IsNullOrWhiteSpace(dto.Id) ? new YouTube(dto.Id) : new None(),
-            VideoPlatform.TikTok => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? new TikTok(dto.UserHandle, dto.Id) : new None(),
-            VideoPlatform.Vimeo => !string.IsNullOrWhiteSpace(dto.Id) ? new Vimeo(dto.Id, !string.IsNullOrWhiteSpace(dto.Hash) ? dto.Hash : new None()) : new None(),
-            VideoPlatform.Facebook => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? new Facebook(dto.UserHandle, dto.Id) : new None(),
-            VideoPlatform.StartMeeting => !string.IsNullOrWhiteSpace(dto.Id) ? new StartMeeting(dto.Id) : new None(),
-            _ => new None()
-        };
-
-        var duration = dto.Duration ?? TimeSpan.MinValue;
-
-        viewModel.Video = video.Match(
-            youTube => (OneOf<VideoViewModel, None>) new VideoViewModel(youTube, duration),
-            tikTok => new VideoViewModel(tikTok, duration),
-            vimeo => new VideoViewModel(vimeo, duration),
-            facebook => new VideoViewModel(facebook, duration),
-            startMeeting => new VideoViewModel(startMeeting, duration),
-            none => none);
-
+        viewModel.Video = GetVideo(dto).MapT0(v => new VideoViewModel(v, dto.Duration ?? TimeSpan.MinValue));
         viewModel.Url = !string.IsNullOrWhiteSpace(dto.Url) ? dto.Url : new None();
         viewModel.AppDescription = dto.AppTitle;
         viewModel.Title = dto.ShareableTitle;
