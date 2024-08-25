@@ -13,19 +13,19 @@
 <MudStack Spacing="3" Style="height:100%;">
     <Centered><MudImage Src="@GetImageUrl()" Fluid="true" Width="300" /></Centered>
     <Centered>
-        <EmbeddedVideo Video="@(_shareable.Video.MapT0(video => video.Video))"/>
+        <EmbeddedVideo Video="@(Shareable.Video.MapT0(video => video.Video))"/>
     </Centered>
     @if (!string.IsNullOrWhiteSpace(this.Video?.DownloadUrl))
     {
         <Centered><ExternalLink Href="@this.Video?.DownloadUrl">@(Video?.DownloadText ?? "Download")</ExternalLink></Centered>
     }
-    @if (_shareable.AuxiliaryText.TryPickT0(out var aux, out _))
+    @if (Shareable.AuxiliaryText.TryPickT0(out var aux, out _))
     {
         <br/>
         <Centered><MudText Align="Align.Center">@((MarkupString)HttpUtility.UrlDecode(aux.Replace("{ReferralCode}", $@"<span style=""color:{Theme.PaletteDark.Secondary};"">{ReferralId}</span>")))</MudText></Centered>
     }
     <MudSpacer/>
-    @if (_shareable.Images.TryPickT0(out var images, out _))
+    @if (Shareable.Images.TryPickT0(out var images, out _))
     {
         <br/>
         <Centered>
@@ -37,7 +37,7 @@
             </MudStack>
         </Centered>
     }
-    @if (_shareable.Event.TryPickT0(out var @event, out _) && @event.StartDate.TryPickT0(out var startDate, out _) && DateTimeOffset.Now <= startDate)
+    @if (Shareable.Event.TryPickT0(out var @event, out _) && @event.StartDate.TryPickT0(out var startDate, out _) && DateTimeOffset.Now <= startDate)
     {
         @if (!string.IsNullOrWhiteSpace(@event.Header))
         {
@@ -45,11 +45,11 @@
         }
         <MudText Align="Align.Center"><ExternalLink Href="@Video?.Event?.Link">@(@event.ShareableHeader)</ExternalLink> <br /> @($"{startDate:dddd, MMMM d} @ {startDate.ToOffset(TimeZoneInfo.Local.BaseUtcOffset): h:mm tt} {TimeZoneInfo.Local.StandardName}")</MudText>
     }
-    @if (_shareable.ShowBusinessSignUp)
+    @if (Shareable.ShowBusinessSignUp)
     {
         <MudText Align="Align.Center"><ExternalLink Href="@Constants.JoinMakeWealthReal(this.MemberId, Model.Language.English)">Join MWR NOW!</ExternalLink></MudText>
     }
-    @if(!_shareable.HideShortCodePrompt)
+    @if(!Shareable.HideShortCodePrompt)
     {
         <br />
         <Centered><MudText Style="color:white;" Align="Align.Center">@((DateTimeOffset.Now <= Video?.PromoExpiration && Video?.Promo != null ? Video?.Promo : "To get started or ask questions, text"))<br /><br />'@ReferralId' to @QMDPhoneNumber</MudText></Centered>
@@ -58,7 +58,7 @@
 </MudStack>
 
 @code {
-    private ShareableViewModel _shareable = new();
+    protected ShareableViewModel Shareable { get; private set; } = new();
 
     [Parameter]
     public string ContentId { get; set; } = Content.MoneyChallenge.ToString();
@@ -71,6 +71,6 @@
 
     protected override void OnInitialized()
     {
-        _shareable = Mappers.ShareableDtoToViewModel((this.Language == Spanish ? UI.SpanishLocale[ContentValue] : UI.EnglishLocale[ContentValue]) ?? UI.EnglishLocale[ContentValue]!);
+        Shareable = Mappers.ShareableDtoToViewModel((this.Language == Spanish ? UI.SpanishLocale[ContentValue] : UI.EnglishLocale[ContentValue]) ?? UI.EnglishLocale[ContentValue]!);
     }
 }

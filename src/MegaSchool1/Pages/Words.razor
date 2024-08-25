@@ -248,20 +248,13 @@
 
 <MudDialog @bind-Visible="_show72HourMoneyChallengeVideo" Options="@(new DialogOptions() { FullWidth = true, NoHeader = true })">
     <DialogContent>
-        <MudStack>
-            <MudText Align="Align.Center">English</MudText>
-            <EmbeddedVideo YouTube="@(Constants.MoneyChallenge[CurrentStrategy].English.YouTubeId)" />
-            <MudText Align="Align.Center">Español</MudText>
-            <EmbeddedVideo YouTube="@(Constants.MoneyChallenge[CurrentStrategy].Spanish!.YouTubeId)" />
-        </MudStack>
+        <MudText>Use shareable!</MudText>
     </DialogContent>
 </MudDialog>
 
 <MudDialog @bind-Visible="_showFaqVideo" Options="@(new DialogOptions() { FullWidth = true, NoHeader = true })">
     <DialogContent>
-        <MudStack>
-            <EmbeddedVideo YouTube="@(UI.EnglishLocale[Content.MoneyChallengeFAQ]!.Id)" />
-        </MudStack>
+        <MudText>Use shareable!</MudText>
     </DialogContent>
 </MudDialog>
 

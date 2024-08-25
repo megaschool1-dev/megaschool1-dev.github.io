@@ -4,18 +4,6 @@
 @inherits Components.ComponentBase
 
 <div style="display:@_display;">
-    @if (ValidYouTube && Video.IsT1)
-    {
-        <iframe @onload="OnVideoLoaded"
-                src="@($"{Constants.YouTubeEmbedLinkPrefix}{YouTube}")"
-                width="560"
-                height="315"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-        </iframe>
-    }
-
     @if (ValidTikTok && Video.IsT1)
     {
         <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@@@(this.TikTok?.UserHandle)/video/@TikTok" data-video-id="@TikTok.Value.VideoId" style="max-width: 605px;min-width: 300px;">
@@ -54,9 +42,6 @@
     private string _display = "none";
 
     [Parameter]
-    public string? YouTube { get; set; }
-
-    [Parameter]
     public (string UserHandle, string VideoId)? TikTok { get; set; }
 
     /// <summary>
@@ -71,7 +56,6 @@
     [Parameter]
     public OneOf<Video, None> Video { get; set; } = new None();
 
-    private bool ValidYouTube => !string.IsNullOrWhiteSpace(YouTube);
     private bool ValidVimeo => !string.IsNullOrWhiteSpace(Vimeo?.VideoId);
     private bool ValidTikTok => !string.IsNullOrWhiteSpace(TikTok?.UserHandle) && !string.IsNullOrWhiteSpace(TikTok?.VideoId);
     private bool ValidFacebook => !string.IsNullOrWhiteSpace(Facebook?.ChannelId) && !string.IsNullOrWhiteSpace(Facebook?.VideoId);
@@ -123,13 +107,12 @@
     {
         if(Video.TryPickT0(out var video, out var _))
         {
-            this.YouTube = video.IsT0 ? video.AsT0.VideoId : null;
             this.TikTok = video.IsT1 ? (video.AsT1.UserHandle, video.AsT1.VideoId) : null;
             this.Vimeo = video.IsT2 ? (video.AsT2.VideoId, video.AsT2.Hash.Match(hash => hash, none => (string?)null)) : null;
             this.Facebook = video.IsT3 ? (video.AsT3.ChannelId, video.AsT3.VideoId) : null;
         }
   
-        if (Video.IsT0 || ValidYouTube || ValidTikTok || ValidVimeo || ValidFacebook)
+        if (Video.IsT0 || ValidTikTok || ValidVimeo || ValidFacebook)
         {
             this.ShowVideo();
         }
