@@ -35,7 +35,9 @@ public class ShareableViewModel
     public OneOf<ImageInfo[], None> Images { get; set; } = new None();
 
     public OneOf<string, None> AuxiliaryText { get; set; } = new None();
- 
+  
+    public OneOf<string[], None> AuxiliaryTexts { get; set; } = new None();
+
     public OneOf<string, None> Metadata { get; set; } = new None();
 
     public OneOf<(TeamMember TeamMember, bool ShowReferralCode), None> CapturePage { get; set; } = new None();

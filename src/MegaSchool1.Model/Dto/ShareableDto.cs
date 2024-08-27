@@ -65,6 +65,9 @@ public class ShareableDto
 
     [JsonPropertyName("auxText")]
     public string? AuxiliaryText { get; set; }
+    
+    [JsonPropertyName("auxTexts")]
+    public string[] AuxiliaryTexts { get; set; } = [];
 
     [JsonPropertyName("alternateVideos")]
     public VideoDto[] AlternateVideos { get; set; } = [];
