@@ -6,26 +6,6 @@ using System.Web;
 
 namespace MegaSchool1.Model;
 
-public enum Rank
-{
-    None = 0,
-    ExecutiveDirector1 = 1,
-    ExecutiveDirector2 = 2,
-    ExecutiveDirector3 = 3,
-    ExecutiveDirector4 = 4,
-    ExecutiveDirector5 = 5,
-    Regional1 = 6,
-    Regional2 = 7,
-    Regional3 = 8,
-    Regional4 = 9,
-    Regional5 = 10,
-    NationalDirector = 11,
-    VicePresidentialDirector = 12,
-    PresidentialDirector = 13,
-    ExecutiveChairman = 14,
-    NationalAmbassador = 15,
-}
-
 public enum Highlight
 {
     MoneyChallenge,
