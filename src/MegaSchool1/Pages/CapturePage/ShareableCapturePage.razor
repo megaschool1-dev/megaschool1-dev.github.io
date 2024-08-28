@@ -1,4 +1,5 @@
 ﻿@page "/{Language}/{ContentId}/{MemberId}/{ReferralId}"
+@page "/{Language}/{ContentId}/{MemberId}/{ReferralId}/{Index}"
 @inherits CapturePageBase
 @using MegaSchool1.Components
 @using MegaSchool1.Model
@@ -19,12 +20,20 @@
     {
         <Centered><ExternalLink Href="@this.Video?.DownloadUrl">@(Video?.DownloadText ?? "Download")</ExternalLink></Centered>
     }
-    @if (Shareable.AuxiliaryText.TryPickT0(out var aux, out _))
+    @if (int.TryParse(this.Index, out var index) && Shareable.AuxiliaryTexts.TryPickT0(out var auxTexts, out _) && index < auxTexts.Length)
     {
-        <br/>
-        <Centered><MudText Align="Align.Center">@((MarkupString)HttpUtility.UrlDecode(aux.Replace("{ReferralCode}", $@"<span style=""color:{Theme.PaletteDark.Secondary};"">{ReferralId}</span>")))</MudText></Centered>
+        <br />
+        <Centered><MudText Align="Align.Center">@((MarkupString)HttpUtility.UrlDecode(auxTexts[index].Replace("{ReferralCode}", $@"<span style=""color:{Theme.PaletteDark.Secondary};"">{ReferralId}</span>")))</MudText></Centered>
     }
-    <MudSpacer/>
+    else
+    {
+        @if (Shareable.AuxiliaryText.TryPickT0(out var aux, out _))
+        {
+            <br/>
+            <Centered><MudText Align="Align.Center">@((MarkupString)HttpUtility.UrlDecode(aux.Replace("{ReferralCode}", $@"<span style=""color:{Theme.PaletteDark.Secondary};"">{ReferralId}</span>")))</MudText></Centered>
+        }
+    }
+    <MudSpacer />
     @if (Shareable.Images.TryPickT0(out var images, out _))
     {
         <br/>

@@ -4,6 +4,8 @@ namespace MegaSchool1.Model;
 
 public static class ExtensionMethods
 {
+    public static int CeilingInt(this double value) => (int)Math.Round(value, MidpointRounding.ToEven);
+
     public static ShareableDto? Content(this ShareableDto[] videos, Content content)
         => videos.FirstOrDefault(v => v.ContentId == content);
 

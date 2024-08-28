@@ -1,10 +1,14 @@
 ﻿@page "/carpurchase"
-@using MegaSchool1.Components
+@inherits Components.ComponentBase
+@using MegaSchool1.Model
+@using OneOf
+@using OneOf.Types
+@using ValueOf
 
 <MudText Align="Align.Center" Typo="Typo.h4">How a Teen Should Buy Their First Car<br/>($3,000 Car)</MudText>
 <br/>
 <br/>
-<MudText Align="Align.Center" Typo="Typo.h6">Parents need $700 up front TOTAL and receive a GUARANTEED reimbursement of the $700 within 30 days</MudText>
+<MudText Align="Align.Center" Typo="Typo.h6">Parents need $@_upFrontCost up front TOTAL and receive a GUARANTEED reimbursement of the $@_guaranteedReimbursement within 30 days</MudText>
 <br/>
 <br/>
 <MudTimeline>
@@ -38,26 +42,148 @@
 </MudDialog>
 
 @code {
-    private readonly MudTheme _theme = new();
+    private List<(string Title, string[] Details)> _steps = [];
+    private string _upFrontCost = "<Calculating...>";
+    private string _guaranteedReimbursement = "<Calculating...>";
 
-    private readonly List<(string Title, string[] Details)> _steps = 
+    protected override void OnInitialized()
+    {
+        var carPaymentPlan = new MontlhyPaymentPlan<OneTimeExpense, RecurringExpense>(
+        [
+            (OneTimeExpense.DadBusinessSetupFee, CompensationPlan.BusinessSetupFee),
+    (OneTimeExpense.MomBusinessSetupFee, CompensationPlan.BusinessSetupFee)
+        ],
+        [
+            (RecurringExpense.DadMembershipFee, CompensationPlan.MembershipFee),
+    (RecurringExpense.MomMembershipFee, CompensationPlan.MembershipFee),
+    (RecurringExpense.CarGas, 200),
+    (RecurringExpense.CarInsurance, 200),
+    (RecurringExpense.CarLoan, 200),
+        ]);
+
+        OneOf<OneTimeExpense, RecurringExpense>[] dadFirstMonthExpenses = [OneTimeExpense.DadBusinessSetupFee, RecurringExpense.DadMembershipFee];
+        OneOf<OneTimeExpense, RecurringExpense>[] momFirstMonthExpenses = [OneTimeExpense.MomBusinessSetupFee, RecurringExpense.MomMembershipFee];
+        var totalFirstMonthExpenses = dadFirstMonthExpenses.Union(momFirstMonthExpenses).Union([RecurringExpense.CarLoan]).ToArray();
+        var totalFirstMonthExpense = carPaymentPlan.SumExpenses(totalFirstMonthExpenses);
+
+        var firstMonthBonus = CompensationPlan.MembershipEnrollmentBonus;
+        var firstMonthCashBackNeeded = totalFirstMonthExpense.MapT0(value => value - firstMonthBonus);
+        var totalFirstMonthIncome = firstMonthCashBackNeeded.MapT0(value => value + firstMonthBonus);
+
+        var recurringMonthlyIncome = firstMonthCashBackNeeded;
+        var dadRecurringExpense = carPaymentPlan.GetRecurringExpense(RecurringExpense.DadMembershipFee);
+        var momRecurringExpense = carPaymentPlan.GetRecurringExpense(RecurringExpense.MomMembershipFee);
+        var teenRecurringExpense = carPaymentPlan.GetRecurringExpense(RecurringExpense.CarLoan);
+        var totalRecurringExpense = Sum(dadRecurringExpense, momRecurringExpense, teenRecurringExpense);
+        var totalRecurringExpenseFormatted = totalRecurringExpense.Match(
+            total => $"{total:N0}",
+            partialSum => "<Partial Sum>",
+            noSum => "<No Values to Sum>"
+        );
+
+        var startupCost = dadFirstMonthExpenses.Union(momFirstMonthExpenses).ToArray();
+        _upFrontCost = carPaymentPlan.SumExpenses(startupCost).Match(value => $"{value:N0}", error => _upFrontCost);
+        _guaranteedReimbursement = carPaymentPlan.SumExpenses(startupCost).Match(value => $"{value:N0}", error => _guaranteedReimbursement);
+
+        _steps =
     [
-        ("Hire Team of Financial Experts", [$"Dad opens <a href='/en/EDMGivBux/MS1/megaschool' target='_blank'><span style='color:{new MudTheme().PaletteDark.Primary};'><u>MWR Business Account</u></span></a> for $350", "1$200 1-time business activation fee", "1$150/mo membership fee", $"Mom likewise purchases an <a href='/en/EDMGivBux/MS1/megaschool' target='_blank'><span style='color:{new MudTheme().PaletteDark.Primary};'><u>MWR Business Account</u></span></a> for $350 on behalf of teen", "Teen owes Mom", "1$200 1-time business activation fee", "1$150/mo membership fee"]),
-        ("Get GivBux", [$@"Dad sets up his <a href='/en/GivBux/MS1/megaschool' target='_blank'><span style='color:{new MudTheme().PaletteDark.Primary};'><u>GivBux account</u></span></a>", $"Mom sets up her <a href='/en/GivBux/MS1/megaschool' target='_blank'><span style='color:{new MudTheme().PaletteDark.Primary};'><u>GivBux account</u></span></a> using Dad's code", $"Teen sets up his/her <a href='/en/GivBux/MS1/megaschool' target='_blank'><span style='color:{new MudTheme().PaletteDark.Primary};'><u>GivBux account</u></span></a> using Dad's code"]),
-        ("Family Gets $350+/mo Cash Back", ["0Month 1", "1Income - $900", "2$50 Membership Enrollment Bonus (Mom is Dad's referral)", "2$850+/mo cash back from 'Instant Pay Raise' and 'Lower My Bills'", "1Expenses - $900", "2$350 for Dad's MWR Account ([Step 1])", "2$350 for Mom's MWR Account ([Step 1])", "2$200 for monthly deposit into teen's bank ([Step 4])", "0Month 2 & Beyond", "2Income - $850+/mo", "3$850+/mo cash back from 'Instant Pay Raise' and 'Lower My Bills'", "2Expenses - $500/mo", "3$150/mo - Dad's MWR Membership Fee", "3$150/mo - Mom's MWR Membership Fee", "3$200/mo - Monthly deposit into teen's bank ([Step 4])", "2Net - $350/mo"]),
-        ("Teen Creates Their Own Bank", ["Teen opens Diversified Cashflow Account (DCA)", "This DCA is funded $200/mo by parents (see [Step 3]) as a college fund investment"]),
-        ("Parents Fund Teen's Bank", ["Parents fund their teen's DCA w/ $3,000 (transferred from existing college fund elsewhere)"]),
-        ("Teen Issues Car Loan to THEMSELF", ["Teen borrows $3,000 from their DCA"]),
-        ("Teen Buys Car CASH!", ["Teen buys their car CASH from the loan they gave themself in [Step 6]"]),
-        ("Teen Plans Car Loan Repayment", ["Teen plans car loan repayment via \"Eliminate My Debt\""]),
-        ("Teen Budgets Their Bank Interest", ["Teen updates their car loan repayment plan w/ higher monthly payments from their DCA's uninterrupted, compound interest"]),
-        ("Teen Earns $600/mo PASSIVELY", ["Teen sells 12 MWR Memberships via the 72-Hour Money Challenge and receives $600/mo in residual commissions", "$200/mo (of the $600/mo) pays the car loan payment", "$200/mo (of the $600/mo) pays the car insurance", "$200/mo (of the $600/mo) pays for gas"]),
-        ("Teen Builds Their Credit", ["Teen builds credit by paying their monthly car loan payments with a secured credit card", "Teen pays $200/mo to repay the loan in 15 months"]),
-        ("Teen Pays Off Car", ["Teen pays off $3,000 car loan in 15 months ($200/mo from [Step 10])"]),
-        ("Teen Reimburses Parents", ["Teen reimburses Mom for the MWR Business Account purchased on their behalf in [Step 1]", "Teen reimburses Mom $200/mo until she's fully reimbursed", "Remember, Mom's MWR Membership was free after [Step 10] (3 & Free)"]),
-        ("Teen Regularly Deposits into Their Bank", ["Parents stop depositing $200/mo into teen's DCA", "Parents now have a total of $550/mo of extra income", "Teen starts depositing $200/mo into their DCA (freed up from completing car loan payment)" ]),
-        ("Teen 'Double Dips' w/ Investments", ["Teen earns uninterrupted compound interest in their DCA", "Teen borrows against their DCA and uses the money to invest in assets" ]),
+    ("Hire Team of Financial Experts", [$"Dad opens <a href='/en/{Content.MS1Opportunity}/MS1/megaschool' target='_blank'><span style='color:{new MudTheme().PaletteDark.Primary};'><u>MWR Business Account</u></span></a> for ${PrintRounded(carPaymentPlan.GetOneTimeExpense(OneTimeExpense.DadBusinessSetupFee))}", $"1${CompensationPlan.BusinessSetupFee} 1-time business activation fee", $"1${PrintRounded(carPaymentPlan.GetRecurringExpense(RecurringExpense.DadMembershipFee))}/mo membership fee", $"Mom likewise purchases an <a href='/en/{Content.MS1Opportunity}/MS1/megaschool' target='_blank'><span style='color:{new MudTheme().PaletteDark.Primary};'><u>MWR Business Account</u></span></a> for ${PrintRounded(carPaymentPlan.GetOneTimeExpense(OneTimeExpense.MomBusinessSetupFee))} on behalf of teen", "Teen owes Mom", $"1${PrintRounded(carPaymentPlan.GetOneTimeExpense(OneTimeExpense.MomBusinessSetupFee))} 1-time business activation fee", $"1${PrintRounded(carPaymentPlan.GetRecurringExpense(RecurringExpense.MomMembershipFee))}/mo membership fee"]),
+    ("Get GivBux", [$@"Dad sets up his <a href='/en/{Content.GivBuxAccountSetup}/MS1/megaschool' target='_blank'><span style='color:{new MudTheme().PaletteDark.Primary};'><u>GivBux account</u></span></a>", $"Mom sets up her <a href='/en/{Content.GivBuxAccountSetup}/MS1/megaschool' target='_blank'><span style='color:{new MudTheme().PaletteDark.Primary};'><u>GivBux account</u></span></a> (using Dad's invite code \ud83d\ude09)", $"Teen sets up his/her <a href='/en/{Content.GivBuxAccountSetup}/MS1/megaschool' target='_blank'><span style='color:{new MudTheme().PaletteDark.Primary};'><u>GivBux account</u></span></a> (using Dad's invite code \ud83d\ude09)"]),
+    ($"Family Gets ${PrintRounded(firstMonthCashBackNeeded)}+/mo Cash Back", ["0Month 1", $"1Expenses - ${PrintRounded(totalFirstMonthExpense)}", $"2${PrintRounded(carPaymentPlan.SumExpenses(dadFirstMonthExpenses))} for Dad's MWR Account ([Step 1])", $"2${PrintRounded(carPaymentPlan.SumExpenses(momFirstMonthExpenses))} for Mom's MWR Account ([Step 1])", $"2${PrintRounded(carPaymentPlan.GetRecurringExpense(RecurringExpense.CarLoan))} for monthly deposit into teen's bank ([Step 4])", $"1Income - ${PrintRounded(totalFirstMonthIncome)}", $"2${firstMonthBonus} Membership Enrollment Bonus (Mom is Dad's referral \ud83d\ude09)", $"2${PrintRounded(firstMonthCashBackNeeded)}+/mo cash back from 'Instant Pay Raise' and 'Lower My Bills'", $"1Net - ${PrintSubtraction(totalFirstMonthIncome, totalFirstMonthExpense)}", "0Month 2 & Beyond", $"2Expenses - ${totalRecurringExpenseFormatted}/mo", $"3${PrintRounded(dadRecurringExpense)}/mo - Dad's MWR Membership Fee", $"3${PrintRounded(momRecurringExpense)}/mo - Mom's MWR Membership Fee", $"3${PrintRounded(teenRecurringExpense)}/mo - Monthly deposit into teen's bank ([Step 4])", $"2Income - ${PrintRounded(recurringMonthlyIncome)}+/mo", $"3${PrintRounded(recurringMonthlyIncome)}+/mo cash back from 'Instant Pay Raise' and 'Lower My Bills'", $"2Net - ${PrintRounded(Subtract(recurringMonthlyIncome, totalRecurringExpense.Match(total => OneOf<double, Error<string>>.FromT0(total), somes => new Error<string>("<Partial Total Recurring Expense>"), nones => new Error<string>("<Nothing in Total Recurring Expense"))))}/mo"]),
+    ("Teen Creates Their Own Bank", ["Teen opens Diversified Cashflow Account (DCA)", "This DCA is funded $200/mo by parents (see [Step 3]) as a college fund investment"]),
+    ("Parents Fund Teen's Bank", ["Parents fund their teen's DCA w/ $3,000 (transferred from existing college fund elsewhere)"]),
+    ("Teen Issues Car Loan to THEMSELF", ["Teen borrows $3,000 from their DCA"]),
+    ("Teen Buys Car CASH!", ["Teen buys their car CASH from the loan they gave themself in [Step 6]"]),
+    ("Teen Plans Car Loan Repayment", ["Teen plans car loan repayment via \"Eliminate My Debt\""]),
+    ("Teen Budgets Their Bank Interest", ["Teen updates their car loan repayment plan w/ higher monthly payments from their DCA's uninterrupted, compound interest"]),
+    ("Teen Earns $600/mo PASSIVELY", ["Teen sells 12 MWR Memberships via the 72-Hour Money Challenge and receives $600/mo in residual commissions", "$200/mo (of the $600/mo) pays the car loan payment", "$200/mo (of the $600/mo) pays the car insurance", "$200/mo (of the $600/mo) pays for gas"]),
+    ("Teen Builds Their Credit", ["Teen builds credit by paying their monthly car loan payments with a secured credit card", "Teen pays $200/mo to repay the loan in 15 months"]),
+    ("Teen Pays Off Car", ["Teen pays off $3,000 car loan in 15 months ($200/mo from [Step 10])"]),
+    ("Teen Reimburses Parents", ["Teen reimburses Mom for the MWR Business Account purchased on their behalf in [Step 1]", "Teen reimburses Mom $200/mo until she's fully reimbursed", "Remember, Mom's MWR Membership was free after [Step 10] (3 & Free)"]),
+    ("Teen Regularly Deposits into Their Bank", ["Parents stop depositing $200/mo into teen's DCA", "Parents now have a total of $550/mo of extra income", "Teen starts depositing $200/mo into their DCA (freed up from completing car loan payment)" ]),
+    ("Teen 'Double Dips' w/ Investments", ["Teen earns uninterrupted compound interest in their DCA", "Teen borrows against their DCA and uses the money to invest in assets" ]),
     ];
+    }
+
+    private static OneOf<double, Error<string>> Subtract(OneOf<double, Error<string>> minuend, OneOf<double, Error<string>> subtrahend)
+    {
+        if (minuend.TryPickT0(out var minuendValue, out var minuendError))
+        {
+            if (subtrahend.TryPickT0(out var subtrahendValue, out var subtrahendError))
+            {
+                return minuendValue - subtrahendValue;
+            }
+            else
+            {
+                return subtrahendError;
+            }
+        }
+        else
+        {
+            return minuendError;
+        }
+    }
+
+    public class Somes<T> : ValueOf<OneOf<T, None>[], Somes<T>> { }
+    public class Nones<T> : ValueOf<OneOf<T, None>[], Somes<T>> { }
+
+    public static OneOf<double, Somes<double>, Nones<double>> Sum(params OneOf<double, None>[] values)
+    {
+        var total = 0.0;
+        var somes = new List<OneOf<double, None>>();
+        var nones = new List<OneOf<double, None>>();
+
+        foreach (var valueOption in values)
+        {
+            if (valueOption.TryPickT0(out var value, out _))
+            {
+                total += value;
+                somes.Add(valueOption);
+            }
+            else
+            {
+                nones.Add(valueOption);
+            }
+        }
+
+        return somes.Count == values.Length ? total : values.Length == 0 ? Nones<double>.From(nones.ToArray()) : Somes<double>.From(somes.ToArray());
+    }
+
+    public static string PrintSubtraction(OneOf<double, Error<string>> minuend, OneOf<double, Error<string>> subtrahend)
+        => PrintSum(minuend, subtrahend.MapT0(value => -1.0 * value.CeilingInt()));
+
+    public static string PrintSum(OneOf<double, Error<string>> first, OneOf<double, Error<string>> second)
+    {
+        if (int.TryParse(PrintRounded(first), out var firstValue))
+        {
+            if (int.TryParse(PrintRounded(second), out var secondValue))
+            {
+                return $"{(firstValue + secondValue):N0}";
+            }
+            else
+            {
+                return "<Second Value Not Found";
+            }
+      }
+      else
+      {
+          return "<First Value Not Found";
+
+      }
+    }
+
+    private static string PrintRounded(OneOf<OneOf<double, Error<string>>, OneOf<double, None>> value)
+    {
+        string Ceiling(double d) => d.CeilingInt().ToString();
+
+        return value.Match(
+            valueOrError => valueOrError.Match(
+                unRounded => Ceiling(unRounded),
+                error => error.Value),
+            valueOrNone => valueOrNone.Match(
+                unRounded => Ceiling(unRounded),
+                none => "<Not Found>"));
+    } 
 
     private (bool ShowDialog, (string Title, string[] Details) Step) _dialogInfo = new(false, default);
 
@@ -73,10 +199,10 @@
 
     private (Color Color, string Pallette) GetColor(int step) => (step % 4) switch
     {
-        0 => (Color.Info, _theme.PaletteDark.Info.Value),
-        1 => (Color.Success, _theme.PaletteDark.Success.Value),
-        2 => (Color.Primary, _theme.PaletteDark.Primary.Value),
-        3 => (Color.Warning, _theme.PaletteDark.Warning.Value),
+        0 => (Color.Info, Theme.PaletteDark.Info.Value),
+        1 => (Color.Success, Theme.PaletteDark.Success.Value),
+        2 => (Color.Primary, Theme.PaletteDark.Primary.Value),
+        3 => (Color.Warning, Theme.PaletteDark.Warning.Value),
     };
 
     private MarkupString FormatDescription(string description)
@@ -84,7 +210,7 @@
         var formatted = description;
 
         for(var i = 0; i < _steps.Count; i++)
-    {
+        {
             var targetPhrase = $"[Step {i+1}]";
 
             if(formatted.Contains(targetPhrase))
@@ -94,5 +220,61 @@
         }
 
         return (MarkupString)formatted;
+    }
+    
+    private class MontlhyPaymentPlan<TOneTimeExpense, TRecurringExpense>(
+        List<(TOneTimeExpense Id, double Amount)> OneTimeExpenses,
+        List<(TRecurringExpense Id, double Amount)> RecurringExpenses)
+        where TOneTimeExpense : struct, Enum
+        where TRecurringExpense : struct, Enum
+    {
+        public double TotalRecurringExpense { get; } = RecurringExpenses.Sum(expense => expense.Amount);
+
+        public OneOf<double, None> GetOneTimeExpense(TOneTimeExpense expense) => GetExpense(expense, OneTimeExpenses);
+        public OneOf<double, None> GetRecurringExpense(TRecurringExpense expense) => GetExpense(expense, RecurringExpenses);
+
+        public OneOf<double, Error<string>> SumExpenses(params OneOf<TOneTimeExpense, TRecurringExpense>[] expenses)
+        {
+            double total = 0;
+
+            foreach (var expense in expenses)
+            {
+                var expenseLookup = expense.Match(oneTimeExpense => GetOneTimeExpense(oneTimeExpense), recurringExpense => GetRecurringExpense(recurringExpense));
+                if (expenseLookup.TryPickT0(out var foundExpense, out _))
+                {
+                    total += foundExpense;
+                }
+                else
+                {
+                    return new Error<string>($"Could not find {expense.Value} in: {string.Join(',', expense.Match(oneTimeExpense => OneTimeExpenses.Select(x => x.Id.ToString()), recurringExpense => RecurringExpenses.Select(x => x.Id.ToString())))}");
+                }
+            }
+            
+            return total;
+        }
+
+        private static OneOf<double, None> GetExpense<TExpense>(TExpense expense, List<(TExpense Id, double Amount)> expenses) where TExpense : struct, Enum
+        {
+            var found = expenses.Cast<(TExpense Id, double Amount)?>().FirstOrDefault(e => expense.Equals(e?.Id));
+
+            return found != null ? found.Value.Amount : new None();
+        }
+    }
+
+    public enum OneTimeExpense
+    {
+        None = 0,
+        DadBusinessSetupFee = 1,
+        MomBusinessSetupFee = 2,
+    }
+
+    public enum RecurringExpense
+    {
+        None = 0,
+        DadMembershipFee = 1,
+        MomMembershipFee = 2,
+        CarLoan = 3,
+        CarInsurance = 4,
+        CarGas = 5,
     }
 }

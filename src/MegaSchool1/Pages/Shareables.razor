@@ -2,18 +2,10 @@
 @using MegaSchool1.Components
 @using MegaSchool1.Model
 @using MegaSchool1.Model.Repository
-@using MegaSchool1.Model.UI
-@using MegaSchool1.Repository.Model
-@using OneOf
-@using OneOf.Types
-@using Serilog
 @using Content = MegaSchool1.Model.Content
 @using Shareable = MegaSchool1.Components.Shareable
 @inherits Components.ComponentBase
-@inject Constants Constants
 @inject UISettings UI
-@inject NavigationManager NavigationManager
-@inject Repository.Repository Repo
 
 <MudStack Spacing="3">
     <Collapsable Title="Essentials" ExpandPrompt="Show">
