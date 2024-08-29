@@ -1,6 +1,8 @@
 ﻿@inherits MegaSchool1.Components.ComponentBase
 @using System.Text.RegularExpressions
 @using MegaSchool1.Model.API
+@using OneOf
+@using OneOf.Types
 @inject Repository.Repository Repo
 
 @code {
@@ -9,7 +11,7 @@
 
     private const string DefaultPhoneNumber = "2243109357";
 
-    private QMD? _qmd;
+    private OneOf<QMD, None> _qmd = new None();
 
     [Parameter]
     public string MemberId { get; set; } = default!;
@@ -23,12 +25,12 @@
     [Parameter]
     public string? Index { get; set; }
 
-    protected string QMDPhoneNumber => Regex.Replace(NormalizePhoneNumber(_qmd?.PhoneNumber ?? DefaultPhoneNumber), @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3");
+    protected string QMDPhoneNumber => Regex.Replace(NormalizePhoneNumber(_qmd.Match(qmd => qmd.PhoneNumber ?? DefaultPhoneNumber, none => DefaultPhoneNumber)), @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3");
 
     private static string NormalizePhoneNumber(string phoneNumber) => phoneNumber.Length == 11 ? phoneNumber.Substring(1) : phoneNumber;
 
     protected override async Task OnParametersSetAsync()
     {
-        _qmd = (await Repo.GetMarketingDirectorInfoAsync(this.MemberId)).AsT0;
+        _qmd = await Repo.GetMarketingDirectorInfoAsync(this.MemberId);
     }
 }
