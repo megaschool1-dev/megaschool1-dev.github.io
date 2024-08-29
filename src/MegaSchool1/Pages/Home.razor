@@ -1,0 +1,148 @@
+﻿@page "/"
+@inherits ShareableCapturePage
+@using MegaSchool1.Components
+@using MegaSchool1.Model
+@using MegaSchool1.Pages.CapturePage
+
+<MudText Align="Align.Center" Typo="Typo.h6">Make Wealth Real Classes</MudText>
+<br/>
+<MudText Align="Align.Center">First class is FREE! <br/> Subsequent classes are $150 per class.</MudText>
+<br/>
+<br/>
+<MudStack Spacing="3">
+    <MudCard Outlined="true">
+        <MudCardHeader>Church Financial Stewardship Ministries</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.FaithAndFinance))"/>
+                <MudText Align="Align.Center">Learn how to receive God's FULL provision and share it with the Body of Christ!</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Buy Your Teen's First Car NOW!</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.HowBanksMakeMoney))" />
+                <MudText Align="Align.Center">How to buy your teen a $3,000 car WITHOUT making more money!</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Trust Fund &nbsp; <i>MY</i> &nbsp; Baby!</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.TrustsExplainer))" />
+                <MudText Align="Align.Center">How make <i>YOUR</i>&nbsp; baby a trust fund baby. (Hint: you don't need to be rich!)</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Non-Profit Fundraiser</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.GivBuxFundraiser))" />
+                <MudText Align="Align.Center">Learn how Amazon.com allows your donors to donate to your 501(c)3 not-for-profit for FREE!</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Real Estate Professionals</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.RealEstatePros))" />
+                <MudText Align="Align.Center">Create cash flow from (1) unqualified renters, (2) unqualified buyers, and (3) past clients.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Finance Professionals <br/> (Insurance Agents, Accountants, Tax Preparers)</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.Membership))" />
+                <MudText Align="Align.Center">Expand your financial service offering at no addition cost.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Home Buyers</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.KeysToHomeOwnership))" />
+                <MudText Align="Align.Center">Rent to own, or simply automate the headaches of home buying.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Debt Elimination <br/> (mortgage, school loans, credit card, etc)</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.PayoffMortgage))" />
+                <MudText Align="Align.Center">Accelerate your debt elimination without spending a penny extra!</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Precious Metals</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.PreciousMetals))" />
+                <MudText Align="Align.Center">Learn how to become a ratio investor and FULLY unlock the wealth of precious metals.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Health Care</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.HealthShare))" />
+                <MudText Align="Align.Center">Learn how Health Sharing (not insurance!) makes health care affordable and ethical.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>"Double Dip" Your Money</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@((Video)new YouTube("c2_hG7NgNWU"))" />
+                <MudText Align="Align.Center">Learn how to "double dip" with your money, legally and ethically.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Credit Restoration</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.CreditRestoration))" />
+                <MudText Align="Align.Center">Learn how to restore your credit with the help of a non-profit with 30+ years of credit restoration experience.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Student Loan Relief</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.StudentLoanDebtRelief))" />
+                <MudText Align="Align.Center">Learn how to reduce and possibly ELIMINATE your student loans!</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Prison Ministry</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@((Video)new YouTube("hrOLCGT11ig"))" />
+                <MudText Align="Align.Center">Learn how to help the incarcerated provide for their families, legally and ethically.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>School Fundraisers</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@((Video)new YouTube("-KmR2kfru0c"))" />
+                <MudText Align="Align.Center">Learn how to make money by fundraising for schools.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+</MudStack>

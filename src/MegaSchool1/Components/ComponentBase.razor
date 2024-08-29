@@ -1,7 +1,11 @@
 ﻿@using MegaSchool1.Model
-@using MegaSchool1.Repository.Model
+@using MegaSchool1.ViewModel
+@using OneOf
+@using OneOf.Types
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
+@inject UISettings UI
+@inject Mappers Mappers
 
 @code {
     [Parameter]
@@ -92,4 +96,26 @@
     }
 
     protected Task ShareMessageAsync(string message, Image image) => ShareMessageAsync(message, Constants.GetImageUrl(image));
+
+    protected (OneOf<ShareableViewModel, None> English, OneOf<ShareableViewModel, None> Spanish) GetShareable(Content content)
+    {
+        var spanishDto = UI.SpanishLocale[content];
+        var englishDto = UI.EnglishLocale[content];
+
+        return (englishDto != null ? Mappers.ShareableDtoToViewModel(englishDto)  : new None(), spanishDto != null ? Mappers.ShareableDtoToViewModel(spanishDto) : new None());
+    }
+
+    protected OneOf<Video, None> GetVideo(Content content, Language language = Language.English)
+    {
+        var shareable = GetShareable(content);
+
+        return GetVideo(language == Language.Spanish ? shareable.Spanish : shareable.English);
+    }
+
+    private static OneOf<Video, None> GetVideo(OneOf<ShareableViewModel, None> shareable)
+    {
+        return shareable
+            .MapT0(viewModel => viewModel.Video)
+            .Match(videoViewModel => videoViewModel.MapT0(v => v.Video), none => new None());
+    }
 }

@@ -72,7 +72,7 @@ else
                         {
                             if (_appState.AppIsInstallable)
                             {
-                                <MudButton OnClick="OnInstallClick" EndIcon="@Icons.Material.Filled.InstallMobile" Variant="Variant.Filled" Color="Color.Primary">Install</MudButton>
+                                <MudButton OnClick="OnInstallClick" EndIcon="@Icons.Material.Filled.AddToHomeScreen" Variant="Variant.Filled" Color="Color.Primary">Install</MudButton>
                                 <MudIconButton OnClick="@(() => _showInstallInstructions = true)" Icon="@Icons.Material.Filled.OndemandVideo" aria-label="video" Variant="Variant.Filled" Color="Color.Primary" />
                             }
                             else
@@ -189,7 +189,10 @@ else
         || IsCarPurchasePage
         || NavigationManager.Uri.Contains("/trustfundmybaby")
         || NavigationManager.Uri.Contains("/shareables")
-        || NavigationManager.Uri.Contains("/welcome");
+    
+        // home page
+        || string.IsNullOrWhiteSpace(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
+    
 
     private bool ProspectMode => _appState.User == null;
 
@@ -379,7 +382,7 @@ else
 
         return page switch
         {
-            "" => "My Shareables",
+            "" => "Make Wealth Real Classes",
             "words" => "Words",
             "ipr" => "Instant Pay Raise",
             "settings" => "Settings",
@@ -396,7 +399,7 @@ else
             "trustfundmybaby" => "Trust Fund My Baby",
             "givbuxfundraiserprojections" => "GivBux Fundraiser Projections",
             "shareables" => "Shareables",
-            "welcome" => "Welcome!",
+            "myshareables" => "My Shareables",
             _ => string.Empty
         };
     }
