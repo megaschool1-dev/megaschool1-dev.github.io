@@ -125,7 +125,7 @@
     }
 
     public class Somes<T> : ValueOf<OneOf<T, None>[], Somes<T>> { }
-    public class Nones<T> : ValueOf<OneOf<T, None>[], Somes<T>> { }
+    public class Nones<T> : ValueOf<OneOf<T, None>[], Nones<T>> { }
 
     public static OneOf<double, Somes<double>, Nones<double>> Sum(params OneOf<double, None>[] values)
     {
