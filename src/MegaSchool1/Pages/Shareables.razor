@@ -10,7 +10,7 @@
         <MudCardContent>
             <MudStack Spacing="6">
                 <MudSelect T="Content" Label="@($"Select Your Shareable {Constants.JeromePointingDownEmoji}")" @bind-Value="_selectedShareable" ToStringFunc="@(content => ShareableTitle(content))" Variant="Variant.Outlined" Style="width:300px;">
-                    @foreach (var content in Shareables)
+                    @foreach (var content in BasicShareables)
                     {
                         <MudSelectItem Value="@content" />
                     }
@@ -45,7 +45,7 @@
     private Content _selectedShareable = Content.Membership;
     private Content _selectedInCompleteVideoLibrary = Content.MoneyChallenge;
 
-    private readonly Content[] Shareables =
+    private readonly Content[] BasicShareables =
     [
         Content.Membership,
         Content.MS1Opportunity,
@@ -69,6 +69,7 @@
         Content.HowBanksMakeMoney,
         Content.PayoffMortgage,
         Content.BusinessOwnerPique,
+        Content.HBBTaxBenefits,
     ];
 
     private string ShareableTitle(Content content) => (UI.EnglishLocale[content]?.AppTitle ?? content.ToString()).Replace("<br/>", " ");
