@@ -123,6 +123,7 @@ public enum Content
     PayoffMortgage = 46,
     MembershipOrientation = 47,
     MyRewards = 48,
+    BusinessOwnerPique = 49,
 }
 
 public enum Language

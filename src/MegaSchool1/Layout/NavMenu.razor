@@ -24,7 +24,7 @@
     <MudNavLink Href="@PageFullPath("settings")" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Settings">Settings</MudNavLink>
     <MudDivider Class="my-2" />
     <MudStack Row="true">
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Href="https://github.com/MegaSchool1/megaschool1.github.io" Target="_blank" />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Href="@GetGitHubUrl()" Target="_blank" />
         <MudSpacer />
         <MudStack>
             <MudSpacer/>
@@ -70,5 +70,27 @@
         {
             MainLayout.Refresh();
         }
+    }
+
+    private string GetGitHubUrl()
+    {
+        const string DefaultGitHubUrl = "https://github.com/MudBlazorGitHubPages/mudblazorgithubpages.github.io";
+
+        var baseUrl = new Uri(NavigationManager.BaseUri);
+
+        if (baseUrl.Scheme == "https")
+        {
+            if (baseUrl.Host.EndsWith(".github.io"))
+            {
+
+                var organizationName = baseUrl.Host.Replace(".github.io", string.Empty);
+                var path = baseUrl.AbsolutePath.Replace("/", string.Empty);
+                var repositoryName = path != string.Empty ? path : $"{organizationName}.github.io";
+                    
+                return $"https://github.com/{organizationName}/{repositoryName}";
+            }
+        }
+
+        return DefaultGitHubUrl;
     }
 }
