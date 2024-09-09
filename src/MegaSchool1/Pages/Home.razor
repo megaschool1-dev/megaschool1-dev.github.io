@@ -4,9 +4,9 @@
 @using MegaSchool1.Model
 @using MegaSchool1.Pages.CapturePage
 
-<MudText Align="Align.Center" Typo="Typo.h6">Make Wealth Real Classes</MudText>
+<MudText Align="Align.Center" Typo="Typo.h6">Make Wealth Real Courses<br/>aka "Learning Paths"</MudText>
 <br/>
-<MudText Align="Align.Center">First class is FREE! <br/> Subsequent classes are $150 per class.</MudText>
+<MudText Align="Align.Center">First course is FREE! <br/> Subsequent courses are $150 per course.</MudText>
 <br/>
 <br/>
 <MudStack Spacing="3">
@@ -145,4 +145,23 @@
             </MudStack>
         </MudCardContent>
     </MudCard>
+    <MudCard Outlined="true">
+        <MudCardHeader>Bitcoin for Dummies (and other cryptos)</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <MudHidden Breakpoint="BreakPoint">
+                    <MudImage Src="https://static.wixstatic.com/media/5f35ec_9fd1264d02b24f76ab805846a0b5c9a4~mv2.jpg" Fluid="true"/>
+                </MudHidden>
+                <MudHidden Breakpoint="BreakPoint" Invert="true">
+                    <Centered>
+                        <MudImage Src="https://static.wixstatic.com/media/5f35ec_9fd1264d02b24f76ab805846a0b5c9a4~mv2.jpg" Fluid="true" Style="max-width:500px;"/>
+                    </Centered>
+                </MudHidden>
+                <MudText Align="Align.Center">Learn what Bitcoin is and how to make money with cryptocurrencies.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
 </MudStack>
+@code{
+    private const Breakpoint BreakPoint = Breakpoint.MdAndUp;
+}
