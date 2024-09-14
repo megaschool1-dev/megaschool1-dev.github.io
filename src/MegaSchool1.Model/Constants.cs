@@ -70,6 +70,7 @@ public enum VideoPlatform
     Facebook = 4,
     StartMeeting = 5,
     Html5 = 6,
+    Wistia = 7,
 }
 
 public enum Content
@@ -180,8 +181,10 @@ public record StartMeeting(string VideoId);
 
 public record Html5(Uri Uri);
 
+public record Wistia(string VideoId);
+
 [GenerateOneOf]
-public partial class Video : OneOfBase<YouTube, TikTok, Vimeo, Facebook, StartMeeting, Html5> { }
+public partial class Video : OneOfBase<YouTube, TikTok, Vimeo, Facebook, StartMeeting, Html5, Wistia> { }
 
 public class Constants(UISettings ui, NavigationManager navigationManager)
 {
@@ -223,7 +226,8 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
         vimeo => MinimalistVimeoLink(vimeo.VideoId, vimeo.Hash.Match<string?>(h => h, none => null)),
         facebook => $"https://www.facebook.com/watch/live/?ref=watch_permalink&v={facebook.VideoId}",
         startMeeting => $"https://stme.in/{startMeeting.VideoId}",
-        html5 => html5.Uri.AbsoluteUri);
+        html5 => html5.Uri.AbsoluteUri,
+        wistia => $"https://megaschool.me/v?w={wistia.VideoId}");
 
     public static string GetImageUrl(Image image) => image switch
     {
