@@ -23,6 +23,7 @@ public partial class Mappers
         VideoPlatform.Facebook => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? (Video)new Facebook(dto.UserHandle, dto.Id) : new None(),
         VideoPlatform.StartMeeting => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new StartMeeting(dto.Id) : new None(),
         VideoPlatform.Html5 => Uri.IsWellFormedUriString(dto.Url, UriKind.Absolute) ? (Video)new Html5(new(dto.Url)) : new None(),
+        VideoPlatform.Wistia => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new Wistia(dto.Id) : new None(),
         _ => new None()
     };
 
