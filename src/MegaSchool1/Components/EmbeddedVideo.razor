@@ -11,7 +11,8 @@
             vimeo => VimeoView(vimeo),
             facebook => FacebookView(facebook),
             startMeeting => StartMeetingView(startMeeting),
-            html5 => Html5View(html5)),
+            html5 => Html5View(html5),
+            wistia => WistiaView(wistia)),
         none => null))
 </div>
 
@@ -67,6 +68,15 @@
             <source src="@html5.Uri.AbsoluteUri" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+    };
+
+    private RenderFragment WistiaView(Wistia wistia) => __builder =>
+    {
+        <iframe src="//fast.wistia.net/embed/iframe/@wistia.VideoId?videoFoam=true" allowtransparency="true" frameborder="0"
+                scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen mozallowfullscreen
+                webkitallowfullscreen oallowfullscreen msallowfullscreen width="1000" height="563"></iframe>
+        <script src="//fast.wistia.net/assets/external/iframe-api-v1.js"></script>
+        <script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script>
     };
 
     protected override void OnParametersSet()
