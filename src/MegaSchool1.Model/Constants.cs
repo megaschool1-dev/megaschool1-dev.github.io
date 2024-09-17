@@ -126,6 +126,7 @@ public enum Content
     MyRewards = 48,
     BusinessOwnerPique = 49,
     HBBTaxBenefits = 50,
+    BizOwnerPique = 51,
 }
 
 public enum Language
