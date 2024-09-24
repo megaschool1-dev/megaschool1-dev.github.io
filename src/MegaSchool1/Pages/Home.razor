@@ -4,12 +4,21 @@
 @using MegaSchool1.Model
 @using MegaSchool1.Pages.CapturePage
 
-<MudText Align="Align.Center" Typo="Typo.h6">Make Wealth Real Courses<br/>aka "Learning Paths"</MudText>
+<MudText Align="Align.Center" Typo="Typo.h6">Wealth Syndicate Classes<br/>aka "Learning Paths"</MudText>
 <br/>
-<MudText Align="Align.Center">First course is FREE! <br/> Subsequent courses are $150 per course.*</MudText>
+<MudText Align="Align.Center">First class is FREE! <br/> Subsequent classes are $150 per course.*</MudText>
 <br/>
 <br/>
 <MudStack Spacing="3">
+    <MudCard Outlined="true">
+        <MudCardHeader>Wealth Management for Business Owners</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.BizOwnerPique))" />
+                <MudText Align="Align.Center">Learn how to multiply and protect your profits, and increase employee retention.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
     <MudCard Outlined="true">
         <MudCardHeader>Church Financial Stewardship Ministries</MudCardHeader>
         <MudCardContent>
