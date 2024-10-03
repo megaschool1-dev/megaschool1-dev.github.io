@@ -49,7 +49,7 @@ public class ShareableDto
     public string? Promo { get; set; } = "For $100 off, text";
 
     [JsonPropertyName("promoExpiration")]
-    public DateTimeOffset? PromoExpiration { get; set; } = Constants.FinancialIndependenceMonthPromoExpiration;
+    public DateTimeOffset? PromoExpiration { get; set; }
 
     [JsonPropertyName("event")]
     public EventDto? Event { get; set; }
