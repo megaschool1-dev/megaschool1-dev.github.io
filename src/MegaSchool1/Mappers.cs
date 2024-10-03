@@ -45,8 +45,8 @@ public partial class Mappers
             !string.IsNullOrWhiteSpace(dto.Promo)
             &&
             // valid promo expiration
-            dto.PromoExpiration != null;
-        viewModel.Promo = validPromo ? (dto.Promo!, dto.PromoExpiration!.Value) : ("For $100 off, text", Constants.FinancialIndependenceMonthPromoExpiration);
+            (dto.PromoExpiration != null && dto.PromoExpiration > DateTimeOffset.Now);
+        viewModel.Promo = validPromo ? (dto.Promo!, dto.PromoExpiration!.Value) : new None();
 
         viewModel.Event = dto.Event != null ? EventDtoToEventViewModel(dto.Event) : new None();
         viewModel.ShowBusinessSignUp = dto.ShowBusinessSignUp;
