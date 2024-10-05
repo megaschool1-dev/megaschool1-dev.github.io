@@ -127,6 +127,7 @@ public enum Content
     BusinessOwnerPique = 49,
     HBBTaxBenefits = 50,
     BizOwnerPique = 51,
+    BitcoinPreview = 52,
 }
 
 public enum Language

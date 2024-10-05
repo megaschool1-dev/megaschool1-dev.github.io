@@ -11,6 +11,15 @@
 <br/>
 <MudStack Spacing="3">
     <MudCard Outlined="true">
+        <MudCardHeader>Bitcoin for Dummies (and other cryptos)</MudCardHeader>
+        <MudCardContent>
+            <MudStack Spacing="3">
+                <EmbeddedVideo Video="@(GetVideo(Content.BitcoinPreview))" />
+                <MudText Align="Align.Center">Learn what Bitcoin is and how to make money with cryptocurrencies.</MudText>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+    <MudCard Outlined="true">
         <MudCardHeader>Wealth Management for Business Owners</MudCardHeader>
         <MudCardContent>
             <MudStack Spacing="3">
@@ -151,22 +160,6 @@
             <MudStack Spacing="3">
                 <EmbeddedVideo Video="@((Video)new YouTube("-KmR2kfru0c"))" />
                 <MudText Align="Align.Center">Learn how to make money by fundraising for schools.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Bitcoin for Dummies (and other cryptos)</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <MudHidden Breakpoint="BreakPoint">
-                    <MudImage Src="https://static.wixstatic.com/media/5f35ec_9fd1264d02b24f76ab805846a0b5c9a4~mv2.jpg" Fluid="true"/>
-                </MudHidden>
-                <MudHidden Breakpoint="BreakPoint" Invert="true">
-                    <Centered>
-                        <MudImage Src="https://static.wixstatic.com/media/5f35ec_9fd1264d02b24f76ab805846a0b5c9a4~mv2.jpg" Fluid="true" Style="max-width:500px;"/>
-                    </Centered>
-                </MudHidden>
-                <MudText Align="Align.Center">Learn what Bitcoin is and how to make money with cryptocurrencies.</MudText>
             </MudStack>
         </MudCardContent>
     </MudCard>
