@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using System.Net.Http.Json;
-using System.Text.Json.Serialization;
 using MegaSchool1;
 using Microsoft.AspNetCore.Components;
 using Serilog;
@@ -20,7 +19,7 @@ builder.Services.AddScoped(sp => http);
 
 builder.Services.AddScoped<Repository>(sp => new(sp.GetRequiredService<ILocalStorageService>(), sp.GetRequiredService<HttpClient>()));
 
-var clientSettings = await http.GetFromJsonAsync<ClientSettings>("appsettings.json", new System.Text.Json.JsonSerializerOptions() { Converters = { new JsonStringEnumConverter() } });
+var clientSettings = await http.GetFromJsonAsync<ClientSettings>("appsettings.json", new System.Text.Json.JsonSerializerOptions() { Converters = { new UnknownEnumConverter() } });
 
 builder.Services
     .AddSingleton(sp => clientSettings?.UI ?? new())
