@@ -34,6 +34,9 @@ public class ShareableDto
     [JsonPropertyName("imageId")]
     public Image? Image { get; set; }
 
+    [JsonPropertyName("showHeaderImage")]
+    public bool ShowHeaderImage { get; set; } = true;
+
     [JsonPropertyName("capturePageImageId")]
     public Image? CapturePageImage { get; set; }
 

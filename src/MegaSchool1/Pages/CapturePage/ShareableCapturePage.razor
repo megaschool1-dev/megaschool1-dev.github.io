@@ -14,7 +14,7 @@
 <PageTitle>@Video?.ShareableTitle</PageTitle>
 
 <MudStack Spacing="3" Style="height:100%;">
-    @if (GetHeaderImageUrl().TryPickT0(out var imageUrl, out _))
+    @if (Video?.ShowHeaderImage is true && GetHeaderImageUrl().TryPickT0(out var imageUrl, out _))
     {
         <Centered><MudImage Src="@imageUrl" Fluid="true" Width="300" /></Centered>
     }
