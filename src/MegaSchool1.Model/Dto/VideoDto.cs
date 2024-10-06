@@ -8,7 +8,6 @@ public class VideoDto
     public string Id { get; set; } = default!;
 
     [JsonPropertyName("platform")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
     public VideoPlatform Platform { get; set; }
 
     [JsonPropertyName("videoHash")]
