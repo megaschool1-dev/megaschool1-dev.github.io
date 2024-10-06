@@ -23,7 +23,7 @@
     </Centered>
     @if (Shareable.FlyerImage.TryPickT0(out var url, out _))
     {
-        <Centered><MudImage Src="@url.AbsolutePath" Fluid="true" Width="300" /></Centered>
+        <Centered><MudImage Src="@url.AbsoluteUri" Fluid="true" Width="300" /></Centered>
     }
     @if (!string.IsNullOrWhiteSpace(this.Video?.DownloadUrl))
     {
