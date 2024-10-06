@@ -5,14 +5,12 @@ namespace MegaSchool1.Model.Dto;
 public class ShareableDto
 {
     [JsonPropertyName("contentId")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
     public Content ContentId { get; set; }
 
     [JsonPropertyName("videoId")]
     public string? Id { get; set; }
 
     [JsonPropertyName("platform")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
     public VideoPlatform Platform { get; set; }
 
     [JsonPropertyName("videoHash")]
