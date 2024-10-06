@@ -6,16 +6,25 @@
 @using System.Web
 @using MegaSchool1.Model.Dto
 @using MegaSchool1.ViewModel
+@using OneOf
+@using OneOf.Types
 @inject UISettings UI
 @inject Mappers Mappers
 
 <PageTitle>@Video?.ShareableTitle</PageTitle>
 
 <MudStack Spacing="3" Style="height:100%;">
-    <Centered><MudImage Src="@GetImageUrl()" Fluid="true" Width="300" /></Centered>
+    @if (GetHeaderImageUrl().TryPickT0(out var imageUrl, out _))
+    {
+        <Centered><MudImage Src="@imageUrl" Fluid="true" Width="300" /></Centered>
+    }
     <Centered>
         <EmbeddedVideo Video="@(Shareable.Video.MapT0(video => video.Video))"/>
     </Centered>
+    @if (Shareable.FlyerImage.TryPickT0(out var url, out _))
+    {
+        <Centered><MudImage Src="@url.AbsolutePath" Fluid="true" Width="300" /></Centered>
+    }
     @if (!string.IsNullOrWhiteSpace(this.Video?.DownloadUrl))
     {
         <Centered><ExternalLink Href="@this.Video?.DownloadUrl">@(Video?.DownloadText ?? "Download")</ExternalLink></Centered>
@@ -76,7 +85,12 @@
 
     private ShareableDto? Video => this.Language == Spanish ? UI.SpanishLocale[ContentValue] : UI.EnglishLocale[ContentValue];
 
-    private string GetImageUrl() => Constants.GetImageUrl(Video?.CapturePageImage ?? Video?.Image ?? Image.MoneyChallengeTransparent);
+    private OneOf<string, None> GetHeaderImageUrl()
+    {
+        var imageId = Video?.CapturePageImage ?? Video?.Image;
+
+        return imageId != null ? Constants.GetImageUrl(imageId.Value) : new None();
+    }
 
     protected override void OnInitialized()
     {
