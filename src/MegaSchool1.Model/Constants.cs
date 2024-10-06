@@ -49,6 +49,7 @@ public enum Image
     GivBux = 18,
     AppLogo = 19,
     MWRGivBuxLogo = 20,
+    Bitcoin = 21,
 }
 
 public enum Strategy
@@ -230,6 +231,18 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
         html5 => html5.Uri.AbsoluteUri,
         wistia => $"https://megaschool.me/v?w={wistia.VideoId}");
 
+    public static OneOf<string, None> GetImageUri(Image image)
+    {
+        try
+        {
+            return GetImageUrl(image);
+        }
+        catch (Exception)
+        {
+            return new None();
+        }
+    }
+
     public static string GetImageUrl(Image image) => image switch
     {
         Image.MWRBanner => "/images/mwr-banner.png",
@@ -252,6 +265,7 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
         Image.GivBux => "/images/givbux.jpeg",
         Image.AppLogo => "/images/app-logo.png",
         Image.MWRGivBuxLogo => "/images/mwr-givbux-logo.png",
+        Image.Bitcoin => "images/bitcoin.png",
         _ => throw new Exception($"Image not found: {image}"),
     };
 

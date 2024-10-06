@@ -42,6 +42,10 @@ public class ShareableViewModel
 
     public OneOf<(TeamMember TeamMember, bool ShowReferralCode), None> CapturePage { get; set; } = new None();
 
+    public OneOf<Uri, None> FlyerImage { get; set; } = new None();
+
+    public bool ShowHeaderImage { get; set; }
+
     public static string VideoShareable(ShareableViewModel shareable)
     {
         var durationEstimate = shareable.Video.Match(

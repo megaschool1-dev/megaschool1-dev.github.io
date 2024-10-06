@@ -34,6 +34,9 @@ public class ShareableDto
     [JsonPropertyName("imageId")]
     public Image? Image { get; set; }
 
+    [JsonPropertyName("showHeaderImage")]
+    public bool ShowHeaderImage { get; set; } = true;
+
     [JsonPropertyName("capturePageImageId")]
     public Image? CapturePageImage { get; set; }
 
@@ -72,6 +75,9 @@ public class ShareableDto
 
     [JsonPropertyName("metadata")]
     public string? Metadata { get; set; }
+
+    [JsonPropertyName("flyerImageUrl")]
+    public string? FlyerImageUrl { get; set; }
 
     public override string ToString() => $"{ContentId}";
 }
