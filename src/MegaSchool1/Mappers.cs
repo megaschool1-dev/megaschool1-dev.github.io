@@ -55,6 +55,8 @@ public partial class Mappers
         viewModel.AuxiliaryText = !string.IsNullOrWhiteSpace(dto.AuxiliaryText) ? dto.AuxiliaryText : new None();
         viewModel.AuxiliaryTexts = dto.AuxiliaryTexts.Any() ? dto.AuxiliaryTexts : new None();
         viewModel.Metadata = !string.IsNullOrWhiteSpace(dto.Metadata) ? dto.Metadata : new None();
+        viewModel.FlyerImage = Uri.IsWellFormedUriString(dto.FlyerImageUrl, UriKind.RelativeOrAbsolute) ? new Uri(dto.FlyerImageUrl) : new None();
+        viewModel.ShowHeaderImage = dto.ShowHeaderImage;
 
         return viewModel;
     }
