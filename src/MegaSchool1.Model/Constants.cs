@@ -204,8 +204,7 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
     public static readonly string MultiPlatformLivestreamUrlPlaceholder = "{Corporate.Livestream}";
     public static readonly string YouTubeEmbedLinkPrefix = "https://www.youtube.com/embed/";
     public static readonly string VimeoEmbedLinkPrefix = "https://player.vimeo.com/video/";
-    public static readonly string MinimalistVideoLinkPrefix = "https://megaschool.me/v";
-    public static readonly string MinimalistYouTubeVideoLinkPrefix = $"{MinimalistVideoLinkPrefix}?y=";
+    public static readonly string MinimalistVideoLinkPrefix = "https://minimalistvideo.github.io/";
     public const string AppInstallTutorialUrl = "https://video.wixstatic.com/video/5f35ec_33bda4fc60fd41cf8c3a09924f204746/480p/mp4/file.mp4";
 
     public static string BusinessEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/join";
@@ -216,7 +215,7 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
     public static string MarketingDirectorUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/?member={username}";
     public static string JoinMakeWealthReal(string username, Language language) => $"https://www.mwrfinancial.com{(language == Language.Spanish ? "/es" : string.Empty)}/join/?member={username}";
 
-    public static string MinimalistYouTubeLink(string youTubeId) => $"{MinimalistYouTubeVideoLinkPrefix}{youTubeId}";
+    public static string MinimalistYouTubeLink(string youTubeId) => $"{MinimalistVideoLinkPrefix}?y={youTubeId}";
     public static string MinimalistVimeoLink(string vimeoId, string? hash) => $"{MinimalistVideoLinkPrefix}?v={vimeoId}{(string.IsNullOrWhiteSpace(hash) ? string.Empty : $"&h={hash}")}";
     public static string MinimalistTikTokLink(string tikTokHandle, string videoId) => $"{MinimalistVideoLinkPrefix}?th={tikTokHandle}&t={videoId}";
     public static string EmbeddableYouTubeLink(string youTubeId) => $"{YouTubeEmbedLinkPrefix}{youTubeId}";
