@@ -7,9 +7,20 @@
         <MudIconButton OnClick="OnShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" />
     </MudTooltip>
 }
+
+<MudDialog @ref="_pasteTextReminderDialog" Options="@(new DialogOptions() { FullWidth = false, NoHeader = true })">
+    <DialogContent>
+        <MudStack>
+            <MudText Align="Align.Center">Remember to PASTE the copied text! 😉</MudText>
+            <MudButton OnClick="@(() => _pasteTextReminderDialog?.CloseAsync())" Class="ml-auto mr-n3 mb-1" Color="Color.Error">Got it!</MudButton>
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
 @code {
     private bool _showShareTooltip;
     private bool _webshareAllowed = false;
+    private MudDialog? _pasteTextReminderDialog;
 
     [Parameter]
     public string? TextToCopy { get; set; }
@@ -27,6 +38,24 @@
 
     private async Task OnShareClick()
     {
+        if (_pasteTextReminderDialog != null)
+        {
+            var dialogClosed = new TaskCompletionSource();
+
+            void DialogVisibleChanged(bool visible)
+            {
+                if (!visible)
+                {
+                    dialogClosed.SetResult();
+                }
+            }
+
+            _pasteTextReminderDialog.VisibleChanged = new EventCallback<bool>(_pasteTextReminderDialog, DialogVisibleChanged);
+
+            await _pasteTextReminderDialog.ShowAsync();
+            await dialogClosed.Task;
+        }
+
         await this.ShareMessageAsync((this.TextToCopy ?? string.Empty).Replace("<br/>", Environment.NewLine), this.ImageUrl);
 
         _showShareTooltip = true;
