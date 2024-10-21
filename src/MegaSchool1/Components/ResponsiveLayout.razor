@@ -1,0 +1,19 @@
+﻿@inherits Components.ComponentBase
+
+<MudHidden Breakpoint="Breakpoint">
+    @MobileContent
+</MudHidden>
+<MudHidden Breakpoint="Breakpoint" Invert="true">
+    @DesktopContent
+</MudHidden>
+
+@code {
+    [Parameter]
+    public Breakpoint Breakpoint { get; set; } = Breakpoint.MdAndUp;
+
+    [Parameter]
+    public RenderFragment? MobileContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? DesktopContent { get; set; }
+}

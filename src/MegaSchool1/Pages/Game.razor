@@ -1,0 +1,511 @@
+﻿@page "/"
+@using System.ComponentModel.Design
+@using MegaSchool1.Components
+@using MegaSchool1.Model
+@using MegaSchool1.Model.Game
+@using MegaSchool1.Model.Game.Expense
+@using OneOf.Types
+@using OneOf
+@using Serilog
+@using Day = MegaSchool1.Components.Day
+
+<style>
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+<ResponsiveLayout>
+    <MobileContent>
+        <MudSimpleTable Class="flex-grow-1" Style="border-color:blue; border-width:5px; width:100%;">
+            <tbody>
+            <tr>
+                @foreach (var day in _game.Days.Take(8))
+                {
+                    <Day ViewModel="day" Game="_game" />
+                }
+            </tr>
+            @{
+                const int NumMiddleRows = 6;
+
+                var middleRows = _game.Days[8..(8 + NumMiddleRows)].ToList();
+                middleRows.AddRange(_game.Days[(GameState.BoardEpoch.Days - NumMiddleRows)..GameState.BoardEpoch.Days]);
+
+                for (var i = 0; i < NumMiddleRows; i++)
+                {
+                    <tr>
+                        <Day ViewModel="middleRows.Last()" Game="_game" />
+                        @if (i == 0)
+                        {
+                            <td rowspan="6" colspan="6" style="vertical-align:top;">
+                                <MudStack>
+                                    <MudText Align="Align.Center">@_game.DayOfYear.AsT0.Month @_game.DayOfYear.AsT0.DayOfMonth</MudText>
+                                    <MudText>Job: @_game.CurrentDayStats.Income.ToString("C")</MudText>
+                                    @foreach (var expense in _game.Expenses.Where(e => e.IsDueOn(_game.DayOfYear)))
+                                    {
+                                        <MudText>@expense.Description Due: @expense.Amount.ToString("C")</MudText>
+                                    }
+                                </MudStack>
+                            </td>
+                        }
+                        <Day ViewModel="middleRows.First()" Game="_game" />
+                    </tr>
+
+                    middleRows.Remove(middleRows.First());
+                    middleRows.Remove(middleRows.Last());
+                }
+            }
+            <tr>
+                @foreach (var day in _game.Days[(GameState.BoardEpoch.Days - NumMiddleRows - 8)..(GameState.BoardEpoch.Days - NumMiddleRows)].Reverse())
+                {
+                    <Day ViewModel="day" Game="_game" />
+                }
+            </tr>
+            </tbody>
+        </MudSimpleTable>
+        <br/>
+        <br/>
+        <MudStack Spacing="3">
+            <MudStack Row="true" Spacing="3">
+                <MudButton OnClick="OnSpin" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary">Spin</MudButton>
+                <MudButton OnClick="OnRobot" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary">@_robotButtonText</MudButton>
+            </MudStack>
+            <MudStack Row="true" Spacing="3">
+                <MudButton OnClick="OnInstantPayRaise" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Model.Game.PowerUp.InstantPayRaise))">Instant Pay Raise</MudButton>
+                <MudButton OnClick="OnBillNegotiatorSummon" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Model.Game.PowerUp.BillNegotiator))">Bill Negotiator</MudButton>
+                <MudButton OnClick="OnTreasureMasters" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.Expenses.Any(e => e is TreasureMasterMembership))">Treasure Masters</MudButton>
+            </MudStack>
+            <MudStack>
+                <MudText Align="Align.Center">Stats</MudText>
+                <MudText>Checking: @_game.CheckingAccountBalance.ToString("C")</MudText>
+                <MudText>Savings: @_game.SavingsAccountBalance.ToString("C")</MudText>
+                <MudText>Successive Work Days: @_game.SuccessiveWorkDays</MudText>
+                <MudText>Sick Day Likelihood: @_game.SickDayLikelihood%</MudText>
+            </MudStack>
+        </MudStack>
+    </MobileContent>
+    <DesktopContent>
+        <MudStack Row="true" Spacing="3">
+            <MudButton OnClick="OnSpin" Variant="Variant.Filled" Color="Color.Primary">Spin</MudButton>
+            <MudButton OnClick="OnRobot" Variant="Variant.Filled" Color="Color.Primary">@_robotButtonText</MudButton>
+            <MudButton OnClick="OnInstantPayRaise" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Model.Game.PowerUp.InstantPayRaise))">Instant Pay Raise</MudButton>
+            <MudButton OnClick="OnBillNegotiatorSummon" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Model.Game.PowerUp.BillNegotiator))">Bill Negotiator</MudButton>
+            <MudButton OnClick="OnHealthSharingSummon" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Model.Game.PowerUp.BillNegotiator))">Bill Negotiator</MudButton>
+            <MudButton OnClick="OnTreasureMasters" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.Expenses.Any(e => e is TreasureMasterMembership))">Treasure Masters</MudButton>
+            <MudButton OnClick="OnDebug" Variant="Variant.Filled" Color="Color.Primary">Debug</MudButton>
+        </MudStack>
+        <br />
+        <br />
+        <MudSimpleTable Class="flex-grow-1">
+            <tbody>
+            <tr>
+                @foreach (var day in _game.Days.Take(8))
+                {
+                    <Day ViewModel="day" Game="_game"/>
+                }
+            </tr>
+            @{
+                const int NumMiddleRows = 6;
+
+                var middleRows = _game.Days[8..(8 + NumMiddleRows)].ToList();
+                middleRows.AddRange(_game.Days[(GameState.BoardEpoch.Days - NumMiddleRows)..GameState.BoardEpoch.Days]);
+
+                for (var i = 0; i < NumMiddleRows; i++)
+                {
+                    <tr>
+                        <Day ViewModel="middleRows.Last()" Game="_game"/>
+                        @if (i == 0)
+                        {
+                            <td rowspan="6" colspan="6" style="vertical-align:top;">
+                                <MudStack>
+                                    <MudText>Day # @_game.DayOfYear.AsT0.DayOfMonth - </MudText>
+                                    <MudText>Checking: @_game.CheckingAccountBalance.ToString("C")</MudText>
+                                    <MudText>Savings: @_game.SavingsAccountBalance.ToString("C")</MudText>
+                                    <MudText>Successive Work Days: @_game.SuccessiveWorkDays - </MudText>
+                                    <MudText>Sick Day Likelihood: @_game.SickDayLikelihood%</MudText>
+                                    <MudText>Levy Wizard Summoned: @(_game.PowerUps.Any(p => p is Model.Game.PowerUp.InstantPayRaise) ? "Yes" : "No")</MudText>
+                                    <MudText>Bill Negotiator Summoned: @(_game.PowerUps.Any(p => p is Model.Game.PowerUp.BillNegotiator) ? "Yes" : "No")</MudText>
+                                    <MudText>Treasure Masters Summoned: @(_game.Expenses.Any(e => e is TreasureMasterMembership) ? "Yes" : "No")</MudText>
+                                    <MudSpacer/>
+                                </MudStack>
+                            </td>
+                        }
+                        <Day ViewModel="middleRows.First()" Game="_game"/>
+                    </tr>
+
+                    middleRows.Remove(middleRows.First());
+                    middleRows.Remove(middleRows.Last());
+                }
+            }
+            <tr>
+                @foreach (var day in _game.Days[(GameState.BoardEpoch.Days - NumMiddleRows - 8)..(GameState.BoardEpoch.Days - NumMiddleRows)].Reverse())
+                {
+                    <Day ViewModel="day" Game="_game"/>
+                }
+            </tr>
+            </tbody>
+        </MudSimpleTable>
+    </DesktopContent>
+</ResponsiveLayout>
+
+<MudDialog @ref="_dayActivityDialog" Options="@(new DialogOptions() { NoHeader = false, BackdropClick = true, CloseButton = true })">
+    <DialogContent>
+        <MudStack>
+            <MudCheckBox Label="Go to work today?" @bind-Value="_dayActivities.GoToWork" />
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+<MudDialog @ref="_incomeDialog" Options="@(new DialogOptions() { NoHeader = false, BackdropClick = true, CloseButton = true })">
+    <DialogContent>
+        <MudStack>
+            <MudText>Congratulations! You earned @_incomeDialogViewModel.Income.Gross.ToString("C") today.</MudText>
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+<MudDialog @ref="_theftDialog" Options="@(new DialogOptions() { NoHeader = false, BackdropClick = true, CloseButton = true })">
+    <DialogContent>
+        <MudStack>
+            <MudText>Oh, no! You just got robbed of @_theftDialogViewModel.Theft.StolenOn(_theftDialogViewModel.Income, _game.DayOfYear).ToString("C") by @_theftDialogViewModel.Theft.Name!</MudText>
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+<MudDialog @ref="_simpleDialog" Options="@(new DialogOptions() { NoHeader = false, BackdropClick = true, CloseButton = true })">
+    <DialogContent>
+        <MudStack>
+            <MudText>@_simpleDialogMessage</MudText>
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+<MudDialog @ref="_instantPayRaiseDialogInstance" Options="@(new DialogOptions() { NoHeader = false, BackdropClick = false, CloseButton = false })">
+    <DialogContent>
+        <MudStack>
+            <TrinaryChoice Description="Instant Pay Raise" FirstChoiceLabel="Levy Wizard" SecondChoiceLabel="Treasure Masters" @bind-SelectedChoice="@_instantPayRaiseDialog.Choice">
+                <FirstChoiceContent>
+                    <MudText>The Levy Wizard will recover $300-$600 a month from Federal Income Levy Thieves.  It will cost you $200 for every summon.</MudText>
+                </FirstChoiceContent>
+                <SecondChoiceContent>
+                    <MudText>The Treasure Masters do many, many things...for a fee, of course.  They will recover $300-$600 a month from Federal Income Levy Thieves.  It will cost you $150 per month for an INFINITE number of summons.</MudText>
+                </SecondChoiceContent>
+            </TrinaryChoice>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="async () => await _instantPayRaiseDialogInstance.CloseAsync()" Color="Color.Primary" Variant="Variant.Filled">Summon!</MudButton>
+        <MudButton OnClick="async () => await _instantPayRaiseDialogInstance.CloseAsync()" Color="Color.Secondary" Variant="Variant.Filled">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @ref="_billNegotiatorDialog" Options="@(new DialogOptions() { NoHeader = false, BackdropClick = false, CloseButton = false })">
+    <DialogContent>
+        <MudStack>
+            <TrinaryChoice Description="Bill Negotiation" FirstChoiceLabel="The Negotiator" SecondChoiceLabel="Treasure Masters" @bind-SelectedChoice="@_billNegotiatorViewModel">
+                <FirstChoiceContent>
+                    <MudText>The Negotiator will negotiate all your bills eligible for negotiation. It will cost your $200 per summon.</MudText>
+                </FirstChoiceContent>
+                <SecondChoiceContent>
+                    <MudText>The Treasure Masters do many, many things...for a fee, of course.  They will negotiate all your bills eligible for negotiation.  It will cost you $150 per month for an INFINITE number of summons.</MudText>
+                </SecondChoiceContent>
+            </TrinaryChoice>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="async () => await _billNegotiatorDialog.CloseAsync()" Color="Color.Primary" Variant="Variant.Filled">Summon!</MudButton>
+        <MudButton OnClick="async () => { _billNegotiatorViewModel = new None(); await _billNegotiatorDialog.CloseAsync();}" Color="Color.Secondary" Variant="Variant.Filled">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @ref="_treasureMasterDialog" Options="@(new DialogOptions() { NoHeader = false, BackdropClick = false, CloseButton = false })">
+    <DialogContent>
+        <MudStack>
+            <TrinaryChoice Description="The Treasure Masters build your stash by protected against theives and summoning hidden treausres!" FirstChoiceLabel="Summon!" SecondChoiceLabel="No, thanks" @bind-SelectedChoice="_treasureMasterViewModel">
+                <FirstChoiceContent>
+                    <MudStack Spacing="3">
+                        <MudText Align="Align.Center">The Treasure Masters include:</MudText>
+                        <MudText Align="Align.Center">Levy Wizard<br/>Recovers $300-$600 a month from Federal Income Tax Thieves. UNLIMITED summons! ($200 per summon when summoned alone)</MudText>
+                    </MudStack>
+                </FirstChoiceContent>
+                <SecondChoiceContent>
+                    <MudText>Not to fear!  You can still find the members of the Treasure Masters separately, but their fee may be higher!</MudText>
+                </SecondChoiceContent>
+            </TrinaryChoice>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="async () => await _treasureMasterDialog.CloseAsync()" Color="Color.Primary" Variant="Variant.Filled">Done</MudButton>
+    </DialogActions>
+</MudDialog>
+
+<MudDialog @ref="_trinaryChoiceDialog" Options="@(new DialogOptions() { NoHeader = false, BackdropClick = false, CloseButton = false })">
+    <DialogContent>
+        <MudStack>
+            <TrinaryChoice Description="@_trinaryChoiceViewModel.Description" FirstChoiceLabel="@_trinaryChoiceViewModel.FirstChoice.Label" SecondChoiceLabel="@_trinaryChoiceViewModel.SecondChoice.Label" @bind-SelectedChoice="_trinaryChoiceViewModel.Choice">
+                <FirstChoiceContent>
+                    <MudText Align="Align.Center">@_trinaryChoiceViewModel.FirstChoice.Description</MudText>
+                </FirstChoiceContent>
+                <SecondChoiceContent>
+                    <MudText Align="Align.Center">@_trinaryChoiceViewModel.SecondChoice.Description</MudText>
+                </SecondChoiceContent>
+            </TrinaryChoice>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="async () => await _trinaryChoiceDialog.CloseAsync()" Color="Color.Primary" Variant="Variant.Filled">Done</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    private readonly GameState _game = GameState.Moderate();
+
+    private string _robotButtonText = "Auto";
+
+    private MudDialog _dayActivityDialog = null!;
+    private DayActivitiesViewModel _dayActivities = new();
+
+    private MudDialog _incomeDialog;
+    private IncomeDialogViewModel _incomeDialogViewModel = new(new(0, default));
+
+    private MudDialog _theftDialog;
+    private TheftDialogViewModel _theftDialogViewModel = new(default!, new(default!, default!, default));
+
+    private MudDialog _simpleDialog;
+    private string _simpleDialogMessage = string.Empty;
+
+    private MudDialog _instantPayRaiseDialogInstance;
+    private (OneOf<BinaryChoice.Choice, None> Choice, bool Show) _instantPayRaiseDialog = (BinaryChoice.Choice.First, false);
+
+    private MudDialog _billNegotiatorDialog;
+    private OneOf<BinaryChoice.Choice, None> _billNegotiatorViewModel = BinaryChoice.Choice.First;
+
+    private MudDialog _treasureMasterDialog;
+    private OneOf<BinaryChoice.Choice, None> _treasureMasterViewModel = BinaryChoice.Choice.First;
+
+    private MudDialog _trinaryChoiceDialog;
+    private TrinaryChoiceViewModel _trinaryChoiceViewModel = new("Describe the choice!", ("First Choice Label", "First choice description"), ("Second Choice Label", "Second choice description")) { Choice = new None() };
+
+    protected override void OnInitialized()
+    {
+        // start robot server;
+        _ = RobotServer();
+    }
+
+    private void OnDebug()
+    {
+        foreach (var expense in _game.Expenses.Where(e => e.IsDueOn(_game.DayOfYear)))
+        {
+            ;
+        }
+    }
+
+    private void OnHealthSharingSummon()
+    {
+
+    }
+
+    private async Task OnBillNegotiatorSummon()
+    {
+        _billNegotiatorViewModel = BinaryChoice.Choice.First;
+        await _billNegotiatorDialog.ShowModalAsync();
+
+        @if (_billNegotiatorViewModel.TryPickT0(out var choice, out _))
+        {
+            if (choice == BinaryChoice.Choice.First)
+            {
+                GameEngine.SummonBillNegotiator(_game);
+            }
+
+            if (choice == BinaryChoice.Choice.Second)
+            {
+                GameEngine.SummonTreasureMasters(_game);
+            }
+        }
+    }
+
+    private async Task OnInstantPayRaise()
+    {
+        await _instantPayRaiseDialogInstance.ShowModalAsync();
+
+        @if (_instantPayRaiseDialog.Choice.TryPickT0(out var choice, out _))
+        {
+            if (choice == BinaryChoice.Choice.First)
+            {
+              GameEngine.InstantPayRaise(_game);
+            }
+
+            if (choice == BinaryChoice.Choice.Second)
+            {
+               GameEngine.SummonTreasureMasters(_game);
+            }
+        }
+    }
+
+    private async Task OnTreasureMasters()
+    {
+        await _treasureMasterDialog.ShowModalAsync();
+
+        @if (_treasureMasterViewModel.TryPickT0(out var choice, out _))
+        {
+            if (choice == BinaryChoice.Choice.First)
+            {
+               GameEngine.SummonTreasureMasters(_game);
+            }
+        }
+    }
+
+    private async Task ShowIncomeDialogAsync(Income income)
+    {
+        _incomeDialogViewModel = new(income);
+
+        await _incomeDialog.ShowModalAsync(_game.DialogAutoClose.Match(value => (TimeSpan?)value, none => null));
+    }
+
+    private async Task ShowTheftDialogAsync(Income income, Theft theft, TimeSpan? autoClose = null)
+    {
+        _theftDialogViewModel = new(income, theft);
+
+        _simpleDialogMessage = $"Oh, no! You just got robbed of {_theftDialogViewModel.Theft.StolenOn(_theftDialogViewModel.Income, _game.DayOfYear):C} by {_theftDialogViewModel.Theft.Name}!";
+        await _simpleDialog.ShowModalAsync(autoClose);
+    }
+
+    private async Task ShowSimpleDialogAsync(string message)
+    {
+        _simpleDialogMessage = message;
+
+        await _simpleDialog.ShowModalAsync(_game.DialogAutoClose.Match(value => (TimeSpan?)value, none => null));
+    }
+
+    private async Task ShowTheftDialogsAsync(Income income, List<Theft> thefts, TimeSpan? autoClose = null)
+    {
+        foreach (var theft in thefts)
+        {
+            await ShowTheftDialogAsync(income, theft, autoClose);
+        }
+    }
+
+    private async Task OnSpin()
+    {
+        await SpinAsync();
+    }
+
+    private void OnRobot()
+    {
+        // robot is running
+        if (_game.DialogAutoClose.IsT0)
+        {
+            _robotButtonText = "Stop";
+            _game.DialogAutoClose = new None();
+        }
+        else
+        {
+            _robotButtonText = "Auto";
+            _game.DialogAutoClose = TimeSpan.FromSeconds(2);
+        }
+    }
+
+    private async Task RobotServer()
+    {
+        while (true)
+        {
+            if (_game.DialogAutoClose.IsT0)
+            {
+                await SpinAsync();
+
+                this.StateHasChanged();
+            }
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
+        }
+    }
+
+    private async Task SpinAsync()
+    {
+        await _dayActivityDialog.ShowModalAsync(_game.DialogAutoClose.Match(value => (TimeSpan?)value, none => null));
+
+        if (_dayActivities.GoToWork)
+        {
+            const int HealthySuccessiveWorkDays = 6;
+
+            var numUnhealthyWorkDays = (_game.SuccessiveWorkDays + 1) - HealthySuccessiveWorkDays;
+
+            if (numUnhealthyWorkDays <= 0)
+            {
+                GameEngine.IncreaseDailyJobIncome(_game);
+
+                await ShowIncomeDialogAsync(_game.Incomes.First());
+                await ShowTheftDialogsAsync(_game.Incomes.First(), _game.Incomes.First().Thefts, TimeSpan.FromSeconds(2));
+
+                _game.SickDayLikelihood = 0;
+            }
+            else
+            {
+                const int HealthLikelihoodDecrementPercentage = 5;
+                const int MaxHealthLikelihoodDecreasePercentage = 95;
+                const int MaxDecreasingHealthWorkDays = MaxHealthLikelihoodDecreasePercentage / HealthLikelihoodDecrementPercentage;
+
+                var sickDayLikelihood = Math.Min(numUnhealthyWorkDays, MaxDecreasingHealthWorkDays) * HealthLikelihoodDecrementPercentage;
+                var sickness = Random.Shared.Next(0, 100);
+                if (sickDayLikelihood > sickness)
+                {
+                    _game.SuccessiveWorkDays = 0;
+                }
+                else
+                {
+                    GameEngine.IncreaseDailyJobIncome(_game);
+
+                    await ShowIncomeDialogAsync(_game.Incomes.First());
+                    await ShowTheftDialogsAsync(_game.Incomes.First(), _game.Incomes.First().Thefts);
+                }
+
+                _game.SickDayLikelihood = sickDayLikelihood;
+            }
+        }
+        else
+        {
+            _game.SuccessiveWorkDays = 0;
+            _game.SickDayLikelihood = 0;
+        }
+
+        // expense
+        foreach (var expense in GameEngine.ProcessExpensesForCurrentDay(_game))
+        {
+            await ShowSimpleDialogAsync($"{expense.Description} bill is due! - ${expense.Amount:C}");
+        }
+
+        // power ups
+        if(GameEngine.ProcessPowerUpsForCurrentDay(_game).TryPickT0(out var powerUps, out var error))
+        {
+            foreach (var powerUpMessage in powerUps)
+            {
+                await ShowSimpleDialogAsync(powerUpMessage.Value);
+            }
+        }
+        else
+        {
+            Log.ForContext<Game>().Error(error.Value);
+        }
+
+        // advance to next day
+        _game.DayOfYear = (YearalMonth.January, _game.DayOfYear.AsT0.DayOfMonth + 1);
+    }
+
+    private class DayActivitiesViewModel
+    {
+        public bool ShowDialog { get; set; }
+        public bool GoToWork { get; set; } = true;
+    }
+
+    private record IncomeDialogViewModel(Income Income)
+    {
+    }
+
+    private record TheftDialogViewModel(Income Income, Theft Theft)
+    {
+    }
+
+    private record TrinaryChoiceViewModel(string Description, (string Label, string Description) FirstChoice, (string Label, string Description) SecondChoice)
+    {
+        public OneOf<BinaryChoice.Choice, None> Choice { get; set; }
+    }
+}

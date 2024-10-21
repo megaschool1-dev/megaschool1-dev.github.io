@@ -1,2 +1,5 @@
-﻿public record Pixel(int Value);
-public record Percentage(double Value);
+﻿using ValueOf;
+
+namespace MegaSchool1;
+
+public class Pixel : ValueOf<int, Pixel> { }

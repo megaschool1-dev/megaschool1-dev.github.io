@@ -37,4 +37,16 @@
     <ProjectReference Include="..\MegaSchool1.ViewModel\MegaSchool1.ViewModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Components\ResponsiveLayout.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Dialog\IncomeDialog.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Pages\Game.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>
