@@ -245,7 +245,7 @@ public static class GameEngine
         }
 
         // advance to next day
-        game = game with { Day = game.Day.AddDays(1) };
+        game = game.GoToNextDay();
 
         return new(dailyIncomes, expenseReport.Expenses, powerUpResults.Result.IsT0 ? powerUps : [], errors.ToArray(), game);
     }

@@ -18,7 +18,7 @@
 
 <ResponsiveLayout>
     <MobileContent>
-        <MudSimpleTable Class="flex-grow-1" Style="border-color:blue; border-width:5px; object-fit:contain;">
+        <MudSimpleTable Class="flex-grow-1">
             <tbody>
             <tr>
                 @foreach (var day in _game.Days.Take(8))
@@ -415,8 +415,11 @@
         _game = GameEngine.EarnIncomeForCurrentDay(_game).Game;
     }
 
-    private void OnRobot()
+    private async Task OnRobot()
     {
+        await this.ShowSimpleDialogAsync("Coming soon!");
+        return;
+
         // robot is running
         if (_game.DialogAutoClose.IsT0)
         {

@@ -17,7 +17,8 @@ public record GameState(
     public static readonly YearalMonth[] Months = Enum.GetValues<YearalMonth>();
     public static readonly TimeSpan BoardEpoch = TimeSpan.FromDays(DaysInMonth);
 
-    private List<DayStats> _days = Enumerable.Range(1, BoardEpoch.Days).Select(i => new DayStats((YearalMonth.January, i))).ToList();
+    private readonly List<DayStats> _days = Enumerable.Range(1, BoardEpoch.Days).Select(i => new DayStats((YearalMonth.January, i))).ToList();
+
     public ReadOnlyCollection<DayStats> Days => _days.AsReadOnly();
 
     private Dictionary<DayOfYear, (PowerUp.PowerUp PowerUp, decimal Savings)> _savings = [];
@@ -30,6 +31,21 @@ public record GameState(
     public DayStats CurrentDayStats => GetDayStats(this.Day);
 
     public DayStats GetDayStats(DayOfYear day) => Days[day.DayNumber() - 1];
+
+    public GameState GoToNextDay()
+    {
+        var lastDay = _days.Last().Day.DayNumber();
+        var nextDay = Day.AddDays(1);
+
+        if(nextDay.DayNumber() > lastDay)
+        {
+            var day = new DayStats(nextDay);
+
+            _days.Add(day);
+        }
+
+        return this with { Day = nextDay };
+    }
 
     public static GameState Moderate()
     {

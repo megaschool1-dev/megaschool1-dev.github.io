@@ -53,11 +53,11 @@ public partial class DayOfYear : OneOfBase<(YearalMonth Month, int DayOfMonth), 
     public DayOfYear AddDays(int numDays)
     {
         var currentDayNumber = this.DayNumber();
-        var monthAndDay = Math.DivRem(currentDayNumber + numDays, Enum.GetValues<YearalMonth>().Length);
+        var (month, dayZeroIndexed) = Math.DivRem(currentDayNumber + numDays - 1, GameState.DaysInMonth);
 
         return Math.DivRem(currentDayNumber + numDays, 365).Remainder == 0 
             ? new YearDay()
-            : (Enum.GetValues<YearalMonth>()[monthAndDay.Quotient], monthAndDay.Remainder);
+            : (Enum.GetValues<YearalMonth>()[month], dayZeroIndexed + 1);
     }
 
     public static bool operator ==(DayOfYear first, DayOfYear second) => first.DayNumber() == second.DayNumber();
