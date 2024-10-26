@@ -1,0 +1,57 @@
+﻿@using System.Globalization
+@using MegaSchool1.Model
+@using MegaSchool1.Model.Game
+@inherits Components.ComponentBase
+
+<ResponsiveLayout>
+    <MobileContent>
+        <td class="pa-0" style="@(ViewModel.Day.AsT0.DayOfMonth == Game.Day.AsT0.DayOfMonth ? "border-color:red; border-width:5px; width:1%;" : string.Empty)">
+            <MudText Typo="Typo.subtitle1" Align="Align.Center">@GetDayOfWeekAbbreviation(ViewModel.Day.AsT0)</MudText>
+        </td>
+    </MobileContent>
+    <DesktopContent>
+        <td class="" style="@(ViewModel.Day.AsT0.DayOfMonth == Game.Day.AsT0.DayOfMonth ? "border-color:red; border-width:5px; width:1%;" : string.Empty)">
+            <MudStack>
+                <MudText>@ViewModel.Day.AsT0.DayOfWeek()</MudText>
+                <MudText>Job: @ViewModel.Income.Net.ToString("C")</MudText>
+                @foreach (var expense in Game.Expenses.Where(e => e.IsDueOn(ViewModel.Day)))
+                {
+                    <MudText>@expense.Description Due: @expense.Amount.ToString("C")</MudText>
+                }
+            </MudStack>
+        </td>
+    </DesktopContent>
+</ResponsiveLayout>
+
+@code {
+    private Breakpoint _breakpoint;
+
+    private DayStats ViewModel => this.Game.Days[this.Day.DayNumber() - 1];
+
+    [Parameter]
+    public DayOfYear Day { get; set; } = (YearalMonth.January, 1);
+
+    [Parameter]
+    public GameState Game { get; set; } = default!;
+
+    private static string GetDayOfWeekAbbreviation(DayOfYear day)
+    {
+        if (day.TryPickT0(out var dayOfYear, out _))
+        {
+            var dayOfWeek = dayOfYear.DayOfWeek();
+            switch (dayOfWeek)
+            {
+                case DayOfWeek.Sunday:
+                    return "Su";
+
+                case DayOfWeek.Thursday:
+                    return "Th";
+
+                default:
+                    return DateTimeFormatInfo.CurrentInfo.AbbreviatedDayNames[(int)dayOfYear.DayOfWeek()].Substring(0, 1);
+            }
+        }
+    
+        return string.Empty;
+    }
+}
