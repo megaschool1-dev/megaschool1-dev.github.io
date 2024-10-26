@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MegaSchool1.ViewModel", "Me
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MegaSchool1", "MegaSchool1\MegaSchool1.csproj", "{2A0B5ED4-08F7-426C-BB10-EB5671C4D0DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MegaSchool1.Model.Test", "MegaSchool1.Model.Test\MegaSchool1.Model.Test.csproj", "{5F122152-24C2-4F4C-BC5D-E2853A47BA73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2A0B5ED4-08F7-426C-BB10-EB5671C4D0DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A0B5ED4-08F7-426C-BB10-EB5671C4D0DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A0B5ED4-08F7-426C-BB10-EB5671C4D0DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F122152-24C2-4F4C-BC5D-E2853A47BA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F122152-24C2-4F4C-BC5D-E2853A47BA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F122152-24C2-4F4C-BC5D-E2853A47BA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F122152-24C2-4F4C-BC5D-E2853A47BA73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
