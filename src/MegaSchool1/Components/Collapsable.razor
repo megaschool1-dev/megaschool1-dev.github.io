@@ -2,7 +2,7 @@
 
 <MudPaper Class="pa-4">
     <MudStack Spacing="2">
-        <MudText Typo="Typo.h4" GutterBottom="true" Align="Align.Center">@Title</MudText>
+        <MudText Typo="Typo.h4" GutterBottom="true" Align="Align.Center">@((MarkupString)Title)</MudText>
         <MudButton OnClick="@(() => _expanded = !_expanded)" Color="Color.Primary">@(_expanded ? "Hide" : this.ExpandPrompt)</MudButton>
         <MudDivider />
         <MudCollapse Expanded="_expanded">

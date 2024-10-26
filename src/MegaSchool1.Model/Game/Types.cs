@@ -12,6 +12,13 @@ public class Savings : ValueOf<decimal, Savings>;
 /// </summary>
 public class OneTime : ValueOf<object, OneTime>;
 
+public class SpinChoices
+{
+    public bool GoToWork { get; set; }
+}
+
+public record SpinResult((decimal Gross, decimal Net, Income Income)[] Incomes, Expense.Expense[] Billings, Description[] PowerUps, Error<string>[] Errors, GameState Game);
+
 [GenerateOneOf]
 public partial class PowerUpResult : OneOfBase<(Description Description, OneOf<Savings, None> Savings), Error<string>> { };
 

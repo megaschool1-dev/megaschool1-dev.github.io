@@ -8,52 +8,73 @@ namespace MegaSchool1.Model.Game;
 
 public static class GameEngine
 {
-    public static OneOf<Description[], Error<string>> ProcessPowerUpsForCurrentDay(GameState game)
+    public static (OneOf<Description[], Error<string>> Result, GameState Game) ProcessPowerUpsForCurrentDay(GameState game)
     {
         var processedPowerUps = new List<Description>();
 
         foreach (var powerUp in game.PowerUps.Where( p => p is not BillNegotiator))
         {
-            if (powerUp.Activate(game).TryPickT0(out var description, out var error))
+            var powerUpResult = powerUp.Activate(game);
+            game = powerUpResult.game;
+
+            if (powerUpResult.Result.TryPickT0(out var description, out var error))
             {
                 processedPowerUps.Add(description.Description);
             }
             else
             {
-                return error;
+                return (error, game);
             }
         }
 
-        return processedPowerUps.ToArray();
+        return (processedPowerUps.ToArray(), game);
     }
 
-    public static Expense.Expense[] ProcessExpensesForCurrentDay(GameState game)
+    public static (Expense.Expense[] Expenses, GameState game) ProcessExpensesForCurrentDay(GameState game)
     {
         var processedExpenses = new List<Expense.Expense>();
 
-        foreach (var expense in game.Expenses.Where(e => e.IsDueOn(game.DayOfYear)))
+        if(!game.CurrentDayStats.ProcessedExpenses)
         {
-            game.CheckingAccountBalance -= expense.Amount;
-
-            processedExpenses.Add(expense);
+            foreach (var expense in game.Expenses.Where(e => e.IsDueOn(game.Day)))
+            {
+                game = game with { CheckingAccountBalance = game.CheckingAccountBalance - expense.Amount };
+                processedExpenses.Add(expense);
+            }
         }
 
-        return processedExpenses.ToArray();
+        game.CurrentDayStats.ProcessedExpenses = true;
+
+        return (processedExpenses.ToArray(), game);
     }
 
-    public static void IncreaseDailyJobIncome(GameState game)
+    private static ((decimal Gross, decimal Net, Income Income)[] Incomes, GameState Game) EarnW2IncomeForCurrentDay(GameState game)
     {
-        game.SuccessiveWorkDays += 1;
-
-        var dailyIncome = game.Incomes
+        var dailyIncomes = game.Incomes.OfType<W2Income>()
             .Where(i => i.PayFrequency == TimeSpan.FromDays(1))
-            .Sum(i => i.Net(game.DayOfYear));
+            .Select(income => (Gross: income.GetGross(game.Day), Net: income.Net(game.Day), Income: (Income)income)).ToArray();
+        var dailyIncome = (Gross: dailyIncomes.Sum(i => i.Gross), Net: dailyIncomes.Sum(i => i.Net));
 
-        game.Days[game.DayOfYear.AsT0.DayOfMonth - 1].Income += dailyIncome;
-        game.CheckingAccountBalance += dailyIncome;
+        game.CurrentDayStats.Income = dailyIncome;
+        game.CurrentDayStats.Incomes = dailyIncomes;
+
+        // thefts
+        foreach(var income in dailyIncomes.Select(i => i.Income))
+        {
+            var thefts = income.Thefts
+                .Select(t => (t.Name, Amount: t.StolenOn(income, game.Day)))
+                .Where(t => t.Amount.IsT0)
+                .Select(t => (t.Name, Amount: t.Amount.AsT0));
+
+            game.CurrentDayStats.Thefts.AddRange(thefts);
+        }
+
+        game = game with { SuccessiveWorkDays = game.SuccessiveWorkDays + 1 };
+
+        return (dailyIncomes, game with { CheckingAccountBalance = game.CheckingAccountBalance + dailyIncome.Net });
     }
 
-    public static OneOf<PowerUpResult, None> InstantPayRaise(GameState game)
+    public static (OneOf<PowerUpResult, None> Result, GameState Game) InstantPayRaise(GameState game)
     {
         if (!game.PowerUps.Any(p => p is InstantPayRaise))
         {
@@ -61,42 +82,40 @@ public static class GameEngine
 
             game.PowerUps.Add(instantPayRaise);
 
-            instantPayRaise.Activate(game);
+            return instantPayRaise.Activate(game);
         }
 
-        return new None();
+        return (new None(), game);
     }
 
-    public static OneOf<PowerUpResult, None> SummonBillNegotiator(GameState game)
+    public static (OneOf<PowerUpResult, None> Result, GameState Game) SummonBillNegotiator(GameState game)
     {
         if (!game.PowerUps.Any(p => p is BillNegotiator))
         {
             var negotiator = new BillNegotiator();
 
-            var powerUpResult = negotiator.Activate(game);
+            var result = negotiator.Activate(game);
 
-            game.PowerUps.Add(negotiator);
+            result.game.PowerUps.Add(negotiator);
 
-            return powerUpResult;
+            return result;
         }
 
-        return new None();
+        return (new None(), game);
     }
 
-    public static OneOf<MonthlySavings, None> SummonTreasureMasters(GameState game)
+    public static (OneOf<MonthlySavings, None> Savings, GameState Game) SummonTreasureMasters(GameState game)
     {
-        var treasureMastersMembership = new TreasureMasterMembership(game.DayOfYear);
+        var treasureMastersMembership = new TreasureMasterMembership(game.Day);
         game.Expenses.Add(treasureMastersMembership);
 
-        var checkingBeforeMembership = game.CheckingAccountBalance;
-
-        game.CheckingAccountBalance -= treasureMastersMembership.Amount;
+        game = game with { CheckingAccountBalance = game.CheckingAccountBalance - treasureMastersMembership.Amount };
 
         var monthlySavings = 0.0m;
 
         // instant pay raise
         var instantPayRaise = InstantPayRaise(game);
-        monthlySavings += instantPayRaise.Match(
+        monthlySavings += instantPayRaise.Result.Match(
             powerUpResult =>
                 powerUpResult.Match(
                     result => result.Savings.Match(
@@ -107,7 +126,7 @@ public static class GameEngine
 
         // bill negotiator
         var billNegotiator = SummonBillNegotiator(game);
-        monthlySavings += billNegotiator.Match(
+        monthlySavings += billNegotiator.Result.Match(
             powerUpResult =>
                 powerUpResult.Match(
                     result => result.Savings.Match(
@@ -118,7 +137,7 @@ public static class GameEngine
     
         // health sharing
         var healthSharing = SummonHealthSharing(game);
-        monthlySavings += healthSharing.Match(
+        monthlySavings += healthSharing.Result.Match(
             powerUpResult =>
                 powerUpResult.Match(
                     result => result.Savings.Match(
@@ -129,27 +148,106 @@ public static class GameEngine
 
         if (monthlySavings > treasureMastersMembership.Amount)
         {
-            return MonthlySavings.From(monthlySavings - treasureMastersMembership.Amount);
+            return (MonthlySavings.From(monthlySavings - treasureMastersMembership.Amount), game);
         }
         else
         {
-            game.CheckingAccountBalance += treasureMastersMembership.Amount;
-            return new None();
+            game = game with { CheckingAccountBalance = game.CheckingAccountBalance + treasureMastersMembership.Amount };
+            return (new None(), game);
         }
     }
 
-    public static OneOf<PowerUpResult, None> SummonHealthSharing(GameState game)
+    public static (OneOf<PowerUpResult, None> Result, GameState Game) SummonHealthSharing(GameState game)
     {
         if (!game.Expenses.Any(e => e is HealthSharingContribution or TreasureMasterMembership))
         {
-            var healthSharingExpense = new HealthSharingContribution(game.DayOfYear);
+            var healthSharingExpense = new HealthSharingContribution(game.Day);
 
             game.Expenses.Add(healthSharingExpense);
 
-            game.CheckingAccountBalance -= healthSharingExpense.Amount;
+            game = game with { CheckingAccountBalance = game.CheckingAccountBalance - healthSharingExpense.Amount };
+
+            return (new None(), game);
         }
 
-        return new None();
+        return (new None(), game);
+    }
+
+    public static ((decimal Gross, decimal Net, Income Income)[] Incomes, GameState Game) EarnIncomeForCurrentDay(GameState game)
+    {
+        const int HealthySuccessiveWorkDays = 6;
+
+        (decimal Gross, decimal Net, Income Income)[] dailyIncomes = [];
+        var numUnhealthyWorkDays = (game.SuccessiveWorkDays + 1) - HealthySuccessiveWorkDays;
+
+        if (numUnhealthyWorkDays <= 0)
+        {
+            var dailyIncomeResult = EarnW2IncomeForCurrentDay(game);
+
+            dailyIncomes = dailyIncomeResult.Incomes;
+
+            game = dailyIncomeResult.Game with { SickDayLikelihood = Percentage.From(0) };
+        }
+        else
+        {
+            const int HealthLikelihoodDecrementPercentage = 5;
+            const int MaxHealthLikelihoodDecreasePercentage = 95;
+            const int MaxDecreasingHealthWorkDays = MaxHealthLikelihoodDecreasePercentage / HealthLikelihoodDecrementPercentage;
+
+            var sickDayLikelihood = Math.Min(numUnhealthyWorkDays, MaxDecreasingHealthWorkDays) * HealthLikelihoodDecrementPercentage;
+            var sickness = Random.Shared.Next(0, 100);
+            if (sickDayLikelihood > sickness)
+            {
+                game = game with { SuccessiveWorkDays = 0 };
+            }
+            else
+            {
+                var dailyIncomeResult = EarnW2IncomeForCurrentDay(game);
+
+                dailyIncomes = dailyIncomeResult.Incomes;
+                game = dailyIncomeResult.Game;
+            }
+
+            game = game with { SickDayLikelihood = Percentage.From(sickDayLikelihood) };
+        }
+
+        game.CurrentDayStats.CompletedActiveIncomeWork = true;
+
+        return (dailyIncomes, game);
+    }
+
+    public static SpinResult Sleep(GameState game) => Instant(new() { GoToWork = false }, game);
+
+    public static SpinResult Instant(SpinChoices choices, GameState game)
+    {
+        var errors = new List<Error<string>>();
+        (decimal Gross, decimal Net, Income Income)[] dailyIncomes = [];
+
+        if (choices.GoToWork)
+        {
+            (dailyIncomes, game) = EarnIncomeForCurrentDay(game);
+        }
+        else
+        {
+            game = game with { SuccessiveWorkDays = 0, SickDayLikelihood = Percentage.From(0) };
+        }
+
+        // expense
+        var expenseReport = ProcessExpensesForCurrentDay(game);
+        game = expenseReport.game;
+
+        // power ups
+        var powerUpResults = ProcessPowerUpsForCurrentDay(game);
+        game = powerUpResults.Game;
+        if (powerUpResults.Result.TryPickT1(out var error, out var powerUps))
+        {
+            errors.Add(error);
+        }
+
+        // advance to next day
+        game = game with { Day = game.Day.AddDays(1) };
+
+        return new(dailyIncomes, expenseReport.Expenses, powerUpResults.Result.IsT0 ? powerUps : [], errors.ToArray(), game);
     }
 
     public class MonthlySavings : ValueOf<decimal, MonthlySavings>;

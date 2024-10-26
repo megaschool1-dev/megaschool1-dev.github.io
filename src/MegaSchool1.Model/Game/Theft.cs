@@ -1,10 +1,11 @@
 ﻿using OneOf;
+using OneOf.Types;
 
 namespace MegaSchool1.Model.Game;
 
 public record Theft(string Name, string Description, OneOf<Percentage, (Scalar Amount, TimeSpan Frequency)> Amount)
 {
-    public decimal StolenOn(Income income, DayOfYear day)
+    public OneOf<decimal, None> StolenOn(Income income, DayOfYear day)
     {
         var stolenAmount = 0.0m;
 
@@ -24,11 +25,11 @@ public record Theft(string Name, string Description, OneOf<Percentage, (Scalar A
             }
         }
 
-        return stolenAmount;
+        return stolenAmount > 0.0m ? stolenAmount : new None();
     }
 }
 
 public record FederalIncomeTax() : Theft("Big Realm Levy", "United States Federal income tax", Percentage.From(0.22m));
-public record IllinoisIncomeTax() : Theft("Small Realm Levy", "Illinois State Income tax", Percentage.From(0.0495m));
+public record IllinoisIncomeTax() : Theft("Mid Realm Levy", "Illinois State Income tax", Percentage.From(0.0495m));
 public record SocialSecurityTax() : Theft("Common Wealth Levy", "United State Social Security Tax", Percentage.From(0.062m));
 public record MedicareTax() : Theft("Healing Pool Levy", "United State Medicare tax", Percentage.From(0.0145m));

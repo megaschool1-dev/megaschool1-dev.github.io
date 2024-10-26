@@ -12,35 +12,13 @@ public class GameEngineTests
 {
     private static Gen<GameState> ModerateGame() => Gen.Fresh(() => GameState.Moderate());
 
-    private static GameState BarFunc(GameState game) { GameEngine.SummonTreasureMasters(game); return game; }
+    private static GameState InstantPayRaiseSummon(GameState g) => GameEngine.InstantPayRaise(g).Game;
 
-    private static Gen<Func<GameState, GameState>> Bar => Gen.Constant(BarFunc);
+    private static GameState BillNegotiatorSummon(GameState g) => GameEngine.SummonBillNegotiator(g).Game;
 
-    private static Gen<GameState> WealthMembershipSummon(Gen<GameState> game) => game.Apply(Gen.Constant((GameState game) =>
-    {
-        GameEngine.SummonTreasureMasters(game);
-        return game;
-    }));
+    private static GameState HealthSharing(GameState game) => GameEngine.SummonHealthSharing(game).Game;
 
-    private static GameState InstantPayRaiseSummon(GameState g)
-    {
-        GameEngine.InstantPayRaise(g);
-
-        return g;
-    }
-
-    private static GameState BillNegotiatorSummon(GameState g)
-    {
-        GameEngine.SummonBillNegotiator(g);
-
-        return g;
-    }
-
-    private static GameState HealthSharing(GameState game)
-    {
-        GameEngine.SummonHealthSharing(game);
-        return game;
-    }
+    private static GameState Spin(GameState game) => GameEngine.Instant(new() { GoToWork = true }, game).Game;
 
     private static Gen<Func<GameState, GameState>[]> IndividualWealthMembershipServices(params Func<GameState, GameState>[] exclude) =>
         Gen.Shuffle([
@@ -62,9 +40,9 @@ public class GameEngineTests
                 GameEngine.SummonTreasureMasters(game);
                 var checkingBefore = game.CheckingAccountBalance;
 
-                addServiceFunc(game);
+                var actual = addServiceFunc(game);
 
-                game.CheckingAccountBalance
+                actual.CheckingAccountBalance
                     .Should().Be(checkingBefore);
             });
     }
@@ -77,10 +55,10 @@ public class GameEngineTests
             {
                 var checkingBefore = game.CheckingAccountBalance;
 
-                addServiceFunc(game);
+                var actual = addServiceFunc(game);
                 
-                game.CheckingAccountBalance
-                    .Should().BeLessThan(checkingBefore,  $"Expenses: {string.Join(',', game.Expenses.Select(e => e.Description))}");
+                actual.CheckingAccountBalance
+                    .Should().BeLessThan(checkingBefore,  $"{addServiceFunc.Method}");
             });
     }
 
@@ -94,22 +72,39 @@ public class GameEngineTests
                 var checkingBefore = game.CheckingAccountBalance;
 
                 // act
-                var monthlySavings = GameEngine.SummonTreasureMasters(game);
+                var actual = GameEngine.SummonTreasureMasters(game);
 
                 // assert
-                if (monthlySavings.TryPickT0(out var savings, out _))
+                if (actual.Savings.TryPickT0(out var savings, out _))
                 {
                     savings.Value
-                        .Should().BePositive($"{monthlySavings}");
+                        .Should().BePositive($"{actual}");
 
-                    game.CheckingAccountBalance
-                        .Should().BeGreaterThan(checkingBefore, $"{monthlySavings}");
+                    actual.Game.CheckingAccountBalance
+                        .Should().BeGreaterThan(checkingBefore, $"{actual}");
                 }
                 else
                 {
-                    game.CheckingAccountBalance
-                        .Should().BeGreaterOrEqualTo(checkingBefore, $"{monthlySavings}");
+                    actual.Game.CheckingAccountBalance
+                        .Should().BeGreaterOrEqualTo(checkingBefore, $"{actual}");
                 }
             });
+    }
+
+    [Test]
+    public void CompleteMonth()
+    {
+        // arrange
+        var game = GameState.Moderate();
+
+        // act
+        for (var i = 0; i < GameState.DaysInMonth; i++)
+        {
+            game = GameEngine.Instant(new() { GoToWork = true }, game).Game;
+        }
+
+        // assert
+        game.Day
+            .Should().Be((DayOfYear)(YearalMonth.February, 1));
     }
 }
