@@ -17,9 +17,7 @@ public record GameState(
     public static readonly YearalMonth[] Months = Enum.GetValues<YearalMonth>();
     public static readonly TimeSpan BoardEpoch = TimeSpan.FromDays(DaysInMonth);
 
-    private readonly List<DayStats> _days = Enumerable.Range(1, BoardEpoch.Days).Select(i => new DayStats((YearalMonth.January, i))).ToList();
-
-    public ReadOnlyCollection<DayStats> Days => _days.AsReadOnly();
+    public (DayStats[] DayOfMonth, DayStats YearDay) Days { get; private set; } = GetClearBoard(YearalMonth.January);
 
     private Dictionary<DayOfYear, (PowerUp.PowerUp PowerUp, decimal Savings)> _savings = [];
     public ReadOnlyDictionary<DayOfYear, (PowerUp.PowerUp PowerUp, decimal Savings)> Savings => _savings.AsReadOnly();
@@ -30,21 +28,19 @@ public record GameState(
     public List<PowerUp.PowerUp> PowerUps { get; } = [];
     public DayStats CurrentDayStats => GetDayStats(this.Day);
 
-    public DayStats GetDayStats(DayOfYear day) => Days[day.DayNumber() - 1];
+    public DayStats GetDayStats(DayOfYear day) => day.Match(dayOfMonth => Days.DayOfMonth[dayOfMonth.DayOfMonth - 1], yearDay => Days.YearDay);
+
+    private static (DayStats[] DayOfMonth, DayStats YearDay) GetClearBoard(YearalMonth month) => (Enumerable.Range(1, BoardEpoch.Days).Select(i => new DayStats((month, i))).ToArray(), new DayStats(YearDay.Instance));
 
     public GameState GoToNextDay()
     {
-        var lastDay = _days.Last().Day.DayNumber();
-        var nextDay = Day.AddDays(1);
-
-        if(nextDay.DayNumber() > lastDay)
+        // reset board if Year Day or last day of month
+        if (Day.TryPickT1(out var yearDay, out var dayOfMonth) || dayOfMonth.DayOfMonth == 28)
         {
-            var day = new DayStats(nextDay);
-
-            _days.Add(day);
+            this.Days = GetClearBoard(YearalMonth.January);
         }
 
-        return this with { Day = nextDay };
+        return this with { Day = Day.AddDays(1) };
     }
 
     public static GameState Moderate()

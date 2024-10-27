@@ -21,7 +21,7 @@
         <MudSimpleTable Class="flex-grow-1">
             <tbody>
             <tr>
-                @foreach (var day in _game.Days.Take(8))
+                @foreach (var day in _game.Days.DayOfMonth.Take(8))
                 {
                     <DayView Day="day.Day" Game="_game" />
                 }
@@ -29,8 +29,8 @@
                 @{
                     const int NumMiddleRows = 6;
 
-                    var middleRows = _game.Days.ToList()[8..(8 + NumMiddleRows)].ToList();
-                    middleRows.AddRange(_game.Days.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows)..GameState.BoardEpoch.Days]);
+                    var middleRows = _game.Days.DayOfMonth.ToList()[8..(8 + NumMiddleRows)].ToList();
+                    middleRows.AddRange(_game.Days.DayOfMonth.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows)..GameState.BoardEpoch.Days]);
 
                     for (var i = 0; i < NumMiddleRows; i++)
                     {
@@ -74,7 +74,7 @@
                     }
             }
             <tr>
-                @foreach (var day in ((IEnumerable<DayStats>)_game.Days.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows - 8)..(GameState.BoardEpoch.Days - NumMiddleRows)]).Reverse())
+                    @foreach (var day in ((IEnumerable<DayStats>)_game.Days.DayOfMonth.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows - 8)..(GameState.BoardEpoch.Days - NumMiddleRows)]).Reverse())
                 {
                     <DayView Day="day.Day" Game="_game" />
                 }
@@ -89,7 +89,6 @@
                 <MudButton OnClick="OnSleep" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary">Sleep</MudButton>
                 <MudButton OnClick="OnRobot" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary">@_robotButtonText</MudButton>
                 <MudButton OnClick="OnInstantSpin" Variant="Variant.Filled" Color="Color.Primary">Work & Sleep</MudButton>
-                <MudButton OnClick="OnDebug" Variant="Variant.Filled" Color="Color.Primary">Debug</MudButton>
             </MudStack>
             <MudStack Row="true" Spacing="3">
                 <MudButton OnClick="OnInstantPayRaise" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Model.Game.PowerUp.InstantPayRaise))">Levy Wizard</MudButton>
@@ -123,7 +122,7 @@
         <MudSimpleTable Class="flex-grow-1">
             <tbody>
             <tr>
-                @foreach (var day in _game.Days.Take(8))
+                    @foreach (var day in _game.Days.DayOfMonth.Take(8))
                 {
                     <DayView Day="day.Day" Game="_game"/>
                 }
@@ -131,8 +130,8 @@
             @{
                 const int NumMiddleRows = 6;
 
-                var middleRows = _game.Days.ToList()[8..(8 + NumMiddleRows)].ToList();
-                middleRows.AddRange(_game.Days.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows)..GameState.BoardEpoch.Days]);
+                var middleRows = _game.Days.DayOfMonth.ToList()[8..(8 + NumMiddleRows)].ToList();
+                middleRows.AddRange(_game.Days.DayOfMonth.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows)..GameState.BoardEpoch.Days]);
 
                 for (var i = 0; i < NumMiddleRows; i++)
                 {
@@ -162,7 +161,7 @@
                 }
             }
             <tr>
-                @foreach (var day in ((IEnumerable<DayStats>)_game.Days.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows - 8)..(GameState.BoardEpoch.Days - NumMiddleRows)]).Reverse())
+                @foreach (var day in ((IEnumerable<DayStats>)_game.Days.DayOfMonth.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows - 8)..(GameState.BoardEpoch.Days - NumMiddleRows)]).Reverse())
                 {
                     <DayView Day="day.Day" Game="_game"/>
                 }
