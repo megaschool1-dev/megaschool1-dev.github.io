@@ -52,13 +52,22 @@ public partial class DayOfYear : OneOfBase<(YearalMonth Month, int DayOfMonth), 
  
     public DayOfYear AddDays(int numDays)
     {
-        var currentDayNumber = this.DayNumber();
-        var (month, dayZeroIndexed) = Math.DivRem(currentDayNumber + numDays - 1, GameState.DaysInMonth);
+        var targetDayNumber = this.DayNumber() + numDays;
+        (int YearNumber, int DayOfYear) target = Math.DivRem(targetDayNumber, 365);
 
-        return Math.DivRem(currentDayNumber + numDays, 365).Remainder == 0 
-            ? new YearDay()
-            : (Enum.GetValues<YearalMonth>()[month], dayZeroIndexed + 1);
+        if(target.DayOfYear == 0)
+        {
+            return YearDay.Instance;
+        }
+        else
+        {
+            var targetDayOfMonth = Math.DivRem(target.DayOfYear, GameState.DaysInMonth);
+
+            return (Enum.GetValues<YearalMonth>()[((targetDayNumber - 1) / GameState.DaysInMonth) % GameState.Months.Length], targetDayOfMonth.Remainder != 0 ? targetDayOfMonth.Remainder : 28);
+        }
     }
+
+    public override string ToString() => this.Match(nonYearDay => $"{nonYearDay.Month} {nonYearDay.DayOfMonth}", yearDay => "Year Day");
 
     public static bool operator ==(DayOfYear first, DayOfYear second) => first.DayNumber() == second.DayNumber();
 

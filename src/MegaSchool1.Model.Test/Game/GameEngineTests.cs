@@ -107,4 +107,48 @@ public class GameEngineTests
         game.Day
             .Should().Be((DayOfYear)(YearalMonth.February, 1));
     }
+
+    [TestCase(YearalMonth.January, 1, YearalMonth.January, 2)]
+    [TestCase(YearalMonth.January, 27, YearalMonth.January, 28)]
+    [TestCase(YearalMonth.January, 28, YearalMonth.February, 1)]
+    public void AddDay(YearalMonth currentMonth, int currentDayOfMonth, YearalMonth expectedMonth, int expectedDayOfMonth)
+    {
+        // arrange
+        var day = new DayOfYear((currentMonth, currentDayOfMonth));
+
+        // act
+        var actual = day.AddDays(1);
+
+        // assert
+        actual
+            .Should().Be((DayOfYear)(expectedMonth, expectedDayOfMonth));
+    }
+
+    [Test]
+    public void AddDay_LastDayOfYear()
+    {
+        // arrange
+        var day = new DayOfYear((YearalMonth.December, 28));
+
+        // act
+        var actual = day.AddDays(1);
+
+        // assert
+        actual
+            .Should().Be((DayOfYear)YearDay.Instance);
+    }
+
+    [Test]
+    public void AddDay_YearDay()
+    {
+        // arrange
+        var day = new DayOfYear(YearDay.Instance);
+
+        // act
+        var actual = day.AddDays(1);
+
+        // assert
+        actual
+            .Should().Be((DayOfYear)(YearalMonth.January, 1));
+    }
 }
