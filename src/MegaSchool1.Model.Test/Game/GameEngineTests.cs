@@ -135,14 +135,14 @@ public class GameEngineTests
 
         // assert
         actual
-            .Should().Be((DayOfYear)new YearDay());
+            .Should().Be((DayOfYear)YearDay.Instance);
     }
 
     [Test]
     public void AddDay_YearDay()
     {
         // arrange
-        var day = new DayOfYear(new YearDay());
+        var day = new DayOfYear(YearDay.Instance);
 
         // act
         var actual = day.AddDays(1);

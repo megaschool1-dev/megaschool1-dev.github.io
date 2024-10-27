@@ -53,27 +53,18 @@ public partial class DayOfYear : OneOfBase<(YearalMonth Month, int DayOfMonth), 
     public DayOfYear AddDays(int numDays)
     {
         var targetDayNumber = this.DayNumber() + numDays;
-        var dayOfYear = targetDayNumber % 365;
         (int YearNumber, int DayOfYear) target = Math.DivRem(targetDayNumber, 365);
 
         if(target.DayOfYear == 0)
         {
-            return new YearDay();
+            return YearDay.Instance;
         }
         else
         {
-            var (monthZeroIndexed, dayZeroIndexed) = Math.DivRem(target.DayOfYear, GameState.DaysInMonth);
-            // return (Enum.GetValues<YearalMonth>()[((targetDayNumber - 1) / GameState.DaysInMonth) % GameState.Months.Length], ((targetDayNumber - 1) % GameState.DaysInMonth) + 1);
             var targetDayOfMonth = Math.DivRem(target.DayOfYear, GameState.DaysInMonth);
+
             return (Enum.GetValues<YearalMonth>()[((targetDayNumber - 1) / GameState.DaysInMonth) % GameState.Months.Length], targetDayOfMonth.Remainder != 0 ? targetDayOfMonth.Remainder : 28);
         }
-
-        //var dayOfYearZeroIndexed = Math.DivRem(currentDayNumber, 365).Remainder;
-        //var (monthZeroIndexed, dayZeroIndexed) = Math.DivRem((dayOfYearZeroIndexed + 1) + numDays, GameState.DaysInMonth);
-
-        //return Math.DivRem(currentDayNumber + numDays, 365).Remainder == 0 
-        //    ? new YearDay()
-        //    : (Enum.GetValues<YearalMonth>()[monthZeroIndexed], dayZeroIndexed + 1);
     }
 
     public override string ToString() => this.Match(nonYearDay => $"{nonYearDay.Month} {nonYearDay.DayOfMonth}", yearDay => "Year Day");

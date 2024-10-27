@@ -48,7 +48,7 @@
                                                 <MudCardContent>
                                                     <MudStack>
                                                         <MudText Align="Align.Center">In: <br/> @_game.CurrentDayStats.Income.Gross.ToString("C")</MudText>
-                                                            <Centered><MudLink Disabled="!_game.CurrentDayStats.CompletedActiveIncomeWork" OnClick="@(async () => await ShowSimpleDialogAsync(string.Join("<br/><br/>", _game.CurrentDayStats.Incomes.Select(i => $"{i.Income.Description}: {i.Gross:C}"))))">Detail</MudLink></Centered>
+                                                        <Centered><MudLink Disabled="!_game.CurrentDayStats.CompletedActiveIncomeWork" OnClick="@(async () => await ShowSimpleDialogAsync(string.Join("<br/><br/>", _game.CurrentDayStats.Incomes.Select(i => $"{i.Income.Description}: {i.Gross:C}"))))">Detail</MudLink></Centered>
                                                     </MudStack>
                                                 </MudCardContent>
                                             </MudCard>
