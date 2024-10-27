@@ -5,14 +5,14 @@
 
 <ResponsiveLayout>
     <MobileContent>
-        <td class="pa-0" style="@(ViewModel.Day.AsT0.DayOfMonth == Game.Day.AsT0.DayOfMonth ? "border-color:red; border-width:5px; width:1%;" : string.Empty)">
+        <td class="pa-0" style="@(ViewModel.Day.TryPickT0(out var day, out _) && Game.Day.TryPickT0(out var today, out _) && day.DayOfMonth == today.DayOfMonth ? "border-color:red; border-width:5px; width:1%;" : string.Empty)">
             <MudText Typo="Typo.subtitle1" Align="Align.Center">@GetDayOfWeekAbbreviation(ViewModel.Day.AsT0)</MudText>
         </td>
     </MobileContent>
     <DesktopContent>
-        <td class="" style="@(ViewModel.Day.AsT0.DayOfMonth == Game.Day.AsT0.DayOfMonth ? "border-color:red; border-width:5px; width:1%;" : string.Empty)">
+        <td class="" style="@(ViewModel.Day.TryPickT0(out var day, out _) && Game.Day.TryPickT0(out var today, out _) && day.DayOfMonth == today.DayOfMonth ? "border-color:red; border-width:5px; width:1%;" : string.Empty)">
             <MudStack>
-                <MudText>@ViewModel.Day.AsT0.DayOfWeek()</MudText>
+                <MudText>@ViewModel.Day.Match(nonYearDay => $"{nonYearDay.DayOfWeek()}", yearDay => "Year Day")</MudText>
                 <MudText>Job: @ViewModel.Income.Net.ToString("C")</MudText>
                 @foreach (var expense in Game.Expenses.Where(e => e.IsDueOn(ViewModel.Day)))
                 {
@@ -26,7 +26,7 @@
 @code {
     private Breakpoint _breakpoint;
 
-    private DayStats ViewModel => this.Game.Days[this.Day.DayNumber() - 1];
+    private DayStats ViewModel => this.Game.Days.DayOfMonth[this.Day.DayNumber() - 1];
 
     [Parameter]
     public DayOfYear Day { get; set; } = (YearalMonth.January, 1);

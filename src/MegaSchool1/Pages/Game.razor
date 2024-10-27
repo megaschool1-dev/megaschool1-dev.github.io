@@ -21,7 +21,7 @@
         <MudSimpleTable Class="flex-grow-1">
             <tbody>
             <tr>
-                @foreach (var day in _game.Days.Take(8))
+                @foreach (var day in _game.Days.DayOfMonth.Take(8))
                 {
                     <DayView Day="day.Day" Game="_game" />
                 }
@@ -29,50 +29,52 @@
                 @{
                     const int NumMiddleRows = 6;
 
-                    var middleRows = _game.Days.ToList()[8..(8 + NumMiddleRows)].ToList();
-                    middleRows.AddRange(_game.Days.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows)..GameState.BoardEpoch.Days]);
+                    var middleRows = _game.Days.DayOfMonth.ToList()[8..(8 + NumMiddleRows)].ToList();
+                    middleRows.AddRange(_game.Days.DayOfMonth.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows)..GameState.BoardEpoch.Days]);
 
                     for (var i = 0; i < NumMiddleRows; i++)
-                {
-                    <tr>
-                        <DayView Day="middleRows.Last().Day" Game="_game" />
-                        @if (i == 0)
-                        {
-                            <td rowspan="6" colspan="6" style="vertical-align:top; object-fit:contain;">
-                                <MudStack Style="object-fit:contain;">
-                                    <MudText Align="Align.Center">@_game.Day.AsT0.Month @_game.Day.AsT0.DayOfMonth</MudText>
-                                    <MudText Align="Align.Center">Stash: @_game.CurrentDayStats.Income.Net.ToString("C")</MudText>
-                                    <MudStack Row="true" Style="object-fit:contain;">
-                                        <MudCard Outlined="true" Style="object-fit:contain;">
-                                            <MudCardContent>
-                                                <MudStack>
-                                                    <MudText Align="Align.Center">In: <br/> @_game.CurrentDayStats.Income.Gross.ToString("C")</MudText>
+                    {
+                        <tr>
+                            <DayView Day="middleRows.Last().Day" Game="_game" />
+                        
+                            @if (i == 0)
+                            {
+                                <td rowspan="6" colspan="6" style="vertical-align:top; object-fit:contain;">
+                                    <MudStack Style="object-fit:contain;">
+                                        <MudText Align="Align.Center">@_game.Day.Match(nonYearDay => $"{nonYearDay.Month} {nonYearDay.DayOfMonth}", yearDay => "Year Day")</MudText>
+                                        <MudText Align="Align.Center">Stash: @_game.CurrentDayStats.Income.Net.ToString("C")</MudText>
+                                        <MudStack Row="true" Style="object-fit:contain;">
+                                            <MudCard Outlined="true" Style="object-fit:contain;">
+                                                <MudCardContent>
+                                                    <MudStack>
+                                                        <MudText Align="Align.Center">In: <br/> @_game.CurrentDayStats.Income.Gross.ToString("C")</MudText>
                                                         <Centered><MudLink Disabled="!_game.CurrentDayStats.CompletedActiveIncomeWork" OnClick="@(async () => await ShowSimpleDialogAsync(string.Join("<br/><br/>", _game.CurrentDayStats.Incomes.Select(i => $"{i.Income.Description}: {i.Gross:C}"))))">Detail</MudLink></Centered>
-                                                </MudStack>
-                                            </MudCardContent>
-                                        </MudCard>
-                                        <MudSpacer/>
-                                        <MudCard Outlined="true" Style="object-fit:contain;">
-                                            <MudCardContent>
-                                                <MudStack>
-                                                    <MudText Align="Align.Center">Out: <br /> @((_game.CurrentDayStats.Income.Gross - _game.CurrentDayStats.Income.Net).ToString("C"))</MudText>
-                                                    <Centered><MudLink Disabled="!_game.CurrentDayStats.CompletedActiveIncomeWork" OnClick="@(async () => await ShowSimpleDialogAsync(string.Join($"<br/><br/>", Enumerable.Union(_game.CurrentDayStats.Thefts, _game.Expenses.Where(e => e.IsDueOn(_game.Day)).Select(e => (Name: e.Description, Amount: e.Amount))).Select(e => $"{e.Name}: {e.Amount:C}"))))">Detail</MudLink></Centered>
-                                                </MudStack>
-                                            </MudCardContent>
-                                        </MudCard>
+                                                    </MudStack>
+                                                </MudCardContent>
+                                            </MudCard>
+                                            <MudSpacer/>
+                                            <MudCard Outlined="true" Style="object-fit:contain;">
+                                                <MudCardContent>
+                                                    <MudStack>
+                                                        <MudText Align="Align.Center">Out: <br /> @((_game.CurrentDayStats.Income.Gross - _game.CurrentDayStats.Income.Net).ToString("C"))</MudText>
+                                                        <Centered><MudLink Disabled="!_game.CurrentDayStats.CompletedActiveIncomeWork" OnClick="@(async () => await ShowSimpleDialogAsync(string.Join($"<br/><br/>", Enumerable.Union(_game.CurrentDayStats.Thefts, _game.Expenses.Where(e => e.IsDueOn(_game.Day)).Select(e => (Name: e.Description, Amount: e.Amount))).Select(e => $"{e.Name}: {e.Amount:C}"))))">Detail</MudLink></Centered>
+                                                    </MudStack>
+                                                </MudCardContent>
+                                            </MudCard>
+                                        </MudStack>
                                     </MudStack>
-                                </MudStack>
-                            </td>
-                        }
-                        <DayView Day="middleRows.First().Day" Game="_game" />
-                    </tr>
+                                </td>
+                            }
+                            
+                            <DayView Day="middleRows.First().Day" Game="_game" />
+                        </tr>
 
-                    middleRows.Remove(middleRows.First());
-                    middleRows.Remove(middleRows.Last());
-                }
+                        middleRows.Remove(middleRows.First());
+                        middleRows.Remove(middleRows.Last());
+                    }
             }
             <tr>
-                @foreach (var day in ((IEnumerable<DayStats>)_game.Days.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows - 8)..(GameState.BoardEpoch.Days - NumMiddleRows)]).Reverse())
+                    @foreach (var day in ((IEnumerable<DayStats>)_game.Days.DayOfMonth.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows - 8)..(GameState.BoardEpoch.Days - NumMiddleRows)]).Reverse())
                 {
                     <DayView Day="day.Day" Game="_game" />
                 }
@@ -120,7 +122,7 @@
         <MudSimpleTable Class="flex-grow-1">
             <tbody>
             <tr>
-                @foreach (var day in _game.Days.Take(8))
+                    @foreach (var day in _game.Days.DayOfMonth.Take(8))
                 {
                     <DayView Day="day.Day" Game="_game"/>
                 }
@@ -128,8 +130,8 @@
             @{
                 const int NumMiddleRows = 6;
 
-                var middleRows = _game.Days.ToList()[8..(8 + NumMiddleRows)].ToList();
-                middleRows.AddRange(_game.Days.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows)..GameState.BoardEpoch.Days]);
+                var middleRows = _game.Days.DayOfMonth.ToList()[8..(8 + NumMiddleRows)].ToList();
+                middleRows.AddRange(_game.Days.DayOfMonth.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows)..GameState.BoardEpoch.Days]);
 
                 for (var i = 0; i < NumMiddleRows; i++)
                 {
@@ -139,7 +141,7 @@
                         {
                             <td rowspan="6" colspan="6" style="vertical-align:top;">
                                 <MudStack>
-                                    <MudText Align="Align.Center">@_game.Day.AsT0.Month @_game.Day.AsT0.DayOfMonth</MudText>
+                                    <MudText Align="Align.Center">@_game.Day.Match(nonYearDay => $"{nonYearDay.Month} {nonYearDay.DayOfMonth}", yearDay => "Year Day")</MudText>
                                     <MudText>Checking: @_game.CheckingAccountBalance.ToString("C")</MudText>
                                     <MudText>Savings: @_game.SavingsAccountBalance.ToString("C")</MudText>
                                     <MudText>Successive Work Days: @_game.SuccessiveWorkDays - </MudText>
@@ -159,7 +161,7 @@
                 }
             }
             <tr>
-                @foreach (var day in ((IEnumerable<DayStats>)_game.Days.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows - 8)..(GameState.BoardEpoch.Days - NumMiddleRows)]).Reverse())
+                @foreach (var day in ((IEnumerable<DayStats>)_game.Days.DayOfMonth.ToList()[(GameState.BoardEpoch.Days - NumMiddleRows - 8)..(GameState.BoardEpoch.Days - NumMiddleRows)]).Reverse())
                 {
                     <DayView Day="day.Day" Game="_game"/>
                 }
@@ -314,9 +316,9 @@
 
     private void OnDebug()
     {
-        foreach (var expense in _game.Expenses.Where(e => e.IsDueOn(_game.Day)))
+        for(var i = 0; i< 365 - 1 - 1; i++)
         {
-            ;
+            _game = GameEngine.Instant(new() { GoToWork = true }, _game).Game;
         }
     }
 

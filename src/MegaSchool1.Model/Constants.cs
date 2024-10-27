@@ -186,7 +186,12 @@ public record Html5(Uri Uri);
 
 public record Wistia(string VideoId);
 
-public class YearDay;
+public class YearDay
+{
+    public static readonly YearDay Instance = new();
+
+    private YearDay() { }
+}
 
 public enum YearalMonth
 {
