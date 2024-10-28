@@ -30,7 +30,7 @@ public static class GameEngine
         return (processedPowerUps.ToArray(), game);
     }
 
-    public static (Expense.Expense[] Expenses, GameState game) ProcessExpensesForCurrentDay(GameState game)
+    public static (Expense.Expense[] Expenses, GameState Game) ProcessExpensesForCurrentDay(GameState game)
     {
         var processedExpenses = new List<Expense.Expense>();
 
@@ -43,6 +43,7 @@ public static class GameEngine
             }
         }
 
+        game.CurrentDayStats.Expenses.AddRange(processedExpenses);
         game.CurrentDayStats.ProcessedExpenses = true;
 
         return (processedExpenses.ToArray(), game);
@@ -227,14 +228,17 @@ public static class GameEngine
         {
             (dailyIncomes, game) = EarnIncomeForCurrentDay(game);
         }
-        else
+
+        var wentToWorkToday = game.CurrentDayStats.Incomes.Any();
+        game = game with
         {
-            game = game with { SuccessiveWorkDays = 0, SickDayLikelihood = Percentage.From(0) };
-        }
+            SuccessiveWorkDays = wentToWorkToday ? game.SuccessiveWorkDays : 0,
+            SickDayLikelihood = wentToWorkToday ? game.SickDayLikelihood : Percentage.From(0)
+        };
 
         // expense
         var expenseReport = ProcessExpensesForCurrentDay(game);
-        game = expenseReport.game;
+        game = expenseReport.Game;
 
         // power ups
         var powerUpResults = ProcessPowerUpsForCurrentDay(game);
