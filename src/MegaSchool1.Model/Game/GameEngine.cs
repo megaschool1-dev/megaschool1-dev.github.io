@@ -228,10 +228,13 @@ public static class GameEngine
         {
             (dailyIncomes, game) = EarnIncomeForCurrentDay(game);
         }
-        else
+
+        var wentToWorkToday = game.CurrentDayStats.Incomes.Any();
+        game = game with
         {
-            game = game with { SuccessiveWorkDays = 0, SickDayLikelihood = Percentage.From(0) };
-        }
+            SuccessiveWorkDays = wentToWorkToday ? game.SuccessiveWorkDays : 0,
+            SickDayLikelihood = wentToWorkToday ? game.SickDayLikelihood : Percentage.From(0)
+        };
 
         // expense
         var expenseReport = ProcessExpensesForCurrentDay(game);
