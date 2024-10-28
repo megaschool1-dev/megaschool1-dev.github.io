@@ -40,7 +40,10 @@ public record GameState(
             this.Days = GetClearBoard(YearalMonth.January);
         }
 
-        return this with { Day = Day.AddDays(1) };
+        var updatedGame = this with { Day = Day.AddDays(1) };
+        updatedGame = GameEngine.ProcessExpensesForCurrentDay(updatedGame).Game;
+
+        return updatedGame;
     }
 
     public static GameState Moderate()
@@ -84,6 +87,9 @@ public record GameState(
             var apy = Percentage.From(0.055m);
             game.Debts.Add(new("Student Loan", balance, apy, balance * apy.Value / Enum.GetValues<YearalMonth>().Length));
         }
+
+        // proces expenses
+        game = GameEngine.ProcessExpensesForCurrentDay(game).Game;
 
         return game;
     }
