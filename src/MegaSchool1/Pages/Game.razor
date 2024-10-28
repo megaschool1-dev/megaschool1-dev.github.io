@@ -421,13 +421,6 @@
             await ShowSimpleDialogAsync($"You earned {income.Gross:C} today from {income.Income.Description}!");
             await ShowTheftDialogsAsync(income.Income, income.Income.Thefts, TimeSpan.FromSeconds(2));
         }
-
-        // expense
-        // foreach (var expense in spin.Billings)
-        // {
-        //     await ShowSimpleDialogAsync($"{expense.Description} bill is due! - {expense.Amount:C}");
-        // }
-
     }
 
     private async Task OnRobot()
