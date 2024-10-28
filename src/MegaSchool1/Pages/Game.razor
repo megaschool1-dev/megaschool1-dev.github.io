@@ -56,8 +56,8 @@
                                             <MudCard Outlined="true" Style="object-fit:contain;">
                                                 <MudCardContent>
                                                     <MudStack>
-                                                        <MudText Align="Align.Center">Out: <br /> @((_game.CurrentDayStats.Income.Gross - _game.CurrentDayStats.Income.Net).ToString("C"))</MudText>
-                                                        <Centered><MudLink Disabled="!_game.CurrentDayStats.CompletedActiveIncomeWork" OnClick="@(async () => await ShowSimpleDialogAsync(string.Join($"<br/><br/>", Enumerable.Union(_game.CurrentDayStats.Thefts, _game.Expenses.Where(e => e.IsDueOn(_game.Day)).Select(e => (Name: e.Description, Amount: e.Amount))).Select(e => $"{e.Name}: {e.Amount:C}"))))">Detail</MudLink></Centered>
+                                                        <MudText Align="Align.Center">Out: <br /> @((_game.CurrentDayStats.Thefts.Sum(t => t.Amount) + _game.CurrentDayStats.Expenses.Sum(e => e.Amount)).ToString("C"))</MudText>
+                                                        <Centered><MudLink Disabled="@(!_game.CurrentDayStats.Thefts.Any() && !_game.CurrentDayStats.Expenses.Any())" OnClick="@(async () => await ShowSimpleDialogAsync(string.Join($"<br/><br/>", Enumerable.Union(_game.CurrentDayStats.Thefts, _game.CurrentDayStats.Expenses.Select(e => (Name: e.Description, Amount: e.Amount))).Select(e => $"{e.Name}: {e.Amount:C}"))))">Detail</MudLink></Centered>
                                                     </MudStack>
                                                 </MudCardContent>
                                             </MudCard>
@@ -83,25 +83,25 @@
         </MudSimpleTable>
         <br/>
         <br/>
-        <MudStack Spacing="3">
+        <MudStack Spacing="4">
             <MudStack Row="true" Spacing="3">
-                <MudButton OnClick="OnWork" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" Disabled="@_game.CurrentDayStats.CompletedActiveIncomeWork">Work</MudButton>
-                <MudButton OnClick="OnSleep" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary">Sleep</MudButton>
-                <MudButton OnClick="OnRobot" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary">@_robotButtonText</MudButton>
-                <MudButton OnClick="OnInstantSpin" Variant="Variant.Filled" Color="Color.Primary">Work & Sleep</MudButton>
+                <MudButton OnClick="OnWork" Size="Size.Large" Variant="Variant.Filled" Color="Color.Primary" Disabled="@_game.CurrentDayStats.CompletedActiveIncomeWork">Work</MudButton>
+                <MudSpacer/>
+                <MudButton OnClick="OnSleep" Size="Size.Large" Variant="Variant.Filled" Color="Color.Primary">Sleep</MudButton>
             </MudStack>
-            <MudStack Row="true" Spacing="3">
-                <MudButton OnClick="OnInstantPayRaise" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Model.Game.PowerUp.InstantPayRaise))">Levy Wizard</MudButton>
-                <MudButton OnClick="OnBillNegotiatorSummon" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Model.Game.PowerUp.BillNegotiator))">The Negotiator</MudButton>
-                <MudButton OnClick="OnTreasureMasters" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.Expenses.Any(e => e is TreasureMasterMembership))">Treasure Masters</MudButton>
-            </MudStack>
-            <MudStack>
-                <MudText Align="Align.Center">Stats</MudText>
-                <MudText>Checking: @_game.CheckingAccountBalance.ToString("C")</MudText>
-                <MudText>Savings: @_game.SavingsAccountBalance.ToString("C")</MudText>
-                <MudText>Successive Work Days: @_game.SuccessiveWorkDays</MudText>
-                <MudText>Sick Day Likelihood: @_game.SickDayLikelihood%</MudText>
-            </MudStack>
+            <Centered>
+                <MudCard Outlined="true">
+                    <MudCardContent>
+                        <MudStack>
+                            <MudText Align="Align.Center">Stats</MudText>
+                            <MudText>Checking: @_game.CheckingAccountBalance.ToString("C")</MudText>
+                            <MudText>Savings: @_game.SavingsAccountBalance.ToString("C")</MudText>
+                            <MudText>Successive Work Days: @_game.SuccessiveWorkDays</MudText>
+                            <MudText>Sick Day Likelihood: @_game.SickDayLikelihood%</MudText>
+                        </MudStack>
+                    </MudCardContent>
+                </MudCard>
+            </Centered>
         </MudStack>
     </MobileContent>
     <DesktopContent>
@@ -383,7 +383,7 @@
     {
         _theftDialogViewModel = new(income, theft);
 
-        _simpleDialogMessage = $"Oh, no! You just got robbed of {_theftDialogViewModel.Theft.StolenOn(_theftDialogViewModel.Income, _game.Day):C} by {_theftDialogViewModel.Theft.Name}!";
+        _simpleDialogMessage = $"Oh, no! You just got robbed of {_theftDialogViewModel.Theft.StolenOn(_theftDialogViewModel.Income, _game.Day).Match(amount => amount, none => 0.0m):C} by {_theftDialogViewModel.Theft.Name}!";
         await _simpleDialog.ShowModalAsync(autoClose);
     }
 
@@ -412,9 +412,22 @@
         await SpinAsync();
     }
 
-    private void OnWork()
+    private async Task OnWork()
     {
         _game = GameEngine.EarnIncomeForCurrentDay(_game).Game;
+
+        foreach (var income in _game.CurrentDayStats.Incomes)
+        {
+            await ShowSimpleDialogAsync($"You earned {income.Gross:C} today from {income.Income.Description}!");
+            await ShowTheftDialogsAsync(income.Income, income.Income.Thefts, TimeSpan.FromSeconds(2));
+        }
+
+        // expense
+        // foreach (var expense in spin.Billings)
+        // {
+        //     await ShowSimpleDialogAsync($"{expense.Description} bill is due! - {expense.Amount:C}");
+        // }
+
     }
 
     private async Task OnRobot()
