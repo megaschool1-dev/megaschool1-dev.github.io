@@ -2,50 +2,41 @@
 @inherits ShareableCapturePage
 @using MegaSchool1.Components
 @using MegaSchool1.Model
+@using MegaSchool1.Model.Dto
 @using MegaSchool1.Pages.CapturePage
+@using Serilog
+@inject UISettings UI
+@inject Repository.Repository Repo
+@inject ClientSettings DefaultClientSettings
 
-<MudText Align="Align.Center" Typo="Typo.h6">Wealth Syndicate Classes<br/>aka "Learning Paths"</MudText>
-<br/>
-<MudText Align="Align.Center">First class is FREE! <br/> Subsequent classes are $150 per course.*</MudText>
-<br/>
-<br/>
 <MudStack Spacing="3">
-    <MudCard Outlined="true">
-        <MudCardHeader>Bitcoin for Dummies (and other cryptos)</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.BitcoinPreview))" />
-                <MudText Align="Align.Center">Learn what Bitcoin is and how to make money with cryptocurrencies.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Wealth Management for Business Owners</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.BizOwnerPique))" />
-                <MudText Align="Align.Center">Learn how to multiply and protect your profits, and increase employee retention.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Church Financial Stewardship Ministries</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.FaithAndFinance))" />
-                <MudText Align="Align.Center">Learn how to receive God's FULL provision and share it with the Body of Christ!</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Buy Your Teen's First Car NOW!</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.HowBanksMakeMoney))" />
-                <MudText Align="Align.Center">How to buy your teen a $3,000 car WITHOUT making more money!</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
+    <MudText Align="Align.Center" Typo="Typo.h6">Wealth Syndicate Classes<br />aka "Learning Paths"</MudText>
+    <MudText Align="Align.Center">First class is FREE! <br /> Subsequent classes are $150 per course.*</MudText>
+    <br />
+    <Centered><MudButton OnClick="OnAddContent" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" n Color="Color.Primary">Add</MudButton></Centered>
+    @foreach (var classInfo in _classes)
+    {
+        <MudCard Outlined="true">
+            <MudCardHeader>@classInfo.ClassName</MudCardHeader>
+            <MudCardContent>
+                <MudStack Spacing="3">
+                    <EmbeddedVideo Video="@((classInfo.ContentId == Content.Custom ? GetVideo(classInfo) : GetVideo(classInfo.ContentId)))" />
+                    <MudText Align="Align.Center">@classInfo.ClassDescription</MudText>
+                    <MudStack Row="true">
+                        <MudIconButton OnClick="async () => await OnMoveUp(classInfo)" Icon="@Icons.Material.Filled.ArrowCircleUp" Color="Color.Primary" />
+                        <MudIconButton OnClick="async () => await OnMoveDown(classInfo)" Icon="@Icons.Material.Filled.ArrowCircleDown" Color="Color.Primary" />
+                        <MudSpacer />
+                        @if (classInfo.ContentId == Content.Custom)
+                        {
+                            <MudIconButton OnClick="async () => await OnDelete(classInfo)" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+                        }
+                    </MudStack>
+                </MudStack>
+            </MudCardContent>
+        </MudCard>
+    }
+</MudStack>
+<MudStack Spacing="3">
     <MudCard Outlined="true">
         <MudCardHeader>Trust Fund&nbsp;<i>MY</i>&nbsp; Baby!</MudCardHeader>
         <MudCardContent>
@@ -175,3 +166,120 @@
     @* Ensure 'scroll to top' button on bottom right of screen does not cover content. *@
     <div style="height:75px;"></div>
 </MudStack>
+@code {
+    private ShareableDto[] _classes = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ReloadClassesAsync();
+    }
+
+    private async Task OnMoveUp(ShareableDto shareable)
+    {
+        const int NotFound = -1;
+
+        var clientSettings = await this.GetClientSettingsAsync();
+        var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+
+        var shareables = content.Shareables.ToList();
+        var currentIndex = shareables.FindIndex(s => s.ClassName == shareable.ClassName);
+        if (currentIndex != NotFound)
+        {
+            var targetIndex = currentIndex - 1;
+            if (targetIndex >= 0)
+            {
+                var shareableToMove = shareables.ElementAt(currentIndex);
+                shareables.Remove(shareableToMove);
+
+                shareables.Insert(targetIndex, shareableToMove);
+
+                content.Shareables = shareables.ToArray();
+                await this.SaveClientSettingsAsync(clientSettings);
+                await ReloadClassesAsync();
+            }
+        }
+    }
+
+    private async Task OnMoveDown(ShareableDto shareable)
+    {
+        const int NotFound = -1;
+
+        var clientSettings = await this.GetClientSettingsAsync();
+        var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+
+        var shareables = content.Shareables.ToList();
+        var currentIndex = shareables.FindIndex(s => s.ClassName == shareable.ClassName);
+        if (currentIndex != NotFound)
+        {
+            var targetIndex = currentIndex + 1;
+            if (targetIndex >= 0)
+            {
+                var shareableToMove = shareables.ElementAt(currentIndex);
+                shareables.Remove(shareableToMove);
+
+                shareables.Insert(targetIndex, shareableToMove);
+
+                content.Shareables = shareables.ToArray();
+                await this.SaveClientSettingsAsync(clientSettings);
+                await ReloadClassesAsync();
+            }
+        }
+    }
+
+    private async Task OnDelete(ShareableDto shareable)
+    {
+        if(shareable.ContentId == Content.Custom)
+        {
+            var clientSettings = await this.GetClientSettingsAsync();
+            var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+
+            content.Shareables = content.Shareables.Where(s => s.ClassName != shareable.ClassName).ToArray();
+
+            await this.SaveClientSettingsAsync(clientSettings);
+
+            await ReloadClassesAsync();
+        }
+    }
+
+    private async Task<ClientSettings> GetClientSettingsAsync()
+    {
+        return (await Repo.GetClientSettingsAsync())
+        .Match(
+            found => found,
+            none => DefaultClientSettings,
+            error => { Log.ForContext<Home>().Error(error.Value); return DefaultClientSettings; });
+    }
+
+    private async Task SaveClientSettingsAsync(ClientSettings settings)
+    {
+        await Repo.SaveClientSettingsAsync(settings);
+    }
+
+    private async Task ReloadClassesAsync()
+    {
+        var clientSettings = await this.GetClientSettingsAsync();
+
+        var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+
+        _classes = content.Shareables.Where(s => s.ClassName != null).ToArray();
+    }
+
+    private async Task OnAddContent()
+    {
+        var time = DateTime.Now;
+
+        var youTubeId = new Uri("https://www.youtube.com/watch?v=Lvdyi5DWNm4");
+        string param1 = System.Web.HttpUtility.ParseQueryString(youTubeId.Query).Get("v");
+
+        var newContent = new ShareableDto() { ContentId = Content.Custom, ClassName = $"Name - {time.TimeOfDay}", ClassDescription = $"Description - {time.TimeOfDay}", Id = param1, Platform = VideoPlatform.YouTube };
+
+        var clientSettings = await this.GetClientSettingsAsync();
+
+        var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+        content.Shareables = content.Shareables.Prepend(newContent).ToArray();
+
+        await this.SaveClientSettingsAsync(clientSettings);
+
+        await ReloadClassesAsync();
+    }
+}

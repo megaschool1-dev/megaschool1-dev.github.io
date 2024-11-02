@@ -23,6 +23,7 @@ var cacheBypass = $"?v={typeof(Program).Assembly.GetName().Version?.ToString(3)}
 var clientSettings = await http.GetFromJsonAsync<ClientSettings>($"appsettings.json{cacheBypass}", new System.Text.Json.JsonSerializerOptions() { Converters = { new UnknownEnumConverter() } });
 
 builder.Services
+    .AddSingleton(clientSettings)
     .AddSingleton(sp => clientSettings?.UI ?? new())
     .AddSingleton(sp => new Constants(sp.GetRequiredService<UISettings>(), sp.GetRequiredService<NavigationManager>()))
     .AddSingleton(sp => new Mappers());

@@ -5,7 +5,6 @@ using MegaSchool1.Model.API;
 using MegaSchool1.Repository.Model;
 using OneOf;
 using OneOf.Types;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MegaSchool1.Repository;
 
@@ -14,6 +13,7 @@ public class Repository(ILocalStorageService localStorage, HttpClient http)
     private const string SettingsKey = "settings";
     private const string UserDataKey = "user_data";
     private const string BackupKey = "backup";
+    private const string ClientSettingsKey = "client_settings";
 
     public async Task<OneOf<GlobalData, None, Error<string>>> GetGlobalDataBackupAsync()
     {
@@ -124,6 +124,31 @@ public class Repository(ILocalStorageService localStorage, HttpClient http)
     {
         await localStorage.SetItemAsync(SettingsKey, settings);
 
+    }
+
+    public async Task<OneOf<ClientSettings, None, Error<string>>> GetClientSettingsAsync()
+    {
+        try
+        {
+            if (await localStorage.ContainKeyAsync(ClientSettingsKey))
+            {
+                var foundSettings = await localStorage.GetItemAsync<ClientSettings>(ClientSettingsKey);
+                return foundSettings != null ? foundSettings : new None();
+            }
+            else
+            {
+                return new None();
+            }
+        }
+        catch (Exception e)
+        {
+            return new Error<string>(e.Message);
+        }
+    }
+
+    public async Task SaveClientSettingsAsync(ClientSettings settings)
+    {
+        await localStorage.SetItemAsync(ClientSettingsKey, settings);
     }
 
     public async Task<string?> GetUsernameAsync()
