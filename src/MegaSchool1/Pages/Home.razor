@@ -4,6 +4,8 @@
 @using MegaSchool1.Model
 @using MegaSchool1.Model.Dto
 @using MegaSchool1.Pages.CapturePage
+@using OneOf
+@using OneOf.Types
 @using Serilog
 @inject UISettings UI
 @inject Repository.Repository Repo
@@ -17,14 +19,14 @@
     @foreach (var classInfo in _classes)
     {
         <MudCard Outlined="true">
-            <MudCardHeader>@classInfo.ClassName</MudCardHeader>
+            <MudCardHeader>@((MarkupString)classInfo.ClassName)</MudCardHeader>
             <MudCardContent>
                 <MudStack Spacing="3">
                     <EmbeddedVideo Video="@((classInfo.ContentId == Content.Custom ? GetVideo(classInfo) : GetVideo(classInfo.ContentId)))" />
-                    <MudText Align="Align.Center">@classInfo.ClassDescription</MudText>
+                    <MudText Align="Align.Center">@((MarkupString)classInfo.ClassDescription)</MudText>
                     <MudStack Row="true">
-                        <MudIconButton OnClick="async () => await OnMoveUp(classInfo)" Icon="@Icons.Material.Filled.ArrowCircleUp" Color="Color.Primary" />
-                        <MudIconButton OnClick="async () => await OnMoveDown(classInfo)" Icon="@Icons.Material.Filled.ArrowCircleDown" Color="Color.Primary" />
+                        <MudIconButton OnClick="async () => await OnMoveUp(classInfo)" Disabled="@(Array.IndexOf(_classes, classInfo) == 0)" Icon="@Icons.Material.Filled.ArrowCircleUp" Color="Color.Primary" />
+                        <MudIconButton OnClick="async () => await OnMoveDown(classInfo)" Disabled="@(Array.IndexOf(_classes, classInfo) == _classes.Length - 1)" Icon="@Icons.Material.Filled.ArrowCircleDown" Color="Color.Primary" />
                         <MudSpacer />
                         @if (classInfo.ContentId == Content.Custom)
                         {
@@ -37,15 +39,6 @@
     }
 </MudStack>
 <MudStack Spacing="3">
-    <MudCard Outlined="true">
-        <MudCardHeader>Trust Fund&nbsp;<i>MY</i>&nbsp; Baby!</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.TrustMyAssets))" />
-                <MudText Align="Align.Center">How make&nbsp;<i>YOUR</i>&nbsp; baby a trust fund baby. (Hint: you don't need to be rich!)</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
     <MudCard Outlined="true">
         <MudCardHeader>Non-Profit Fundraiser</MudCardHeader>
         <MudCardContent>
@@ -166,8 +159,126 @@
     @* Ensure 'scroll to top' button on bottom right of screen does not cover content. *@
     <div style="height:75px;"></div>
 </MudStack>
+
+<MudDialog Visible="_prospectEditDialog.Show" VisibleChanged="ProspectEditVisibleChanged">
+    <TitleContent>
+        <MudText>Add Shareable</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm @bind-IsValid="_prospectEditDialog.ValidEdit">
+            <MudStack>
+                <MudTextField @bind-Value="@_prospectEditDialog.Prospect.Url"
+                              Label="YouTube Video URL"
+                              Placeholder="YouTube Video URL"
+                              HelperText="(example: youtube.com/watch?v=LqMEQaiecLw)"
+                              AutoFocus="true"
+                              Variant="Variant.Outlined"
+                              Validation="@(new Func<string, string?>(ValidateYouTubeVideoUrl))"
+                              Required="true"
+                              RequiredError="YouTube video URL is required."
+                              Immediate="true"
+                              DebounceInterval="1.0" />
+                <MudTextField @bind-Value="@_prospectEditDialog.Prospect.Title"
+                              Label="Shareable Title"
+                              Placeholder="Shareable Title"
+                              Variant="Variant.Outlined"
+                              Validation="@(new Func<string, string?>(ValidateShareableTitle))"
+                              Required="true"
+                              RequiredError="Shareable title is required."
+                              Immediate="true"
+                              DebounceInterval="1.0" />
+                <MudTextField @bind-Value="@_prospectEditDialog.Prospect.Description"
+                              Label="Shareable Description"
+                              Placeholder="Shareable Description"
+                              Validation="@(new Func<string, string?>(ValidateShareableDescription))"
+                              Required="true"
+                              RequiredError="Shareable description is required."
+                              Variant="Variant.Outlined"
+                              Lines="8"
+                              Immediate="true" />
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+</MudDialog>
+
 @code {
     private ShareableDto[] _classes = [];
+    private (ShareableSubmission Prospect, bool Show, bool ValidEdit) _prospectEditDialog;
+
+    private class ShareableSubmission
+    {
+        public string? Url { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+    }
+
+    private async Task ProspectEditVisibleChanged(bool isVisible)
+    {
+        var clientSettings = await this.GetClientSettingsAsync();
+        var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+
+        if (!isVisible)
+        {
+            if(_prospectEditDialog.ValidEdit)
+            {
+                var youTubeUrl = new Uri(_prospectEditDialog.Prospect.Url!);
+                var youTubeVideoId = System.Web.HttpUtility.ParseQueryString(youTubeUrl.Query).Get("v");
+
+                var newShareable = new ShareableDto()
+                {
+                    ContentId = Content.Custom,
+                    AppTitle = _prospectEditDialog.Prospect.Title!,
+                    ClassName = _prospectEditDialog.Prospect.Title!,
+                    ClassDescription = _prospectEditDialog.Prospect.Description!,
+                    Id = youTubeVideoId,
+                    Platform = VideoPlatform.YouTube
+                };
+
+                content.Shareables = content.Shareables.Prepend(newShareable).ToArray();
+
+                await SaveClientSettingsAsync(clientSettings);
+
+                await ReloadClassesAsync();
+            }
+
+            _prospectEditDialog = (new(), false, false);
+        }
+    }
+
+    private static string? ValidateYouTubeVideoUrl(string youTubeVideoUrl)
+    {
+        const string YouTubeHost = "WWW.YOUTUBE.COM";
+        const string YouTubeVideoPath = "/WATCH";
+
+        var valid = Uri.IsWellFormedUriString(youTubeVideoUrl, UriKind.Absolute);
+        if(valid)
+        {
+            var uri = new Uri(youTubeVideoUrl);
+            var videoId = System.Web.HttpUtility.ParseQueryString(uri.Query).Get("v");
+
+            valid =
+                uri.Host.Equals(YouTubeHost, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                uri.AbsolutePath.Equals(YouTubeVideoPath, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                videoId != null;
+        }
+
+        return
+            string.IsNullOrWhiteSpace(youTubeVideoUrl)
+            ? "You must have a YouTube video"
+            : valid ? null : $"{youTubeVideoUrl} is NOT a YouTube video URL!";
+    }
+
+    private static string? ValidateShareableTitle(string shareableTitle)
+    {
+        return !string.IsNullOrWhiteSpace(shareableTitle) ? null : "You must have a shareable title.";
+    }
+
+    private static string? ValidateShareableDescription(string shareableDescription)
+    {
+        return !string.IsNullOrWhiteSpace(shareableDescription) ? null : "You must have a shareable description.";
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -185,7 +296,8 @@
         var currentIndex = shareables.FindIndex(s => s.ClassName == shareable.ClassName);
         if (currentIndex != NotFound)
         {
-            var targetIndex = currentIndex - 1;
+
+            var targetIndex = Math.Max(currentIndex - 1, 0);
             if (targetIndex >= 0)
             {
                 var shareableToMove = shareables.ElementAt(currentIndex);
@@ -211,7 +323,7 @@
         var currentIndex = shareables.FindIndex(s => s.ClassName == shareable.ClassName);
         if (currentIndex != NotFound)
         {
-            var targetIndex = currentIndex + 1;
+            var targetIndex = Math.Min(currentIndex + 1, shareables.Count - 1);
             if (targetIndex >= 0)
             {
                 var shareableToMove = shareables.ElementAt(currentIndex);
@@ -257,29 +369,38 @@
 
     private async Task ReloadClassesAsync()
     {
-        var clientSettings = await this.GetClientSettingsAsync();
+        var loadedClientSettings = await this.GetClientSettingsAsync();
 
-        var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+        var defaultClientSettingsEnglish = DefaultClientSettings.UI.Localizations.First(l => l == DefaultClientSettings.UI.EnglishLocale);
+        var loadedClientSettingsEnglish = loadedClientSettings.UI.Localizations.First(l => l == loadedClientSettings.UI.EnglishLocale);
 
-        _classes = content.Shareables.Where(s => s.ClassName != null).ToArray();
+        // sync w/ modifed standard shareables
+        var currentShareables = loadedClientSettingsEnglish.Shareables.ToList();
+        for (var i = 0; i < currentShareables.Count; i++)
+        {
+            if (currentShareables[i].ContentId != Content.Custom)
+            {
+                currentShareables[i] = defaultClientSettingsEnglish.Shareables.FirstOrDefault(s => s.ContentId == currentShareables[i].ContentId) ?? currentShareables[i];
+            }
+        }
+
+        // sync w/ removed standard shareables
+        currentShareables = currentShareables.Where(s => s.ClassName != null).ToList();
+
+        // sync w/ added standard shareables
+        for (var i = 0; i < defaultClientSettingsEnglish.Shareables.Length; i++)
+        {
+            if (defaultClientSettingsEnglish.Shareables[i].ClassName != null && currentShareables.All(s => s.ContentId != defaultClientSettingsEnglish.Shareables[i].ContentId))
+            {
+                currentShareables.Add(defaultClientSettingsEnglish.Shareables[i]);
+            }
+        }
+
+        _classes = currentShareables.ToArray();
     }
 
-    private async Task OnAddContent()
+    private void OnAddContent()
     {
-        var time = DateTime.Now;
-
-        var youTubeId = new Uri("https://www.youtube.com/watch?v=Lvdyi5DWNm4");
-        string param1 = System.Web.HttpUtility.ParseQueryString(youTubeId.Query).Get("v");
-
-        var newContent = new ShareableDto() { ContentId = Content.Custom, ClassName = $"Name - {time.TimeOfDay}", ClassDescription = $"Description - {time.TimeOfDay}", Id = param1, Platform = VideoPlatform.YouTube };
-
-        var clientSettings = await this.GetClientSettingsAsync();
-
-        var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
-        content.Shareables = content.Shareables.Prepend(newContent).ToArray();
-
-        await this.SaveClientSettingsAsync(clientSettings);
-
-        await ReloadClassesAsync();
+        _prospectEditDialog = (new(), true, false);
     }
 }
