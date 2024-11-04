@@ -1,11 +1,11 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json;
 using Blazored.LocalStorage;
 using MegaSchool1.Model;
 using MegaSchool1.Model.API;
 using MegaSchool1.Repository.Model;
 using OneOf;
 using OneOf.Types;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MegaSchool1.Repository;
 
@@ -14,6 +14,7 @@ public class Repository(ILocalStorageService localStorage, HttpClient http)
     private const string SettingsKey = "settings";
     private const string UserDataKey = "user_data";
     private const string BackupKey = "backup";
+    private const string ClientSettingsKey = "client_settings";
 
     public async Task<OneOf<GlobalData, None, Error<string>>> GetGlobalDataBackupAsync()
     {
@@ -124,6 +125,40 @@ public class Repository(ILocalStorageService localStorage, HttpClient http)
     {
         await localStorage.SetItemAsync(SettingsKey, settings);
 
+    }
+
+    public async Task<OneOf<ClientSettings, None, Error<string>>> GetClientSettingsAsync()
+    {
+        try
+        {
+            if (await localStorage.ContainKeyAsync(ClientSettingsKey))
+            {
+                var foundSettings = await localStorage.GetItemAsStringAsync(ClientSettingsKey);
+                if(foundSettings == null)
+                {
+                    return new None();
+                }
+                else
+                {
+                    var deserialized = JsonSerializer.Deserialize<ClientSettings>(foundSettings, Util.JsonSerializerOptions);
+                    return deserialized != null ? deserialized : new None();
+                }
+            }
+            else
+            {
+                return new None();
+            }
+        }
+        catch (Exception e)
+        {
+            return new Error<string>(e.Message);
+        }
+    }
+
+    public async Task SaveClientSettingsAsync(ClientSettings settings)
+    {
+        var serialized = JsonSerializer.Serialize(settings, Util.JsonSerializerOptions);
+        await localStorage.SetItemAsStringAsync(ClientSettingsKey, serialized);
     }
 
     public async Task<string?> GetUsernameAsync()
