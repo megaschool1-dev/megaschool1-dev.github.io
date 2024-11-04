@@ -10,12 +10,12 @@
 @inject UISettings UI
 @inject Repository.Repository Repo
 @inject ClientSettings DefaultClientSettings
+@inject IScrollManager ScrollManager
 
-<MudStack Spacing="3">
-    <MudText Align="Align.Center" Typo="Typo.h6">Wealth Syndicate Classes<br />aka "Learning Paths"</MudText>
+<MudStack Spacing="3" id="top_of_page">
+    <MudText Align="Align.Center" Typo="Typo.h6">Wealth Syndicate Classes</MudText>
     <MudText Align="Align.Center">First class is FREE! <br /> Subsequent classes are $150 per course.*</MudText>
     <br />
-    <Centered><MudButton OnClick="OnAddContent" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" n Color="Color.Primary">Add</MudButton></Centered>
     @foreach (var classInfo in _classes)
     {
         <MudCard Outlined="true">
@@ -37,18 +37,20 @@
             </MudCardContent>
         </MudCard>
     }
+    <br/>
+    <Centered><MudButton OnClick="OnAddContent" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" n Color="Color.Primary">Add</MudButton></Centered>
     @* Ensure 'scroll to top' button on bottom right of screen does not cover content. *@
     <div style="height:75px;"></div>
 </MudStack>
 
-<MudDialog Visible="_prospectEditDialog.Show" VisibleChanged="ProspectEditVisibleChanged">
+<MudDialog Visible="_addShareableDialog.Show" VisibleChanged="OnAddShareableDialogVisibleChanged">
     <TitleContent>
         <MudText>Add Shareable</MudText>
     </TitleContent>
     <DialogContent>
-        <MudForm @bind-IsValid="_prospectEditDialog.ValidEdit">
+        <MudForm @bind-IsValid="_addShareableDialog.ValidEdit">
             <MudStack>
-                <MudTextField @bind-Value="@_prospectEditDialog.Prospect.Url"
+                <MudTextField @bind-Value="@_addShareableDialog.Shareable.Url"
                               Label="YouTube Video URL"
                               Placeholder="YouTube Video URL"
                               HelperText="(example: youtube.com/watch?v=LqMEQaiecLw)"
@@ -59,7 +61,7 @@
                               RequiredError="YouTube video URL is required."
                               Immediate="true"
                               DebounceInterval="1.0" />
-                <MudTextField @bind-Value="@_prospectEditDialog.Prospect.Title"
+                <MudTextField @bind-Value="@_addShareableDialog.Shareable.Title"
                               Label="Shareable Title"
                               Placeholder="Shareable Title"
                               Variant="Variant.Outlined"
@@ -68,7 +70,7 @@
                               RequiredError="Shareable title is required."
                               Immediate="true"
                               DebounceInterval="1.0" />
-                <MudTextField @bind-Value="@_prospectEditDialog.Prospect.Description"
+                <MudTextField @bind-Value="@_addShareableDialog.Shareable.Description"
                               Label="Shareable Description"
                               Placeholder="Shareable Description"
                               Validation="@(new Func<string, string?>(ValidateShareableDescription))"
@@ -84,7 +86,7 @@
 
 @code {
     private ShareableDto[] _classes = [];
-    private (ShareableSubmission Prospect, bool Show, bool ValidEdit) _prospectEditDialog;
+    private (ShareableSubmission Shareable, bool Show, bool ValidEdit) _addShareableDialog;
 
     private class ShareableSubmission
     {
@@ -93,24 +95,24 @@
         public string? Description { get; set; }
     }
 
-    private async Task ProspectEditVisibleChanged(bool isVisible)
+    private async Task OnAddShareableDialogVisibleChanged(bool isVisible)
     {
         var clientSettings = await this.GetClientSettingsAsync();
         var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
 
         if (!isVisible)
         {
-            if(_prospectEditDialog.ValidEdit)
+            if(_addShareableDialog.ValidEdit)
             {
-                var youTubeUrl = new Uri(_prospectEditDialog.Prospect.Url!);
+                var youTubeUrl = new Uri(_addShareableDialog.Shareable.Url!);
                 var youTubeVideoId = System.Web.HttpUtility.ParseQueryString(youTubeUrl.Query).Get("v");
 
                 var newShareable = new ShareableDto()
                 {
                     ContentId = Content.Custom,
-                    AppTitle = _prospectEditDialog.Prospect.Title!,
-                    ClassName = _prospectEditDialog.Prospect.Title!,
-                    ClassDescription = _prospectEditDialog.Prospect.Description!,
+                    AppTitle = _addShareableDialog.Shareable.Title!,
+                    ClassName = _addShareableDialog.Shareable.Title!,
+                    ClassDescription = _addShareableDialog.Shareable.Description!,
                     Id = youTubeVideoId,
                     Platform = VideoPlatform.YouTube
                 };
@@ -120,9 +122,11 @@
                 await SaveClientSettingsAsync(clientSettings);
 
                 await ReloadClassesAsync();
+
+                await ScrollManager.ScrollToTopAsync("top_of_page");
             }
 
-            _prospectEditDialog = (new(), false, false);
+            _addShareableDialog = (new(), false, false);
         }
     }
 
@@ -286,6 +290,6 @@
 
     private void OnAddContent()
     {
-        _prospectEditDialog = (new(), true, false);
+        _addShareableDialog = (new(), true, false);
     }
 }
