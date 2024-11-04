@@ -104,8 +104,7 @@
         {
             if(_addShareableDialog.ValidEdit)
             {
-                var youTubeUrl = new Uri(_addShareableDialog.Shareable.Url!);
-                var youTubeVideoId = System.Web.HttpUtility.ParseQueryString(youTubeUrl.Query).Get("v");
+                var youTubeVideoId = GetYouTubeVideoId(_addShareableDialog.Shareable.Url!).AsT0;
 
                 var newShareable = new ShareableDto()
                 {
@@ -132,11 +131,95 @@
 
     private static string? ValidateYouTubeVideoUrl(string youTubeVideoUrl)
     {
+        if(ValidateYouTubeVideoStandardUrl(youTubeVideoUrl).TryPickT1(out _, out var error))
+        {
+            return null;
+        }
+        else
+        {
+            if(ValidateYouTubeVideoShortcutUrl(youTubeVideoUrl).TryPickT1(out _, out var shortcutError))
+            {
+                return null;
+            }
+            else
+            {
+                return shortcutError.Value;
+            }
+        }
+    }
+
+    private static OneOf<string, None> GetYouTubeVideoId(string youTubeVideoUrl)
+    {
+        return GetYouTubeVideoIdStandard(youTubeVideoUrl)
+        .Match(
+            youTubeVideoId => youTubeVideoId,
+            none => GetYouTubeVideoIdShortcut(youTubeVideoUrl)
+                .Match<OneOf<string, None>>(
+                    youtubeVideoId => youtubeVideoId, 
+                    none => none));
+    }
+
+    private static OneOf<string, None> GetYouTubeVideoIdStandard(string youTubeVideoUrl)
+    {
+        const string YouTubeHost = "WWW.YOUTUBE.COM";
+        const string YouTubeVideoPath = "/WATCH";
+
+        OneOf<string, None> youTubeVideoId = new None();
+
+        var valid = Uri.IsWellFormedUriString(youTubeVideoUrl, UriKind.Absolute);
+        if (valid)
+        {
+            var uri = new Uri(youTubeVideoUrl);
+            var videoId = System.Web.HttpUtility.ParseQueryString(uri.Query).Get("v");
+
+            valid =
+                uri.Host.Equals(YouTubeHost, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                uri.AbsolutePath.Equals(YouTubeVideoPath, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                videoId != null;
+
+            if(valid)
+            {
+                youTubeVideoId = videoId!;
+            }
+        }
+
+        return youTubeVideoId;
+    }
+
+    private static OneOf<string, None> GetYouTubeVideoIdShortcut(string youTubeVideoUrl)
+    {
+        const string YouTubeHost = "YOUTU.BE";
+
+        OneOf<string, None> youTubeVideoId = new None();
+
+        var valid = Uri.IsWellFormedUriString(youTubeVideoUrl, UriKind.Absolute);
+        if (valid)
+        {
+            var uri = new Uri(youTubeVideoUrl);
+
+            valid =
+                uri.Host.Equals(YouTubeHost, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                uri.AbsolutePath != string.Empty;
+
+            if(valid)
+            {
+                youTubeVideoId = uri.AbsolutePath.Replace("/", string.Empty);
+            }
+        }
+
+        return youTubeVideoId;
+    }
+
+    private static OneOf<Error<string>, None> ValidateYouTubeVideoStandardUrl(string youTubeVideoUrl)
+    {
         const string YouTubeHost = "WWW.YOUTUBE.COM";
         const string YouTubeVideoPath = "/WATCH";
 
         var valid = Uri.IsWellFormedUriString(youTubeVideoUrl, UriKind.Absolute);
-        if(valid)
+        if (valid)
         {
             var uri = new Uri(youTubeVideoUrl);
             var videoId = System.Web.HttpUtility.ParseQueryString(uri.Query).Get("v");
@@ -151,8 +234,29 @@
 
         return
             string.IsNullOrWhiteSpace(youTubeVideoUrl)
-            ? "You must have a YouTube video"
-            : valid ? null : $"{youTubeVideoUrl} is NOT a YouTube video URL!";
+            ? new Error<string>("You must have a YouTube video")
+            : valid ? new None() : new Error<string>($"{youTubeVideoUrl} is NOT a YouTube video URL!");
+    }
+
+    private static OneOf<Error<string>, None> ValidateYouTubeVideoShortcutUrl(string youTubeVideoUrl)
+    {
+        const string YouTubeHost = "YOUTU.BE";
+
+        var valid = Uri.IsWellFormedUriString(youTubeVideoUrl, UriKind.Absolute);
+        if (valid)
+        {
+            var uri = new Uri(youTubeVideoUrl);
+
+            valid =
+                uri.Host.Equals(YouTubeHost, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                uri.AbsolutePath != string.Empty;
+        }
+
+        return
+            string.IsNullOrWhiteSpace(youTubeVideoUrl)
+            ? new Error<string>("You must have a YouTube video")
+            : valid ? new None() : new Error<string>($"{youTubeVideoUrl} is NOT a YouTube video URL!");
     }
 
     private static string? ValidateShareableTitle(string shareableTitle)
