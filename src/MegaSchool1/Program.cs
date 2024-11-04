@@ -20,7 +20,7 @@ builder.Services.AddScoped(sp => http);
 builder.Services.AddScoped<Repository>(sp => new(sp.GetRequiredService<ILocalStorageService>(), sp.GetRequiredService<HttpClient>()));
 
 var cacheBypass = $"?v={typeof(Program).Assembly.GetName().Version?.ToString(3)}";
-var clientSettings = await http.GetFromJsonAsync<ClientSettings>($"appsettings.json{cacheBypass}", new System.Text.Json.JsonSerializerOptions() { Converters = { new UnknownEnumConverter() } });
+var clientSettings = await http.GetFromJsonAsync<ClientSettings>($"appsettings.json{cacheBypass}", Util.JsonSerializerOptions);
 
 builder.Services
     .AddSingleton(clientSettings)

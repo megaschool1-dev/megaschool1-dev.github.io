@@ -7,11 +7,14 @@ using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using System.Web;
 using MegaSchool1.Model.Dto;
+using System.Text.Json;
 
 namespace MegaSchool1.Model;
 
 public static class Util
 {
+    public static readonly JsonSerializerOptions JsonSerializerOptions = new() { Converters = { new UnknownEnumConverter() } };
+
     public static OneOf<YouTube, TikTok, Vimeo, Facebook, None> GetVideoId(ShareableDto? video) => video?.Platform switch
     {
         VideoPlatform.YouTube => new YouTube(video?.Id!),

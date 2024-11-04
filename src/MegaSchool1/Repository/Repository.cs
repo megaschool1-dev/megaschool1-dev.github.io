@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json;
 using Blazored.LocalStorage;
 using MegaSchool1.Model;
 using MegaSchool1.Model.API;
@@ -132,8 +133,16 @@ public class Repository(ILocalStorageService localStorage, HttpClient http)
         {
             if (await localStorage.ContainKeyAsync(ClientSettingsKey))
             {
-                var foundSettings = await localStorage.GetItemAsync<ClientSettings>(ClientSettingsKey);
-                return foundSettings != null ? foundSettings : new None();
+                var foundSettings = await localStorage.GetItemAsStringAsync(ClientSettingsKey);
+                if(foundSettings == null)
+                {
+                    return new None();
+                }
+                else
+                {
+                    var deserialized = JsonSerializer.Deserialize<ClientSettings>(foundSettings, Util.JsonSerializerOptions);
+                    return deserialized != null ? deserialized : new None();
+                }
             }
             else
             {
@@ -148,7 +157,8 @@ public class Repository(ILocalStorageService localStorage, HttpClient http)
 
     public async Task SaveClientSettingsAsync(ClientSettings settings)
     {
-        await localStorage.SetItemAsync(ClientSettingsKey, settings);
+        var serialized = JsonSerializer.Serialize(settings, Util.JsonSerializerOptions);
+        await localStorage.SetItemAsStringAsync(ClientSettingsKey, serialized);
     }
 
     public async Task<string?> GetUsernameAsync()

@@ -130,6 +130,9 @@ public enum Content
     BizOwnerPique = 51,
     BitcoinPreview = 52,
     Custom = 53,
+    PRA = 54,
+    PrisonMinistry = 55,
+    SchoolFundraiser = 56,
 }
 
 public enum Language
@@ -253,7 +256,7 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
         facebook => $"https://www.facebook.com/watch/live/?ref=watch_permalink&v={facebook.VideoId}",
         startMeeting => $"https://stme.in/{startMeeting.VideoId}",
         html5 => html5.Uri.AbsoluteUri,
-        wistia => $"https://megaschool.me/v?w={wistia.VideoId}");
+        wistia => $"https://minimalistvideo.github.io/?w={wistia.VideoId}");
 
     public static OneOf<string, None> GetImageUri(Image image)
     {

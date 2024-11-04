@@ -37,125 +37,6 @@
             </MudCardContent>
         </MudCard>
     }
-</MudStack>
-<MudStack Spacing="3">
-    <MudCard Outlined="true">
-        <MudCardHeader>Non-Profit Fundraiser</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.GivBuxFundraiser))" />
-                <MudText Align="Align.Center">Learn how to partner with Amazon.com and local businesses to receive donations whenever your donors shop!</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Real Estate Professionals</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.RealEstatePros))" />
-                <MudText Align="Align.Center">Create cash flow from: <br/><br /> &#x2022; Unqualified Renters <br /> &#x2022; Unqualified Buyers <br /> &#x2022; Past Clients <br /> &#x2022; Your Agents</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Finance Professionals <br/> (Insurance Agents, Accountants, Tax Preparers)</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.Membership))" />
-                <MudText Align="Align.Center">Expand your financial service offering at no addition cost.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Home Buyers</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.KeysToHomeOwnership))" />
-                <MudText Align="Align.Center">Rent to own, or simply automate the headaches of home buying.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Debt Elimination <br/> (mortgage, school loans, credit card, etc)</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.PayoffMortgage))" />
-                <MudText Align="Align.Center">Accelerate your debt elimination without spending an extra penny!</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Precious Metals</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.PreciousMetals))" />
-                <MudText Align="Align.Center">Learn how to become a ratio investor and FULLY unlock the wealth of precious metals.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Health Care</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.HealthShare))" />
-                <MudText Align="Align.Center">Learn how Health Sharing (not insurance!) makes health care affordable and ethical.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>"Double Dip" Your Money</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@((Video)new YouTube("c2_hG7NgNWU"))" />
-                <MudText Align="Align.Center">Learn how to "double dip" with your money, legally and ethically.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Credit Restoration</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.CreditRestoration))" />
-                <MudText Align="Align.Center">Learn how to restore your credit with the help of a non-profit with 30+ years of credit restoration experience.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Student Loan Relief</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.StudentLoanDebtRelief))" />
-                <MudText Align="Align.Center">Learn how to reduce and possibly ELIMINATE your student loans!</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Prison Ministry</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@((Video)new YouTube("hrOLCGT11ig"))" />
-                <MudText Align="Align.Center">Learn how to help the incarcerated provide for their families, legally and ethically.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>School Fundraisers</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@((Video)new YouTube("-KmR2kfru0c"))" />
-                <MudText Align="Align.Center">Learn how to make money by fundraising for schools.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>How to Build a S.I.M.P.L.E Home Based Business</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.EDMPique))" />
-                <MudText Align="Align.Center">Learn how to become wealthy with a S.I.M.P.L.E home based business.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
     @* Ensure 'scroll to top' button on bottom right of screen does not cover content. *@
     <div style="height:75px;"></div>
 </MudStack>
@@ -395,6 +276,10 @@
                 currentShareables.Add(defaultClientSettingsEnglish.Shareables[i]);
             }
         }
+
+        // save synced shareables
+        loadedClientSettingsEnglish.Shareables = currentShareables.ToArray();
+        await SaveClientSettingsAsync(loadedClientSettings);
 
         _classes = currentShareables.ToArray();
     }
