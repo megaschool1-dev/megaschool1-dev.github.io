@@ -2,176 +2,372 @@
 @inherits ShareableCapturePage
 @using MegaSchool1.Components
 @using MegaSchool1.Model
+@using MegaSchool1.Model.Dto
 @using MegaSchool1.Pages.CapturePage
+@using OneOf
+@using OneOf.Types
+@using Serilog
+@inject UISettings UI
+@inject Repository.Repository Repo
+@inject ClientSettings DefaultClientSettings
+@inject IScrollManager ScrollManager
 
-<MudText Align="Align.Center" Typo="Typo.h6">Wealth Syndicate Classes<br/>aka "Learning Paths"</MudText>
-<br/>
-<MudText Align="Align.Center">First class is FREE! <br/> Subsequent classes are $150 per course.*</MudText>
-<br/>
-<br/>
-<MudStack Spacing="3">
-    <MudCard Outlined="true">
-        <MudCardHeader>Bitcoin for Dummies (and other cryptos)</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.BitcoinPreview))" />
-                <MudText Align="Align.Center">Learn what Bitcoin is and how to make money with cryptocurrencies.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Wealth Management for Business Owners</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.BizOwnerPique))" />
-                <MudText Align="Align.Center">Learn how to multiply and protect your profits, and increase employee retention.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Church Financial Stewardship Ministries</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.FaithAndFinance))" />
-                <MudText Align="Align.Center">Learn how to receive God's FULL provision and share it with the Body of Christ!</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Buy Your Teen's First Car NOW!</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.HowBanksMakeMoney))" />
-                <MudText Align="Align.Center">How to buy your teen a $3,000 car WITHOUT making more money!</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Trust Fund&nbsp;<i>MY</i>&nbsp; Baby!</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.TrustMyAssets))" />
-                <MudText Align="Align.Center">How make&nbsp;<i>YOUR</i>&nbsp; baby a trust fund baby. (Hint: you don't need to be rich!)</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Non-Profit Fundraiser</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.GivBuxFundraiser))" />
-                <MudText Align="Align.Center">Learn how to partner with Amazon.com and local businesses to receive donations whenever your donors shop!</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Real Estate Professionals</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.RealEstatePros))" />
-                <MudText Align="Align.Center">Create cash flow from: <br/><br /> &#x2022; Unqualified Renters <br /> &#x2022; Unqualified Buyers <br /> &#x2022; Past Clients <br /> &#x2022; Your Agents</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Finance Professionals <br/> (Insurance Agents, Accountants, Tax Preparers)</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.Membership))" />
-                <MudText Align="Align.Center">Expand your financial service offering at no addition cost.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Home Buyers</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.KeysToHomeOwnership))" />
-                <MudText Align="Align.Center">Rent to own, or simply automate the headaches of home buying.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Debt Elimination <br/> (mortgage, school loans, credit card, etc)</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.PayoffMortgage))" />
-                <MudText Align="Align.Center">Accelerate your debt elimination without spending an extra penny!</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Precious Metals</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.PreciousMetals))" />
-                <MudText Align="Align.Center">Learn how to become a ratio investor and FULLY unlock the wealth of precious metals.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Health Care</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.HealthShare))" />
-                <MudText Align="Align.Center">Learn how Health Sharing (not insurance!) makes health care affordable and ethical.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>"Double Dip" Your Money</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@((Video)new YouTube("c2_hG7NgNWU"))" />
-                <MudText Align="Align.Center">Learn how to "double dip" with your money, legally and ethically.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Credit Restoration</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.CreditRestoration))" />
-                <MudText Align="Align.Center">Learn how to restore your credit with the help of a non-profit with 30+ years of credit restoration experience.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Student Loan Relief</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.StudentLoanDebtRelief))" />
-                <MudText Align="Align.Center">Learn how to reduce and possibly ELIMINATE your student loans!</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>Prison Ministry</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@((Video)new YouTube("hrOLCGT11ig"))" />
-                <MudText Align="Align.Center">Learn how to help the incarcerated provide for their families, legally and ethically.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>School Fundraisers</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@((Video)new YouTube("-KmR2kfru0c"))" />
-                <MudText Align="Align.Center">Learn how to make money by fundraising for schools.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <MudCard Outlined="true">
-        <MudCardHeader>How to Build a S.I.M.P.L.E Home Based Business</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@(GetVideo(Content.EDMPique))" />
-                <MudText Align="Align.Center">Learn how to become wealthy with a S.I.M.P.L.E home based business.</MudText>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
+<MudStack Spacing="3" id="top_of_page">
+    <MudText Align="Align.Center" Typo="Typo.h6">Wealth Syndicate Classes</MudText>
+    <MudText Align="Align.Center">First class is FREE! <br /> Subsequent classes are $150 per course.*</MudText>
+    <br />
+    @foreach (var classInfo in _classes)
+    {
+        <MudCard Outlined="true">
+            <MudCardHeader>@((MarkupString)classInfo.ClassName)</MudCardHeader>
+            <MudCardContent>
+                <MudStack Spacing="3">
+                    <EmbeddedVideo Video="@((classInfo.ContentId == Content.Custom ? GetVideo(classInfo) : GetVideo(classInfo.ContentId)))" />
+                    <MudText Align="Align.Center">@((MarkupString)classInfo.ClassDescription)</MudText>
+                    <MudStack Row="true">
+                        <MudIconButton OnClick="async () => await OnMoveUp(classInfo)" Disabled="@(Array.IndexOf(_classes, classInfo) == 0)" Icon="@Icons.Material.Filled.ArrowCircleUp" Color="Color.Primary" />
+                        <MudIconButton OnClick="async () => await OnMoveDown(classInfo)" Disabled="@(Array.IndexOf(_classes, classInfo) == _classes.Length - 1)" Icon="@Icons.Material.Filled.ArrowCircleDown" Color="Color.Primary" />
+                        <MudSpacer />
+                        @if (classInfo.ContentId == Content.Custom)
+                        {
+                            <MudIconButton OnClick="async () => await OnDelete(classInfo)" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+                        }
+                    </MudStack>
+                </MudStack>
+            </MudCardContent>
+        </MudCard>
+    }
+    <br/>
+    <Centered><MudButton OnClick="OnAddContent" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" n Color="Color.Primary">Add</MudButton></Centered>
     @* Ensure 'scroll to top' button on bottom right of screen does not cover content. *@
     <div style="height:75px;"></div>
 </MudStack>
+
+<MudDialog Visible="_addShareableDialog.Show" VisibleChanged="OnAddShareableDialogVisibleChanged">
+    <TitleContent>
+        <MudText>Add Shareable</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm @bind-IsValid="_addShareableDialog.ValidEdit">
+            <MudStack>
+                <MudTextField @bind-Value="@_addShareableDialog.Shareable.Url"
+                              Label="YouTube Video URL"
+                              Placeholder="YouTube Video URL"
+                              HelperText="(example: youtube.com/watch?v=LqMEQaiecLw)"
+                              AutoFocus="true"
+                              Variant="Variant.Outlined"
+                              Validation="@(new Func<string, string?>(ValidateYouTubeVideoUrl))"
+                              Required="true"
+                              RequiredError="YouTube video URL is required."
+                              Immediate="true"
+                              DebounceInterval="1.0" />
+                <MudTextField @bind-Value="@_addShareableDialog.Shareable.Title"
+                              Label="Shareable Title"
+                              Placeholder="Shareable Title"
+                              Variant="Variant.Outlined"
+                              Validation="@(new Func<string, string?>(ValidateShareableTitle))"
+                              Required="true"
+                              RequiredError="Shareable title is required."
+                              Immediate="true"
+                              DebounceInterval="1.0" />
+                <MudTextField @bind-Value="@_addShareableDialog.Shareable.Description"
+                              Label="Shareable Description"
+                              Placeholder="Shareable Description"
+                              Validation="@(new Func<string, string?>(ValidateShareableDescription))"
+                              Required="true"
+                              RequiredError="Shareable description is required."
+                              Variant="Variant.Outlined"
+                              Lines="8"
+                              Immediate="true" />
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    private ShareableDto[] _classes = [];
+    private (ShareableSubmission Shareable, bool Show, bool ValidEdit) _addShareableDialog;
+
+    private class ShareableSubmission
+    {
+        public string? Url { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+    }
+
+    private async Task OnAddShareableDialogVisibleChanged(bool isVisible)
+    {
+        var clientSettings = await this.GetClientSettingsAsync();
+        var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+
+        if (!isVisible)
+        {
+            if(_addShareableDialog.ValidEdit)
+            {
+                var youTubeVideoId = GetYouTubeVideoId(_addShareableDialog.Shareable.Url!).AsT0;
+
+                var newShareable = new ShareableDto()
+                {
+                    ContentId = Content.Custom,
+                    AppTitle = _addShareableDialog.Shareable.Title!,
+                    ClassName = _addShareableDialog.Shareable.Title!,
+                    ClassDescription = _addShareableDialog.Shareable.Description!,
+                    Id = youTubeVideoId,
+                    Platform = VideoPlatform.YouTube
+                };
+
+                content.Shareables = content.Shareables.Prepend(newShareable).ToArray();
+
+                await SaveClientSettingsAsync(clientSettings);
+
+                await ReloadClassesAsync();
+
+                await ScrollManager.ScrollToTopAsync("top_of_page");
+            }
+
+            _addShareableDialog = (new(), false, false);
+        }
+    }
+
+    private static string? ValidateYouTubeVideoUrl(string youTubeVideoUrl)
+    {
+        if(ValidateYouTubeVideoStandardUrl(youTubeVideoUrl).TryPickT1(out _, out var error))
+        {
+            return null;
+        }
+        else
+        {
+            if(ValidateYouTubeVideoShortcutUrl(youTubeVideoUrl).TryPickT1(out _, out var shortcutError))
+            {
+                return null;
+            }
+            else
+            {
+                return shortcutError.Value;
+            }
+        }
+    }
+
+    private static OneOf<string, None> GetYouTubeVideoId(string youTubeVideoUrl)
+    {
+        return GetYouTubeVideoIdStandard(youTubeVideoUrl)
+        .Match(
+            youTubeVideoId => youTubeVideoId,
+            none => GetYouTubeVideoIdShortcut(youTubeVideoUrl)
+                .Match<OneOf<string, None>>(
+                    youtubeVideoId => youtubeVideoId, 
+                    none => none));
+    }
+
+    private static OneOf<string, None> GetYouTubeVideoIdStandard(string youTubeVideoUrl)
+    {
+        const string YouTubeHost = "YOUTUBE.COM";
+        const string YouTubeVideoPath = "/WATCH";
+
+        OneOf<string, None> youTubeVideoId = new None();
+
+        var valid = Uri.IsWellFormedUriString(youTubeVideoUrl, UriKind.Absolute);
+        if (valid)
+        {
+            var uri = new Uri(youTubeVideoUrl);
+            var videoId = System.Web.HttpUtility.ParseQueryString(uri.Query).Get("v");
+
+            valid =
+                uri.Host.Contains(YouTubeHost, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                uri.AbsolutePath.Equals(YouTubeVideoPath, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                videoId != null;
+
+            if(valid)
+            {
+                youTubeVideoId = videoId!;
+            }
+        }
+
+        return youTubeVideoId;
+    }
+
+    private static OneOf<string, None> GetYouTubeVideoIdShortcut(string youTubeVideoUrl)
+    {
+        const string YouTubeHost = "YOUTU.BE";
+
+        OneOf<string, None> youTubeVideoId = new None();
+
+        var valid = Uri.IsWellFormedUriString(youTubeVideoUrl, UriKind.Absolute);
+        if (valid)
+        {
+            var uri = new Uri(youTubeVideoUrl);
+
+            valid =
+                uri.Host.Equals(YouTubeHost, StringComparison.InvariantCultureIgnoreCase)
+                &&
+                uri.AbsolutePath != string.Empty;
+
+            if(valid)
+            {
+                youTubeVideoId = uri.AbsolutePath.Replace("/", string.Empty);
+            }
+        }
+
+        return youTubeVideoId;
+    }
+
+    private static OneOf<Error<string>, None> ValidateYouTubeVideoStandardUrl(string youTubeVideoUrl)
+    {
+        var youTubeVideoId = GetYouTubeVideoIdStandard(youTubeVideoUrl);
+
+        return
+            string.IsNullOrWhiteSpace(youTubeVideoUrl)
+            ? new Error<string>("You must have a YouTube video")
+            : youTubeVideoId.Match<OneOf<Error<string>, None>>(id => new None(), none => new Error<string>($"{youTubeVideoUrl} is NOT a YouTube video URL!"));
+    }
+
+    private static OneOf<Error<string>, None> ValidateYouTubeVideoShortcutUrl(string youTubeVideoUrl)
+    {
+        var youTubeVideoId = GetYouTubeVideoIdShortcut(youTubeVideoUrl);
+
+        return
+            string.IsNullOrWhiteSpace(youTubeVideoUrl)
+            ? new Error<string>("You must have a YouTube video")
+            : youTubeVideoId.Match<OneOf<Error<string>, None>>(id => new None(), none => new Error<string>($"{youTubeVideoUrl} is NOT a YouTube video URL!"));
+    }
+
+    private static string? ValidateShareableTitle(string shareableTitle)
+    {
+        return !string.IsNullOrWhiteSpace(shareableTitle) ? null : "You must have a shareable title.";
+    }
+
+    private static string? ValidateShareableDescription(string shareableDescription)
+    {
+        return !string.IsNullOrWhiteSpace(shareableDescription) ? null : "You must have a shareable description.";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ReloadClassesAsync();
+    }
+
+    private async Task OnMoveUp(ShareableDto shareable)
+    {
+        const int NotFound = -1;
+
+        var clientSettings = await this.GetClientSettingsAsync();
+        var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+
+        var shareables = content.Shareables.ToList();
+        var currentIndex = shareables.FindIndex(s => s.ClassName == shareable.ClassName);
+        if (currentIndex != NotFound)
+        {
+
+            var targetIndex = Math.Max(currentIndex - 1, 0);
+            if (targetIndex >= 0)
+            {
+                var shareableToMove = shareables.ElementAt(currentIndex);
+                shareables.Remove(shareableToMove);
+
+                shareables.Insert(targetIndex, shareableToMove);
+
+                content.Shareables = shareables.ToArray();
+                await this.SaveClientSettingsAsync(clientSettings);
+                await ReloadClassesAsync();
+            }
+        }
+    }
+
+    private async Task OnMoveDown(ShareableDto shareable)
+    {
+        const int NotFound = -1;
+
+        var clientSettings = await this.GetClientSettingsAsync();
+        var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+
+        var shareables = content.Shareables.ToList();
+        var currentIndex = shareables.FindIndex(s => s.ClassName == shareable.ClassName);
+        if (currentIndex != NotFound)
+        {
+            var targetIndex = Math.Min(currentIndex + 1, shareables.Count - 1);
+            if (targetIndex >= 0)
+            {
+                var shareableToMove = shareables.ElementAt(currentIndex);
+                shareables.Remove(shareableToMove);
+
+                shareables.Insert(targetIndex, shareableToMove);
+
+                content.Shareables = shareables.ToArray();
+                await this.SaveClientSettingsAsync(clientSettings);
+                await ReloadClassesAsync();
+            }
+        }
+    }
+
+    private async Task OnDelete(ShareableDto shareable)
+    {
+        if(shareable.ContentId == Content.Custom)
+        {
+            var clientSettings = await this.GetClientSettingsAsync();
+            var content = clientSettings.UI.Localizations.First(l => l == clientSettings.UI.EnglishLocale);
+
+            content.Shareables = content.Shareables.Where(s => s.ClassName != shareable.ClassName).ToArray();
+
+            await this.SaveClientSettingsAsync(clientSettings);
+
+            await ReloadClassesAsync();
+        }
+    }
+
+    private async Task<ClientSettings> GetClientSettingsAsync()
+    {
+        return (await Repo.GetClientSettingsAsync())
+        .Match(
+            found => found,
+            none => DefaultClientSettings,
+            error => { Log.ForContext<Home>().Error(error.Value); return DefaultClientSettings; });
+    }
+
+    private async Task SaveClientSettingsAsync(ClientSettings settings)
+    {
+        await Repo.SaveClientSettingsAsync(settings);
+    }
+
+    private async Task ReloadClassesAsync()
+    {
+        var loadedClientSettings = await this.GetClientSettingsAsync();
+
+        var defaultClientSettingsEnglish = DefaultClientSettings.UI.Localizations.First(l => l == DefaultClientSettings.UI.EnglishLocale);
+        var loadedClientSettingsEnglish = loadedClientSettings.UI.Localizations.First(l => l == loadedClientSettings.UI.EnglishLocale);
+
+        // sync w/ modifed standard shareables
+        var currentShareables = loadedClientSettingsEnglish.Shareables.ToList();
+        for (var i = 0; i < currentShareables.Count; i++)
+        {
+            if (currentShareables[i].ContentId != Content.Custom)
+            {
+                currentShareables[i] = defaultClientSettingsEnglish.Shareables.FirstOrDefault(s => s.ContentId == currentShareables[i].ContentId) ?? currentShareables[i];
+            }
+        }
+
+        // sync w/ removed standard shareables
+        currentShareables = currentShareables.Where(s => s.ClassName != null).ToList();
+
+        // sync w/ added standard shareables
+        for (var i = 0; i < defaultClientSettingsEnglish.Shareables.Length; i++)
+        {
+            if (defaultClientSettingsEnglish.Shareables[i].ClassName != null && currentShareables.All(s => s.ContentId != defaultClientSettingsEnglish.Shareables[i].ContentId))
+            {
+                currentShareables.Add(defaultClientSettingsEnglish.Shareables[i]);
+            }
+        }
+
+        // save synced shareables
+        loadedClientSettingsEnglish.Shareables = currentShareables.ToArray();
+        await SaveClientSettingsAsync(loadedClientSettings);
+
+        _classes = currentShareables.ToArray();
+    }
+
+    private void OnAddContent()
+    {
+        _addShareableDialog = (new(), true, false);
+    }
+}

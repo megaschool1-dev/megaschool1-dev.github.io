@@ -1,4 +1,5 @@
 ﻿@using MegaSchool1.Model
+@using MegaSchool1.Model.Dto
 @using MegaSchool1.ViewModel
 @using OneOf
 @using OneOf.Types
@@ -97,15 +98,15 @@
 
     protected Task ShareMessageAsync(string message, Image image) => ShareMessageAsync(message, Constants.GetImageUrl(image));
 
-    protected (OneOf<ShareableViewModel, None> English, OneOf<ShareableViewModel, None> Spanish) GetShareable(Content content)
+    protected (OneOf<ShareableViewModel, None> English, OneOf<ShareableViewModel, None> Spanish) GetShareable(OneOf<Content, ShareableDto> content)
     {
-        var spanishDto = UI.SpanishLocale[content];
-        var englishDto = UI.EnglishLocale[content];
+        var spanishDto = content.Match(contentId => UI.SpanishLocale[contentId], dto => dto);
+        var englishDto = content.Match(contentId => UI.EnglishLocale[contentId], dto => dto);
 
         return (englishDto != null ? Mappers.ShareableDtoToViewModel(englishDto)  : new None(), spanishDto != null ? Mappers.ShareableDtoToViewModel(spanishDto) : new None());
     }
 
-    protected OneOf<Video, None> GetVideo(Content content, Language language = Language.English)
+    protected OneOf<Video, None> GetVideo(OneOf<Content, ShareableDto> content, Language language = Language.English)
     {
         var shareable = GetShareable(content);
 

@@ -79,5 +79,11 @@ public class ShareableDto
     [JsonPropertyName("flyerImageUrl")]
     public string? FlyerImageUrl { get; set; }
 
+    [JsonPropertyName("className")]
+    public string? ClassName { get; set; }
+
+    [JsonPropertyName("classDescription")]
+    public string? ClassDescription { get; set; }
+
     public override string ToString() => $"{ContentId}";
 }
