@@ -10,13 +10,16 @@
 <MudCard Outlined="true">
     <MudCardContent>
         <MudStack Spacing="3">
-            <EmbeddedVideo Video="Video.MapT0(video => video.Video)" />
+            @if (Video.IsT0)
+            {
+                <EmbeddedVideo Video="Video.MapT0(video => video.Video)"/>
+            }
             @if (this.Url != null)
             {
                 <MudStack Row="true">
-                    <MudSpacer />
+                    <MudSpacer/>
                     <MudText Align="Align.Center"><ExternalLink Href="@($"https://theotherstuff.github.io/iframe?url={HttpUtility.UrlEncode(Url)}")">@((MarkupString)(Description ?? string.Empty))</ExternalLink></MudText>
-                    <MudSpacer />
+                    <MudSpacer/>
                 </MudStack>
             }
             else

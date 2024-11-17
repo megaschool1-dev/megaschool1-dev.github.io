@@ -215,7 +215,7 @@ else
     {
         if (ProspectMode && !IsWhitelistedProspectPage)
         {
-            NavigationManager.NavigateTo("/welcome");
+            NavigationManager.NavigateTo("/game");
         }
     }
 
@@ -383,7 +383,7 @@ else
 
         return page switch
         {
-            "" => "Wealth Syndicate Classes",
+            "" => "Flow Classes",
             "words" => "Words",
             "ipr" => "Instant Pay Raise",
             "settings" => "Settings",
@@ -400,7 +400,6 @@ else
             "trustfundmybaby" => "Trust Fund My Baby",
             "givbuxfundraiserprojections" => "GivBux Fundraiser Projections",
             "shareables" => "Shareables",
-            "myshareables" => "My Shareables",
             "game" => "Game",
             _ => string.Empty
         };
