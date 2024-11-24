@@ -190,30 +190,6 @@ public record Html5(Uri Uri);
 
 public record Wistia(string VideoId);
 
-public class YearDay
-{
-    public static readonly YearDay Instance = new();
-
-    private YearDay() { }
-}
-
-public enum YearalMonth
-{
-    January = 0,
-    February = 1,
-    March = 2,
-    April = 3,
-    May = 5,
-    June = 6,
-    Sol = 7,
-    July = 8,
-    August = 9,
-    September = 10,
-    October = 11,
-    November = 12,
-    December = 13
-}
-
 [GenerateOneOf]
 public partial class Video : OneOfBase<YouTube, TikTok, Vimeo, Facebook, StartMeeting, Html5, Wistia> { }
 

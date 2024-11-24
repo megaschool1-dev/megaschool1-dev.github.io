@@ -1,8 +1,7 @@
 ﻿using System.Transactions;
+using Flow.Model;
 using FluentAssertions;
 using FsCheck;
-using MegaSchool1.Model.Game;
-using MegaSchool1.Model.Game.Expense;
 using NUnit.Framework;
 
 namespace MegaSchool1.Model.Test.Game;

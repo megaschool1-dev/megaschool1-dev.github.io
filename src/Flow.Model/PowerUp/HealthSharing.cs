@@ -1,8 +1,7 @@
-﻿using MegaSchool1.Model.Game.Expense;
-using OneOf;
+﻿using Flow.Model.Expense;
 using OneOf.Types;
 
-namespace MegaSchool1.Model.Game.PowerUp;
+namespace Flow.Model.PowerUp;
 
 public class HealthSharing : PowerUp
 {
@@ -13,7 +12,7 @@ public class HealthSharing : PowerUp
         return
         (
             (
-            Description.From($"Healing boost! The {(game.Expenses.Any(e => e is TreasureMasterMembership) ? "Treasure Masters" : "Community Healing Shield")} will now pay for all healings."),
+            Description.From($"Healing boost! The {(Enumerable.Any<Expense.Expense>(game.Expenses, e => e is TreasureMasterMembership) ? "Treasure Masters" : "Community Healing Shield")} will now pay for all healings."),
             new None()
             ),
             game

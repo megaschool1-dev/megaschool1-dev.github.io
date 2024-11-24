@@ -1,10 +1,11 @@
-﻿using MegaSchool1.Model.Game.Expense;
-using MegaSchool1.Model.Game.PowerUp;
+﻿using Flow.Model.Expense;
+using Flow.Model.PowerUp;
+using Foundation.Model;
 using OneOf;
 using OneOf.Types;
 using ValueOf;
 
-namespace MegaSchool1.Model.Game;
+namespace Flow.Model;
 
 public static class GameEngine
 {
@@ -251,7 +252,7 @@ public static class GameEngine
         // advance to next day
         game = game.GoToNextDay();
 
-        return new(dailyIncomes, expenseReport.Expenses, powerUpResults.Result.IsT0 ? powerUps : [], errors.ToArray(), game);
+        return new(((decimal Gross, decimal Net, Income Income)[])dailyIncomes, (Expense.Expense[])expenseReport.Expenses, (Description[])(powerUpResults.Result.IsT0 ? powerUps : []), errors.ToArray(), (GameState)game);
     }
 
     public class MonthlySavings : ValueOf<decimal, MonthlySavings>;

@@ -1,4 +1,4 @@
-﻿namespace MegaSchool1.Model.Game.Expense;
+﻿namespace Flow.Model.Expense;
 
 public record TreasureMasterMembership(DayOfYear MembershipStartDate) : Expense(149.97m, GameState.BoardEpoch, MembershipStartDate, "Treasure Masters Guild Fee");
 public record InstantPayRaiseExpense(DayOfYear SummonDate) : Expense(200, new OneTime(), SummonDate, "Levy Wizard Fee");

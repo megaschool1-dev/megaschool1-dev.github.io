@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using MegaSchool1.Model.Game.Expense;
+using Flow.Model.Expense;
+using Foundation.Model;
 using OneOf;
 using OneOf.Types;
 
-namespace MegaSchool1.Model.Game;
+namespace Flow.Model;
 
 public record GameState(
     decimal CheckingAccountBalance,
@@ -68,8 +69,8 @@ public record GameState(
         game.Incomes.Add(primaryIncome);
 
         // expenses
-        game.Expenses.Add(new(1000, BoardEpoch, new ((YearalMonth.January, Random.Shared.Next(1, BoardEpoch.Days))), "Rent"));
-        game.Expenses.Add(new(200, BoardEpoch, new((YearalMonth.January, Random.Shared.Next(1, BoardEpoch.Days))), "Health Insurance"));
+        game.Expenses.Add(new((decimal)1000, (OneOf<TimeSpan, OneTime>)BoardEpoch, (DayOfYear)new ((YearalMonth.January, Random.Shared.Next(1, BoardEpoch.Days))), (string)"Rent"));
+        game.Expenses.Add(new((decimal)200, (OneOf<TimeSpan, OneTime>)BoardEpoch, (DayOfYear)new((YearalMonth.January, Random.Shared.Next(1, BoardEpoch.Days))), (string)"Health Insurance"));
         game.Expenses.Add(new CellPhone());
 
         // debts
@@ -77,15 +78,15 @@ public record GameState(
             // credit card
             var balance = 2000.0m;
             var apy = Percentage.From(0.22m);
-            game.Debts.Add(new("Credit Card", balance, apy,
-                balance * apy.Value / Enum.GetValues<YearalMonth>().Length));
+            game.Debts.Add(new((string)"Credit Card", balance, (Percentage)apy,
+                (OneOf<decimal, None>)(balance * apy.Value / Enum.GetValues<YearalMonth>().Length)));
         }
 
         {
             // student loan
             var balance = 10000.0m;
             var apy = Percentage.From(0.055m);
-            game.Debts.Add(new("Student Loan", balance, apy, balance * apy.Value / Enum.GetValues<YearalMonth>().Length));
+            game.Debts.Add(new((string)"Student Loan", balance, (Percentage)apy, (OneOf<decimal, None>)(balance * apy.Value / Enum.GetValues<YearalMonth>().Length)));
         }
 
         // proces expenses

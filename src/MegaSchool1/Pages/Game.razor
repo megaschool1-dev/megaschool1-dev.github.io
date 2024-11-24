@@ -1,11 +1,14 @@
 ﻿@page "/game"
 @using System.Collections
+@using System.ComponentModel.DataAnnotations
 @using System.ComponentModel.Design
 @using System.Linq;
+@using Flow.Model
+@using Flow.Model.Expense
+@using Flow.Model.PowerUp
+@using Foundation.Model
 @using MegaSchool1.Components
 @using MegaSchool1.Model
-@using MegaSchool1.Model.Game
-@using MegaSchool1.Model.Game.Expense
 @using OneOf.Types
 @using OneOf
 @using Serilog
@@ -112,8 +115,8 @@
         </MudStack>
         <br />
         <MudStack Row="true" Spacing="3">
-            <MudButton OnClick="OnInstantPayRaise" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Model.Game.PowerUp.InstantPayRaise))">Instant Pay Raise</MudButton>
-            <MudButton OnClick="OnBillNegotiatorSummon" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Model.Game.PowerUp.BillNegotiator))">Bill Negotiator</MudButton>
+            <MudButton OnClick="OnInstantPayRaise" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Flow.Model.PowerUp.InstantPayRaise))">Instant Pay Raise</MudButton>
+            <MudButton OnClick="OnBillNegotiatorSummon" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.PowerUps.Any(p => p is Flow.Model.PowerUp.BillNegotiator))">Bill Negotiator</MudButton>
             <MudButton OnClick="OnTreasureMasters" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_game.Expenses.Any(e => e is TreasureMasterMembership))">Treasure Masters</MudButton>
             <MudButton OnClick="OnDebug" Variant="Variant.Filled" Color="Color.Primary">Debug</MudButton>
         </MudStack>
@@ -146,8 +149,8 @@
                                     <MudText>Savings: @_game.SavingsAccountBalance.ToString("C")</MudText>
                                     <MudText>Successive Work Days: @_game.SuccessiveWorkDays - </MudText>
                                     <MudText>Sick Day Likelihood: @_game.SickDayLikelihood%</MudText>
-                                    <MudText>Levy Wizard Summoned: @(_game.PowerUps.Any(p => p is Model.Game.PowerUp.InstantPayRaise) ? "Yes" : "No")</MudText>
-                                    <MudText>Bill Negotiator Summoned: @(_game.PowerUps.Any(p => p is Model.Game.PowerUp.BillNegotiator) ? "Yes" : "No")</MudText>
+                                    <MudText>Levy Wizard Summoned: @(_game.PowerUps.Any(p => p is Flow.Model.PowerUp.InstantPayRaise) ? "Yes" : "No")</MudText>
+                                    <MudText>Bill Negotiator Summoned: @(_game.PowerUps.Any(p => p is Flow.Model.PowerUp.BillNegotiator) ? "Yes" : "No")</MudText>
                                     <MudText>Treasure Masters Summoned: @(_game.Expenses.Any(e => e is TreasureMasterMembership) ? "Yes" : "No")</MudText>
                                     <MudSpacer/>
                                 </MudStack>
@@ -288,10 +291,10 @@
     private DayActivitiesViewModel _dayActivities = new();
 
     private MudDialog _incomeDialog;
-    private IncomeDialogViewModel _incomeDialogViewModel = new(new(0, default, default));
+    private IncomeDialogViewModel _incomeDialogViewModel = new(new((decimal)0, (TimeSpan)default, (string)default));
 
     private MudDialog _theftDialog;
-    private TheftDialogViewModel _theftDialogViewModel = new(default!, new(default!, default!, default));
+    private TheftDialogViewModel _theftDialogViewModel = new(default!, new((string)default!, (string)default!, (OneOf<Percentage, (Scalar Amount, TimeSpan Frequency)>)default));
 
     private MudDialog _simpleDialog;
     private string _simpleDialogMessage = string.Empty;

@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Flow.Model\Flow.Model.csproj" />
     <ProjectReference Include="..\MegaSchool1.Model\MegaSchool1.Model.csproj" />
     <ProjectReference Include="..\MegaSchool1.ViewModel\MegaSchool1.ViewModel.csproj" />
   </ItemGroup>

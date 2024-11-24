@@ -1,6 +1,6 @@
 ﻿using OneOf;
 
-namespace MegaSchool1.Model.Game.Expense;
+namespace Flow.Model.Expense;
 
 public interface IExpense
 {
@@ -17,7 +17,7 @@ public record Expense(decimal Amount, OneOf<TimeSpan, OneTime> Recurrence, DayOf
     public bool IsDueOn(DayOfYear day)
     {
         return Recurrence.Match(
-             recurrence => Math.DivRem(day.DayNumber() - StartDate.DayNumber(), recurrence.Days).Remainder == 0,
+             recurrence => Math.DivRem((int)(day.DayNumber() - StartDate.DayNumber()), (int)recurrence.Days).Remainder == 0,
              oneTime => day == StartDate);
     }
 

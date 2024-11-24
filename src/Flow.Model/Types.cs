@@ -2,7 +2,7 @@
 using OneOf.Types;
 using ValueOf;
 
-namespace MegaSchool1.Model.Game;
+namespace Flow.Model;
 
 public class Description : ValueOf<string, Description>;
 public class Savings : ValueOf<decimal, Savings>;
@@ -21,6 +21,30 @@ public record SpinResult((decimal Gross, decimal Net, Income Income)[] Incomes, 
 
 [GenerateOneOf]
 public partial class PowerUpResult : OneOfBase<(Description Description, OneOf<Savings, None> Savings), Error<string>> { };
+
+public class YearDay
+{
+    public static readonly YearDay Instance = new();
+
+    private YearDay() { }
+}
+
+public enum YearalMonth
+{
+    January = 0,
+    February = 1,
+    March = 2,
+    April = 3,
+    May = 5,
+    June = 6,
+    Sol = 7,
+    July = 8,
+    August = 9,
+    September = 10,
+    October = 11,
+    November = 12,
+    December = 13
+}
 
 [GenerateOneOf]
 public partial class DayOfYear : OneOfBase<(YearalMonth Month, int DayOfMonth), YearDay>
@@ -61,7 +85,7 @@ public partial class DayOfYear : OneOfBase<(YearalMonth Month, int DayOfMonth), 
         }
         else
         {
-            var targetDayOfMonth = Math.DivRem(target.DayOfYear, GameState.DaysInMonth);
+            var targetDayOfMonth = Math.DivRem(target.DayOfYear, (int)GameState.DaysInMonth);
 
             return (Enum.GetValues<YearalMonth>()[((targetDayNumber - 1) / GameState.DaysInMonth) % GameState.Months.Length], targetDayOfMonth.Remainder != 0 ? targetDayOfMonth.Remainder : 28);
         }

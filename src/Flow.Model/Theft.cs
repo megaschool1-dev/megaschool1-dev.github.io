@@ -1,7 +1,8 @@
-﻿using OneOf;
+﻿using Foundation.Model;
+using OneOf;
 using OneOf.Types;
 
-namespace MegaSchool1.Model.Game;
+namespace Flow.Model;
 
 public record Theft(string Name, string Description, OneOf<Percentage, (Scalar Amount, TimeSpan Frequency)> Amount)
 {
