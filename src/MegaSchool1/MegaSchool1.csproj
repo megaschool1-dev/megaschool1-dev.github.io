@@ -34,6 +34,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Flow.Model\Flow.Model.csproj" />
+    <ProjectReference Include="..\Flow.UI\Flow.UI.csproj" />
+    <ProjectReference Include="..\Foundation.UI\Foundation.UI.csproj" />
     <ProjectReference Include="..\MegaSchool1.Model\MegaSchool1.Model.csproj" />
     <ProjectReference Include="..\MegaSchool1.ViewModel\MegaSchool1.ViewModel.csproj" />
   </ItemGroup>

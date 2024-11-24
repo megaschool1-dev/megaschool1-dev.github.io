@@ -3,27 +3,17 @@
 @using MegaSchool1.ViewModel
 @using OneOf
 @using OneOf.Types
-@inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 @inject UISettings UI
 @inject Mappers Mappers
+@inherits Foundation.UI.Components.ComponentBase
 
 @code {
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
-
     [CascadingParameter]
     public AppState? AppState { get; set; }
 
     protected MudTheme Theme { get; } = new();
-    protected bool ComponentInitialized { get; private set; }
     private bool IsCarPurchasePage => NavigationManager.Uri.Contains("/carpurchase");
-
-    protected override void OnInitialized()
-    {
-        this.ComponentInitialized = true;
-        this.StateHasChanged();
-    }
 
     protected bool NavigateToProspectPageIfApplicable()
     {
@@ -39,34 +29,6 @@
 
     protected bool ProspectMode => AppState?.User == null;
 
-    protected static string FormatTimeSpan(TimeSpan duration)
-        => $"({(duration.Hours > 0 ? $"{duration.Hours}hr " : string.Empty)}{(duration.Minutes > 0 ? $"{duration.Minutes}min" : string.Empty)}{(duration.Seconds > 0 ? $" {duration.Seconds}sec" : string.Empty)})";
-
-    protected static DateTimeOffset GetNextEvent(DayOfWeek day, TimeOnly time, TimeZoneInfo timeZone)
-    {
-        var currentDateTime = DateTimeOffset.Now;
-        var currentDateTimeDownToSecond = new DateTimeOffset(DateOnly.FromDateTime(currentDateTime.Date), new TimeOnly(currentDateTime.DateTime.Hour, currentDateTime.DateTime.Minute), currentDateTime.Offset);
-        var currentTimeInEventTimeZone = currentDateTimeDownToSecond.ToOffset(timeZone.BaseUtcOffset);
-
-        var nextEventTime = currentTimeInEventTimeZone.AddHours(time.Hour - currentTimeInEventTimeZone.Hour);
-        nextEventTime = nextEventTime.AddMinutes(time.Minute - nextEventTime.Minute);
-
-        var nextEvent = nextEventTime;
-        while (nextEvent.DayOfWeek != day || nextEvent < currentTimeInEventTimeZone)
-        {
-            nextEvent = nextEvent.AddDays(1);
-        }
-
-        return nextEvent;
-    }
-
-    protected Task CopyTextToClipboardAsync(string text) => CopyTextToClipBoardAsync(text, JSRuntime);
-
-    protected static async Task CopyTextToClipBoardAsync(string text, IJSRuntime js)
-    {
-        await js.InvokeVoidAsync("clipboardCopy.copyText", text);
-    }
-
     public static async Task ShareOrCopyTextAsync(string text, Image image, IJSRuntime js)
     {
         // copy text to clipboard
@@ -79,24 +41,6 @@
             await ShareMessageAsync(text, Constants.GetImageUrl(image), js);
         }
     }
-
-    protected Task<bool> WebShareAllowedAsync() => WebShareAllowedAsync(JSRuntime);
-
-    protected static async Task<bool> WebShareAllowedAsync(IJSRuntime js)
-    {
-        return await js.InvokeAsync<bool>("webshareAllowed");
-    }
-
-    protected Task ShareMessageAsync(string message, string imageUrl) => ShareMessageAsync(message, imageUrl, JSRuntime);
-
-    protected static async Task ShareMessageAsync(string message, string imageUrl, IJSRuntime js)
-    {
-        const string DefaultWebShareTitle = "Mega School";
-
-        await js.InvokeVoidAsync("webshare", DefaultWebShareTitle, message, imageUrl);
-    }
-
-    protected Task ShareMessageAsync(string message, Image image) => ShareMessageAsync(message, Constants.GetImageUrl(image));
 
     protected (OneOf<ShareableViewModel, None> English, OneOf<ShareableViewModel, None> Spanish) GetShareable(OneOf<Content, ShareableDto> content)
     {

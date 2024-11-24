@@ -1,0 +1,60 @@
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    protected bool ComponentInitialized { get; private set; }
+
+    protected override void OnInitialized()
+    {
+        this.ComponentInitialized = true;
+        this.StateHasChanged();
+    }
+
+    protected static string FormatTimeSpan(TimeSpan duration)
+        => $"({(duration.Hours > 0 ? $"{duration.Hours}hr " : string.Empty)}{(duration.Minutes > 0 ? $"{duration.Minutes}min" : string.Empty)}{(duration.Seconds > 0 ? $" {duration.Seconds}sec" : string.Empty)})";
+
+    protected static DateTimeOffset GetNextEvent(DayOfWeek day, TimeOnly time, TimeZoneInfo timeZone)
+    {
+        var currentDateTime = DateTimeOffset.Now;
+        var currentDateTimeDownToSecond = new DateTimeOffset(DateOnly.FromDateTime(currentDateTime.Date), new TimeOnly(currentDateTime.DateTime.Hour, currentDateTime.DateTime.Minute), currentDateTime.Offset);
+        var currentTimeInEventTimeZone = currentDateTimeDownToSecond.ToOffset(timeZone.BaseUtcOffset);
+
+        var nextEventTime = currentTimeInEventTimeZone.AddHours(time.Hour - currentTimeInEventTimeZone.Hour);
+        nextEventTime = nextEventTime.AddMinutes(time.Minute - nextEventTime.Minute);
+
+        var nextEvent = nextEventTime;
+        while (nextEvent.DayOfWeek != day || nextEvent < currentTimeInEventTimeZone)
+        {
+            nextEvent = nextEvent.AddDays(1);
+        }
+
+        return nextEvent;
+    }
+
+    protected Task CopyTextToClipboardAsync(string text) => CopyTextToClipBoardAsync(text, JSRuntime);
+
+    protected static async Task CopyTextToClipBoardAsync(string text, IJSRuntime js)
+    {
+        await js.InvokeVoidAsync("clipboardCopy.copyText", text);
+    }
+
+    protected Task<bool> WebShareAllowedAsync() => WebShareAllowedAsync(JSRuntime);
+
+    protected static async Task<bool> WebShareAllowedAsync(IJSRuntime js)
+    {
+        return await js.InvokeAsync<bool>("webshareAllowed");
+    }
+
+    protected Task ShareMessageAsync(string message, string imageUrl) => ShareMessageAsync(message, imageUrl, JSRuntime);
+
+    protected static async Task ShareMessageAsync(string message, string imageUrl, IJSRuntime js)
+    {
+        const string DefaultWebShareTitle = "Mega School";
+
+        await js.InvokeVoidAsync("webshare", DefaultWebShareTitle, message, imageUrl);
+    }
+}
