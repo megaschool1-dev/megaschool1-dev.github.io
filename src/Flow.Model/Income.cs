@@ -1,4 +1,4 @@
-﻿namespace MegaSchool1.Model.Game;
+﻿namespace Flow.Model;
 
 public record Income(decimal Gross, TimeSpan PayFrequency, string Description)
 {

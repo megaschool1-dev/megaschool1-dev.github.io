@@ -1,6 +1,6 @@
 ﻿using ValueOf;
 
-namespace MegaSchool1.Model;
+namespace Foundation.Model;
 
 public class Percentage : ValueOf<decimal, Percentage>;
 public class Scalar : ValueOf<int, Scalar>;

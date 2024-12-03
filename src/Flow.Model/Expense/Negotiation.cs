@@ -1,6 +1,6 @@
 ﻿using ValueOf;
 
-namespace MegaSchool1.Model.Game.Expense;
+namespace Flow.Model.Expense;
 
 public record Negotiation(INegotiableExpense Negotiated, DayOfYear StartDate) : Expense(GetDiscount(Negotiated) * 0.4m, Negotiated.Recurrence, StartDate, $"Bill Negotiators reduced your {Negotiated.Description} bill by {GetDiscount(Negotiated):C} and charged {GetDiscount(Negotiated) * 0.4m:C}, which is 40% of your savings")
 {

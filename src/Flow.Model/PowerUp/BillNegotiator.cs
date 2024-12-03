@@ -1,7 +1,7 @@
-﻿using MegaSchool1.Model.Game.Expense;
+﻿using Flow.Model.Expense;
 using OneOf.Types;
 
-namespace MegaSchool1.Model.Game.PowerUp;
+namespace Flow.Model.PowerUp;
 
 public class BillNegotiator : PowerUp
 {
@@ -11,19 +11,19 @@ public class BillNegotiator : PowerUp
     {
         var billNegotiatorExpense = new BillNegotiatorExpense(game.Day);
 
-        if (!game.Expenses.Any(e => e is TreasureMasterMembership))
+        if (!Enumerable.Any<Expense.Expense>(game.Expenses, e => e is TreasureMasterMembership))
         {
             game = game with { CheckingAccountBalance = game.CheckingAccountBalance - billNegotiatorExpense.Amount }; 
 
             game.Expenses.Add(billNegotiatorExpense);
         }
 
-        var billNegotiatorCost = game.Expenses.Any(e => e is TreasureMasterMembership) ? 0.0m : billNegotiatorExpense.Amount;
+        var billNegotiatorCost = Enumerable.Any<Expense.Expense>(game.Expenses, e => e is TreasureMasterMembership) ? 0.0m : billNegotiatorExpense.Amount;
 
         game.Expenses.RemoveAll(e => e is Negotiation);
 
         _negotiations.Clear();
-        _negotiations.AddRange(game.Expenses.OfType<INegotiableExpense>().Select(e => new Negotiation(e, GetBillNegotiationDay(game.Day))));
+        _negotiations.AddRange(Enumerable.OfType<INegotiableExpense>(game.Expenses).Select(e => new Negotiation(e, GetBillNegotiationDay(game.Day))));
         game.Expenses.AddRange(_negotiations);
 
         var savings = Savings.From(_negotiations.Sum(n => n.Discount) - billNegotiatorCost);

@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace MegaSchool1;
+namespace Foundation.UI;
 
 public static class ExtensionMethods
 {

@@ -1,8 +1,7 @@
-﻿using MegaSchool1.Model.Game.Expense;
-using OneOf;
+﻿using Flow.Model.Expense;
 using OneOf.Types;
 
-namespace MegaSchool1.Model.Game.PowerUp;
+namespace Flow.Model.PowerUp;
 
 public class InstantPayRaise : PowerUp
 {
@@ -19,7 +18,7 @@ public class InstantPayRaise : PowerUp
             game.CurrentDayStats.Income = (game.CurrentDayStats.Income.Gross, game.CurrentDayStats.Income.Net + dailyPayRaise);
         }
 
-        if(!game.Expenses.Any(e => e is TreasureMasterMembership))
+        if(!Enumerable.Any<Expense.Expense>(game.Expenses, e => e is TreasureMasterMembership))
         {
             var instantPayRaiseExpense = new InstantPayRaiseExpense(game.Day);
 
@@ -30,7 +29,7 @@ public class InstantPayRaise : PowerUp
         return
         (
              (
-            Description.From($"Instant Pay Raise! The {(game.Expenses.Any(e => e is TreasureMasterMembership) ? "Treasure Masters" : "Levy Wizard")} recovered ${dailyPayRaise:N0} from the Big Realm Levy theft."),
+            Description.From($"Instant Pay Raise! The {(Enumerable.Any<Expense.Expense>(game.Expenses, e => e is TreasureMasterMembership) ? "Treasure Masters" : "Levy Wizard")} recovered ${dailyPayRaise:N0} from the Big Realm Levy theft."),
             new None())
             ,
             game

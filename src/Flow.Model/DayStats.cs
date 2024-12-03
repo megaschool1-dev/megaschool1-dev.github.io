@@ -1,4 +1,4 @@
-﻿namespace MegaSchool1.Model.Game;
+﻿namespace Flow.Model;
 
 public class DayStats
 {

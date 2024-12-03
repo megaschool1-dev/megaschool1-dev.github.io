@@ -1,7 +1,4 @@
-﻿using OneOf;
-using OneOf.Types;
-
-namespace MegaSchool1.Model.Game.PowerUp;
+﻿namespace Flow.Model.PowerUp;
 
 public abstract class PowerUp
 {
