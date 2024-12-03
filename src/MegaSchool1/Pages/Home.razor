@@ -351,11 +351,11 @@
         currentShareables = currentShareables.Where(s => s.ClassName != null).ToList();
 
         // sync w/ added standard shareables
-        for (var i = 0; i < defaultClientSettingsEnglish.Shareables.Length; i++)
+        for (var i = defaultClientSettingsEnglish.Shareables.Length - 1; i >= 0; i--)
         {
             if (defaultClientSettingsEnglish.Shareables[i].ClassName != null && currentShareables.All(s => s.ContentId != defaultClientSettingsEnglish.Shareables[i].ContentId))
             {
-                currentShareables.Add(defaultClientSettingsEnglish.Shareables[i]);
+                currentShareables.Insert(0, defaultClientSettingsEnglish.Shareables[i]);
             }
         }
 
