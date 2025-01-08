@@ -8,8 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="7.0.0" />
-    <PackageReference Include="FsCheck" Version="2.16.6" />
-    <PackageReference Include="FsCheck.NUnit" Version="2.16.6" />
+    <PackageReference Include="FsCheck" Version="3.0.0" />
+    <PackageReference Include="FsCheck.NUnit" Version="3.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
