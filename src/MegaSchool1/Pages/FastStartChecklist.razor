@@ -1,181 +1,185 @@
-@page "/faststartchecklist"
+@page "/"
 @using MegaSchool1.Components
 @using MegaSchool1.Dialog
 @using MegaSchool1.Model
 @inherits Components.ComponentBase
 @inject Repository.Repository Repo
 @inject IDialogService Dialog
+@inject UISettings UI
 
 <StrategyChooser>
     <MudTabPanel Tag="@Strategy.MegaSchool">
         <MudForm>
-        <MudStack Spacing="3">
-            <Collapsable Title="Before Fast Start Meeting">
-                <MudStack Spacing="3">
-                    <MudCheckBox Disabled="true" Value="_viewModel.MegaSchool.WatchAppInstallInstructions && _viewModel.MegaSchool.InstallApp" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
-                        <MudText Typo="Typo.h6">Install Mega School App:</MudText>I have done the following:
-                    </MudCheckBox>
-                    <Centered>
-                        <MudStack Row="true">
-                            <MudContainer Style="width:75%;">
-                                <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.WatchAppInstallInstructions" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary">
-                                    <Centered><MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Dialog.Show<AppInstallInstructionsDialog>("72-Hour Money Challenge", new(), new() { NoHeader = true }))">Watch Instructions</MudButton></Centered>
-                                </MudCheckBox>
+            <MudStack Spacing="3">
+                <Collapsable Title="Before Fast Start Meeting">
+                    <MudStack Spacing="3">
+                        <MudCheckBox Disabled="true" Value="_viewModel.MegaSchool.WatchAppInstallInstructions && _viewModel.MegaSchool.InstallApp" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
+                            <MudText Typo="Typo.h6">Install Mega School App:</MudText>I have done the following:
+                        </MudCheckBox>
+                        <Centered>
+                            <MudStack Row="true">
+                                <MudContainer Style="width:75%;">
+                                    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.WatchAppInstallInstructions" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary">
+                                        <Centered><MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Dialog.Show<AppInstallInstructionsDialog>("72-Hour Money Challenge", new(), new() { NoHeader = true }))">Watch Instructions</MudButton></Centered>
+                                    </MudCheckBox>
                                     <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.InstallApp" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary">
-                                    Install App
-                                </MudCheckBox>
-                            </MudContainer>
-                        </MudStack>
-                    </Centered>
-                    <MudDivider/>
+                                        Install App
+                                    </MudCheckBox>
+                                </MudContainer>
+                            </MudStack>
+                        </Centered>
+                        <MudDivider/>
                         <MudCheckBox Disabled="true" Value="_viewModel.InstallGivBuxApp && _viewModel.SetGivBuxCode && _viewModel.ReportGivBuxCode" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
                             <MudText Typo="Typo.h6">Set Up GivBux:</MudText>I have done the following:
                         </MudCheckBox>
                         <MudStack Row="true">
                             <MudSpacer />
-                            <MudContainer Style="width:75%;">
-                                <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.InstallGivBuxApp" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary">
-                                    <MudText>Install GivBux App</MudText>
-                                </MudCheckBox>
+                            <MudContainer Style="width:90%;">
+                                <MudStack>
+                                    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.InstallGivBuxApp" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary" Label="Install GivBux App">
+                                        <MudIconButton OnClick="@(() => _videoDialog = (true, Content.GivBuxAccountSetup))" Style="transform: scale(0.5); vertical-align:text-bottom;" Class="mud-theme-primary rounded-circle" Size="Size.Small" Variant="Variant.Filled" Color="Color.Primary" Icon="@Icons.Material.Filled.QuestionMark" />
+                                    </MudCheckBox>
+                                </MudStack>
                                 <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.SetGivBuxCode" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary">
-                                    <MudText>Set My GivBux "Vanity Name" / Handle / Code</MudText>
+                                    <MudText>Set My GivBux "Vanity Name" (aka "Handle" or "Code")</MudText>
                                 </MudCheckBox>
                                 <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.ReportGivBuxCode" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary">
                                     <MudText>Share My GivBux "Vanity Name" w/ My Upline (via text message)</MudText>
                                 </MudCheckBox>
                             </MudContainer>
                         </MudStack>                    
-                    <MudDivider />
-                    @ExtraDigitPlugin
-                    @Headshot
-                    @PayCard
-                    @VirtualBusinessLaunch
-                    @InHomeBusinessLaunch
-                    @FirstRoundDraftChoice
-                    @PersonalActivityReport
-                    <MudCheckBox T="bool" @bind-Value="_viewModel.MegaSchool.ExecutiveDirector3Roadmap" Size="Size.Medium" Color="Color.Primary">
+                        <MudDivider />
+                        @ExtraDigitPlugin
+                        @Headshot
+                        @PayCard
+                        @VirtualBusinessLaunch
+                        @InHomeBusinessLaunch
+                        @FirstRoundDraftChoice
+                        @PersonalActivityReport
+                        <MudCheckBox T="bool" @bind-Value="_viewModel.MegaSchool.ExecutiveDirector3Roadmap" Size="Size.Medium" Color="Color.Primary">
                             <MudText Typo="Typo.h6">Print 4 Steps to 4 Figures Per Month:</MudText>Print <ExternalLink Href="https://www.extradigitmovement.com/resource_redirect/downloads/file-uploads/sites/13708/themes/2153043324/downloads/32a7256-8db4-2abf-7a2-3e1be235bd76_EDMQuickStartMay2024.pdf">4 Steps to 4 Figures Per Month</ExternalLink>
-                    </MudCheckBox>
-                    <MudCheckBox Disabled="true" Value="_viewModel.FastStartInterviewPrint && _viewModel.FastStartInterviewFillOut" Size="Size.Medium" Color="Color.Primary">
-                        <MudText Typo="Typo.h6">Fast Start Interview:</MudText>
+                        </MudCheckBox>
+                        <MudCheckBox Disabled="true" Value="_viewModel.FastStartInterviewPrint && _viewModel.FastStartInterviewFillOut" Size="Size.Medium" Color="Color.Primary">
+                            <MudText Typo="Typo.h6">Fast Start Interview:</MudText>
+                        </MudCheckBox>
+                        <Centered>
+                            <MudStack Style="width:75%;">
+                                <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.FastStartInterviewPrint" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary">
+                                    <MudText>Download <ExternalLink Href="https://user.mwrfinancial.com/content/V22/MWRFirstStartInterview-English.pdf">Fast Start Interview PDF</ExternalLink></MudText>
+                                </MudCheckBox>
+                                <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.FastStartInterviewFillOut" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary">
+                                    <MudText>Fill out Fast Start Interview PDF</MudText>
+                                </MudCheckBox>
+                            </MudStack>
+                        </Centered>
+                        <MudContainer Class="d-none">
+                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.TeamTrainings" Size="Size.Medium" Color="Color.Primary">
+                                <MudText Typo="Typo.h6">Team Trainings:</MudText>Subscribe to <ExternalLink Href="https://calendar.google.com/calendar/u/0?cid=OGc2bnEwYnFvZWRyM2ZzMjhyZDlzZHAwMmNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ">MWR Teams Calendar</ExternalLink>
+                            </MudCheckBox>
+                        </MudContainer>
+                        @CorporateSocialMedia
+                        <MudContainer Class="d-none">
+                            <MudCheckBox Disabled="true" Value="_viewModel.MegaSchool.SubscribedToSignal && _viewModel.MegaSchool.SubscribedToFacebook && _viewModel.MegaSchool.SubscribedToYouTube && _viewModel.MegaSchool.SubscribedToTwitter && _viewModel.MegaSchool.SubscribedToLinkedIn && _viewModel.MegaSchool.SubscribedToInstagram" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
+                                <MudText Typo="Typo.h6">Plugged In:</MudText>I am following Mega School on the Social Media Platforms listed below to stay informed:
+                            </MudCheckBox>
+                            <MudStack Row="true">
+                                <MudSpacer />
+                                <MudContainer Style="width:75%;">
+                                    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToSignal" Size="Size.Small" Color="Color.Primary">
+                                        <ExternalLink Href="https://signal.group/#CjQKIP2QwglEuMbv-8haIh30bk_QnhxWD6aONRIpJLDO_ncuEhDDiaplT9LAtRKCr_UxPqRm">Signal</ExternalLink>
+                                    </MudCheckBox>
+                                    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToFacebook" Size="Size.Small" Color="Color.Primary">
+                                        <ExternalLink Href="https://www.facebook.com/megaschool1">Facebook</ExternalLink>
+                                    </MudCheckBox>
+                                    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToYouTube" Size="Size.Small" Color="Color.Primary">
+                                        <ExternalLink Href="@("https://www.youtube.com/@megaschool1")">YouTube</ExternalLink>
+                                    </MudCheckBox>
+                                    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToTwitter" Size="Size.Small" Color="Color.Primary">
+                                        <ExternalLink Href="https://www.twitter.com/megaschool1_me">Twitter</ExternalLink>
+                                    </MudCheckBox>
+                                    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToLinkedIn" Size="Size.Small" Color="Color.Primary">
+                                        <ExternalLink Href="https://www.linkedin.com/company/megaschool1-me">LinkedIn</ExternalLink>
+                                    </MudCheckBox>
+                                    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToInstagram" Size="Size.Small" Color="Color.Primary">
+                                        <ExternalLink Href="https://www.instagram.com/megaschool1.me">Instagram</ExternalLink>
+                                    </MudCheckBox>
+                                </MudContainer>
+                            </MudStack>
+                        </MudContainer>
+                        <MudCheckBox Disabled="true" Value="_viewModel.ExtraDigitMovement.SubscribedToFacebookPage && _viewModel.ExtraDigitMovement.SubscribedToFacebookGroup && _viewModel.ExtraDigitMovement.SubscribedToYouTube && _viewModel.ExtraDigitMovement.SubscribeToTelegram" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
+                            <MudText Typo="Typo.h6">Plugged In:</MudText>I am following Extra Digit Movement on the Social Media Platforms listed below to stay informed:
+                        </MudCheckBox>
+                        <MudStack Row="true">
+                            <MudSpacer />
+                            <MudContainer Style="width:80%;">
+                                <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.ExtraDigitMovement.SubscribedToFacebookPage" Size="Size.Small" Color="Color.Primary">
+                                    <ExternalLink Href="https://www.facebook.com/ExtraDigit">Facebook Page</ExternalLink>
+                                </MudCheckBox>
+                                <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.ExtraDigitMovement.SubscribedToFacebookGroup" Size="Size.Small" Color="Color.Primary">
+                                    <ExternalLink Href="https://www.facebook.com/groups/193851270779332/">Facebook Group</ExternalLink>
+                                </MudCheckBox>
+                                <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.ExtraDigitMovement.SubscribedToYouTube" Size="Size.Small" Color="Color.Primary">
+                                    <ExternalLink Href="@("https://www.youtube.com/@ExtraDigitMovement")">YouTube</ExternalLink>
+                                </MudCheckBox>
+                                <MudCheckBox Disabled="!_pageLoaded" Value="_viewModel.ExtraDigitMovement.SubscribeToTelegram" T="bool" ValueChanged="@(async value => { _viewModel.ExtraDigitMovement.SubscribeToTelegram = value; await SaveAsync(); })" Size="Size.Small" Color="Color.Primary">
+                                    <ExternalLink Href="@("https://t.me/+eHM4NJxWCYEzNTAx")">Telegram</ExternalLink>
+                                </MudCheckBox>
+                            </MudContainer>
+                        </MudStack>
+                        <MudCheckBox Disabled="true" Value="_viewModel.ArkNation.SubscribedToGroupMe" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
+                            <MudText Typo="Typo.h6">Plugged In:</MudText>I am following ARK Nation on the Social Media Platforms listed below to stay informed:
+                        </MudCheckBox>
+                        <MudStack Row="true">
+                            <MudSpacer />
+                            <MudContainer Style="width:75%;">
+                                <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.ArkNation.SubscribedToGroupMe" Size="Size.Small" Color="Color.Primary">
+                                    <ExternalLink Href="https://groupme.com/join_group/63815923/sXzGrI1w">GroupMe</ExternalLink>
+                                </MudCheckBox>
+                            </MudContainer>
+                        </MudStack>
+                        <MudContainer Class="d-none">
+                            @NextCorporateConference
+                        </MudContainer>
+                    </MudStack>
+                </Collapsable>
+                <Collapsable Title="Fast Start Meeting">
+                    @FastStartInterview
+                </Collapsable>
+                <Collapsable Title="After Fast Start Meeting">
+                    <MudCheckBox T="bool" Disabled="true" Value="@(_viewModel.DebtEliminator && _viewModel.DiversifiedCashflowAccount && _viewModel.DiversifiedCashflowAccountConsultationDate != null && _viewModel.InstantPayRaise && _viewModel.HurdlrSetup && _viewModel.LowerMyBills && _viewModel.RestoreCredit)" Size="Size.Medium" Color="Color.Primary">
+                        <MudText Typo="Typo.h6">72-Hour Money Challenge:</MudText>Take the 72-Hour Money Challenge.  If you need help, attend either the <MudLink Href="/events#tuesdays-megaschool-training">Tuesday</MudLink> or <MudLink Href="/events#wednesdays-megaschool-training">Wednesday</MudLink> Membership Workshop.
                     </MudCheckBox>
                     <Centered>
-                        <MudStack Style="width:75%;">
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.FastStartInterviewPrint" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary">
-                                    <MudText>Download <ExternalLink Href="https://user.mwrfinancial.com/content/V22/MWRFirstStartInterview-English.pdf">Fast Start Interview PDF</ExternalLink></MudText>
-                            </MudCheckBox>
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.FastStartInterviewFillOut" Validation="@SaveAndValidateTrueAsync()" Size="Size.Small" Color="Color.Primary">
-                                <MudText>Fill out Fast Start Interview PDF</MudText>
-                            </MudCheckBox>
+                        <MudStack Spacing="3" Style="width:75%;">
+                            <MudStack Row="true">
+                                <MudText>#1: </MudText>
+                                <MudButton OnClick="() => _dialog = (true, EliminateMyDebt)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">Eliminate My Debt</MudButton>
+                                <MudSpacer />
+                            </MudStack>
+                            <MudStack Row="true">
+                                <MudText>#2: </MudText>
+                                <MudButton OnClick="() => _dialog = (true, DCA)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">DCA</MudButton>
+                                <MudSpacer />
+                            </MudStack>
+                            <MudStack Row="true">
+                                <MudText>#3: </MudText>
+                                <MudButton OnClick="() => _dialog = (true, InstantPayRaise)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">Instant Pay Raise</MudButton>
+                                <MudSpacer />
+                            </MudStack>
+                            <MudStack Row="true">
+                                <MudText>#4: </MudText>
+                                <MudButton OnClick="() => _dialog = (true, LowerMyBills)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">Lower My Bills</MudButton>
+                                <MudSpacer />
+                            </MudStack>
+                            <MudStack Row="true">
+                                <MudText>#5: </MudText>
+                                <MudButton OnClick="() => _dialog = (true, CreditRestoration)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">Credit Restoration</MudButton>
+                                <MudSpacer />
+                            </MudStack>
                         </MudStack>
                     </Centered>
-                    <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.TeamTrainings" Size="Size.Medium" Color="Color.Primary">
-                            <MudText Typo="Typo.h6">Team Trainings:</MudText>Subscribe to <ExternalLink Href="https://calendar.google.com/calendar/u/0?cid=OGc2bnEwYnFvZWRyM2ZzMjhyZDlzZHAwMmNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ">MWR Teams Calendar</ExternalLink>
-                    </MudCheckBox>
-                    @CorporateSocialMedia
-                    <MudCheckBox Disabled="true" Value="_viewModel.MegaSchool.SubscribedToSignal && _viewModel.MegaSchool.SubscribedToFacebook && _viewModel.MegaSchool.SubscribedToYouTube && _viewModel.MegaSchool.SubscribedToTwitter && _viewModel.MegaSchool.SubscribedToLinkedIn && _viewModel.MegaSchool.SubscribedToInstagram" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
-                        <MudText Typo="Typo.h6">Plugged In:</MudText>I am following Mega School on the Social Media Platforms listed below to stay informed:
-                    </MudCheckBox>
-                    <MudStack Row="true">
-                        <MudSpacer />
-                        <MudContainer Style="width:75%;">
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToSignal" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="https://signal.group/#CjQKIP2QwglEuMbv-8haIh30bk_QnhxWD6aONRIpJLDO_ncuEhDDiaplT9LAtRKCr_UxPqRm">Signal</ExternalLink>
-                            </MudCheckBox>
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToFacebook" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="https://www.facebook.com/megaschool1">Facebook</ExternalLink>
-                            </MudCheckBox>
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToYouTube" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="@("https://www.youtube.com/@megaschool1")">YouTube</ExternalLink>
-                            </MudCheckBox>
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToTwitter" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="https://www.twitter.com/megaschool1_me">Twitter</ExternalLink>
-                            </MudCheckBox>
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToLinkedIn" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="https://www.linkedin.com/company/megaschool1-me">LinkedIn</ExternalLink>
-                            </MudCheckBox>
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.MegaSchool.SubscribedToInstagram" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="https://www.instagram.com/megaschool1.me">Instagram</ExternalLink>
-                            </MudCheckBox>
-                        </MudContainer>
-                    </MudStack>
-                    <MudCheckBox Disabled="true" Value="_viewModel.ExtraDigitMovement.SubscribedToFacebookPage && _viewModel.ExtraDigitMovement.SubscribedToFacebookGroup && _viewModel.ExtraDigitMovement.SubscribedToYouTube && _viewModel.ExtraDigitMovement.SubscribeToTelegram" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
-                        <MudText Typo="Typo.h6">Plugged In:</MudText>I am following Extra Digit Movement on the Social Media Platforms listed below to stay informed:
-                    </MudCheckBox>
-                    <MudStack Row="true">
-                        <MudSpacer />
-                        <MudContainer Style="width:80%;">
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.ExtraDigitMovement.SubscribedToFacebookPage" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="https://www.facebook.com/ExtraDigit">Facebook Page</ExternalLink>
-                            </MudCheckBox>
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.ExtraDigitMovement.SubscribedToFacebookGroup" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="https://www.facebook.com/groups/193851270779332/">Facebook Group</ExternalLink>
-                            </MudCheckBox>
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.ExtraDigitMovement.SubscribedToYouTube" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="@("https://www.youtube.com/@ExtraDigitMovement")">YouTube</ExternalLink>
-                            </MudCheckBox>
-                            <MudCheckBox Disabled="!_pageLoaded" Value="_viewModel.ExtraDigitMovement.SubscribeToTelegram" T="bool" ValueChanged="@(async value => { _viewModel.ExtraDigitMovement.SubscribeToTelegram = value; await SaveAsync(); })" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="@("https://t.me/+eHM4NJxWCYEzNTAx")">Telegram</ExternalLink>
-                            </MudCheckBox>
-                        </MudContainer>
-                    </MudStack>
-                    <MudCheckBox Disabled="true" Value="_viewModel.ArkNation.SubscribedToGroupMe" ReadOnly="true" Size="Size.Medium" Color="Color.Primary">
-                        <MudText Typo="Typo.h6">Plugged In:</MudText>I am following ARK Nation on the Social Media Platforms listed below to stay informed:
-                    </MudCheckBox>
-                    <MudStack Row="true">
-                        <MudSpacer />
-                        <MudContainer Style="width:75%;">
-                            <MudCheckBox Disabled="!_pageLoaded" @bind-Value="_viewModel.ArkNation.SubscribedToGroupMe" Size="Size.Small" Color="Color.Primary">
-                                <ExternalLink Href="https://groupme.com/join_group/63815923/sXzGrI1w">GroupMe</ExternalLink>
-                            </MudCheckBox>
-                        </MudContainer>
-                    </MudStack>
-                    @NextCorporateConference
-                </MudStack>
-            </Collapsable>
-            <Collapsable Title="Fast Start Meeting">
-                @FastStartInterview
-            </Collapsable>
-            <Collapsable Title="After Fast Start Meeting">
-                <MudCheckBox T="bool" Disabled="true" Value="@(_viewModel.DebtEliminator && _viewModel.DiversifiedCashflowAccount && _viewModel.DiversifiedCashflowAccountConsultationDate != null && _viewModel.InstantPayRaise && _viewModel.HurdlrSetup && _viewModel.LowerMyBills && _viewModel.RestoreCredit)" Size="Size.Medium" Color="Color.Primary">
-                    <MudText Typo="Typo.h6">72-Hour Money Challenge:</MudText>Take the 72-Hour Money Challenge.  If you need help, attend either the <MudLink Href="/events#tuesdays-megaschool-training">Tuesday</MudLink> or <MudLink Href="/events#wednesdays-megaschool-training">Wednesday</MudLink> Membership Workshop.
-                </MudCheckBox>
-                <Centered>
-                    <MudStack Spacing="3" Style="width:75%;">
-                        <MudStack Row="true">
-                            <MudText>#1: </MudText>
-                            <MudButton OnClick="() => _dialog = (true, EliminateMyDebt)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">Eliminate My Debt</MudButton>
-                            <MudSpacer />
-                        </MudStack>
-                        <MudStack Row="true">
-                            <MudText>#2: </MudText>
-                            <MudButton OnClick="() => _dialog = (true, DCA)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">DCA</MudButton>
-                            <MudSpacer />
-                        </MudStack>
-                        <MudStack Row="true">
-                            <MudText>#3: </MudText>
-                            <MudButton OnClick="() => _dialog = (true, InstantPayRaise)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">Instant Pay Raise</MudButton>
-                            <MudSpacer />
-                        </MudStack>
-                        <MudStack Row="true">
-                            <MudText>#4: </MudText>
-                            <MudButton OnClick="() => _dialog = (true, Hurdlr)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">Hurdlr</MudButton>
-                            <MudSpacer />
-                        </MudStack>
-                        <MudStack Row="true">
-                            <MudText>#5: </MudText>
-                            <MudButton OnClick="() => _dialog = (true, LowerMyBills)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">Lower My Bills</MudButton>
-                            <MudSpacer />
-                        </MudStack>
-                        <MudStack Row="true">
-                            <MudText>#6: </MudText>
-                            <MudButton OnClick="() => _dialog = (true, CreditRestoration)" FullWidth="true" Color="Color.Primary" Variant="Variant.Filled">Credit Restoration</MudButton>
-                            <MudSpacer />
-                        </MudStack>
-                    </MudStack>
-                </Centered>
-            </Collapsable>
-        </MudStack>
+                </Collapsable>
+            </MudStack>
         </MudForm>
     </MudTabPanel>
     <MudTabPanel Tag="@Strategy.ExtraDigitMovement">
@@ -213,11 +217,11 @@
             <MudText Align="Align.Center"><MudLink OnClick="@(e => _isFastStartVisible = true)">Watch Now!</MudLink></MudText>
             <MudOverlay @bind-Visible="_isFastStartVisible" DarkBackground="true" Absolute="false" AutoClose="true">
                 <iframe id="ifmVdoPop"
-                        style="position:relative;width:100%;height:100%;"
-                        src="https://player.vimeo.com/video/882695585?h=80b52d966e&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
-                        frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-                        allowfullscreen=""
-                        data-ready="true"></iframe>
+                style="position:relative;width:100%;height:100%;"
+                src="https://player.vimeo.com/video/882695585?h=80b52d966e&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen=""
+                data-ready="true"></iframe>
             </MudOverlay>
             <br/>
             @FirstRoundDraftChoice
@@ -244,7 +248,19 @@
 
 <MudDialog @bind-Visible="_dialog.ShowDialog" Options="@(new DialogOptions() { FullWidth = true, NoHeader = true })">
     <DialogContent>
-       @_dialog.Content
+        @_dialog.Content
+    </DialogContent>
+</MudDialog>
+
+<MudDialog @bind-Visible="_videoDialog.Show" Options="@(new DialogOptions() { NoHeader = true })">
+    <DialogContent>
+        @{
+            var mapper = new Mappers();
+            var englishDto = UI.EnglishLocale[_videoDialog.Content];
+            var english = englishDto != null ? mapper.ShareableDtoToViewModel(englishDto) : new();
+            var video = english.Video.MapT0(v => v.Video);
+        }
+        <EmbeddedVideo Video="@video"/>
     </DialogContent>
 </MudDialog>
 
@@ -253,6 +269,7 @@
     private Model.Repository.FastStartChecklist _viewModel = new();
     private bool _isFastStartVisible;
     private (bool ShowDialog, RenderFragment Content) _dialog;
+    private (bool Show, Content Content) _videoDialog;
 
     protected override async Task OnInitializedAsync()
     {

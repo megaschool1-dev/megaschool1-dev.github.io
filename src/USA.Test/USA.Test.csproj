@@ -11,4 +11,8 @@
     <PackageReference Include="TUnit" Version="0.6.43" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\USA.Model\USA.Model.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,8 +1,10 @@
 ﻿using StellarDotnetSdk;
 using StellarDotnetSdk.Accounts;
 using StellarDotnetSdk.Assets;
+using StellarDotnetSdk.Operations;
 using StellarDotnetSdk.Requests;
 using StellarDotnetSdk.Responses;
+using StellarDotnetSdk.Responses.Results;
 using StellarDotnetSdk.Transactions;
 using Tommy;
 
@@ -255,9 +257,10 @@ public record Wallet(
         // set home domain
         if (Account.Info.HomeDomain != HomeDomain)
         {
-            var setHomeDoamin = new TransactionBuilder(Account.Info);
-            Util.SetHomeDomain(setHomeDoamin, Account.Info.KeyPair, this);
-            var result = await SubmitTransactionAsync(setHomeDoamin.Build(), true, $"set home domain for {Account.Info.AccountId}");
+            var setHomeDomain = new TransactionBuilder(Account.Info);
+            setHomeDomain.AddOperation(new SetOptionsOperation(Account.Info.KeyPair).SetHomeDomain(HomeDomain));
+
+            var result = await SubmitTransactionAsync(setHomeDomain.Build(), true, $"set home domain for {Account.Info.AccountId}");
             if (result?.IsSuccess is null or false)
             {
                 throw new Exception($"failed to set home domain for {Account.Info.AccountId}");
