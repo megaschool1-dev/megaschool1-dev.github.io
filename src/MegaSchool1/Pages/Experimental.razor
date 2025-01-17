@@ -1,5 +1,6 @@
 ﻿@page "/experimental"
 @using MegaSchool1.Components
+@inject IJSRuntime JS
 
 <MudStack Spacing="6">
     <Centered><MudIcon Icon="@Icons.Material.Filled.School" /><MudLink Href="/wealthmap">Mega GED</MudLink></Centered>
@@ -7,6 +8,7 @@
     <Centered><MudIcon Icon="@Icons.Material.Filled.Security" /><MudLink Href="/trustfundmybaby">Trust Fund My Baby</MudLink></Centered>
     <Centered><MudIcon Icon="@Icons.Material.Filled.Handshake" /><MudLink Href="/givbuxfundraiserprojections">GivBux Fundraiser Projections</MudLink></Centered>
     <Centered><MudIcon Icon="@Icons.Material.Filled.Gamepad" /><MudLink Href="/game">Game</MudLink></Centered>
+    <Centered><MudIcon Icon="@Icons.Material.Filled.Money" /><MudLink OnClick="OnRunProtocol">USA</MudLink></Centered>
     <MudDivider />
     <Collapsable Title="Tests">
         <MudStack Spacing="3">
@@ -27,3 +29,22 @@
         </MudStack>
     </Collapsable>
 </MudStack>
+
+<MudDialog @bind-Visible="_messageDialog.Show" Options="@(new DialogOptions() { NoHeader = true })">
+    <DialogContent>
+        <MudText>@_messageDialog.Message</MudText>
+    </DialogContent>
+</MudDialog>
+
+@code{
+    private (bool Show, string Message) _messageDialog;
+  
+    private async Task OnRunProtocol()
+    {
+        _messageDialog = (true, "Starting Protocol...");
+
+        await USA.Model.Protocol.RunAsync(OneOf.OneOf<IJSRuntime, OneOf.Types.None>.FromT0(JS));
+
+        _messageDialog = (true, "Protocol complete!");
+    }
+}

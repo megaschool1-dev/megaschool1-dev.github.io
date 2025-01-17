@@ -38,6 +38,7 @@
     <ProjectReference Include="..\Foundation.UI\Foundation.UI.csproj" />
     <ProjectReference Include="..\MegaSchool1.Model\MegaSchool1.Model.csproj" />
     <ProjectReference Include="..\MegaSchool1.ViewModel\MegaSchool1.ViewModel.csproj" />
+    <ProjectReference Include="..\USA.Model\USA.Model.csproj" />
   </ItemGroup>
 
 </Project>

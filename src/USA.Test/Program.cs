@@ -1,17 +1,17 @@
-﻿using Stellar;
+﻿using OneOf.Types;
+using Stellar;
 using StellarDotnetSdk.Accounts;
+using StellarDotnetSdk.Transactions;
 using TUnit.Core;
+using USA.Model;
 
 namespace USA.Test;
 
 public class Program
 {
     [Test]
-    public void Test1()
+    public async Task Test1()
     {
-        var wallet = new Wallet(
-            "https://localhost:8081",
-            KeyPair.Random().SecretSeed,
-            "https://thirdoption.party");
+        await Protocol.RunAsync(new None());
     }
 }

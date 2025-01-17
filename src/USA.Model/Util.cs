@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.JSInterop;
+using Newtonsoft.Json;
+using OneOf;
+using OneOf.Types;
 using Serilog;
 using Stellar;
 using StellarDotnetSdk.Accounts;
@@ -21,12 +24,33 @@ public static class Util
     {
         get
         {
-            var outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RivalCoins", "Util");
+            var outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ThirdParty", "USA");
 
             Directory.CreateDirectory(outputFolder);
 
             return outputFolder;
         }
+    }
+
+    public static async Task<OneOf<KeyPair, KeyPairBasic>> CreateKeyPairAsync(string secretSeed, OneOf<IJSRuntime, None> js)
+    {
+        if (js.TryPickT0(out var javascript, out _))
+        {
+            var seedAndAccountId = await javascript.InvokeAsync<string>("createKeyPairFromSeed", secretSeed);
+
+            return new KeyPairBasic(seedAndAccountId.Split(':')[1], seedAndAccountId.Split(':')[0]);
+        }
+        else
+        {
+            return KeyPair.FromSecretSeed(secretSeed);
+        }
+    }
+
+    public static async Task<KeyPairBasic> CreateKeyPairRandomAsync(IJSRuntime js)
+    {
+        var seedAndAccountId = await js.InvokeAsync<string>("createKeyPair");
+
+        return new KeyPairBasic(seedAndAccountId.Split(':')[1], seedAndAccountId.Split(':')[0]);
     }
 
     public static async Task<List<TResponse>> GetAllResultsAsync<TResponse>(Task<Page<TResponse>> query)
@@ -78,7 +102,7 @@ public static class Util
         string wrapperAssetCode,
         (KeyPair WrapperAssetIssuing, KeyPair WrapperAssetDistribution, Wallet XlmFunder) accounts)
     {
-        var transactionBuilder = new TransactionBuilder(accounts.XlmFunder.Account.Info);
+        var transactionBuilder = new TransactionBuilder(accounts.XlmFunder.Account.AsT0);
 
         // create Rival Coin
         AddRivalCoinCreation(
@@ -174,7 +198,7 @@ public static class Util
         CreateGovFundRewardsEnvironmentAsync(string networkUrl, string homeDomain)
     {
         var wallet = new Wallet(networkUrl, KeyPair.Random().SecretSeed, homeDomain);
-        await Wallet.CreateAccountAsync(KeyPair.FromSecretSeed(wallet.AccountSecretSeed), networkUrl);
+        await Wallet.CreateAccountAsync(KeyPair.FromSecretSeed(wallet.AccountSecretSeed.AsT0), networkUrl);
         await wallet.InitializeAsync();
 
         // create USA
@@ -202,7 +226,7 @@ public static class Util
         await Wallet.CreateAccountAsync(subscribed, wallet.NetworkUrl);
         await Wallet.CreateAccountAsync(airdropParticipant, wallet.NetworkUrl);
 
-        var tx = new TransactionBuilder(wallet.Account.Info);
+        var tx = new TransactionBuilder(wallet.Account.AsT0);
 
         // valid airdrop participant
         CreateTrustline(
@@ -257,7 +281,7 @@ public static class Util
         long tradingQuantity,
         Wallet wallet)
     {
-        var transactionBuilder = new TransactionBuilder(wallet.Account.Info);
+        var transactionBuilder = new TransactionBuilder(wallet.Account.AsT0);
 
         //var walletAccountBefore = await wallet.Server.Accounts.Account(wallet.Account.AccountId);
 
@@ -289,7 +313,7 @@ public static class Util
 
         // save currency system
         var currencySystemFile = $@"{OutputFolder}\{currencyAssetCode}-CurrencySystem.json";
-        var currencySystem = new CurrencySystem() { AssetCode = currencyAssetCode };
+        var currencySystem = new CurrencySystemDto() { AssetCode = currencyAssetCode };
         currencySystem.BaseIssuingAccount = $"{currencyAccounts.IssuingAccount.AccountId}:{currencyAccounts.IssuingAccount.SecretSeed}";
         currencySystem.BaseDistributionAccounts = currencyAccounts.DistributionAccounts.Select(a => $"{a.AccountId}:{a.SecretSeed}").ToArray();
 
@@ -301,7 +325,7 @@ public static class Util
         return currencyAccounts;
     }
 
-    private static async Task SaveTomlFileAsync(CurrencySystem currencySystem, string rivalCoinsCompanyUrl)
+    private static async Task SaveTomlFileAsync(CurrencySystemDto currencySystem, string rivalCoinsCompanyUrl)
     {
         var toml = new TomlTable();
         var sw = new StringWriter();
@@ -386,7 +410,7 @@ public static class Util
         async Task<KeyPair> CreateIssuingAccountAsync()
         {
             var issuingAccountMinimumBalance = Wallet.GetMinimumBalance(BaseReserve, 0, 0, 0);
-            var transactionBuilder = new TransactionBuilder(wallet.Account.Info);
+            var transactionBuilder = new TransactionBuilder(wallet.Account.AsT0);
             var issuingAccount = KeyPair.Random();
 
             transactionBuilder
@@ -407,7 +431,7 @@ public static class Util
         {
             if (distributionAccounts.Any())
             {
-                var transactionBuilder = new TransactionBuilder(wallet.Account.Info);
+                var transactionBuilder = new TransactionBuilder(wallet.Account.AsT0);
 
                 foreach (var distributionAccount in distributionAccounts)
                 {
@@ -426,7 +450,7 @@ public static class Util
         var issuingAccount = await CreateIssuingAccountAsync();
         var distributionAccounts = await CreateCurrencyDistributionAccountsAsync(wallet, long.Parse(tradingQuantity), currencySupply);
         var currency = Asset.CreateNonNativeAsset(currencyAssetCode, issuingAccount.AccountId);
-        var transactionBuilder = new TransactionBuilder(wallet.Account.Info);
+        var transactionBuilder = new TransactionBuilder(wallet.Account.AsT0);
 
         foreach (var distributionAccount in distributionAccounts)
         {
@@ -486,7 +510,7 @@ public static class Util
 
         foreach (var accountCreationTransaction in distributionAccounts.Chunk(Constants.MaxNumberOfOperationPerTransaction))
         {
-            var transactionBuilder = new TransactionBuilder(wallet.Account.Info);
+            var transactionBuilder = new TransactionBuilder(wallet.Account.AsT0);
 
             for (var i = 0; i < accountCreationTransaction.Length; i++)
             {

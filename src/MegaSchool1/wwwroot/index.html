@@ -78,6 +78,22 @@
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/13.1.0/stellar-sdk.js"></script>
+
+    <script>
+        window.createKeyPairFromSeed = (seed) => {
+            const pair = StellarSdk.Keypair.fromSecret(seed);
+
+            return pair.secret() + ":" + pair.publicKey();
+        }
+
+        window.createKeyPair = () => {
+            const pair = StellarSdk.Keypair.random();
+
+            return pair.secret() + ":" + pair.publicKey();
+        }
+    </script>
+
     <!--
         Refresh fix for Single Page Applications (SPAs)
         Source: https://github.com/orgs/community/discussions/50269

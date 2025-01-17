@@ -1,4 +1,6 @@
-﻿using StellarDotnetSdk;
+﻿using OneOf;
+using OneOf.Types;
+using StellarDotnetSdk;
 using StellarDotnetSdk.Accounts;
 using StellarDotnetSdk.Assets;
 using StellarDotnetSdk.Operations;
@@ -22,12 +24,12 @@ public class ServerSubmissionException : Exception
 
 public record Wallet(
     string NetworkUrl,
-    string? AccountSecretSeed,
+    OneOf<string, None> AccountSecretSeed,
     string HomeDomain) : IDisposable
 {
     private readonly HttpClient _httpClient = new();
 
-    public Network? NetworkInfo { get; private set; }
+    public OneOf<Network, None> NetworkInfo { get; private set; } = new None();
 
     public bool IsInitialized { get; private set; }
 
@@ -45,7 +47,7 @@ public record Wallet(
         }
     }
 
-    public (AccountResponse Info, KeyPair? Signer) Account { get; private set; }
+    public OneOf<AccountResponse, None> Account { get; private set; } = new None();
 
     public void Dispose()
     {
@@ -90,7 +92,7 @@ public record Wallet(
 
         var availableSigners =
             transaction.Operations.Select(o => o.SourceAccount)
-                .Union(new[] { transaction.SourceAccount, GetSigner(submittingAccount.AccountSecretSeed) })
+                .Union(new[] { transaction.SourceAccount, GetSigner(submittingAccount.AccountSecretSeed).Match(keypair => keypair, none => null) })
                 .Where(account => account != null && account.SigningKey.CanSign())
                 .DistinctBy(account => account.AccountId)
                 .ToList();
@@ -100,7 +102,7 @@ public record Wallet(
             var availableSigner = availableSigners.FirstOrDefault(signer => signer.AccountId == requiredSignature);
             if (availableSigner != null)
             {
-                transaction.Sign(availableSigner, submittingAccount.NetworkInfo);
+                transaction.Sign(availableSigner, submittingAccount.NetworkInfo.AsT0);
             }
         }
     }
@@ -137,19 +139,17 @@ public record Wallet(
         }
     }
 
-    private static KeyPair? GetSigner(string seed)
+    private static OneOf<StellarDotnetSdk.Accounts.KeyPair, None> GetSigner(OneOf<string, None> seed)
     {
-        KeyPair? keyPair = null;
-
         try
         {
-            keyPair = KeyPair.FromSecretSeed(seed);
+            return StellarDotnetSdk.Accounts.KeyPair.FromSecretSeed(seed.AsT0);
         }
         catch (Exception)
         {
         }
 
-        return keyPair;
+        return new None();
     }
 
     public static async Task<SubmitTransactionResponse?> SubmitTransactionAsync(
@@ -240,30 +240,21 @@ public record Wallet(
         var canUseCryptography = CanUseCryptography();
 
         // get account info
-        Account =
-            (
-                await Server.Accounts.Account(canUseCryptography && !string.IsNullOrWhiteSpace(AccountSecretSeed) ? KeyPair.FromSecretSeed(AccountSecretSeed).AccountId : accountId),
-                !string.IsNullOrWhiteSpace(AccountSecretSeed) ? KeyPair.FromSecretSeed(AccountSecretSeed) : null
-            );
+        Account = await Server.Accounts.Account(canUseCryptography && AccountSecretSeed.IsT0 ? StellarDotnetSdk.Accounts.KeyPair.FromSecretSeed(AccountSecretSeed.AsT0).AccountId : accountId);
 
         // get network info
-        //      We can't use stellar_dotnet_sdk.Server.Root() due to a design flaw in its implementation.
-        //      The Root() method invokes Task.Result which is incompatible in this async method
-        var responseHandler = new ResponseHandler<RootResponse>();
-        using var response = await _httpClient.GetAsync(NetworkUrl);
-        var rootResponse = await responseHandler.HandleResponse(response);
-        NetworkInfo = new Network(rootResponse.NetworkPassphrase);
+        NetworkInfo = new Network((await this.Server.RootAsync()).NetworkPassphrase);
 
         // set home domain
-        if (Account.Info.HomeDomain != HomeDomain)
+        if (Account.AsT0.HomeDomain != HomeDomain)
         {
-            var setHomeDomain = new TransactionBuilder(Account.Info);
-            setHomeDomain.AddOperation(new SetOptionsOperation(Account.Info.KeyPair).SetHomeDomain(HomeDomain));
+            var setHomeDomain = new TransactionBuilder(Account.AsT0);
+            setHomeDomain.AddOperation(new SetOptionsOperation(Account.AsT0.KeyPair).SetHomeDomain(HomeDomain));
 
-            var result = await SubmitTransactionAsync(setHomeDomain.Build(), true, $"set home domain for {Account.Info.AccountId}");
+            var result = await SubmitTransactionAsync(setHomeDomain.Build(), true, $"set home domain for {Account.AsT0.AccountId}");
             if (result?.IsSuccess is null or false)
             {
-                throw new Exception($"failed to set home domain for {Account.Info.AccountId}");
+                throw new Exception($"failed to set home domain for {Account.AsT0.AccountId}");
             }
         }
 
@@ -284,7 +275,7 @@ public record Wallet(
         return await InitializeInternalAsync(string.Empty);
     }
 
-    public static Task CreateAccountAsync(KeyPair account, string networkUrl, HttpClient? httpClient = null)
+    public static Task CreateAccountAsync(StellarDotnetSdk.Accounts.KeyPair account, string networkUrl, HttpClient? httpClient = null)
         => CreateAccountAsync(account.Address, networkUrl, httpClient);
 
     public static async Task CreateAccountAsync(string account, string networkUrl, HttpClient? httpClient = null)
@@ -356,7 +347,7 @@ public record Wallet(
 
         try
         {
-            _ = KeyPair.Random();
+            _ = StellarDotnetSdk.Accounts.KeyPair.Random();
             canUseCryptography = true;
         }
         catch (Exception) { }

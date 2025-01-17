@@ -1,8 +1,6 @@
-﻿namespace USA.Model;
+﻿using Stellar;
+using StellarDotnetSdk.Assets;
 
-public class CurrencySystem
-{
-    public string AssetCode { get; set; }
-    public string BaseIssuingAccount { get; set; }
-    public string[] BaseDistributionAccounts { get; set; }
-}
+namespace USA.Model;
+
+public record CurrencySystem(AssetTypeCreditAlphaNum Asset, KeyPairBasic Issuing, KeyPairBasic[] Distribution);
