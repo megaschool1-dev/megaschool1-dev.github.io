@@ -11,3 +11,13 @@ Visit site @ https://megaschool1.github.io
 3. [Set permissions for GitHub Actions](https://stackoverflow.com/questions/73687176/permission-denied-to-github-actionsbot-the-requested-url-returned-error-403)
 4. (optional) Enable Dependabot: `Insights` > `Dependency graph` > `Dependabot` > Enable Dependabot
 5. View your site at https://`your_user_name | your_organization_name`.github.io
+
+# Development
+1. Run Stellar Horizon
+```shell
+docker run --rm -it -p 8000:8000 --name horizon stellar/quickstart --local
+```
+2. Run Stellar Horizon proxy
+```shell
+docker run --rm -it -p 8080:80 -p 8081:443 -e PROXIED_URL=http://host.docker.internal:8000 -e ASPNETCORE_URLS="https://+;http://+" -e ASPNETCORE_HTTPS_PORTS=8001 -e ASPNETCORE_Kestrel__Certificates__Default__Password="password1" -e ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx -v $env:USERPROFILE\.aspnet\https:/https/ horizonproxy
+```
