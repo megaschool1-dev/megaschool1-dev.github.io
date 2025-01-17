@@ -134,6 +134,8 @@ public enum Content
     PrisonMinistry = 55,
     SchoolFundraiser = 56,
     FlowPreview = 57,
+    CarPayoff1 = 58,
+    CarPayoff2 = 59,
 }
 
 public enum Language
