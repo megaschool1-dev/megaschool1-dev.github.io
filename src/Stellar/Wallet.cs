@@ -25,8 +25,9 @@ public class ServerSubmissionException : Exception
 public record Wallet(
     string NetworkUrl,
     OneOf<string, None> AccountSecretSeed,
-    string HomeDomain) : IDisposable
+    OneOf<HomeDomain, None> HomeDomain) : IDisposable
 {
+    public static readonly (string Mainnet, string Testnet) PublicNetworkUrl = ("https://horizon.stellar.org", "https://horizon-testnet.stellar.org");
     private readonly HttpClient _httpClient = new();
 
     public OneOf<Network, None> NetworkInfo { get; private set; } = new None();
@@ -246,15 +247,21 @@ public record Wallet(
         NetworkInfo = new Network((await this.Server.RootAsync()).NetworkPassphrase);
 
         // set home domain
-        if (Account.AsT0.HomeDomain != HomeDomain)
+        if (Account.MapT0(account => account.HomeDomain).TryPickT0(out var existingHomeDomain, out _))
         {
-            var setHomeDomain = new TransactionBuilder(Account.AsT0);
-            setHomeDomain.AddOperation(new SetOptionsOperation(Account.AsT0.KeyPair).SetHomeDomain(HomeDomain));
-
-            var result = await SubmitTransactionAsync(setHomeDomain.Build(), true, $"set home domain for {Account.AsT0.AccountId}");
-            if (result?.IsSuccess is null or false)
+            if (HomeDomain.TryPickT0(out var targetHomeDomain, out _))
             {
-                throw new Exception($"failed to set home domain for {Account.AsT0.AccountId}");
+                if (existingHomeDomain != targetHomeDomain.Value)
+                {
+                    var setHomeDomain = new TransactionBuilder(Account.AsT0);
+                    setHomeDomain.AddOperation(new SetOptionsOperation(Account.AsT0.KeyPair).SetHomeDomain(targetHomeDomain.Value));
+
+                    var result = await SubmitTransactionAsync(setHomeDomain.Build(), true, $"set home domain for {Account.AsT0.AccountId}");
+                    if (result?.IsSuccess is null or false)
+                    {
+                        throw new Exception($"failed to set home domain for {Account.AsT0.AccountId}");
+                    }
+                }
             }
         }
 
@@ -280,8 +287,6 @@ public record Wallet(
 
     public static async Task CreateAccountAsync(string account, string networkUrl, HttpClient? httpClient = null)
     {
-        const string StellarTestnet = "https://horizon-testnet.stellar.org";
-
         var disposeHttpClient = false;
 
         if (httpClient == null)
@@ -302,7 +307,7 @@ public record Wallet(
             // exception thrown so account must not exist
 
             // if we don't assign to a value, we will not wait for the result.
-            var discard = await httpClient.GetAsync($"{(networkUrl == StellarTestnet ? "https://friendbot.stellar.org" : $"{networkUrl}/friendbot")}?addr={account}");
+            var discard = await httpClient.GetAsync($"{(networkUrl == PublicNetworkUrl.Testnet ? "https://friendbot.stellar.org" : $"{networkUrl}/friendbot")}?addr={account}");
         }
 
         if (disposeHttpClient)
