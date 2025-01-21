@@ -1,27 +1,19 @@
-﻿using Microsoft.JSInterop;
-using OneOf;
+﻿using OneOf;
 using OneOf.Types;
 using Stellar;
-using StellarDotnetSdk;
 using StellarDotnetSdk.Accounts;
-using StellarDotnetSdk.Operations;
 using StellarDotnetSdk.Transactions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StellarDotnetSdk.Assets;
 
 namespace USA.Model;
 
 public static class Protocol
 {
-    private static async Task<StellarKeyPair> CreateRandomKeyPairAsync(OneOf<IJSRuntime, None> js)
+    private static async Task<StellarKeyPair> CreateRandomKeyPairAsync(OneOf<Func<Task<string>>, None> keyPairGenerator)
     {
-        if(js.TryPickT0(out var javascript, out _))
+        if(keyPairGenerator.TryPickT0(out var keyPairGetter, out _))
         {
-            return await Util.CreateKeyPairRandomAsync(javascript);
+            return await Util.CreateKeyPairRandomAsync(keyPairGetter);
         }
         else
         {
@@ -36,7 +28,7 @@ public static class Protocol
         Console.WriteLine($"{keyPair.AccountId}:{keyPair.SecretSeed}");
     }
 
-    public static async Task RunAsync(OneOf<IJSRuntime, None> js)
+    public static async Task RunAsync()
     {
         //TODO Add memos
 

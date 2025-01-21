@@ -1,5 +1,4 @@
-﻿using Microsoft.JSInterop;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OneOf;
 using OneOf.Types;
 using Serilog;
@@ -32,11 +31,11 @@ public static class Util
         }
     }
 
-    public static async Task<OneOf<KeyPair, KeyPairBasic>> CreateKeyPairAsync(string secretSeed, OneOf<IJSRuntime, None> js)
+    public static async Task<OneOf<KeyPair, KeyPairBasic>> CreateKeyPairAsync(string secretSeed, OneOf<Func<string, Task<string>>, None> keyPairGenerator)
     {
-        if (js.TryPickT0(out var javascript, out _))
+        if (keyPairGenerator.TryPickT0(out var keyPairGetter, out _))
         {
-            var seedAndAccountId = await javascript.InvokeAsync<string>("createKeyPairFromSeed", secretSeed);
+            var seedAndAccountId = await keyPairGetter(secretSeed);
 
             return new KeyPairBasic(seedAndAccountId.Split(':')[1], seedAndAccountId.Split(':')[0]);
         }
@@ -46,9 +45,9 @@ public static class Util
         }
     }
 
-    public static async Task<KeyPairBasic> CreateKeyPairRandomAsync(IJSRuntime js)
+    public static async Task<KeyPairBasic> CreateKeyPairRandomAsync(Func<Task<string>> keyPairGenerator)
     {
-        var seedAndAccountId = await js.InvokeAsync<string>("createKeyPair");
+        var seedAndAccountId = await keyPairGenerator();
 
         return new KeyPairBasic(seedAndAccountId.Split(':')[1], seedAndAccountId.Split(':')[0]);
     }
