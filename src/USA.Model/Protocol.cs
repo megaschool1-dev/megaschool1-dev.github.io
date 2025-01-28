@@ -21,13 +21,6 @@ public static class Protocol
         }
     }
 
-    public static void Misc()
-    {
-        var keyPair = KeyPair.Random();
-
-        Console.WriteLine($"{keyPair.AccountId}:{keyPair.SecretSeed}");
-    }
-
     public static async Task RunAsync()
     {
         //TODO Add memos
