@@ -12,6 +12,6 @@ public class Program
     [Test]
     public async Task Test1()
     {
-        await Protocol.RunAsync(new None());
+        await Protocol.RunAsync();
     }
 }

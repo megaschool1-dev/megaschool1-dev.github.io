@@ -1,5 +1,4 @@
-﻿using Microsoft.JSInterop;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OneOf;
 using OneOf.Types;
 using Serilog;
@@ -32,11 +31,11 @@ public static class Util
         }
     }
 
-    public static async Task<OneOf<KeyPair, KeyPairBasic>> CreateKeyPairAsync(string secretSeed, OneOf<IJSRuntime, None> js)
+    public static async Task<OneOf<KeyPair, KeyPairBasic>> CreateKeyPairAsync(string secretSeed, OneOf<Func<string, Task<string>>, None> keyPairGenerator)
     {
-        if (js.TryPickT0(out var javascript, out _))
+        if (keyPairGenerator.TryPickT0(out var keyPairGetter, out _))
         {
-            var seedAndAccountId = await javascript.InvokeAsync<string>("createKeyPairFromSeed", secretSeed);
+            var seedAndAccountId = await keyPairGetter(secretSeed);
 
             return new KeyPairBasic(seedAndAccountId.Split(':')[1], seedAndAccountId.Split(':')[0]);
         }
@@ -46,9 +45,9 @@ public static class Util
         }
     }
 
-    public static async Task<KeyPairBasic> CreateKeyPairRandomAsync(IJSRuntime js)
+    public static async Task<KeyPairBasic> CreateKeyPairRandomAsync(Func<Task<string>> keyPairGenerator)
     {
-        var seedAndAccountId = await js.InvokeAsync<string>("createKeyPair");
+        var seedAndAccountId = await keyPairGenerator();
 
         return new KeyPairBasic(seedAndAccountId.Split(':')[1], seedAndAccountId.Split(':')[0]);
     }
@@ -197,7 +196,7 @@ public static class Util
     public static async Task<((KeyPair Issuing, List<KeyPair> Distributions) USA, (KeyPair Issuing, List<KeyPair> Distributions) GovFundRewards)>
         CreateGovFundRewardsEnvironmentAsync(string networkUrl, string homeDomain)
     {
-        var wallet = new Wallet(networkUrl, KeyPair.Random().SecretSeed, homeDomain);
+        var wallet = new Wallet(networkUrl, KeyPair.Random().SecretSeed, HomeDomain.From(homeDomain));
         await Wallet.CreateAccountAsync(KeyPair.FromSecretSeed(wallet.AccountSecretSeed.AsT0), networkUrl);
         await wallet.InitializeAsync();
 
@@ -206,6 +205,8 @@ public static class Util
             "USA",
             30L * 1000L * 1000L * 1000L * 1000L,
             MaxTrustlineLimit,
+            wallet.HomeDomain.AsT0,
+            wallet.HomeDomain.AsT0,
             wallet);
 
         // create Gov Fund Rewards subscription token
@@ -213,6 +214,8 @@ public static class Util
             "GFRewards",
             1L,
             1L,
+            wallet.HomeDomain.AsT0,
+            wallet.HomeDomain.AsT0,
             wallet);
 
         // create airdrop participant
@@ -265,7 +268,7 @@ public static class Util
         return (usaAccounts, govFundRewardsAccounts);
     }
 
-    public static void CreateTrustline(Asset asset, KeyPair account, TransactionBuilder transactionBuilder)
+    public static void CreateTrustline(AssetTypeCreditAlphaNum asset, KeyPair account, TransactionBuilder transactionBuilder)
     {
         // create trustline
         transactionBuilder.AddOperation(
@@ -279,18 +282,20 @@ public static class Util
         string currencyAssetCode,
         long currencySupply,
         long tradingQuantity,
+        HomeDomain issuingAccountHomeDomain,
+        HomeDomain distributionAccountsHomeDomain,
         Wallet wallet)
     {
         var transactionBuilder = new TransactionBuilder(wallet.Account.AsT0);
-
-        //var walletAccountBefore = await wallet.Server.Accounts.Account(wallet.Account.AccountId);
 
         // create accounts
         var currencyAccounts = await CreateCurrencyAccountsAsync(
             wallet,
             tradingQuantity.ToString(),
             currencyAssetCode,
-            currencySupply);
+            currencySupply,
+            issuingAccountHomeDomain,
+            distributionAccountsHomeDomain);
 
         // lock down issuing account (1 operation)
         transactionBuilder.AddOperation(
@@ -299,7 +304,7 @@ public static class Util
                 .SetLowThreshold(2)
                 .SetMediumThreshold(2)
                 .SetHighThreshold(2)
-                .SetHomeDomain(wallet.HomeDomain)
+                .SetHomeDomain(issuingAccountHomeDomain.Value)
                 .SetSetFlags((int)AccountFlag.AUTH_IMMUTABLE_FLAG));
 
         var response = await wallet.SubmitTransactionAsync(transactionBuilder.Build(), true, $"Lock down {currencyAssetCode} issuing account");
@@ -307,9 +312,6 @@ public static class Util
         {
             throw new Exception();
         }
-
-        //var walletAccountAfter = await wallet.Server.Accounts.Account(wallet.Account.AccountId);
-        //Log.Information($"Total XLM Used: {double.Parse(walletAccountBefore.Balances.First(b => b.AssetType == AssetTypeNative.JsonType).BalanceString) - double.Parse(walletAccountAfter.Balances.First(b => b.AssetType == AssetTypeNative.JsonType).BalanceString)}");
 
         // save currency system
         var currencySystemFile = $@"{OutputFolder}\{currencyAssetCode}-CurrencySystem.json";
@@ -320,7 +322,7 @@ public static class Util
         await File.WriteAllTextAsync(currencySystemFile, JsonConvert.SerializeObject(currencySystem));
 
         // save TOML file
-        await SaveTomlFileAsync(currencySystem, wallet.HomeDomain);
+        await SaveTomlFileAsync(currencySystem, "https://rivalcoins.money");
 
         return currencyAccounts;
     }
@@ -405,7 +407,9 @@ public static class Util
         Wallet wallet,
         string tradingQuantity,
         string currencyAssetCode,
-        long currencySupply)
+        long currencySupply,
+        HomeDomain issuingAccountHomeDomain,
+        HomeDomain distributionAccountsHomeDomain)
     {
         async Task<KeyPair> CreateIssuingAccountAsync()
         {
@@ -415,7 +419,7 @@ public static class Util
 
             transactionBuilder
                 .AddOperation(new CreateAccountOperation(issuingAccount, (issuingAccountMinimumBalance + AccountOperationalBuffer).ToString()))
-                .AddOperation(new SetOptionsOperation().SetHomeDomain(wallet.HomeDomain));
+                .AddOperation(new SetOptionsOperation().SetHomeDomain(issuingAccountHomeDomain.Value));
 
             var response = await wallet.SubmitTransactionAsync(transactionBuilder.Build(), true, "Create issuing account");
             if (response?.IsSuccess is null or false)
@@ -435,7 +439,7 @@ public static class Util
 
                 foreach (var distributionAccount in distributionAccounts)
                 {
-                    SetHomeDomain(transactionBuilder, distributionAccount.DistributionAccount, wallet);
+                   transactionBuilder.AddOperation(new SetOptionsOperation().SetHomeDomain(distributionAccountsHomeDomain.Value));
                     SendPayment(currency, distributionAccount.TradingQuantity.ToString(), issuingAccount, distributionAccount.DistributionAccount, transactionBuilder);
                 }
                 var response = await wallet.SubmitTransactionAsync(transactionBuilder.Build(), true, $"(1) Fund {currencyAssetCode} distribution accounts");
@@ -450,7 +454,6 @@ public static class Util
         var issuingAccount = await CreateIssuingAccountAsync();
         var distributionAccounts = await CreateCurrencyDistributionAccountsAsync(wallet, long.Parse(tradingQuantity), currencySupply);
         var currency = Asset.CreateNonNativeAsset(currencyAssetCode, issuingAccount.AccountId);
-        var transactionBuilder = new TransactionBuilder(wallet.Account.AsT0);
 
         foreach (var distributionAccount in distributionAccounts)
         {
@@ -470,8 +473,11 @@ public static class Util
 
     public static void SetHomeDomain(TransactionBuilder transactionBuilder, KeyPair account, Wallet wallet)
     {
-        transactionBuilder.AddOperation(
-            new SetOptionsOperation(account).SetHomeDomain(wallet.HomeDomain));
+        if (wallet.HomeDomain.TryPickT0(out var homeDomain, out _))
+        {
+            transactionBuilder.AddOperation(
+                new SetOptionsOperation(account).SetHomeDomain(homeDomain.Value));
+        }
     }
 
     public static void SendPayment(
