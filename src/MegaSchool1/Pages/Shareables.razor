@@ -244,6 +244,7 @@
     private readonly ShareableViewModel _capturePage = new() { Content = Content.GivBux };
     private readonly Content[] BasicShareables =
     [
+        Content.MWRPique,
         Content.EDMPique,
         Content.CorporateBusinessOverview,
         Content.MS1Opportunity,
@@ -275,7 +276,7 @@
     private Content _videoShareableContent = Content.GivBux;
     private TeamMember? _selectedTeamMemberMarketingDirector;
     private TeamMember? _selectedTeamMemberWebsite;
-    private Content _selectedShareable = Content.EDMPique;
+    private Content _selectedShareable = Content.MWRPique;
     private Content _selectedInCompleteVideoLibrary = Content.MoneyChallenge;
 
     protected override void OnParametersSet()

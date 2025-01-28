@@ -43,7 +43,7 @@
     {
         _messageDialog = (true, "Starting Protocol...");
 
-        await USA.Model.Protocol.RunAsync(OneOf.OneOf<IJSRuntime, OneOf.Types.None>.FromT0(JS));
+        await USA.Model.Protocol.RunAsync();
 
         _messageDialog = (true, "Protocol complete!");
     }

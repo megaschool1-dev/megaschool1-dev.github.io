@@ -136,6 +136,9 @@ public enum Content
     FlowPreview = 57,
     CarPayoff1 = 58,
     CarPayoff2 = 59,
+    WhatWealthyDo = 60,
+    HappyRetirement = 61,
+    MWRPique = 62,
 }
 
 public enum Language
