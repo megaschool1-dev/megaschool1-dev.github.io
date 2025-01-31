@@ -18,4 +18,7 @@ public class VideoDto
 
     [JsonPropertyName("duration")]
     public TimeSpan? Duration { get;  set; }
+    
+    [JsonPropertyName("start")]
+    public TimeSpan? Start { get;  set; }
 }
