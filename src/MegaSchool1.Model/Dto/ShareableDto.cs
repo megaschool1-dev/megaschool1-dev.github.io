@@ -85,5 +85,8 @@ public class ShareableDto
     [JsonPropertyName("classDescription")]
     public string? ClassDescription { get; set; }
 
+    [JsonPropertyName("start")]
+    public TimeSpan? Start { get;  set; }
+    
     public override string ToString() => $"{ContentId}";
 }

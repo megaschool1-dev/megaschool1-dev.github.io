@@ -6,7 +6,7 @@
 <div style="display:@_display;">
     @(Video.Match<RenderFragment?>(
         video => video.Match<RenderFragment>(
-            youTube => YouTubeView(youTube),
+            youTube => YouTubeView(youTube, video.Start),
             tikTok => TikTokView(tikTok),
             vimeo => VimeoView(vimeo),
             facebook => FacebookView(facebook),
@@ -27,10 +27,10 @@
     [Parameter]
     public OneOf<Video, None> Video { get; set; } = new None();
 
-    private RenderFragment YouTubeView(YouTube youTube) => __builder =>
+    private RenderFragment YouTubeView(YouTube youTube, OneOf<TimeSpan, None> videoStart) => __builder =>
     {
         <iframe @onload="OnVideoLoaded"
-                src="@($"{Constants.YouTubeEmbedLinkPrefix}{youTube.VideoId}")"
+                src="@($"{Constants.YouTubeEmbedLinkPrefix}{youTube.VideoId}{videoStart.Match(s => $"?start={s.TotalSeconds}", none => string.Empty)}")"
                 width="560"
                 height="315"
                 title="YouTube video player"

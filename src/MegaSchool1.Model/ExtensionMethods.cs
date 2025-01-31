@@ -1,4 +1,5 @@
-﻿using MegaSchool1.Model.Dto;
+﻿using Foundation.Model;
+using MegaSchool1.Model.Dto;
 
 namespace MegaSchool1.Model;
 
@@ -12,7 +13,7 @@ public static class ExtensionMethods
     public static string? MinimalistUrl(this ShareableDto video)
         => video.Platform switch
         {
-            VideoPlatform.YouTube => Constants.MinimalistYouTubeLink(video.Id),
+            VideoPlatform.YouTube => Constants.MinimalistYouTubeLink(video.Id!, video.Start.ToOption()),
             VideoPlatform.Vimeo => $"{Constants.MinimalistVimeoLink(video.Id, video.Hash)}",
             VideoPlatform.TikTok => Constants.MinimalistTikTokLink(video.UserHandle!, video.Id),
             _ => null

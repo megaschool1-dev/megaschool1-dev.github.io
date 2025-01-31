@@ -1,4 +1,5 @@
-﻿using MegaSchool1.Model;
+﻿using Foundation.Model;
+using MegaSchool1.Model;
 using MegaSchool1.Model.Dto;
 using MegaSchool1.ViewModel;
 using OneOf;
@@ -15,17 +16,29 @@ public partial class Mappers
 
     public static OneOf<Video, None> TestimonialToVideo(Testimonial testimonial) => GetVideo(testimonial.Video);
 
-    private static OneOf<Video, None> GetVideo(ShareableDto dto) => dto.Platform switch
+    private static OneOf<Video, None> GetVideo(ShareableDto dto)
     {
-        VideoPlatform.YouTube => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new YouTube(dto.Id) : new None(),
-        VideoPlatform.TikTok => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? (Video)new TikTok(dto.UserHandle, dto.Id) : new None(),
-        VideoPlatform.Vimeo => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new Vimeo(dto.Id, !string.IsNullOrWhiteSpace(dto.Hash) ? dto.Hash : new None()) : new None(),
-        VideoPlatform.Facebook => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? (Video)new Facebook(dto.UserHandle, dto.Id) : new None(),
-        VideoPlatform.StartMeeting => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new StartMeeting(dto.Id) : new None(),
-        VideoPlatform.Html5 => Uri.IsWellFormedUriString(dto.Url, UriKind.Absolute) ? (Video)new Html5(new(dto.Url)) : new None(),
-        VideoPlatform.Wistia => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new Wistia(dto.Id) : new None(),
-        _ => new None()
-    };
+        OneOf<Video, None> video = dto.Platform switch
+        {
+            VideoPlatform.YouTube => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new YouTube(dto.Id) : new None(),
+            VideoPlatform.TikTok => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? (Video)new TikTok(dto.UserHandle, dto.Id) : new None(),
+            VideoPlatform.Vimeo => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new Vimeo(dto.Id, !string.IsNullOrWhiteSpace(dto.Hash) ? dto.Hash : new None()) : new None(),
+            VideoPlatform.Facebook => !string.IsNullOrWhiteSpace(dto.Id) && !string.IsNullOrWhiteSpace(dto.UserHandle) ? (Video)new Facebook(dto.UserHandle, dto.Id) : new None(),
+            VideoPlatform.StartMeeting => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new StartMeeting(dto.Id) : new None(),
+            VideoPlatform.Html5 => Uri.IsWellFormedUriString(dto.Url, UriKind.Absolute) ? (Video)new Html5(new(dto.Url)) : new None(),
+            VideoPlatform.Wistia => !string.IsNullOrWhiteSpace(dto.Id) ? (Video)new Wistia(dto.Id) : new None(),
+            _ => new None()
+        };
+
+        video = video.MapT0(v =>
+        {
+            v.Start = dto.Start.ToOption();
+
+            return v;
+        });
+        
+        return video;
+    }
 
     public ShareableViewModel ShareableDtoToViewModel(ShareableDto dto)
     {

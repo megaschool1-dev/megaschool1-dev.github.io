@@ -21,4 +21,8 @@
     <Folder Include="Game\PowerUp\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation.Model\Foundation.Model.csproj" />
+  </ItemGroup>
+
 </Project>
