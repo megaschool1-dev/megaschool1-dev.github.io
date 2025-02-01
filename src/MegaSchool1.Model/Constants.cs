@@ -139,6 +139,10 @@ public enum Content
     WhatWealthyDo = 60,
     HappyRetirement = 61,
     MWRPique = 62,
+    Promo = 63,
+    MWR30SecTeaser = 64,
+    MWR60SecTeaser = 65,
+    MWR30SecReel = 66,
 }
 
 public enum Language
@@ -197,7 +201,10 @@ public record Html5(Uri Uri);
 public record Wistia(string VideoId);
 
 [GenerateOneOf]
-public partial class Video : OneOfBase<YouTube, TikTok, Vimeo, Facebook, StartMeeting, Html5, Wistia> { }
+public partial class Video : OneOfBase<YouTube, TikTok, Vimeo, Facebook, StartMeeting, Html5, Wistia>
+{
+    public OneOf<TimeSpan, None> Start { get; set; }
+}
 
 public class Constants(UISettings ui, NavigationManager navigationManager)
 {
@@ -225,14 +232,14 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
     public static string MarketingDirectorUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/?member={username}";
     public static string JoinMakeWealthReal(string username, Language language) => $"https://www.mwrfinancial.com{(language == Language.Spanish ? "/es" : string.Empty)}/join/?member={username}";
 
-    public static string MinimalistYouTubeLink(string youTubeId) => $"{MinimalistVideoLinkPrefix}?y={youTubeId}";
+    public static string MinimalistYouTubeLink(string youTubeId, OneOf<TimeSpan, None> videoStart) => $"{MinimalistVideoLinkPrefix}?y={youTubeId}{videoStart.Match(s => $"&s={s.TotalSeconds}", none => string.Empty)}";
     public static string MinimalistVimeoLink(string vimeoId, string? hash) => $"{MinimalistVideoLinkPrefix}?v={vimeoId}{(string.IsNullOrWhiteSpace(hash) ? string.Empty : $"&h={hash}")}";
     public static string MinimalistTikTokLink(string tikTokHandle, string videoId) => $"{MinimalistVideoLinkPrefix}?th={tikTokHandle}&t={videoId}";
     public static string EmbeddableYouTubeLink(string youTubeId) => $"{YouTubeEmbedLinkPrefix}{youTubeId}";
     public static string EmbeddableVimeoLink(string vimeoId) => $"{VimeoEmbedLinkPrefix}{vimeoId}";
 
     public static string MinimalistVideoLink(Video video) => video.Match(
-        youTube => MinimalistYouTubeLink(youTube.VideoId),
+        youTube => MinimalistYouTubeLink(youTube.VideoId, video.Start),
         tikTok => MinimalistTikTokLink(tikTok.UserHandle, tikTok.VideoId),
         vimeo => MinimalistVimeoLink(vimeo.VideoId, vimeo.Hash.Match<string?>(h => h, none => null)),
         facebook => $"https://www.facebook.com/watch/live/?ref=watch_permalink&v={facebook.VideoId}",
