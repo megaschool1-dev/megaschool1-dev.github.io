@@ -140,6 +140,9 @@ public enum Content
     HappyRetirement = 61,
     MWRPique = 62,
     Promo = 63,
+    MWR30SecTeaser = 64,
+    MWR60SecTeaser = 65,
+    MWR30SecReel = 66,
 }
 
 public enum Language
