@@ -14,4 +14,10 @@ public class Program
     {
         await Protocol.RunAsync();
     }
+
+    [Test]
+    public async Task UniversalBasicIncome()
+    {
+        await Protocol.UniversalBasicIncomeAsync();
+    }
 }
