@@ -21,3 +21,8 @@ docker run --rm -it -p 8000:8000 --name horizon stellar/quickstart --local
 ```shell
 docker run --rm -it -p 8080:80 -p 8081:443 -e PROXIED_URL=http://host.docker.internal:8000 -e ASPNETCORE_URLS="https://+;http://+" -e ASPNETCORE_HTTPS_PORTS=8001 -e ASPNETCORE_Kestrel__Certificates__Default__Password="password1" -e ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx -v $env:USERPROFILE\.aspnet\https:/https/ horizonproxy
 ```
+
+# References
+* [Digital Bearer Cerficates](https://nakamotoinstitute.org/library/contracts-with-bearer/)
+* [NSec WebAssembly Support Ticket](https://github.com/ektrah/nsec/issues/64)
+* [zkVM](https://www.lita.foundation/blog/zero-knowledge-paradigm-zkvm)
