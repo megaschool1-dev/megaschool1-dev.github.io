@@ -146,6 +146,7 @@ public enum Content
     MWR60SecTeaser2 = 67,
     MilitaryPique = 68,
     FaithAndFinanceTeaser = 69,
+    MLMPique = 70,
 }
 
 public enum Language
