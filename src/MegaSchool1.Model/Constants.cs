@@ -267,7 +267,7 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
     {
         Image.MWRBanner => "/images/mwr-banner.png",
         Image.HealthShare => "/images/mwr-healthshare.png",
-        Image.MembershipLogo => "/images/mwr-membership-logo.jpg",
+        Image.MembershipLogo => "/images/mwr-membership-logo.jpg?v=2",
         Image.MoneyChallengeLogo => "/images/72hour-money-challenge-logo.png",
         Image.AppScreenshot => "images/app-screenshot.jpeg",
         Image.Overview1On1English => "images/72-HourMoneyChallengeOverview_1on1_ENG.png",
