@@ -292,11 +292,8 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
     public static string? GetBusinessEnrollmentPromo(string memberId) => null;
 
     public static string GetCapturePage(Content content, Language language, NavigationManager navigationManager, string memberId, string referralId)
-    => $"{navigationManager.BaseUri}{(language == Language.Spanish ? "es" : "en")}/{content}/{memberId}/{HttpUtility.UrlEncode(referralId)}";
-
-    public string GetCapturePage(Content content, Language language, string memberId, string referralId)
-        => $"{navigationManager.BaseUri}{(language == Language.Spanish ? "es" : "en")}/{content}/{memberId}/{HttpUtility.UrlEncode(referralId)}";
-
+        => $"{navigationManager.BaseUri}{(language == Language.Spanish ? "es" : "en")}/{content}/{memberId}/{HttpUtility.UrlEncode(referralId)}/0";
+    
     public static readonly Dictionary<LivestreamPlatform, string> CorporateLivestreamLink = new()
     {
         { LivestreamPlatform.Facebook, "https://www.mwr.live/" },
