@@ -212,7 +212,7 @@ public partial class Video : OneOfBase<YouTube, TikTok, Vimeo, Facebook, StartMe
 
 public class Constants(UISettings ui, NavigationManager navigationManager)
 {
-    public static readonly Content[] GivBuxContent = [Content.GivBux, Content.GivBuxMerchant, Content.GivBuxCharity, Content.EDMGivBux, Content.GivBuxOpportunity, Content.EDMNeedMoreInfo, Content.WealthWorksheet, Content.MS1Opportunity202407, Content.MS1Opportunity, Content.GivBuxFundraiser];
+    public static readonly Content[] GivBuxContent = [Content.GivBux, Content.GivBuxMerchant, Content.GivBuxCharity, Content.EDMGivBux, Content.GivBuxOpportunity, Content.EDMNeedMoreInfo, Content.WealthWorksheet, Content.MS1Opportunity202407, Content.MS1Opportunity, Content.GivBuxFundraiser, Content.GivBuxAccountSetup, Content.GivBuxUberDemo];
     public static readonly Content[] OrderedContent = GivBuxContent.Union(Enum.GetValues<Content>().Except(GivBuxContent).Except([Content.None, Content.TeenCarPurchase])).ToArray();
 
     public static readonly TimeZoneInfo NewYorkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
@@ -292,11 +292,8 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
     public static string? GetBusinessEnrollmentPromo(string memberId) => null;
 
     public static string GetCapturePage(Content content, Language language, NavigationManager navigationManager, string memberId, string referralId)
-    => $"{navigationManager.BaseUri}{(language == Language.Spanish ? "es" : "en")}/{content}/{memberId}/{HttpUtility.UrlEncode(referralId)}";
-
-    public string GetCapturePage(Content content, Language language, string memberId, string referralId)
-        => $"{navigationManager.BaseUri}{(language == Language.Spanish ? "es" : "en")}/{content}/{memberId}/{HttpUtility.UrlEncode(referralId)}";
-
+        => $"{navigationManager.BaseUri}{(language == Language.Spanish ? "es" : "en")}/{content}/{memberId}/{HttpUtility.UrlEncode(referralId)}/0";
+    
     public static readonly Dictionary<LivestreamPlatform, string> CorporateLivestreamLink = new()
     {
         { LivestreamPlatform.Facebook, "https://www.mwr.live/" },
