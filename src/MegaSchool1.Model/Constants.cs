@@ -226,7 +226,7 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
     public static readonly string MultiPlatformLivestreamUrlPlaceholder = "{Corporate.Livestream}";
     public static readonly string YouTubeEmbedLinkPrefix = "https://www.youtube.com/embed/";
     public static readonly string VimeoEmbedLinkPrefix = "https://player.vimeo.com/video/";
-    public static readonly string MinimalistVideoLinkPrefix = "https://minimalistvideo.github.io/";
+    public static readonly string MinimalistVideoLinkPrefix = "https://megaschool.me/v";
     public const string AppInstallTutorialUrl = "https://video.wixstatic.com/video/5f35ec_33bda4fc60fd41cf8c3a09924f204746/480p/mp4/file.mp4";
 
     public static string BusinessEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/join";
@@ -250,7 +250,7 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
         facebook => $"https://www.facebook.com/watch/live/?ref=watch_permalink&v={facebook.VideoId}",
         startMeeting => $"https://stme.in/{startMeeting.VideoId}",
         html5 => html5.Uri.AbsoluteUri,
-        wistia => $"https://minimalistvideo.github.io/?w={wistia.VideoId}");
+        wistia => $"{MinimalistVideoLinkPrefix}?w={wistia.VideoId}");
 
     public static OneOf<string, None> GetImageUri(Image image)
     {
