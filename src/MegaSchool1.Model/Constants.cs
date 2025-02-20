@@ -147,6 +147,7 @@ public enum Content
     MilitaryPique = 68,
     FaithAndFinanceTeaser = 69,
     MLMPique = 70,
+    MembershipPique = 71,
 }
 
 public enum Language
@@ -232,9 +233,9 @@ public class Constants(UISettings ui, NavigationManager navigationManager)
     public static string MembershipEnrollmentUrl(string username) => $"https://user.mwrfinancial.com/{username}/signup-financialedge";
     public static string InstantPayRaiseUrlEnglish(string username) => $"https://www.mwrfinancial.com/iprr/?member={username}";
     public static string InstantPayRaiseUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/iprr/?member={username}";
-    public static string MarketingDirectorUrlEnglish(string username) => $"https://www.mwrfinancial.com/?member={username}";
-    public static string MarketingDirectorUrlSpanish(string username) => $"https://www.mwrfinancial.com/es/?member={username}";
-    public static string JoinMakeWealthReal(string username, Language language) => $"https://www.mwrfinancial.com{(language == Language.Spanish ? "/es" : string.Empty)}/join/?member={username}";
+    public static string MarketingDirectorUrlEnglish(string username) => $"https://www.makewealthreal.com/?member={username}";
+    public static string MarketingDirectorUrlSpanish(string username) => $"https://www.makewealthreal.com/es/?member={username}";
+    public static string JoinMakeWealthReal(string username, Language language) => $"https://www.makewealthreal.com{(language == Language.Spanish ? "/es" : string.Empty)}/get-started/?member={username}";
 
     public static string MinimalistYouTubeLink(string youTubeId, OneOf<TimeSpan, None> videoStart) => $"{MinimalistVideoLinkPrefix}?y={youTubeId}{videoStart.Match(s => $"&s={s.TotalSeconds}", none => string.Empty)}";
     public static string MinimalistVimeoLink(string vimeoId, string? hash) => $"{MinimalistVideoLinkPrefix}?v={vimeoId}{(string.IsNullOrWhiteSpace(hash) ? string.Empty : $"&h={hash}")}";
