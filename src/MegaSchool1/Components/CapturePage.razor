@@ -15,22 +15,22 @@
     @if(ShowReferralCode)
     {
         <Centered>
-            <MudTextField Value="ReferralCode" Label="Referral Code" Disabled="@(Constants.GivBuxContent.Contains(Content))" Variant="Variant.Outlined" Immediate="true" Placeholder="Referral Code" Underline="false" />
+            <MudTextField @bind-Value="_referralCode" Label="Referral Code" Disabled="@(Constants.GivBuxContent.Contains(Content))" Variant="Variant.Outlined" Immediate="true" Placeholder="Referral Code" Underline="false" />
         </Centered>
     }
     @if (spanishDto != null)
     {
-        <ShareableMultilingual Content="Content" CapturePage="(memberId, ReferralCode)"/>
+        <ShareableMultilingual Content="Content" CapturePage="(memberId, _referralCode)"/>
     }
     else
     {
-        <Shareable Content="Content" CapturePage="(memberId, ReferralCode)" />
+        <Shareable Content="Content" CapturePage="(memberId, _referralCode)" />
     }
 </MudStack>
 
 @code {
-    private string ReferralCode => Constants.GivBuxContent.Contains(Content) && !string.IsNullOrWhiteSpace(TeamMember?.GivBuxCode) ? TeamMember?.GivBuxCode! : "Example-Referral-Code";
-
+    private string _referralCode = null!;
+    
     [Parameter]
     public Model.Content Content { get; set; }
 
@@ -39,4 +39,9 @@
 
     [Parameter]
     public bool ShowReferralCode { get; set; } = true;
+
+    protected override void OnInitialized()
+    {
+        _referralCode = Constants.GivBuxContent.Contains(Content) && !string.IsNullOrWhiteSpace(TeamMember?.GivBuxCode) ? TeamMember?.GivBuxCode! : "Example-Referral-Code";
+    }
 }
