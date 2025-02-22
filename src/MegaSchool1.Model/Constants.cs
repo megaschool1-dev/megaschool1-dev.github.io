@@ -148,6 +148,7 @@ public enum Content
     FaithAndFinanceTeaser = 69,
     MLMPique = 70,
     MembershipPique = 71,
+    MindsetPique = 72,
 }
 
 public enum Language
