@@ -149,6 +149,7 @@ public enum Content
     MLMPique = 70,
     MembershipPique = 71,
     MindsetPique = 72,
+    MWR60SecTeaser3 = 73,
 }
 
 public enum Language
