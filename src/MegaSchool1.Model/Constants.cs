@@ -150,6 +150,7 @@ public enum Content
     MembershipPique = 71,
     MindsetPique = 72,
     MWR60SecTeaser3 = 73,
+    DCAExplainer1 = 74,
 }
 
 public enum Language
