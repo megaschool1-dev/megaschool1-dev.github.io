@@ -151,6 +151,8 @@ public enum Content
     MindsetPique = 72,
     MWR60SecTeaser3 = 73,
     DCAExplainer1 = 74,
+    MWR2MinTeaser1 = 75,
+    JoinMWR = 76,
 }
 
 public enum Language
