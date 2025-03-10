@@ -153,6 +153,7 @@ public enum Content
     DCAExplainer1 = 74,
     MWR2MinTeaser1 = 75,
     JoinMWR = 76,
+    DebtDemo = 77,
 }
 
 public enum Language
