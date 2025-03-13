@@ -14,23 +14,9 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-var http = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
-builder.Services.AddScoped(sp => http);
+var clientSettings = builder.Configuration.Get<ClientSettings>();
 
-builder.Services.AddScoped<Repository>(sp => new(sp.GetRequiredService<ILocalStorageService>(), sp.GetRequiredService<HttpClient>()));
-
-var cacheBypass = $"?v={typeof(Program).Assembly.GetName().Version?.ToString(3)}";
-var clientSettings = await http.GetFromJsonAsync<ClientSettings>($"appsettings.json{cacheBypass}", Util.JsonSerializerOptions);
-
-builder.Services
-    .AddSingleton(clientSettings)
-    .AddSingleton(sp => clientSettings?.UI ?? new())
-    .AddSingleton(sp => new Constants(sp.GetRequiredService<UISettings>(), sp.GetRequiredService<NavigationManager>()))
-    .AddSingleton(sp => new Mappers());
-
-builder.Services.AddMudServices();
-builder.Services.AddWebShare();
-builder.Services.AddBlazoredLocalStorage();
+ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress, builder.Configuration);
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Verbose()
@@ -39,3 +25,22 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 await builder.Build().RunAsync();
+static void ConfigureServices(IServiceCollection services, string baseAddress,  IConfiguration configuration)
+{
+    var http = new HttpClient { BaseAddress = new Uri(baseAddress) };
+    services.AddScoped(sp => http);
+
+    services.AddScoped<Repository>(sp => new(sp.GetRequiredService<ILocalStorageService>(), sp.GetRequiredService<HttpClient>()));
+    
+    var clientSettings = configuration.Get<ClientSettings>();
+    
+    services
+        .AddSingleton(clientSettings!)
+        .AddSingleton(sp => clientSettings?.UI ?? new())
+        .AddSingleton(sp => new Constants(sp.GetRequiredService<UISettings>(), sp.GetRequiredService<NavigationManager>()))
+        .AddSingleton(sp => new Mappers());
+
+    services.AddMudServices();
+    services.AddWebShare();
+    services.AddBlazoredLocalStorage();
+}
