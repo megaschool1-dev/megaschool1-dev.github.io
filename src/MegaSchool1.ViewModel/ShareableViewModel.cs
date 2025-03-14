@@ -8,6 +8,8 @@ namespace MegaSchool1.ViewModel;
 
 public class ShareableViewModel
 {
+    public const Image DefaultImage = Image.MWRLogoTransparent;
+    
     public Content Id { get; set; }
 
     public OneOf<VideoViewModel, None> Video { get; set; } = new None();
@@ -18,7 +20,7 @@ public class ShareableViewModel
 
     public string Title { get; set; } = default!;
 
-    public Image ShareableImage { get; set; } = Image.MoneyChallengeLogo;
+    public OneOf<Image, Uri, None> ShareableImage { get; set; } = new None();
 
     public Image CapturePageImage { get; set; } = Image.MoneyChallengeLogo;
 

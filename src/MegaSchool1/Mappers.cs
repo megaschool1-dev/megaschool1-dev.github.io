@@ -49,7 +49,7 @@ public partial class Mappers
         viewModel.Url = !string.IsNullOrWhiteSpace(dto.Url) ? dto.Url : new None();
         viewModel.AppDescription = dto.AppTitle;
         viewModel.Title = dto.ShareableTitle;
-        viewModel.ShareableImage = dto.Image ?? viewModel.ShareableImage;
+        viewModel.ShareableImage = dto.Image ?? (!string.IsNullOrWhiteSpace(dto.ImageUrl) ? (OneOf<Image, Uri, None>)new Uri(dto.ImageUrl) : new None());
         viewModel.CapturePageImage = dto.CapturePageImage ?? viewModel.CapturePageImage;
         viewModel.Download = !string.IsNullOrWhiteSpace(dto.DownloadUrl) ? (!string.IsNullOrWhiteSpace(dto.DownloadText) ? dto.DownloadText : dto.DownloadUrl, new Uri(dto.DownloadUrl)) : new None();
 
