@@ -14,8 +14,6 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-var clientSettings = builder.Configuration.Get<ClientSettings>();
-
 ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress, builder.Configuration);
 
 Log.Logger = new LoggerConfiguration()

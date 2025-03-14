@@ -239,33 +239,32 @@ else
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (!firstRender)
         {
-            var inIFrame = await JSRuntime.InvokeAsync<bool>("inIframe");
-            Log.Information($"In iFrame: {inIFrame}");
-            if (!inIFrame)
+            return;
+        }
+        
+        var inIFrame = await JSRuntime.InvokeAsync<bool>("inIframe");
+        Log.Information($"In iFrame: {inIFrame}");
+        if (!inIFrame)
+        {
+            var isStandaloneMode = await JSRuntime.InvokeAsync<bool>("isStandalone");
+            Log.Information($"isStandalone: {isStandaloneMode}");
+            if (isStandaloneMode)
             {
-                var isStandaloneMode = await JSRuntime.InvokeAsync<bool>("isStandalone");
-                Log.Information($"isStandalone: {isStandaloneMode}");
-                if (isStandaloneMode)
+                if (IsCapturePage)
                 {
-                    if (IsCapturePage)
-                    {
-                        Log.Information($"1");
+                    Log.Information($"1");
 
-                        var capturePageUrl = NavigationManager.Uri;
+                    var capturePageUrl = NavigationManager.Uri;
 
-                        NavigationManager.NavigateTo(NavigationManager.BaseUri);
+                    NavigationManager.NavigateTo(NavigationManager.BaseUri);
 
-                        this.RedirectTo(capturePageUrl);
-                    }
+                    this.RedirectTo(capturePageUrl);
                 }
             }
         }
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
+        
         // get user info
         var settings = await Repo.GetSettingsAsync();
         await settings.Match<Task<OneOf<Settings, None, Error<string>>>>(
@@ -309,7 +308,10 @@ else
                 await Task.Delay(2 * 1000);
             }
         }
+    }
 
+    protected override void OnInitialized()
+    {
         Instance = this;
     }
 
