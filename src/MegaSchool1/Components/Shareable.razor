@@ -93,7 +93,10 @@
             this.Video = english.Video;
             this.TextToCopy = CapturePage.Match(info => ShareableViewModel.CapturePageShareable(english, NavigationManager, Language.English, info.MemberId, info.ReferralCode), none => ShareableViewModel.VideoShareable(english));
             this.Tooltip = "Copied!";
-            this.ImageUrl = Constants.GetImageUrl(english.ShareableImage);
+            this.ImageUrl = english.ShareableImage.Match(
+                image => Constants.GetImageUrl(image),
+                imageUri => imageUri.OriginalString,
+                none => Constants.GetImageUrl(ShareableViewModel.DefaultImage));
         }
 
         this.Duration = this.Video.Match(
