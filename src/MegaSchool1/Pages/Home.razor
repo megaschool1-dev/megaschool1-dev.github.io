@@ -243,11 +243,16 @@
         return !string.IsNullOrWhiteSpace(shareableDescription) ? null : "You must have a shareable description.";
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender)
+        {
+            return;
+        }
+        
         await ReloadClassesAsync();
     }
-
+    
     private async Task OnMoveUp(ShareableDto shareable)
     {
         const int NotFound = -1;
