@@ -167,7 +167,6 @@ else
     private bool _componentInitialized;
     private DotNetObjectReference<MainLayout>? _thisComponentReference;
     private bool _showInstallInstructions;
-    private object? _windowMode;
 
     [SupplyParameterFromQuery(Name = "r")]
     public string? Redirect { get; set; }
@@ -206,7 +205,7 @@ else
         Dialog.Show<EditUsernameDialog>("72-Hour Money Challenge", parameters, options);
     }
 
-    protected async void OnInstallClick()
+    protected async Task OnInstallClick()
     {
         _thisComponentReference = DotNetObjectReference.Create(this);
         await JSRuntime.InvokeVoidAsync("promptToInstall", _thisComponentReference);
@@ -238,33 +237,35 @@ else
             : pagePathWithoutQueryString;
     }
 
-    private bool _inIFrame;
-
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        _windowMode = await JSRuntime.InvokeAsync<object>("isStandalone");
-
-        _inIFrame = await JSRuntime.InvokeAsync<bool>("inIframe");
-        Log.Information($"In iFrame: {_inIFrame}");
-        if (!_inIFrame)
+        if (firstRender)
         {
-            var isStandaloneMode = await JSRuntime.InvokeAsync<bool>("isStandalone");
-            Log.Information($"isStandalone: {isStandaloneMode}");
-            if (isStandaloneMode)
+            var inIFrame = await JSRuntime.InvokeAsync<bool>("inIframe");
+            Log.Information($"In iFrame: {inIFrame}");
+            if (!inIFrame)
             {
-                if (IsCapturePage)
+                var isStandaloneMode = await JSRuntime.InvokeAsync<bool>("isStandalone");
+                Log.Information($"isStandalone: {isStandaloneMode}");
+                if (isStandaloneMode)
                 {
-                    Log.Information($"1");
+                    if (IsCapturePage)
+                    {
+                        Log.Information($"1");
 
-                    var capturePageUrl = NavigationManager.Uri;
+                        var capturePageUrl = NavigationManager.Uri;
 
-                    NavigationManager.NavigateTo(NavigationManager.BaseUri);
+                        NavigationManager.NavigateTo(NavigationManager.BaseUri);
 
-                    this.RedirectTo(capturePageUrl);
+                        this.RedirectTo(capturePageUrl);
+                    }
                 }
             }
         }
+    }
 
+    protected override async Task OnInitializedAsync()
+    {
         // get user info
         var settings = await Repo.GetSettingsAsync();
         await settings.Match<Task<OneOf<Settings, None, Error<string>>>>(
