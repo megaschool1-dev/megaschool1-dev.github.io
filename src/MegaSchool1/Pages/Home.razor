@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/home"
 @inherits ShareableCapturePage
 @implements IDisposable
 @using MegaSchool1.Components
@@ -18,28 +18,6 @@
     <MudText Align="Align.Center" Typo="Typo.h6">Flow Classes</MudText>
     <MudText Align="Align.Center">First class is FREE! <br /> Additional classes are $150 per class.*</MudText>
     <br />
-    <MudCard Outlined="true">
-        @{
-            var classInfo = UI.EnglishLocale.Shareables.FirstOrDefault(s => s.ContentId == Content.FlowPreview);
-        }
-        <MudCardHeader>@((MarkupString)classInfo.ClassName)</MudCardHeader>
-        <MudCardContent>
-            <MudStack Spacing="3">
-                <EmbeddedVideo Video="@((classInfo.ContentId == Content.Custom ? GetVideo(classInfo) : GetVideo(classInfo.ContentId)))" />
-                <MudText Align="Align.Center">@((MarkupString)classInfo.ClassDescription)</MudText>
-                <MudStack Row="true">
-                    <MudIconButton OnClick="async () => await OnMoveUp(classInfo)" Disabled="@(Array.IndexOf(_classes, classInfo) == 0)" Icon="@Icons.Material.Filled.ArrowCircleUp" Color="Color.Primary" />
-                    <MudIconButton OnClick="async () => await OnMoveDown(classInfo)" Disabled="@(Array.IndexOf(_classes, classInfo) == _classes.Length - 1)" Icon="@Icons.Material.Filled.ArrowCircleDown" Color="Color.Primary" />
-                    <MudSpacer />
-                    @if (classInfo.ContentId == Content.Custom)
-                    {
-                        <MudIconButton OnClick="async () => await OnDelete(classInfo)" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
-                    }
-                </MudStack>
-            </MudStack>
-        </MudCardContent>
-    </MudCard>
-    <br/>
     @foreach (var classInfo in _classes)
     {
         <MudCard Outlined="true">
