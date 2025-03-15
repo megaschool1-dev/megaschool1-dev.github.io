@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inherits ShareableCapturePage
+@implements IDisposable
 @using MegaSchool1.Components
 @using MegaSchool1.Model
 @using MegaSchool1.Model.Dto
@@ -11,6 +12,7 @@
 @inject Repository.Repository Repo
 @inject ClientSettings DefaultClientSettings
 @inject IScrollManager ScrollManager
+@inject PersistentComponentState ApplicationState
 
 <MudStack Spacing="3" id="top_of_page">
     <MudText Align="Align.Center" Typo="Typo.h6">Flow Classes</MudText>
@@ -117,6 +119,38 @@
         public string? Description { get; set; }
     }
 
+    private PersistingComponentStateSubscription persistingSubscription;
+
+    protected override Task OnInitializedAsync()
+    {
+        persistingSubscription = 
+            ApplicationState.RegisterOnPersisting(PersistForecasts);
+
+        if (!ApplicationState.TryTakeFromJson<ShareableDto[]>(
+                "fetchdata", out var restored))
+        {
+            _classes = DefaultClientSettings.UI.EnglishLocale.Shareables;
+        }
+        else
+        {
+            _classes = restored!;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task PersistForecasts()
+    {
+        ApplicationState.PersistAsJson("fetchdata", _classes);
+
+        return Task.CompletedTask;
+    }
+    
+    void IDisposable.Dispose()
+    {
+        persistingSubscription.Dispose();
+    }
+    
     private async Task OnAddShareableDialogVisibleChanged(bool isVisible)
     {
         var clientSettings = await this.GetClientSettingsAsync();
@@ -357,7 +391,9 @@
         await Repo.SaveClientSettingsAsync(settings);
     }
 
-    private async Task ReloadClassesAsync()
+    private async Task ReloadClassesAsync() => _classes = await this.GetClassesAsync();
+
+    private async Task<ShareableDto[]> GetClassesAsync()
     {
         var loadedClientSettings = await this.GetClientSettingsAsync();
 
@@ -390,7 +426,7 @@
         loadedClientSettingsEnglish.Shareables = currentShareables.ToArray();
         await SaveClientSettingsAsync(loadedClientSettings);
 
-        _classes = currentShareables.ToArray();
+        return currentShareables.ToArray();
     }
 
     private void OnAddContent()
