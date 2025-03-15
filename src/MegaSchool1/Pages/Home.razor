@@ -129,7 +129,7 @@
         if (!ApplicationState.TryTakeFromJson<ShareableDto[]>(
                 "fetchdata", out var restored))
         {
-            _classes = DefaultClientSettings.UI.EnglishLocale.Shareables;
+            _classes = DefaultClientSettings.UI.EnglishLocale.Shareables.Where(s => s.ClassName != null).ToArray();
         }
         else
         {
