@@ -1,12 +1,9 @@
 ﻿@using MegaSchool1.Model
 @inherits Components.ComponentBase
 
-@if (_webshareAllowed)
-{
-    <MudTooltip Text="@Tooltip" Visible="_showShareTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
-        <MudIconButton OnClick="OnShareClick" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" />
-    </MudTooltip>
-}
+<MudTooltip Text="@Tooltip" Visible="_showShareTooltip" ShowOnClick="true" ShowOnFocus="false" ShowOnHover="false">
+    <MudIconButton OnClick="OnShareClick" @bind-Disabled="_disableWebShare" Icon="@Icons.Material.Filled.Share" Color="Color.Primary" />
+</MudTooltip>
 
 <MudDialog @ref="_pasteTextReminderDialog" Options="@(new DialogOptions() { FullWidth = false, NoHeader = true })">
     <DialogContent>
@@ -19,7 +16,7 @@
 
 @code {
     private bool _showShareTooltip;
-    private bool _webshareAllowed = false;
+    private bool _disableWebShare = false;
     private MudDialog? _pasteTextReminderDialog;
 
     [Parameter]
@@ -30,10 +27,15 @@
 
     [Parameter]
     public string ImageUrl { get; set; } = Constants.GetImageUrl(Image.MWRGivBuxLogo);
-
-    protected override async Task OnInitializedAsync()
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        _webshareAllowed = await this.WebShareAllowedAsync();
+        if (firstRender)
+        {
+            return;
+        }
+        
+        _disableWebShare = !(await this.WebShareAllowedAsync());
     }
 
     private async Task OnShareClick()
