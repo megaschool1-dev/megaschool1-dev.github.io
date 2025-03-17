@@ -154,6 +154,7 @@ public enum Content
     MWR2MinTeaser1 = 75,
     JoinMWR = 76,
     DebtDemo = 77,
+    CollegeFund = 78,
 }
 
 public enum Language
