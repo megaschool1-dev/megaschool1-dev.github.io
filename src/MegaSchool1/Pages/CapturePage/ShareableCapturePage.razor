@@ -18,9 +18,12 @@
     {
         <Centered><MudImage Src="@imageUrl" Fluid="true" Width="300" /></Centered>
     }
-    <Centered>
-        <EmbeddedVideo Video="@(Shareable.Video.MapT0(video => video.Video))"/>
-    </Centered>
+    @if (Video?.HideCapturePageVideo is not true)
+    {
+        <Centered>
+            <EmbeddedVideo Video="@(Shareable.Video.MapT0(video => video.Video))"/>
+        </Centered>        
+    }
     @if (Shareable.FlyerImage.TryPickT0(out var url, out _))
     {
         <Centered><MudImage Src="@url.AbsoluteUri" Fluid="true" Width="300" /></Centered>
@@ -61,7 +64,23 @@
         {
             <MudText Align="Align.Center" Color="Color.Secondary">@(@event.Header)</MudText>
         }
-        <MudText Align="Align.Center"><ExternalLink Href="@Video?.Event?.Link">@(@event.ShareableHeader)</ExternalLink> <br /> @($"{startDate:dddd, MMMM d} @ {startDate.ToOffset(TimeZoneInfo.Local.BaseUtcOffset): h:mm tt} {TimeZoneInfo.Local.StandardName}")</MudText>
+        
+        <br/>
+
+        @if (!string.IsNullOrWhiteSpace(@event.Image))
+        {
+            <Centered><MudImage Src="@(@event.Image)" Fluid="true" Width="300" /></Centered>
+        }
+        
+        <br/>
+
+        <MudText Align="Align.Center">@($"{startDate:dddd, MMMM d} @ {startDate.ToOffset(TimeZoneInfo.Local.BaseUtcOffset): h:mm tt} {TimeZoneInfo.Local.StandardName}")</MudText>
+        <br/>
+        <MudText Align="Align.Center"><ExternalLink Href="@(@event.Link)">@(@event.ShareableHeader)</ExternalLink></MudText>
+        @if (!string.IsNullOrWhiteSpace(@event.Password))
+        {
+            <MudText Align="Align.Center">Password: @(@event.Password)</MudText>
+        }
     }
     @if (Shareable.ShowBusinessSignUp)
     {

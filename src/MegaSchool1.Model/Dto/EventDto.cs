@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MegaSchool1.Model;
+namespace MegaSchool1.Model.Dto;
 
 public record EventDto
 {
