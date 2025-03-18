@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Microsoft.Extensions.Configuration;
 
 namespace MegaSchool1.Model.Dto;
 
@@ -90,6 +91,10 @@ public class ShareableDto
 
     [JsonPropertyName("start")]
     public TimeSpan? Start { get;  set; }
+    
+    [JsonPropertyName("hideCapturePageVideo")]
+    [ConfigurationKeyName("hideCapturePageVideo")]
+    public bool HideCapturePageVideo { get;  set; }
     
     public override string ToString() => $"{ContentId}";
 }
