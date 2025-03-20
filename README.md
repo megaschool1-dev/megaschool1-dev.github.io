@@ -9,8 +9,8 @@ Visit site @ https://megaschool1.github.io
 1. Fork this repository with the name: `your_user_name | your_organization_name`.github.io
 2. Go to the repository you just created, then go to: `Settings` > `GitHub Pages` > set the source branch to `gh-pages-from-actions`
 3. [Set permissions for GitHub Actions](https://stackoverflow.com/questions/73687176/permission-denied-to-github-actionsbot-the-requested-url-returned-error-403)
-4. (optional) Enable Dependabot: `Insights` > `Dependency graph` > `Dependabot` > Enable Dependabot
-5. View your site at https://`your_user_name | your_organization_name`.github.io
+4. View your site at https://`your_user_name | your_organization_name`.github.io
+5. (optional) Enable Dependabot: `Insights` > `Dependency graph` > `Dependabot` > Enable Dependabot
 
 # Development
 1. Run Stellar Horizon
