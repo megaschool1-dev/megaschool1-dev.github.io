@@ -1,20 +1,23 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using System.Text.Json.Serialization;
 
 namespace MegaSchool1.Model.Dto;
 
 public class ShareableDto
 {
     [JsonPropertyName("contentId")]
+    [ConfigurationKeyName("contentId")]
     public Content ContentId { get; set; }
 
     [JsonPropertyName("videoId")]
+    [ConfigurationKeyName("videoId")]
     public string? Id { get; set; }
 
     [JsonPropertyName("platform")]
     public VideoPlatform Platform { get; set; }
 
     [JsonPropertyName("videoHash")]
+    [ConfigurationKeyName("videoHash")]
     public string? Hash { get; set; }
 
     [JsonPropertyName("userHandle")]
@@ -33,6 +36,7 @@ public class ShareableDto
     public TimeSpan? Duration { get;  set; }
 
     [JsonPropertyName("imageId")]
+    [ConfigurationKeyName("imageId")]
     public Image? Image { get; set; }
 
     [JsonPropertyName("imageUrl")]
@@ -69,9 +73,11 @@ public class ShareableDto
     public ImageInfo[] Images { get; set; } = [];
 
     [JsonPropertyName("auxText")]
+    [ConfigurationKeyName("auxText")]
     public string? AuxiliaryText { get; set; }
     
     [JsonPropertyName("auxTexts")]
+    [ConfigurationKeyName("auxTexts")]
     public string[] AuxiliaryTexts { get; set; } = [];
 
     [JsonPropertyName("alternateVideos")]
