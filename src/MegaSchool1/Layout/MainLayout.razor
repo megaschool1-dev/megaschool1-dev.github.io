@@ -15,6 +15,7 @@
 @inject NavigationManager NavigationManager
 @inject Repository.Repository Repo
 @inject IDialogService Dialog
+@inject PersistentComponentState ApplicationState
 
 <PageTitle>@((IsCapturePage ? "MWR" : $"{GetTitle()} | Mega School 1"))</PageTitle>
 
@@ -167,13 +168,16 @@ else
     private bool _componentInitialized;
     private DotNetObjectReference<MainLayout>? _thisComponentReference;
     private bool _showInstallInstructions;
-
+    private PersistingComponentStateSubscription persistingSubscription;
+    private OneOf<PrerenderedState, None> _prerenderedState = new None();
+    
     [SupplyParameterFromQuery(Name = "r")]
     public string? Redirect { get; set; }
 
     public void Dispose()
     {
         _thisComponentReference?.Dispose();
+        persistingSubscription.Dispose();
     }
 
     private bool IsCapturePage =>
@@ -240,11 +244,19 @@ else
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
+        var runInitialization =
+            // prerendering complete
+            _prerenderedState.IsT0
+            ||
+            // we're not in the middle of prerendering, so initialize on first render
+            firstRender;
+        if (!runInitialization || _componentInitialized)
         {
             return;
         }
         
+        Instance = this;
+
         var inIFrame = await JSRuntime.InvokeAsync<bool>("inIframe");
         Log.Information($"In iFrame: {inIFrame}");
         if (!inIFrame)
@@ -273,9 +285,7 @@ else
             {
                 var settings = await Util.SanitizeAsync(found, Repo.GetMarketingDirectorInfoAsync);
                 _appState.User = settings.User;
-
-                this.StateHasChanged();
-
+                
                 return settings;
             },
             async notFound => notFound,
@@ -286,14 +296,26 @@ else
 
         // navigate to prospect page if applicable
         this.NavigateToProspectPageIfApplicable();
-
-        _componentInitialized = true;
-        this.StateHasChanged();
-
+        
         // start checking for updates
         _ = CheckForUpdatesAsync();
 
         // show install button if applicable
+        _ = this.ShowInstallButtonAsync();
+        
+        // caution - this can cause an infinite loop in OnAfterRenderAsync
+        _ = Task.Run(() =>
+        {
+            //_componentInitialized = true;
+            //this.StateHasChanged();
+            //_ = this.InvokeAsync(this.StateHasChanged);
+        });
+        _componentInitialized = true;
+        _ = this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private async Task ShowInstallButtonAsync()
+    {
         var maxInstallationStatusWaitTime = Task.Delay(10 * 1000);
         var keepCheckingInstallationStatus = true;
         while (keepCheckingInstallationStatus && !maxInstallationStatusWaitTime.IsCompleted)
@@ -310,10 +332,28 @@ else
             }
         }
     }
-
+    
     protected override void OnInitialized()
     {
-        Instance = this;
+        persistingSubscription = 
+            ApplicationState.RegisterOnPersisting(PersistForecasts);
+
+        if (!ApplicationState.TryTakeFromJson<PrerenderedState>(
+                "fetchdata", out var restored))
+        {
+            _prerenderedState = new None();
+        }
+        else
+        {
+            _prerenderedState = restored!;
+        }
+    }
+
+    private Task PersistForecasts()
+    {
+        ApplicationState.PersistAsJson("fetchdata", new PrerenderedState());
+
+        return Task.CompletedTask;
     }
 
     private void RedirectTo(string url)
@@ -388,7 +428,7 @@ else
 
         return page switch
         {
-            "" => "Flow Classes",
+            "" => "Mega School Classes",
             "words" => "Words",
             "ipr" => "Instant Pay Raise",
             "settings" => "Settings",
@@ -409,4 +449,6 @@ else
             _ => string.Empty
         };
     }
+
+    private class PrerenderedState;
 }
