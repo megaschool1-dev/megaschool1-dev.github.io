@@ -167,7 +167,6 @@ else
     private bool _componentInitialized;
     private DotNetObjectReference<MainLayout>? _thisComponentReference;
     private bool _showInstallInstructions;
-    private object? _windowMode;
 
     [SupplyParameterFromQuery(Name = "r")]
     public string? Redirect { get; set; }
@@ -190,6 +189,7 @@ else
         || IsCarPurchasePage
         || NavigationManager.Uri.Contains("/trustfundmybaby")
         || NavigationManager.Uri.Contains("/shareables")
+        || NavigationManager.Uri.Contains("/home")
         || NavigationManager.Uri.Contains("/game")
 
         // home page
@@ -206,7 +206,7 @@ else
         Dialog.Show<EditUsernameDialog>("72-Hour Money Challenge", parameters, options);
     }
 
-    protected async void OnInstallClick()
+    protected async Task OnInstallClick()
     {
         _thisComponentReference = DotNetObjectReference.Create(this);
         await JSRuntime.InvokeVoidAsync("promptToInstall", _thisComponentReference);
@@ -238,15 +238,16 @@ else
             : pagePathWithoutQueryString;
     }
 
-    private bool _inIFrame;
-
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        _windowMode = await JSRuntime.InvokeAsync<object>("isStandalone");
-
-        _inIFrame = await JSRuntime.InvokeAsync<bool>("inIframe");
-        Log.Information($"In iFrame: {_inIFrame}");
-        if (!_inIFrame)
+        if (!firstRender)
+        {
+            return;
+        }
+        
+        var inIFrame = await JSRuntime.InvokeAsync<bool>("inIframe");
+        Log.Information($"In iFrame: {inIFrame}");
+        if (!inIFrame)
         {
             var isStandaloneMode = await JSRuntime.InvokeAsync<bool>("isStandalone");
             Log.Information($"isStandalone: {isStandaloneMode}");
@@ -264,7 +265,7 @@ else
                 }
             }
         }
-
+        
         // get user info
         var settings = await Repo.GetSettingsAsync();
         await settings.Match<Task<OneOf<Settings, None, Error<string>>>>(
@@ -308,7 +309,10 @@ else
                 await Task.Delay(2 * 1000);
             }
         }
+    }
 
+    protected override void OnInitialized()
+    {
         Instance = this;
     }
 

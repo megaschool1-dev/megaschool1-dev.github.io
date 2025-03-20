@@ -56,11 +56,16 @@
 
     private string PageFullPath(string page) => $"{NavigationManager.BaseUri}{page}";
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender)
+        {
+            return;
+        }
+        
         _updateAvailable = await Util.UpdateAvailableAsync(Http);
     }
-
+    
     private async Task OnVersionClick(MouseEventArgs e)
     {
         var updatePreviouslyAvailable = _updateAvailable;
