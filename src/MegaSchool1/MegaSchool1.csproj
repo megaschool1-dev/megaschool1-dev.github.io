@@ -8,6 +8,7 @@
 	<AssemblyVersion>1.0.0.0</AssemblyVersion>
     <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents>
 	<BlazorWasmPrerenderingMode>WebAssemblyPrerendered</BlazorWasmPrerenderingMode>
+    <BlazorWasmPrerenderingUrlPathToExplicitFetch>/en/CollegeFund/MS1/megaschool/0</BlazorWasmPrerenderingUrlPathToExplicitFetch>
   </PropertyGroup>
 
 
