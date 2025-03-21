@@ -8,9 +8,7 @@
 @inject UISettings UI
 
 <MudStack Spacing="3">
-    <MudOverlay Visible="@(!_pageLoaded)" DarkBackground="true" Absolute="false">
-        <MudProgressCircular Color="Color.Secondary" Indeterminate="true" />
-    </MudOverlay>
+    <OverlayLoader/>
     
     <MudCard>
         <MudCardContent>
@@ -302,8 +300,8 @@
     private readonly (Content Content, Category[] Categories)[] ContentCategories = 
     [
         (Content.MWRPique, [Category.Corporate]),
-    (Content.MembershipPique, [Category.Corporate, Category.Services]),
-    (Content.MindsetPique, [Category.Corporate]),
+        (Content.MembershipPique, [Category.Corporate, Category.Services]),
+        (Content.MindsetPique, [Category.Corporate]),
         (Content.MWR30SecTeaser, [Category.Corporate]),
         (Content.MWR60SecTeaser, [Category.Corporate]),
         (Content.MWR60SecTeaser2, [Category.Corporate]),
@@ -345,73 +343,18 @@
         (Content.GivBuxMerchant, [Category.GivBux]),
         
         (Content.FastStart, [Category.Training]),
-
     ];
     
-    private readonly Content[] BasicShareables =
-    [
-        Content.MWRPique,
-        Content.MembershipPique,
-        Content.MindsetPique,
-        Content.MWR30SecTeaser,
-        Content.MWR60SecTeaser,
-        Content.MWR60SecTeaser2,
-        Content.MWR60SecTeaser3,
-        Content.MilitaryPique,
-        Content.MWR30SecReel,
-        Content.Promo,
-        Content.EDMPique,
-        Content.CorporateBusinessOverview,
-        Content.MS1Opportunity,
-        Content.FaithAndFinanceOverview,
-        Content.CreditTeamOpportunity,
-        Content.BizOwnerPique,
-        Content.BusinessOwnerPique,
-        Content.Membership,
-        Content.CollegeFund,
-        Content.MoneyChallenge,
-        Content.MoneyChallengeFAQ,
-        Content.NextLevelStrategies,
-        Content.CreditRestoration,
-        Content.HealthShare,
-        Content.KeysToHomeOwnership,
-        Content.TrustMyAssets,
-        Content.RealEstatePros,
-        Content.FaithAndFinance,
-        Content.FaithAndFinanceTeaser,
-        Content.GivBux,
-        Content.GivBuxMerchant,
-        Content.GivBuxCharity,
-        Content.FastStart,
-        Content.HowBanksMakeMoney,
-        Content.PayoffMortgage,
-        Content.HBBTaxBenefits,
-        Content.BitcoinPreview,
-    ];
-
     private Content _videoShareableContent = Content.MoneyChallenge;
     private TeamMember? _selectedTeamMemberMarketingDirector;
     private TeamMember? _selectedTeamMemberWebsite;
     private Content _selectedShareable = Content.MWRPique;
     private Content _selectedInCompleteVideoLibrary = Content.MoneyChallenge;
-    private bool _pageLoaded = false;
 
     private IEnumerable<Content> GetSelectedContent(Category[] selectedCategories)
     {
-        /*
-        var indexableContentCategories = ContentCategories.ToList();
-
-        var contents = ContentCategories
-            .Where(c => !selectedCategories.Any() || !selectedCategories.Except(c.Categories).Any())
-            .ToArray();
-        var first = (contents[0], indexableContentCategories.IndexOf(contents[0]));
-        var second = (contents[1], indexableContentCategories.IndexOf(contents[1]));
-        var third = (contents[2], indexableContentCategories.IndexOf(contents[2]));
-        */
-        
         return ContentCategories
             .Where(c => !selectedCategories.Any() || !selectedCategories.Except(c.Categories).Any())
-           // .OrderBy(contentCategories => indexableContentCategories.IndexOf(contentCategories))
             .Select(c => c.Content);
     }
     
@@ -431,17 +374,6 @@
         var selectedContents = GetSelectedContent(_selectedCategory != Category.None ? [_selectedCategory] : []).ToArray();
 
         _selectedShareable = selectedContents.Any() ? selectedContents.First() : Content.MWRPique;
-    }
-    
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (_pageLoaded)
-        {
-            return;
-        }
-        
-        _pageLoaded = true;
-        _ = this.InvokeAsync(this.StateHasChanged);
     }
 
     protected override void OnParametersSet()

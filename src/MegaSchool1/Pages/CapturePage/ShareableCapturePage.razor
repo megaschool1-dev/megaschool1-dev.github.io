@@ -13,6 +13,8 @@
 
 <PageTitle>@Video?.ShareableTitle</PageTitle>
 
+<OverlayLoader/>
+
 <MudStack Spacing="3" Style="height:100%;">
     @if (Video?.ShowHeaderImage is true && GetHeaderImageUrl().TryPickT0(out var imageUrl, out _))
     {
@@ -86,7 +88,7 @@
     {
         <MudText Align="Align.Center"><ExternalLink Href="@Constants.JoinMakeWealthReal(this.MemberId, Model.Language.English)">Join Make Wealth Real NOW!</ExternalLink></MudText>
     }
-    @if(!_shareable.HideShortCodePrompt)
+    @if(_pageLoaded && !_shareable.HideShortCodePrompt)
     {
         <br />
         <Centered><MudText Style="color:white;" Align="Align.Center">@((DateTimeOffset.Now <= Video?.PromoExpiration && Video?.Promo != null ? Video?.Promo : "To get started or ask questions, text"))<br /><br />'@ReferralId' to @QMDPhoneNumber</MudText></Centered>
@@ -96,7 +98,8 @@
 
 @code {
     private ShareableViewModel _shareable = new();
-
+    private bool _pageLoaded;
+    
     [Parameter]
     public string ContentId { get; set; } = Content.MoneyChallenge.ToString();
 
@@ -119,5 +122,6 @@
         }
         
         _shareable = Mappers.ShareableDtoToViewModel((this.Language == Spanish ? UI.SpanishLocale[ContentValue] : UI.EnglishLocale[ContentValue]) ?? UI.EnglishLocale[ContentValue]!);
+        _pageLoaded = true;
     }
 }
