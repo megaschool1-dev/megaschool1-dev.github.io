@@ -21,10 +21,10 @@
     @if (Video?.HideCapturePageVideo is not true)
     {
         <Centered>
-            <EmbeddedVideo Video="@(_shareable.Video.MapT0(video => video.Video))"/>
+            <EmbeddedVideo Video="@(Shareable.Video.MapT0(video => video.Video))"/>
         </Centered>        
     }
-    @if (_shareable.FlyerImage.TryPickT0(out var url, out _))
+    @if (Shareable.FlyerImage.TryPickT0(out var url, out _))
     {
         <Centered><MudImage Src="@url.AbsoluteUri" Fluid="true" Width="300" /></Centered>
     }
@@ -32,21 +32,21 @@
     {
         <Centered><ExternalLink Href="@this.Video?.DownloadUrl">@(Video?.DownloadText ?? "Download")</ExternalLink></Centered>
     }
-    @if (int.TryParse(this.Index, out var index) && _shareable.AuxiliaryTexts.TryPickT0(out var auxTexts, out _) && index < auxTexts.Length)
+    @if (int.TryParse(this.Index, out var index) && Shareable.AuxiliaryTexts.TryPickT0(out var auxTexts, out _) && index < auxTexts.Length)
     {
         <br />
         <Centered><MudText Align="Align.Center">@((MarkupString)HttpUtility.UrlDecode(auxTexts[index].Replace("{ReferralCode}", $@"<span style=""color:{Theme.PaletteDark.Secondary};"">{ReferralId}</span>")))</MudText></Centered>
     }
     else
     {
-        @if (_shareable.AuxiliaryText.TryPickT0(out var aux, out _))
+        @if (Shareable.AuxiliaryText.TryPickT0(out var aux, out _))
         {
             <br/>
             <Centered><MudText Align="Align.Center">@((MarkupString)HttpUtility.UrlDecode(aux.Replace("{ReferralCode}", $@"<span style=""color:{Theme.PaletteDark.Secondary};"">{ReferralId}</span>")))</MudText></Centered>
         }
     }
     <MudSpacer />
-    @if (_shareable.Images.TryPickT0(out var images, out _))
+    @if (Shareable.Images.TryPickT0(out var images, out _))
     {
         <br/>
         <Centered>
@@ -58,7 +58,7 @@
             </MudStack>
         </Centered>
     }
-    @if (_shareable.Event.TryPickT0(out var @event, out _) && @event.StartDate.TryPickT0(out var startDate, out _) && DateTimeOffset.Now <= startDate)
+    @if (Shareable.Event.TryPickT0(out var @event, out _) && @event.StartDate.TryPickT0(out var startDate, out _) && DateTimeOffset.Now <= startDate)
     {
         @if (!string.IsNullOrWhiteSpace(@event.Header))
         {
@@ -82,11 +82,11 @@
             <MudText Align="Align.Center">Password: @(@event.Password)</MudText>
         }
     }
-    @if (_shareable.ShowBusinessSignUp)
+    @if (Shareable.ShowBusinessSignUp)
     {
         <MudText Align="Align.Center"><ExternalLink Href="@Constants.JoinMakeWealthReal(this.MemberId, Model.Language.English)">Join Make Wealth Real NOW!</ExternalLink></MudText>
     }
-    @if(!_shareable.HideShortCodePrompt)
+    @if(!Shareable.HideShortCodePrompt)
     {
         <br />
         <Centered><MudText Style="color:white;" Align="Align.Center">@((DateTimeOffset.Now <= Video?.PromoExpiration && Video?.Promo != null ? Video?.Promo : "To get started or ask questions, text"))<br /><br />'@ReferralId' to @QMDPhoneNumber</MudText></Centered>
@@ -95,7 +95,7 @@
 </MudStack>
 
 @code {
-    private ShareableViewModel _shareable = new();
+    protected ShareableViewModel Shareable { get; private set; } = new();
 
     [Parameter]
     public string ContentId { get; set; } = Content.MoneyChallenge.ToString();
@@ -111,13 +111,8 @@
         return imageId != null ? Constants.GetImageUrl(imageId.Value) : new None();
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override void OnInitialized()
     {
-        if (!firstRender)
-        {
-            return;
-        }
-        
-        _shareable = Mappers.ShareableDtoToViewModel((this.Language == Spanish ? UI.SpanishLocale[ContentValue] : UI.EnglishLocale[ContentValue]) ?? UI.EnglishLocale[ContentValue]!);
+        Shareable = Mappers.ShareableDtoToViewModel((this.Language == Spanish ? UI.SpanishLocale[ContentValue] : UI.EnglishLocale[ContentValue]) ?? UI.EnglishLocale[ContentValue]!);
     }
 }

@@ -5,10 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-	<AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents>
-	<BlazorWasmPrerenderingMode>WebAssemblyPrerendered</BlazorWasmPrerenderingMode>
-    <BlazorWasmPrerenderingUrlPathToExplicitFetch>/en/CollegeFund/MS1/megaschool/0</BlazorWasmPrerenderingUrlPathToExplicitFetch>
+	  <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
 
@@ -19,7 +16,6 @@
   <ItemGroup>
     <PackageReference Include="Append.Blazor.WebShare" Version="7.0.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-    <PackageReference Include="BlazorWasmPreRendering.Build" Version="5.0.1" />
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.3" />

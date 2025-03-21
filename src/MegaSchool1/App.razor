@@ -1,8 +1,4 @@
-﻿@inject LazyLoader LazyLoader
-
-<Router AppAssembly="@typeof(App).Assembly"
-        AdditionalAssemblies="@LazyLoader.AdditionalAssemblies"
-        OnNavigateAsync="@LazyLoader.OnNavigateAsync">
+﻿<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />

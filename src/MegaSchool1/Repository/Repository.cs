@@ -141,7 +141,7 @@ public class Repository(ILocalStorageService localStorage, HttpClient http)
                 else
                 {
                     var deserialized = JsonSerializer.Deserialize<ClientSettings>(foundSettings, Util.JsonSerializerOptions);
-                    return deserialized?.UI != null ? deserialized : new None();
+                    return deserialized != null ? deserialized : new None();
                 }
             }
             else

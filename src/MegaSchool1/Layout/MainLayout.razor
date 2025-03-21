@@ -15,7 +15,6 @@
 @inject NavigationManager NavigationManager
 @inject Repository.Repository Repo
 @inject IDialogService Dialog
-@inject PersistentComponentState ApplicationState
 
 <PageTitle>@((IsCapturePage ? "MWR" : $"{GetTitle()} | Mega School 1"))</PageTitle>
 
@@ -168,16 +167,14 @@ else
     private bool _componentInitialized;
     private DotNetObjectReference<MainLayout>? _thisComponentReference;
     private bool _showInstallInstructions;
-    private PersistingComponentStateSubscription persistingSubscription;
-    private OneOf<PrerenderedState, None> _prerenderedState = new None();
-    
+    private object? _windowMode;
+
     [SupplyParameterFromQuery(Name = "r")]
     public string? Redirect { get; set; }
 
     public void Dispose()
     {
         _thisComponentReference?.Dispose();
-        persistingSubscription.Dispose();
     }
 
     private bool IsCapturePage =>
@@ -193,7 +190,6 @@ else
         || IsCarPurchasePage
         || NavigationManager.Uri.Contains("/trustfundmybaby")
         || NavigationManager.Uri.Contains("/shareables")
-        || NavigationManager.Uri.Contains("/home")
         || NavigationManager.Uri.Contains("/game")
 
         // home page
@@ -210,7 +206,7 @@ else
         Dialog.Show<EditUsernameDialog>("72-Hour Money Challenge", parameters, options);
     }
 
-    protected async Task OnInstallClick()
+    protected async void OnInstallClick()
     {
         _thisComponentReference = DotNetObjectReference.Create(this);
         await JSRuntime.InvokeVoidAsync("promptToInstall", _thisComponentReference);
@@ -242,24 +238,15 @@ else
             : pagePathWithoutQueryString;
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        var runInitialization =
-            // prerendering complete
-            _prerenderedState.IsT0
-            ||
-            // we're not in the middle of prerendering, so initialize on first render
-            firstRender;
-        if (!runInitialization || _componentInitialized)
-        {
-            return;
-        }
-        
-        Instance = this;
+    private bool _inIFrame;
 
-        var inIFrame = await JSRuntime.InvokeAsync<bool>("inIframe");
-        Log.Information($"In iFrame: {inIFrame}");
-        if (!inIFrame)
+    protected override async Task OnInitializedAsync()
+    {
+        _windowMode = await JSRuntime.InvokeAsync<object>("isStandalone");
+
+        _inIFrame = await JSRuntime.InvokeAsync<bool>("inIframe");
+        Log.Information($"In iFrame: {_inIFrame}");
+        if (!_inIFrame)
         {
             var isStandaloneMode = await JSRuntime.InvokeAsync<bool>("isStandalone");
             Log.Information($"isStandalone: {isStandaloneMode}");
@@ -277,7 +264,7 @@ else
                 }
             }
         }
-        
+
         // get user info
         var settings = await Repo.GetSettingsAsync();
         await settings.Match<Task<OneOf<Settings, None, Error<string>>>>(
@@ -285,7 +272,9 @@ else
             {
                 var settings = await Util.SanitizeAsync(found, Repo.GetMarketingDirectorInfoAsync);
                 _appState.User = settings.User;
-                
+
+                this.StateHasChanged();
+
                 return settings;
             },
             async notFound => notFound,
@@ -296,26 +285,14 @@ else
 
         // navigate to prospect page if applicable
         this.NavigateToProspectPageIfApplicable();
-        
+
+        _componentInitialized = true;
+        this.StateHasChanged();
+
         // start checking for updates
         _ = CheckForUpdatesAsync();
 
         // show install button if applicable
-        _ = this.ShowInstallButtonAsync();
-        
-        // caution - this can cause an infinite loop in OnAfterRenderAsync
-        _ = Task.Run(() =>
-        {
-            //_componentInitialized = true;
-            //this.StateHasChanged();
-            //_ = this.InvokeAsync(this.StateHasChanged);
-        });
-        _componentInitialized = true;
-        _ = this.InvokeAsync(this.StateHasChanged);
-    }
-
-    private async Task ShowInstallButtonAsync()
-    {
         var maxInstallationStatusWaitTime = Task.Delay(10 * 1000);
         var keepCheckingInstallationStatus = true;
         while (keepCheckingInstallationStatus && !maxInstallationStatusWaitTime.IsCompleted)
@@ -331,29 +308,8 @@ else
                 await Task.Delay(2 * 1000);
             }
         }
-    }
-    
-    protected override void OnInitialized()
-    {
-        persistingSubscription = 
-            ApplicationState.RegisterOnPersisting(PersistForecasts);
 
-        if (!ApplicationState.TryTakeFromJson<PrerenderedState>(
-                "fetchdata", out var restored))
-        {
-            _prerenderedState = new None();
-        }
-        else
-        {
-            _prerenderedState = restored!;
-        }
-    }
-
-    private Task PersistForecasts()
-    {
-        ApplicationState.PersistAsJson("fetchdata", new PrerenderedState());
-
-        return Task.CompletedTask;
+        Instance = this;
     }
 
     private void RedirectTo(string url)
@@ -428,7 +384,7 @@ else
 
         return page switch
         {
-            "" => "Mega School Classes",
+            "" => "Flow Classes",
             "words" => "Words",
             "ipr" => "Instant Pay Raise",
             "settings" => "Settings",
@@ -449,6 +405,4 @@ else
             _ => string.Empty
         };
     }
-
-    private class PrerenderedState;
 }
