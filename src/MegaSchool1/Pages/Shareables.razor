@@ -8,6 +8,10 @@
 @inject UISettings UI
 
 <MudStack Spacing="3">
+    <MudOverlay Visible="@(!_pageLoaded)" DarkBackground="true" Absolute="false">
+        <MudProgressCircular Color="Color.Secondary" Indeterminate="true" />
+    </MudOverlay>   
+    
     <MudCard>
         <MudCardContent>
             <MudStack Spacing="6">
@@ -299,6 +303,18 @@
     private TeamMember? _selectedTeamMemberWebsite;
     private Content _selectedShareable = Content.MWRPique;
     private Content _selectedInCompleteVideoLibrary = Content.MoneyChallenge;
+    private bool _pageLoaded = false;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (_pageLoaded)
+        {
+            return;
+        }
+        
+        _pageLoaded = true;
+        _ = this.InvokeAsync(this.StateHasChanged);
+    }
 
     protected override void OnParametersSet()
     {
