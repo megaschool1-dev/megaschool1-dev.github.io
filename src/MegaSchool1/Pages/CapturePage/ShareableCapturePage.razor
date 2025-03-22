@@ -13,8 +13,6 @@
 
 <PageTitle>@Video?.ShareableTitle</PageTitle>
 
-<OverlayLoader/>
-
 <MudStack Spacing="3" Style="height:100%;">
     @if (Video?.ShowHeaderImage is true && GetHeaderImageUrl().TryPickT0(out var imageUrl, out _))
     {
