@@ -197,6 +197,7 @@ else
         || NavigationManager.Uri.Contains("/shareables")
         || NavigationManager.Uri.Contains("/home")
         || NavigationManager.Uri.Contains("/game")
+        || NavigationManager.Uri.Contains("/prisonministry")
 
         // home page
         || string.IsNullOrWhiteSpace(NavigationManager.ToBaseRelativePath(NavigationManager.Uri));
@@ -448,6 +449,7 @@ else
             "givbuxfundraiserprojections" => "GivBux Fundraiser Projections",
             "shareables" => "Shareables",
             "game" => "Game",
+            "prisonministry" => "Prison Ministry",
             _ => string.Empty
         };
     }
