@@ -1,0 +1,156 @@
+﻿@page "/prisonministry"
+@inherits MegaSchool1.Components.ComponentBase
+@using Foundation.Model
+@using MegaSchool1.Components
+@using MegaSchool1.Model
+@using Foundation.UI.Components
+@inject UISettings UI
+
+<MudStack Spacing="6">
+    <MudText Align="Align.Center" Typo="Typo.h3" Color="Color.Primary">Prison Justice Ministry</MudText>
+    <Centered>
+        <MudCard>
+            <EmbeddedVideo Video="@GetVideo(Content.PrisonMinistry)" />
+        </MudCard>
+    </Centered>
+    <Centered>
+        @{
+            var text = "Our prison system is full of injustice, particularly for people who have committed non-violent, or victimless, crimes. Such non-violent criminals often have no business in a prison, but simply need rehabilitation. Mega School 1 wants to affirm the dignity, and often masculinity, of non-violent prisoners, this is done through a business partnership that generates funds to pay their family's bills. This may seem impossible but we believe this can be done legally, ethically, and self-sustainably.";
+        }
+        <ResponsiveLayout>
+            <MobileContent>
+                <MudText Align="Align.Center">@text</MudText>
+            </MobileContent>
+            <DesktopContent>
+                <MudText Align="Align.Center" Style="width:50%;">@text</MudText>
+            </DesktopContent>
+        </ResponsiveLayout>
+    </Centered>
+    <Centered>
+        @{
+            var text = @"""‘Lord, when did we see You hungry, and feed You, or thirsty, and give You something to drink? And when did we see You as a stranger, and invite You in, or naked, and clothe You? And when did we see You sick, or in prison, and come to You?’ And the King will answer and say to them, ‘Truly I say to you, to the extent that you did it for one of the least of these brothers or sisters of Mine, you did it for Me.’"" - Matthew 25:37-40 NASB";
+        }
+        <ResponsiveLayout>
+            <MobileContent>
+                <MudText>@text</MudText>
+            </MobileContent>
+            <DesktopContent>
+                <MudText Style="width:50%;">@text</MudText>
+            </DesktopContent>
+        </ResponsiveLayout>
+    </Centered>
+    @ResponsiveDivider
+    <MudText Align="Align.Center" Typo="Typo.h5">How Prisoners Provide for Family</MudText>
+    <ResponsiveLayout>
+        <MobileContent>
+            <MudStack Spacing="3">
+                @ProtectFunds(Percentage.From(100))
+                @GenerateFunds(Percentage.From(100))
+                @DistributeFunds(Percentage.From(100))
+            </MudStack>
+        </MobileContent>
+        <DesktopContent>
+            <MudStack Row="true">
+                <MudSpacer/>
+                @ProtectFunds(Percentage.From(25))
+                @GenerateFunds(Percentage.From(25))
+                @DistributeFunds(Percentage.From(25))
+                <MudSpacer />
+            </MudStack>
+        </DesktopContent>
+    </ResponsiveLayout>
+    @ResponsiveDivider
+    <MudText Align="Align.Center" Typo="Typo.h5" Color="Color.Primary">Protect Funds for Family</MudText>
+    @Text("Prisoners cannot legally earn new income, however, a prisoner can create a trust, and then that trust can earn income, and then the trust pays the family's bills, this is the family trust fund.")
+    <MudText Align="Align.Center" Typo="Typo.h5" Color="Color.Primary">Generate Funds for Family</MudText>
+    <Centered>
+        <ResponsiveLayout>
+            <MobileContent>
+                <MudText Align="Align.Center">The family trust receives ongoing funding through <ExternalLink Href="/en/GivBux/MS1/megaschool/0">GivBux</ExternalLink> (revenue sharing), the <ExternalLink Href="https://www.thirdoption.party/tax-income-bounty">TIB Bounty</ExternalLink>, <ExternalLink Href="https://www.thirdoption.party/retirement-income-bounty">RIB Bounty</ExternalLink>, <ExternalLink Href="https://www.thirdoption.party/hand-up-economy">GIB Bounty</ExternalLink>, and Learning Parties (tips).  When the incarcerated earns income from any of these, they will be paid directly to the family trust fund.</MudText>
+            </MobileContent>
+            <DesktopContent>
+                <MudText Align="Align.Center" Style="width:50%;">The family trust receives ongoing funding through <ExternalLink Href="/en/GivBux/MS1/megaschool/0">GivBux</ExternalLink> (revenue sharing), the <ExternalLink Href="https://www.thirdoption.party/tax-income-bounty">TIB Bounty</ExternalLink>, <ExternalLink Href="https://www.thirdoption.party/retirement-income-bounty">RIB Bounty</ExternalLink>, <ExternalLink Href="https://www.thirdoption.party/hand-up-economy">GIB Bounty</ExternalLink>, and Learning Parties (tips).  When the incarcerated earns income from any of these, they will be paid directly to the family trust fund.</MudText>
+            </DesktopContent>
+        </ResponsiveLayout>
+    </Centered>
+    <MudText Align="Align.Center" Typo="Typo.h5" Color="Color.Primary">Distribute Funds to Family</MudText>
+    @Text("Mega School 1 will ensure family trust funds are distributed only to the family.  This may be through a lawyer or whoever the incarcerated finds appropriate.  We will make sure only the family gets the family trust funds.")
+    @ResponsiveDivider
+    <MudText Align="Align.Center" Typo="Typo.h5">How Can I Start My Own Prison Ministry?</MudText>
+    @Text((MarkupString)"If you want to learn how to start or add this strategy to your own prison ministry, you can text<br/><br/>'FAMILY' to 224-310-9357")
+   
+    @* Ensure 'scroll to top' button on bottom right of screen does not cover content. *@
+    <div style="height:75px;"></div>
+</MudStack>
+
+@code {
+    private RenderFragment Text(string text) => Text((MarkupString)text);
+    
+    private RenderFragment Text(MarkupString text) => __builder =>
+    {
+        <Centered>
+            <ResponsiveLayout>
+                <MobileContent>
+                    <MudText Align="Align.Center">@text</MudText>
+                </MobileContent>
+                <DesktopContent>
+                    <MudText Align="Align.Center" Style="width:50%;">@text</MudText>
+                </DesktopContent>
+            </ResponsiveLayout>        
+        </Centered>
+    };
+      
+      private RenderFragment ProtectFunds(Percentage width) => __builder =>
+      {
+          <MudCard Style="@($"width:{width.Value}%;")">
+              <MudCardHeader>
+                  <CardHeaderContent>
+                      <MudText Color="Color.Primary">Protect Funds for Family</MudText>
+                  </CardHeaderContent>
+              </MudCardHeader>
+              <MudCardContent>
+                  <MudText>We create a trust to protect the funds generated for the family.</MudText>
+              </MudCardContent>
+          </MudCard>
+      };
+      
+      private RenderFragment GenerateFunds(Percentage width) => __builder =>
+      {
+          <MudCard Style="@($"width:{width.Value}%;")">
+              <MudCardHeader>
+                  <CardHeaderContent>
+                      <MudText Color="Color.Primary">Generate Funds for Family</MudText>
+                  </CardHeaderContent>    
+              </MudCardHeader>
+              <MudCardContent>
+                  <MudText>We generate funds for the family through <ExternalLink Href="/en/GivBux/MS1/megaschool/0">GivBux</ExternalLink>, community funding programs (<ExternalLink Href="https://www.thirdoption.party/tax-income-bounty">TIB</ExternalLink>, <ExternalLink Href="https://www.thirdoption.party/retirement-income-bounty">RIB</ExternalLink>, <ExternalLink Href="https://www.thirdoption.party/hand-up-economy">GIB</ExternalLink>), and Learning Parties.</MudText>
+              </MudCardContent>
+          </MudCard>
+      };
+      
+      private RenderFragment DistributeFunds(Percentage width) => __builder =>
+      {
+          <MudCard Style="@($"width:{width.Value}%;")">
+              <MudCardHeader>
+                  <CardHeaderContent>
+                      <MudText Color="Color.Primary">Distribute Funds to Family</MudText>
+                  </CardHeaderContent>
+              </MudCardHeader>
+              <MudCardContent>
+                  <MudText>We distribute funds to the family through the trust.</MudText>
+              </MudCardContent>
+          </MudCard>
+      };
+      
+      private RenderFragment ResponsiveDivider => __builder =>
+      {
+          <ResponsiveLayout>
+              <MobileContent>
+                  <Centered><MudDivider Style="width:75%;" /></Centered>
+              </MobileContent>
+              <DesktopContent>
+                  <Centered><MudDivider Style="width:50%;" /></Centered>
+              </DesktopContent>
+          </ResponsiveLayout>
+      };
+}
