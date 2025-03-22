@@ -186,7 +186,7 @@ else
         NavigationManager.Uri.Contains("/72/")
         || NavigationManager.Uri.Contains("/promo/", StringComparison.InvariantCultureIgnoreCase)
         || NavigationManager.Uri.Contains("/thankyou/", StringComparison.InvariantCultureIgnoreCase)
-        || Enum.GetValues<Content>().Any(content => NavigationManager.Uri.Contains($"/{content}/", StringComparison.InvariantCultureIgnoreCase));
+        || Enum.GetValues<Content>().Any(content => NavigationManager.Uri.Contains($"/en/{content}/", StringComparison.InvariantCultureIgnoreCase) ||  NavigationManager.Uri.Contains($"/es/{content}/", StringComparison.InvariantCultureIgnoreCase));
 
     private bool IsCarPurchasePage => NavigationManager.Uri.Contains("/carpurchase");
 
