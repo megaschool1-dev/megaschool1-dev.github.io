@@ -1,0 +1,750 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!-- Primary Meta Tags -->
+    <title>Mega School 1</title>
+    <meta name="title" content="Mega School App"/>
+    <meta name="description" content="Turn your expenses back into income!  Get paid to share with family and friends. #CashBack #RevenueShare"/>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Mega School App"/>
+    <meta property="og:description" content="Turn your expenses back into income!  Get paid to share with family and friends. #CashBack #RevenueShare"/>
+    <meta property="og:image" content="/images/app-logo.png"/>
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image"/>
+    <meta property="twitter:title" content="Mega School App"/>
+    <meta property="twitter:description" content="Turn your expenses back into income!  Get paid to share with family and friends. #CashBack #RevenueShare"/>
+    <meta property="twitter:image" content="/images/app-logo.png"/>
+
+    <!-- Meta Tags Generated with https://metatags.io -->
+
+    <style>
+        .container {
+            height: 100vh;
+            position: relative;
+        }
+
+        .vertical-center {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        .center {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+    <base href="/"/>
+    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="icon" type="image/png" href="favicon.png"/>
+    <link href="MegaSchool1.styles.css" rel="stylesheet"/>
+    <link href="manifest.webmanifest" rel="manifest"/>
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet"/>
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet"/>
+
+<!--Blazor:{"type":"webassembly","prerenderId":"a7e2738ea462445faff52712ff627640","key":{"locationHash":"77D12F14A8105320B1AAED6AE7E689DA0EC4483270A645E84079EAA0FFDF550D:0","formattedComponentKey":""},"assembly":"Microsoft.AspNetCore.Components.Web","typeName":"Microsoft.AspNetCore.Components.Web.HeadOutlet","parameterDefinitions":"W10=","parameterValues":"W10="}--><title>Fast Start | Mega School 1</title><meta property="og:url" content="http://127.0.0.1:5050/faststartchecklist" b-jto9w6mo0o />
+
+    
+    <meta property="twitter:url" content="http://127.0.0.1:5050/faststartchecklist" b-jto9w6mo0o /><!--Blazor:{"prerenderId":"a7e2738ea462445faff52712ff627640"}-->
+</head>
+
+<body>
+    <div id="app">
+<!-- %%-PRERENDERING-BEGIN-%% -->
+<!--Blazor:{"type":"webassembly","prerenderId":"dbaf442d43dd4223bad367e3d9bd9a7c","key":{"locationHash":"BA28ECC5C1E41779D8CBE482E3C3D51DA47FFAE7CCD7336121B204515BC43A83:0","formattedComponentKey":""},"assembly":"MegaSchool1","typeName":"MegaSchool1.App","parameterDefinitions":"W10=","parameterValues":"W10="}-->
+
+
+
+<style>
+::-webkit-scrollbar {width: 8px;height: 8px;z-index: 1;}
+::-webkit-scrollbar-track {background: transparent;}
+::-webkit-scrollbar-thumb {background: #c4c4c4;border-radius: 1px;}
+::-webkit-scrollbar-thumb:hover {background: #a6a6a6;}
+html, body * {scrollbar-color: #c4c4c4 transparent;scrollbar-width: thin;}
+</style>
+<style>
+    .mud-chart-serie:hover {
+        filter: url(#lighten);
+    }
+</style>
+
+<style>
+:root{
+--mud-palette-black: rgba(39,39,47,1);
+--mud-palette-white: rgba(255,255,255,1);
+--mud-palette-primary: rgba(119,107,231,1);
+--mud-palette-primary-rgb: 119,107,231;
+--mud-palette-primary-text: rgba(255,255,255,1);
+--mud-palette-primary-darken: rgb(90,75,226);
+--mud-palette-primary-lighten: rgb(151,141,236);
+--mud-palette-primary-hover: rgba(119,107,231,0.058823529411764705);
+--mud-palette-secondary: rgba(255,64,129,1);
+--mud-palette-secondary-rgb: 255,64,129;
+--mud-palette-secondary-text: rgba(255,255,255,1);
+--mud-palette-secondary-darken: rgb(255,31,105);
+--mud-palette-secondary-lighten: rgb(255,102,153);
+--mud-palette-secondary-hover: rgba(255,64,129,0.058823529411764705);
+--mud-palette-tertiary: rgba(30,200,165,1);
+--mud-palette-tertiary-rgb: 30,200,165;
+--mud-palette-tertiary-text: rgba(255,255,255,1);
+--mud-palette-tertiary-darken: rgb(25,169,140);
+--mud-palette-tertiary-lighten: rgb(42,223,187);
+--mud-palette-tertiary-hover: rgba(30,200,165,0.058823529411764705);
+--mud-palette-info: rgba(50,153,255,1);
+--mud-palette-info-rgb: 50,153,255;
+--mud-palette-info-text: rgba(255,255,255,1);
+--mud-palette-info-darken: rgb(10,133,255);
+--mud-palette-info-lighten: rgb(92,173,255);
+--mud-palette-info-hover: rgba(50,153,255,0.058823529411764705);
+--mud-palette-success: rgba(11,186,131,1);
+--mud-palette-success-rgb: 11,186,131;
+--mud-palette-success-text: rgba(255,255,255,1);
+--mud-palette-success-darken: rgb(9,154,108);
+--mud-palette-success-lighten: rgb(13,222,156);
+--mud-palette-success-hover: rgba(11,186,131,0.058823529411764705);
+--mud-palette-warning: rgba(255,168,0,1);
+--mud-palette-warning-rgb: 255,168,0;
+--mud-palette-warning-text: rgba(255,255,255,1);
+--mud-palette-warning-darken: rgb(214,143,0);
+--mud-palette-warning-lighten: rgb(255,182,36);
+--mud-palette-warning-hover: rgba(255,168,0,0.058823529411764705);
+--mud-palette-error: rgba(246,78,98,1);
+--mud-palette-error-rgb: 246,78,98;
+--mud-palette-error-text: rgba(255,255,255,1);
+--mud-palette-error-darken: rgb(244,47,70);
+--mud-palette-error-lighten: rgb(248,119,134);
+--mud-palette-error-hover: rgba(246,78,98,0.058823529411764705);
+--mud-palette-dark: rgba(39,39,47,1);
+--mud-palette-dark-rgb: 39,39,47;
+--mud-palette-dark-text: rgba(255,255,255,1);
+--mud-palette-dark-darken: rgb(23,23,28);
+--mud-palette-dark-lighten: rgb(56,56,67);
+--mud-palette-dark-hover: rgba(39,39,47,0.058823529411764705);
+--mud-palette-text-primary: rgba(255,255,255,0.6980392156862745);
+--mud-palette-text-secondary: rgba(255,255,255,0.4980392156862745);
+--mud-palette-text-disabled: rgba(255,255,255,0.2);
+--mud-palette-action-default: rgba(173,173,177,1);
+--mud-palette-action-default-hover: rgba(173,173,177,0.058823529411764705);
+--mud-palette-action-disabled: rgba(255,255,255,0.25882352941176473);
+--mud-palette-action-disabled-background: rgba(255,255,255,0.11764705882352941);
+--mud-palette-surface: rgba(55,55,64,1);
+--mud-palette-background: rgba(50,51,61,1);
+--mud-palette-background-gray: rgba(39,39,47,1);
+--mud-palette-drawer-background: rgba(39,39,47,1);
+--mud-palette-drawer-text: rgba(255,255,255,0.4980392156862745);
+--mud-palette-drawer-icon: rgba(255,255,255,0.4980392156862745);
+--mud-palette-appbar-background: rgba(39,39,47,1);
+--mud-palette-appbar-text: rgba(255,255,255,0.6980392156862745);
+--mud-palette-lines-default: rgba(255,255,255,0.11764705882352941);
+--mud-palette-lines-inputs: rgba(255,255,255,0.2980392156862745);
+--mud-palette-table-lines: rgba(255,255,255,0.11764705882352941);
+--mud-palette-table-striped: rgba(255,255,255,0.2);
+--mud-palette-table-hover: rgba(0,0,0,0.0392156862745098);
+--mud-palette-divider: rgba(255,255,255,0.11764705882352941);
+--mud-palette-divider-light: rgba(255,255,255,0.058823529411764705);
+--mud-palette-skeleton: rgba(255,255,255,0.10980392156862745);
+--mud-palette-gray-default: #9E9E9E;
+--mud-palette-gray-light: #BDBDBD;
+--mud-palette-gray-lighter: #E0E0E0;
+--mud-palette-gray-dark: #757575;
+--mud-palette-gray-darker: #616161;
+--mud-palette-overlay-dark: rgba(33,33,33,0.4980392156862745);
+--mud-palette-overlay-light: rgba(255,255,255,0.4980392156862745);
+--mud-ripple-color: var(--mud-palette-text-primary);
+--mud-ripple-opacity: 0.1;
+--mud-ripple-opacity-secondary: 0.2;
+--mud-elevation-0: none;
+--mud-elevation-1: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+--mud-elevation-2: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+--mud-elevation-3: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);
+--mud-elevation-4: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+--mud-elevation-5: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12);
+--mud-elevation-6: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+--mud-elevation-7: 0px 4px 5px -2px rgba(0,0,0,0.2),0px 7px 10px 1px rgba(0,0,0,0.14),0px 2px 16px 1px rgba(0,0,0,0.12);
+--mud-elevation-8: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
+--mud-elevation-9: 0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12);
+--mud-elevation-10: 0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12);
+--mud-elevation-11: 0px 6px 7px -4px rgba(0,0,0,0.2),0px 11px 15px 1px rgba(0,0,0,0.14),0px 4px 20px 3px rgba(0,0,0,0.12);
+--mud-elevation-12: 0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12);
+--mud-elevation-13: 0px 7px 8px -4px rgba(0,0,0,0.2),0px 13px 19px 2px rgba(0,0,0,0.14),0px 5px 24px 4px rgba(0,0,0,0.12);
+--mud-elevation-14: 0px 7px 9px -4px rgba(0,0,0,0.2),0px 14px 21px 2px rgba(0,0,0,0.14),0px 5px 26px 4px rgba(0,0,0,0.12);
+--mud-elevation-15: 0px 8px 9px -5px rgba(0,0,0,0.2),0px 15px 22px 2px rgba(0,0,0,0.14),0px 6px 28px 5px rgba(0,0,0,0.12);
+--mud-elevation-16: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);
+--mud-elevation-17: 0px 8px 11px -5px rgba(0,0,0,0.2),0px 17px 26px 2px rgba(0,0,0,0.14),0px 6px 32px 5px rgba(0,0,0,0.12);
+--mud-elevation-18: 0px 9px 11px -5px rgba(0,0,0,0.2),0px 18px 28px 2px rgba(0,0,0,0.14),0px 7px 34px 6px rgba(0,0,0,0.12);
+--mud-elevation-19: 0px 9px 12px -6px rgba(0,0,0,0.2),0px 19px 29px 2px rgba(0,0,0,0.14),0px 7px 36px 6px rgba(0,0,0,0.12);
+--mud-elevation-20: 0px 10px 13px -6px rgba(0,0,0,0.2),0px 20px 31px 3px rgba(0,0,0,0.14),0px 8px 38px 7px rgba(0,0,0,0.12);
+--mud-elevation-21: 0px 10px 13px -6px rgba(0,0,0,0.2),0px 21px 33px 3px rgba(0,0,0,0.14),0px 8px 40px 7px rgba(0,0,0,0.12);
+--mud-elevation-22: 0px 10px 14px -6px rgba(0,0,0,0.2),0px 22px 35px 3px rgba(0,0,0,0.14),0px 8px 42px 7px rgba(0,0,0,0.12);
+--mud-elevation-23: 0px 11px 14px -7px rgba(0,0,0,0.2),0px 23px 36px 3px rgba(0,0,0,0.14),0px 9px 44px 8px rgba(0,0,0,0.12);
+--mud-elevation-24: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);
+--mud-elevation-25: 0 5px 5px -3px rgba(0,0,0,.06), 0 8px 10px 1px rgba(0,0,0,.042), 0 3px 14px 2px rgba(0,0,0,.036);
+--mud-default-borderradius: 4px;
+--mud-drawer-width-left: 240px;
+--mud-drawer-width-right: 240px;
+--mud-drawer-width-mini-left: 56px;
+--mud-drawer-width-mini-right: 56px;
+--mud-appbar-height: 64px;
+--mud-typography-default-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-default-size: .875rem;
+--mud-typography-default-weight: 400;
+--mud-typography-default-lineheight: 1.43;
+--mud-typography-default-letterspacing: .01071em;
+--mud-typography-default-text-transform: none;
+--mud-typography-h1-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-h1-size: 6rem;
+--mud-typography-h1-weight: 300;
+--mud-typography-h1-lineheight: 1.167;
+--mud-typography-h1-letterspacing: -.01562em;
+--mud-typography-h1-text-transform: none;
+--mud-typography-h2-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-h2-size: 3.75rem;
+--mud-typography-h2-weight: 300;
+--mud-typography-h2-lineheight: 1.2;
+--mud-typography-h2-letterspacing: -.00833em;
+--mud-typography-h2-text-transform: none;
+--mud-typography-h3-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-h3-size: 3rem;
+--mud-typography-h3-weight: 400;
+--mud-typography-h3-lineheight: 1.167;
+--mud-typography-h3-letterspacing: 0;
+--mud-typography-h3-text-transform: none;
+--mud-typography-h4-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-h4-size: 2.125rem;
+--mud-typography-h4-weight: 400;
+--mud-typography-h4-lineheight: 1.235;
+--mud-typography-h4-letterspacing: .00735em;
+--mud-typography-h4-text-transform: none;
+--mud-typography-h5-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-h5-size: 1.5rem;
+--mud-typography-h5-weight: 400;
+--mud-typography-h5-lineheight: 1.334;
+--mud-typography-h5-letterspacing: 0;
+--mud-typography-h5-text-transform: none;
+--mud-typography-h6-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-h6-size: 1.25rem;
+--mud-typography-h6-weight: 500;
+--mud-typography-h6-lineheight: 1.6;
+--mud-typography-h6-letterspacing: .0075em;
+--mud-typography-h6-text-transform: none;
+--mud-typography-subtitle1-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-subtitle1-size: 1rem;
+--mud-typography-subtitle1-weight: 400;
+--mud-typography-subtitle1-lineheight: 1.75;
+--mud-typography-subtitle1-letterspacing: .00938em;
+--mud-typography-subtitle1-text-transform: none;
+--mud-typography-subtitle2-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-subtitle2-size: .875rem;
+--mud-typography-subtitle2-weight: 500;
+--mud-typography-subtitle2-lineheight: 1.57;
+--mud-typography-subtitle2-letterspacing: .00714em;
+--mud-typography-subtitle2-text-transform: none;
+--mud-typography-body1-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-body1-size: 1rem;
+--mud-typography-body1-weight: 400;
+--mud-typography-body1-lineheight: 1.5;
+--mud-typography-body1-letterspacing: .00938em;
+--mud-typography-body1-text-transform: none;
+--mud-typography-body2-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-body2-size: .875rem;
+--mud-typography-body2-weight: 400;
+--mud-typography-body2-lineheight: 1.43;
+--mud-typography-body2-letterspacing: .01071em;
+--mud-typography-body2-text-transform: none;
+--mud-typography-input-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-input-size: 1rem;
+--mud-typography-input-weight: 400;
+--mud-typography-input-lineheight: 1.1876;
+--mud-typography-input-letterspacing: .00938em;
+--mud-typography-input-text-transform: none;
+--mud-typography-button-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-button-size: .875rem;
+--mud-typography-button-weight: 500;
+--mud-typography-button-lineheight: 1.75;
+--mud-typography-button-letterspacing: .02857em;
+--mud-typography-button-text-transform: uppercase;
+--mud-typography-caption-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-caption-size: .75rem;
+--mud-typography-caption-weight: 400;
+--mud-typography-caption-lineheight: 1.66;
+--mud-typography-caption-letterspacing: .03333em;
+--mud-typography-caption-text-transform: none;
+--mud-typography-overline-family: 'Roboto','Helvetica','Arial','sans-serif';
+--mud-typography-overline-size: .75rem;
+--mud-typography-overline-weight: 400;
+--mud-typography-overline-lineheight: 2.66;
+--mud-typography-overline-letterspacing: .08333em;
+--mud-typography-overline-text-transform: none;
+--mud-zindex-drawer: 1100;
+--mud-zindex-appbar: 1300;
+--mud-zindex-dialog: 1400;
+--mud-zindex-popover: 1200;
+--mud-zindex-snackbar: 1500;
+--mud-zindex-tooltip: 1600;
+--mud-native-html-color-scheme: dark;
+}
+</style>
+
+<div class="mud-popover-provider"><div id="popovercontent-761a1222-9c67-4660-b291-6c3d7cbd92ff" data-ticks="0" class="mud-popover mud-popover-top-center mud-popover-anchor-top-center mud-popover-overflow-flip-onopen mud-popover-relative-width mud-paper mud-elevation-8 overflow-y-auto" style="transition-duration:251ms;transition-delay:0ms;max-height:300px;"></div></div>
+
+<div id="mud-snackbar-container" class="mud-snackbar-location-top-right"></div>
+
+<div class="mud-overlay" style="" __internal_stopPropagation_onclick><div class="mud-overlay-scrim mud-overlay-dark"></div><div class="mud-overlay-content"><div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="mud-progress-circular mud-secondary-text mud-progress-medium mud-progress-indeterminate"><svg class="mud-progress-circular-svg" viewBox="22 22 44 44"><circle class="mud-progress-circular-circle mud-progress-indeterminate" cx="44" cy="44" r="20" fill="none" stroke-width="3"></circle></svg></div></div></div><div class="page mud-layout" b-jto9w6mo0o><div class="sidebar mud-elevation-1" b-jto9w6mo0o><div class="top-row mud-drawer-head" style="background-color:#4CAF50;" b-jto9w6mo0o><div b-jto9w6mo0o><a href="#" class="ml-2 navbar-brand" b-jto9w6mo0o>Mega School 1</a></div></div>
+
+            <input type="checkbox" title="Navigation menu" class="navbar-toggler" b-jto9w6mo0o>
+            <div class="nav-scrollable" onclick="document.querySelector(&#x27;.navbar-toggler&#x27;).click()" b-jto9w6mo0o><nav class="mud-navmenu mud-navmenu-default mud-navmenu-margin-none"><div class="mud-nav-item"><a href="/" rel="" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><div class="mud-nav-link-text">Home</div></a></div>
+    <div class="mud-nav-item"><a href="/shareables" rel="" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg><div class="mud-nav-link-text">Shareables</div></a></div>
+    <div class="mud-nav-item"><a href="/events" rel="" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><g><rect fill="none" height="24" width="24"/></g><g><path d="M19,4h-1V2h-2v2H8V2H6v2H5C3.89,4,3.01,4.9,3.01,6L3,20c0,1.1,0.89,2,2,2h14c1.1,0,2-0.9,2-2V6C21,4.9,20.1,4,19,4z M19,20 H5V10h14V20z M9,14H7v-2h2V14z M13,14h-2v-2h2V14z M17,14h-2v-2h2V14z M9,18H7v-2h2V18z M13,18h-2v-2h2V18z M17,18h-2v-2h2V18z"/></g></svg><div class="mud-nav-link-text">Events</div></a></div>
+    <div class="mud-nav-item"><a href="/par" rel="" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 10.02h5V21h-5zM17 21h3c1.1 0 2-.9 2-2v-9h-5v11zm3-18H5c-1.1 0-2 .9-2 2v3h19V5c0-1.1-.9-2-2-2zM3 19c0 1.1.9 2 2 2h3V10H3v9z"/></svg><div class="mud-nav-link-text">Personal Activity Report</div></a></div>
+    <div class="mud-nav-item"><a href="/faststartchecklist" rel="" tabindex="0" class="mud-nav-link mud-ripple active" aria-current="page"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><rect fill="none" height="24" width="24"/><path d="M22,7h-9v2h9V7z M22,15h-9v2h9V15z M5.54,11L2,7.46l1.41-1.41l2.12,2.12l4.24-4.24l1.41,1.41L5.54,11z M5.54,19L2,15.46 l1.41-1.41l2.12,2.12l4.24-4.24l1.41,1.41L5.54,19z"/></svg><div class="mud-nav-link-text">Fast Start</div></a></div>
+    <div class="mud-nav-item"><a href="/words" rel="" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><g><rect fill="none" height="24" width="24"/></g><g><g><circle cx="10" cy="9" r="4"/><path d="M16.39,15.56C14.71,14.7,12.53,14,10,14c-2.53,0-4.71,0.7-6.39,1.56C2.61,16.07,2,17.1,2,18.22V21h16v-2.78 C18,17.1,17.39,16.07,16.39,15.56z"/><path d="M20.36,1l-1.41,1.41c2.73,2.73,2.73,7.17,0,9.9l1.41,1.41C23.88,10.21,23.88,4.51,20.36,1z"/><path d="M17.54,10.9c1.95-1.95,1.95-5.12,0-7.07l-1.41,1.41c1.17,1.17,1.17,3.07,0,4.24L17.54,10.9z"/></g></g></svg><div class="mud-nav-link-text">Words</div></a></div>
+    <div class="mud-nav-item"><a href="/testimonials" rel="" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><g><rect fill="none" height="24" width="24"/></g><g><g/><path d="M11.99,2C6.47,2,2,6.48,2,12c0,5.52,4.47,10,9.99,10C17.52,22,22,17.52,22,12C22,6.48,17.52,2,11.99,2z M8.5,8 C9.33,8,10,8.67,10,9.5S9.33,11,8.5,11S7,10.33,7,9.5S7.67,8,8.5,8z M12,18c-2.28,0-4.22-1.66-5-4h10C16.22,16.34,14.28,18,12,18z M15.5,11c-0.83,0-1.5-0.67-1.5-1.5S14.67,8,15.5,8S17,8.67,17,9.5S16.33,11,15.5,11z"/></g></svg><div class="mud-nav-link-text">Testimonials</div></a></div>
+    <div class="mud-nav-item"><a href="/revenuesharing" rel="" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/></svg><div class="mud-nav-link-text">Revenue Sharing</div></a></div>
+    <div class="mud-nav-item"><a href="/training" rel="" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3 1 9l11 6 9-4.91V17h2V9L12 3z"/></svg><div class="mud-nav-link-text">Trainings</div></a></div>
+    <div class="mud-nav-item"><a href="/experimental" rel="" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><g><rect fill="none" height="24" width="24"/></g><g><path d="M19.8,18.4L14,10.67V6.5l1.35-1.69C15.61,4.48,15.38,4,14.96,4H9.04C8.62,4,8.39,4.48,8.65,4.81L10,6.5v4.17L4.2,18.4 C3.71,19.06,4.18,20,5,20h14C19.82,20,20.29,19.06,19.8,18.4z"/></g></svg><div class="mud-nav-link-text">Experimental</div></a></div>
+    <div class="mud-nav-item"><a href="#" target="_self" rel="noopener noreferrer" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 16h-2v-2h2v2zm2.07-7.75-.9.92C13.45 11.9 13 12.5 13 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg><div class="mud-nav-link-text">Live Support via Zoom</div></a></div>
+    <div class="mud-nav-item"><div class="mud-nav-link mud-ripple" tabindex="0"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M17 1.01L7 1c-1.1 0-1.99.9-1.99 2v18c0 1.1.89 2 1.99 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14zm-4.2-5.78v1.75l3.2-2.99L12.8 9v1.7c-3.11.43-4.35 2.56-4.8 4.7 1.11-1.5 2.58-2.18 4.8-2.18z"/></svg><div class="mud-nav-link-text">Share This App!</div></div></div>
+    <div class="mud-nav-item"><a href="/settings" rel="" tabindex="0" class="mud-nav-link mud-ripple"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-nav-link-icon mud-nav-link-icon-default" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><g><path d="M0,0h24v24H0V0z" fill="none"/><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></g></svg><div class="mud-nav-link-text">Settings</div></a></div>
+    <hr class="mud-divider mud-divider-fullwidth my-2" />
+    <div role="group" class="d-flex flex-row gap-3"><a type="button" href="https://github.com/MudBlazorGitHubPages/mudblazorgithubpages.github.io" target="_blank" rel="noopener" class="mud-button-root mud-icon-button mud-ripple mud-ripple-icon"><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></span></a>
+        <div aria-hidden="true" class="flex-grow-1"></div>
+        <div role="group" class="d-flex flex-column gap-3"><div aria-hidden="true" class="flex-grow-1"></div>
+            <a role="button" class="mud-typography mud-link mud-default-text mud-link-underline-none mud-typography-body1 cursor-pointer">Version 2025.3.81</a>
+            <div aria-hidden="true" class="flex-grow-1"></div></div></div></nav>
+
+</div></div>
+
+        <main b-jto9w6mo0o><div class="top-row px-4" style="background-color:#4CAF50;" b-jto9w6mo0o><div role="group" class="d-flex flex-row gap-3" style="width:100%;"><span class="mud-skeleton mud-skeleton-text mud-skeleton-pulse" style="height:50px;width:100%;"></span>
+                    <div aria-hidden="true" class="flex-grow-1"></div>
+                    <p class="mud-typography mud-typography-body1" style="color:white;">Fast Start</p></div></div>
+
+            <div class="mud-container mud-container-maxwidth-xxl mud-container--gutters my-2 pt-2"><div class="d-flex flex-column align-center"><div class="mud-select" id="selectgip76we2"><div class="mud-input-control mud-input-control-full-width mud-input-outlined-with-label mud-select" style="width:100%;"><div class="mud-input-control-input-container"><div class="mud-input mud-input-outlined mud-input-outlined-with-label mud-input-adorned-end mud-shrink mud-typography-input mud-select-input"><input class="mud-input-slot mud-input-root mud-input-root-outlined mud-input-root-adorned-end mud-select-input" id="mudinputkyhvo8fy" type="text" value="MegaSchool" readonly inputmode="text" maxlength="524288" aria-invalid="false" aria-required="false" /><div class="mud-input-slot mud-input-root mud-input-root-outlined mud-input-root-adorned-end mud-select-input" style="display:none" tabindex="-1"></div><div class="mud-input-adornment mud-input-adornment-end mud-select-input"><svg class="mud-icon-root mud-icon-default mud-svg-icon mud-icon-size-medium mud-input-adornment-icon" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img" tabindex="-1"><path d="M0 0h24v24H0z" fill="none"/><path d="M7 10l5 5 5-5z"/></svg></div><div class="mud-input-outlined-border"></div></div>
+                <div id="popover-761a1222-9c67-4660-b291-6c3d7cbd92ff" class="mud-popover-cascading-value"></div><label class="mud-input-label mud-input-label-animated mud-input-label-outlined mud-input-label-inputcontrol" for="mudinputkyhvo8fy">Strategy</label></div></div></div>
+    
+
+</div>
+
+<div class="mud-tabs mud-tabs-rounded"><div class="mud-tabs-tabbar mud-tabs-tabbar-primary d-none"><div class="mud-tabs-tabbar-inner" style=""><div class="mud-tabs-tabbar-content"><div class="mud-tabs-tabbar-wrapper mud-tabs-centered" style="transform:translateX(-0px);"><div class="mud-tooltip-root mud-tooltip-inline"><div class="mud-tab mud-tab-active mud-ripple" style="min-width:160px;"></div></div><div class="mud-tooltip-root mud-tooltip-inline"><div class="mud-tab mud-ripple" style="min-width:160px;"></div></div><div class="mud-tooltip-root mud-tooltip-inline"><div class="mud-tab mud-ripple" style="min-width:160px;"></div></div><div class="mud-tooltip-root mud-tooltip-inline"><div class="mud-tab mud-ripple" style="min-width:160px;"></div></div><div class="mud-tooltip-root mud-tooltip-inline"><div class="mud-tab mud-ripple" style="min-width:160px;"></div></div><div class="mud-tab-slider mud-tab-slider-horizontal" style="width:0px;left:0px;transition:left .3s cubic-bezier(.64,.09,.08,1);;"></div></div></div></div></div><div class="mud-tabs-panels pa-6"><form class="mud-form gap-0" action="/faststartchecklist"><button type="submit" disabled style="display: none" aria-hidden="true"></button><div role="group" class="d-flex flex-column gap-3"><div class="mud-paper mud-elevation-1 pa-4" style=""><div role="group" class="d-flex flex-column gap-2"><h4 class="mud-typography mud-typography-h4 mud-typography-gutterbottom mud-typography-align-center">Before Fast Start Meeting</h4>
+        <button type="button" class="mud-button-root mud-button mud-button-text mud-button-text-primary mud-button-text-size-medium mud-ripple" __internal_stopPropagation_onclick><span class="mud-button-label">Show</span></button>
+        <hr class="mud-divider mud-divider-fullwidth" />
+        <div class="mud-collapse-container" style=""><div class="mud-collapse-wrapper"><div class="mud-collapse-wrapper-inner"><div role="group" class="d-flex flex-column gap-3"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled mud-readonly" id="checkbox15s0ldlr" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-readonly mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled __internal_preventDefault_onclick aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Install Mega School App:</h6>I have done the following:
+                        </p></label></div></div>
+                        <div class="d-flex flex-column align-center"><div role="group" class="d-flex flex-row gap-3"><div class="mud-container mud-container-maxwidth-lg mud-container--gutters" style="width:75%;"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxur3tp5py" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><div class="d-flex flex-column align-center"><button type="button" class="mud-button-root mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple" __internal_stopPropagation_onclick><span class="mud-button-label">Watch Instructions</span></button></div></p></label></div></div>
+                                    <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxvwkswy1u" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1">
+                                        Install App
+                                    </p></label></div></div></div></div></div>
+                        <hr class="mud-divider mud-divider-fullwidth" />
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled mud-readonly" id="checkboxc7rsbazd" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-readonly mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled __internal_preventDefault_onclick aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Set Up GivBux:</h6>I have done the following:
+                        </p></label></div></div>
+                        <div role="group" class="d-flex flex-row gap-3"><div aria-hidden="true" class="flex-grow-1"></div>
+                            <div class="mud-container mud-container-maxwidth-lg mud-container--gutters" style="width:90%;"><div role="group" class="d-flex flex-column gap-3"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxqlqo7t8c" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1">Install GivBux App</p><p class="mud-typography mud-typography-body1"><button type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-small mud-ripple mud-icon-button-size-small mud-theme-primary rounded-circle" style="transform: scale(0.5); vertical-align:text-bottom;" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><g><rect fill="none" height="24" width="24"/></g><g><path d="M11.07,12.85c0.77-1.39,2.25-2.21,3.11-3.44c0.91-1.29,0.4-3.7-2.18-3.7c-1.69,0-2.52,1.28-2.87,2.34L6.54,6.96 C7.25,4.83,9.18,3,11.99,3c2.35,0,3.96,1.07,4.78,2.41c0.7,1.15,1.11,3.3,0.03,4.9c-1.2,1.77-2.35,2.31-2.97,3.45 c-0.25,0.46-0.35,0.76-0.35,2.24h-2.89C10.58,15.22,10.46,13.95,11.07,12.85z M14,20c0,1.1-0.9,2-2,2s-2-0.9-2-2c0-1.1,0.9-2,2-2 S14,18.9,14,20z"/></g></svg></span></button></p></label></div></div></div>
+                                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox5a0sefuk" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><p class="mud-typography mud-typography-body1">Set My GivBux &quot;Vanity Name&quot; (aka &quot;Handle&quot; or &quot;Code&quot;)</p></p></label></div></div>
+                                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox4o8mv6am" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><p class="mud-typography mud-typography-body1">Share My GivBux &quot;Vanity Name&quot; w/ My Upline (via text message)</p></p></label></div></div></div></div>                    
+                        <hr class="mud-divider mud-divider-fullwidth" />
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox" id="checkbox7bc7q5tg" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-checkbox mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Get Connected:</h6>Email your <span style="color:rgba(255,64,129,1);">NAME</span> and <span style="color:rgba(255,64,129,1);">STATE</span> to <a href="mailto:connect@extradigitmovement.com" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1">connect@extradigitmovement.com</a>.
+        </p></label></div></div>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox" id="checkboxn3pch236" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-checkbox mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Celebrate:</h6>Text a headshot to your upline leader, so they can create and share your banner.
+        </p></label></div></div>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxioqru4j7" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">MWR Pay Card:</h6> I located my email from <span style="color:rgba(119,107,231,1);">MWRFinancial@globalewallet.com</span> and ordered my card!
+        </p></label></div></div>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox5xn6wtaz" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Virtual Business Launch:</h6>I've scheduled 1 Zoom Launch within 48 hours of joining!
+        </p></label></div></div>
+        <div role="group" class="d-flex flex-column gap-3"><p class="mud-typography mud-typography-body1 mud-typography-align-center">Zoom Launch Date:
+        <br><p class="mud-typography mud-typography-body1">???</p><br>
+        <br><a role="button" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1 cursor-pointer">Change Date
+    <div class="mud-picker mud-picker-inline mud-picker-input-button" id="pickeryhjodzg5"><div class="mud-input-control mud-input-input-control"><div class="mud-input-control-input-container"><div class="mud-input mud-input-text mud-input-adorned-end mud-input-underline mud-typography-input" style="display:none;"><input class="mud-input-slot mud-input-root mud-input-root-text mud-input-root-adorned-end" id="mudinputhwh0xhzx" type="text" readonly inputmode="text" maxlength="524288" aria-invalid="false" aria-required="false" /><div class="mud-input-slot mud-input-root mud-input-root-text mud-input-root-adorned-end" style="display:none" tabindex="-1"></div><div class="mud-input-adornment mud-input-adornment-end"><button aria-label="Open Date Picker" tabindex="-1" type="button" class="mud-button-root mud-icon-button mud-ripple mud-ripple-icon mud-icon-button-edge-end mud-input-adornment-icon-button" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></span></button></div></div></div></div></div></a></p></div>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox8qb0rrzi" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">In Home Launch:</h6>I've scheduled my Lifestyle & Legacy Party within 7 days of joining!
+        </p></label></div></div>
+        <div role="group" class="d-flex flex-column gap-3"><p class="mud-typography mud-typography-body1 mud-typography-align-center">Lifestyle &amp; Legacy Party Date:
+        <br><p class="mud-typography mud-typography-body1">???</p><br>
+        <br><a role="button" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1 cursor-pointer">Change Date
+    <div class="mud-picker mud-picker-inline mud-picker-input-button" id="pickerrvi8vpw8"><div class="mud-input-control mud-input-input-control"><div class="mud-input-control-input-container"><div class="mud-input mud-input-text mud-input-adorned-end mud-input-underline mud-typography-input" style="display:none;"><input class="mud-input-slot mud-input-root mud-input-root-text mud-input-root-adorned-end" id="mudinputnxe0826b" type="text" readonly inputmode="text" maxlength="524288" aria-invalid="false" aria-required="false" /><div class="mud-input-slot mud-input-root mud-input-root-text mud-input-root-adorned-end" style="display:none" tabindex="-1"></div><div class="mud-input-adornment mud-input-adornment-end"><button aria-label="Open Date Picker" tabindex="-1" type="button" class="mud-button-root mud-icon-button mud-ripple mud-ripple-icon mud-icon-button-edge-end mud-input-adornment-icon-button" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></span></button></div></div></div></div></div></a></p></div>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxktygjx80" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">First Round Draft Choices:</h6>I printed the First Round Draft Choice PDF & listed my 1st 30 prospects to contact immediately.
+        </p></label></div></div>
+        <p class="mud-typography mud-typography-body1 mud-typography-align-center">Print <a href="https://user.mwrfinancial.com/content/V22/MWR-First-Round-Draft-Choice-English.pdf" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">First Round Draft Choice PDF<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox8hijgzzb" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Personal Activity Report:</h6>I printed the Personal Activity Report PDF & listed my 1st 30 prospects to contact immediately.
+        </p></label></div></div>
+        <p class="mud-typography mud-typography-body1 mud-typography-align-center">Print <a href="https://s3.amazonaws.com/kajabi-storefronts-production/file-uploads/sites/13708/themes/2155551073/downloads/6ab4d-a06e-4421-0735-300ff6b327b_PAR_Sheet_2024.pdf" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Personal Activity Report PDF<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox" id="checkboxkyc8ulzc" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-checkbox mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Print 4 Steps to 4 Figures Per Month:</h6>Print <a href="https://www.extradigitmovement.com/resource_redirect/downloads/file-uploads/sites/13708/themes/2153043324/downloads/32a7256-8db4-2abf-7a2-3e1be235bd76_EDMQuickStartMay2024.pdf" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">4 Steps to 4 Figures Per Month<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox4dlxbmo6" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Fast Start Interview:</h6></p></label></div></div>
+                        <div class="d-flex flex-column align-center"><div role="group" class="d-flex flex-column gap-3" style="width:75%;"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxq2qoeg30" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><p class="mud-typography mud-typography-body1">Download <a href="https://user.mwrfinancial.com/content/V22/MWRFirstStartInterview-English.pdf" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Fast Start Interview PDF<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></p></label></div></div>
+                                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox7visr0h5" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><p class="mud-typography mud-typography-body1">Fill out Fast Start Interview PDF</p></p></label></div></div></div></div>
+                        <div class="mud-container mud-container-maxwidth-lg mud-container--gutters d-none"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxw8z73vdd" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Team Trainings:</h6>Subscribe to <a href="https://calendar.google.com/calendar/u/0?cid=OGc2bnEwYnFvZWRyM2ZzMjhyZDlzZHAwMmNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">MWR Teams Calendar<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div></div>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-readonly" id="checkboxg4qz8t5h" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-primary-text mud-readonly mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" __internal_preventDefault_onclick aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Plugged In:</h6>I am following MWR on the Social Media Platforms listed below to stay informed:
+        </p></label></div></div>
+        <div role="group" class="d-flex flex-row gap-3"><div aria-hidden="true" class="flex-grow-1"></div>
+            <div class="mud-container mud-container-maxwidth-lg mud-container--gutters" style="width:75%;"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxmrmqwvhg" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="http://mwrtelegram.com" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Telegram<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox7p52r4n5" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://facebook.com/MWRFinancial" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Facebook<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox1po5bn7i" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://youtube.com/c/mwrfinancial" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">YouTube<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxl0kamvm3" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://twitter.com/mwrfinancial" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Twitter<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxhmwjex8i" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://www.linkedin.com/company/mwr-financial-official" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">LinkedIn<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxk5u3dj06" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://instagram.com/mwrfinancial" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Instagram<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxi2ngaev4" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://www.facebook.com/groups/MWRFinancialTestimonials/" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Testimonials<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div></div></div>
+                        <div class="mud-container mud-container-maxwidth-lg mud-container--gutters d-none"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled mud-readonly" id="checkboxy755vdxq" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-readonly mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled __internal_preventDefault_onclick aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Plugged In:</h6>I am following Mega School on the Social Media Platforms listed below to stay informed:
+                            </p></label></div></div>
+                            <div role="group" class="d-flex flex-row gap-3"><div aria-hidden="true" class="flex-grow-1"></div>
+                                <div class="mud-container mud-container-maxwidth-lg mud-container--gutters" style="width:75%;"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxhadmrfh4" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://signal.group/#CjQKIP2QwglEuMbv-8haIh30bk_QnhxWD6aONRIpJLDO_ncuEhDDiaplT9LAtRKCr_UxPqRm" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Signal<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                                    <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxvkegi68w" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://www.facebook.com/megaschool1" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Facebook<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                                    <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxl15twi5g" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://www.youtube.com/@megaschool1" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">YouTube<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                                    <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxhsr0ayxj" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://www.twitter.com/megaschool1_me" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Twitter<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                                    <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxlmemsu47" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://www.linkedin.com/company/megaschool1-me" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">LinkedIn<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                                    <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxeh3w4vvu" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://www.instagram.com/megaschool1.me" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Instagram<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div></div></div></div>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled mud-readonly" id="checkboxjzgrmlru" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-readonly mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled __internal_preventDefault_onclick aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Plugged In:</h6>I am following Extra Digit Movement on the Social Media Platforms listed below to stay informed:
+                        </p></label></div></div>
+                        <div role="group" class="d-flex flex-row gap-3"><div aria-hidden="true" class="flex-grow-1"></div>
+                            <div class="mud-container mud-container-maxwidth-lg mud-container--gutters" style="width:80%;"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox01sfkrg6" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://www.facebook.com/ExtraDigit" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Facebook Page<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxak3vuul0" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://www.facebook.com/groups/193851270779332/" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Facebook Group<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxx8pltlxb" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://www.youtube.com/@ExtraDigitMovement" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">YouTube<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div>
+                                <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox8yofkw2r" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://t.me/&#x2B;eHM4NJxWCYEzNTAx" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">Telegram<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div></div></div>
+                        <div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled mud-readonly" id="checkboxd1f5zjwe" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-readonly mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled __internal_preventDefault_onclick aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Plugged In:</h6>I am following ARK Nation on the Social Media Platforms listed below to stay informed:
+                        </p></label></div></div>
+                        <div role="group" class="d-flex flex-row gap-3"><div aria-hidden="true" class="flex-grow-1"></div>
+                            <div class="mud-container mud-container-maxwidth-lg mud-container--gutters" style="width:75%;"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox6rrihi1x" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><a href="https://groupme.com/join_group/63815923/sXzGrI1w" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">GroupMe<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a></p></label></div></div></div></div>
+                        <div class="mud-container mud-container-maxwidth-lg mud-container--gutters d-none"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxnyo76o17" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Corporate Event:</h6>I am registered for the <a href="http://makewealthrealevents.com" target="_blank" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="align-content:center; text-align:center;">MWR Corporate Conference<button type="button" class="mud-button-root mud-icon-button mud-primary-text hover:mud-primary-hover mud-ripple mud-ripple-icon mud-icon-button-size-small" __internal_stopPropagation_onclick><span class="mud-icon-button-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-small" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></span></button></a>.
+        </p></label></div></div></div></div></div></div></div></div></div>
+                <div class="mud-paper mud-elevation-1 pa-4" style=""><div role="group" class="d-flex flex-column gap-2"><h4 class="mud-typography mud-typography-h4 mud-typography-gutterbottom mud-typography-align-center">Fast Start Meeting</h4>
+        <button type="button" class="mud-button-root mud-button mud-button-text mud-button-text-primary mud-button-text-size-medium mud-ripple" __internal_stopPropagation_onclick><span class="mud-button-label">Show</span></button>
+        <hr class="mud-divider mud-divider-fullwidth" />
+        <div class="mud-collapse-container" style=""><div class="mud-collapse-wrapper"><div class="mud-collapse-wrapper-inner"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkboxpk317jbl" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">Fast Start Interview:</h6>I completed this with my Upline and/or Success line Leader
+        </p></label></div></div></div></div></div></div></div>
+                <div class="mud-paper mud-elevation-1 pa-4" style=""><div role="group" class="d-flex flex-column gap-2"><h4 class="mud-typography mud-typography-h4 mud-typography-gutterbottom mud-typography-align-center">After Fast Start Meeting</h4>
+        <button type="button" class="mud-button-root mud-button mud-button-text mud-button-text-primary mud-button-text-size-medium mud-ripple" __internal_stopPropagation_onclick><span class="mud-button-label">Show</span></button>
+        <hr class="mud-divider mud-divider-fullwidth" />
+        <div class="mud-collapse-container" style=""><div class="mud-collapse-wrapper"><div class="mud-collapse-wrapper-inner"><div class="mud-input-control mud-input-control-boolean-input"><div class="mud-input-control-input-container"><label class="mud-checkbox mud-disabled" id="checkbox4mimqbgq" __internal_stopPropagation_onclick><span tabindex="0" class="mud-button-root mud-icon-button mud-disabled mud-checkbox-false"><input tabindex="-1" type="checkbox" class="mud-checkbox-input" aria-checked="false" disabled aria-required="false" />
+                <svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></span><p class="mud-typography mud-typography-body1"><h6 class="mud-typography mud-typography-h6">72-Hour Money Challenge:</h6>Take the 72-Hour Money Challenge.  If you need help, attend either the <a href="/events#tuesdays-megaschool-training" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1">Tuesday</a> or <a href="/events#wednesdays-megaschool-training" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1">Wednesday</a> Membership Workshop.
+                    </p></label></div></div>
+                    <div class="d-flex flex-column align-center"><div role="group" class="d-flex flex-column gap-3" style="width:75%;"><div role="group" class="d-flex flex-row gap-3"><p class="mud-typography mud-typography-body1">#1: </p>
+                                <button type="button" class="mud-button-root mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-width-full mud-ripple" __internal_stopPropagation_onclick><span class="mud-button-label">Eliminate My Debt</span></button>
+                                <div aria-hidden="true" class="flex-grow-1"></div></div>
+                            <div role="group" class="d-flex flex-row gap-3"><p class="mud-typography mud-typography-body1">#2: </p>
+                                <button type="button" class="mud-button-root mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-width-full mud-ripple" __internal_stopPropagation_onclick><span class="mud-button-label">DCA</span></button>
+                                <div aria-hidden="true" class="flex-grow-1"></div></div>
+                            <div role="group" class="d-flex flex-row gap-3"><p class="mud-typography mud-typography-body1">#3: </p>
+                                <button type="button" class="mud-button-root mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-width-full mud-ripple" __internal_stopPropagation_onclick><span class="mud-button-label">Instant Pay Raise</span></button>
+                                <div aria-hidden="true" class="flex-grow-1"></div></div>
+                            <div role="group" class="d-flex flex-row gap-3"><p class="mud-typography mud-typography-body1">#4: </p>
+                                <button type="button" class="mud-button-root mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-width-full mud-ripple" __internal_stopPropagation_onclick><span class="mud-button-label">Lower My Bills</span></button>
+                                <div aria-hidden="true" class="flex-grow-1"></div></div>
+                            <div role="group" class="d-flex flex-row gap-3"><p class="mud-typography mud-typography-body1">#5: </p>
+                                <button type="button" class="mud-button-root mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-width-full mud-ripple" __internal_stopPropagation_onclick><span class="mud-button-label">Credit Restoration</span></button>
+                                <div aria-hidden="true" class="flex-grow-1"></div></div></div></div></div></div></div></div></div></div></form>
+    
+    
+    
+    </div></div>
+
+
+
+
+                    <span class="mud-scroll-to-top hidden"><button type="button" class="mud-button-root mud-fab mud-fab-primary mud-fab-size-large mud-ripple" __internal_stopPropagation_onclick><span class="mud-fab-label"><svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><g><rect fill="none" height="24" width="24"/><path d="M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20 M12,22c5.52,0,10-4.48,10-10c0-5.52-4.48-10-10-10 C6.48,2,2,6.48,2,12C2,17.52,6.48,22,12,22L12,22z M11,12l0,4h2l0-4h3l-4-4l-4,4H11z"/></g></svg></span></button></span></div></main></div><div id="blazor-error-ui" b-jto9w6mo0o>
+    An unhandled error has occurred.
+    <a href class="reload" b-jto9w6mo0o>Reload</a>
+    <a class="dismiss" b-jto9w6mo0o>🗙</a></div>
+
+
+        <!--Blazor:{"prerenderId":"dbaf442d43dd4223bad367e3d9bd9a7c"}-->
+<!-- %%-PRERENDERING-END-%% -->
+<!--Blazor-WebAssembly-Component-State:eyJfX2ludGVybmFsX19BbnRpZm9yZ2VyeVJlcXVlc3RUb2tlbiI6ImV5SjJZV3gxWlNJNklrTm1SRW80U21JeWJreEpNWFpXYUUxb2FqaGZaRmszZWtselNpMXZkV1pEZFV0UWJUUlFkM1pzZWt4VlpFMW1WblZUUkdvMFRsUklYMWxoZWpsV1RISktValJRT0dzMFFYZE9PR1Y2YkRFNU5HWjJPQzB5YjNsNmIyOTJhRXBaVmtOT1pHUk1YMWMxZG5CVVluaHVMVmRVZUVWbVVYWmlMVE16T1c5NGQyOXVZWGQwV1Voa2FuZFRVR3A1Y2tWd1NFSlpObVZKV0hOa2JFVnpJaXdpWm05eWJVWnBaV3hrVG1GdFpTSTZJbDlmVW1WeGRXVnpkRlpsY21sbWFXTmhkR2x2YmxSdmEyVnVJbjA9IiwiZmV0Y2hkYXRhIjoiZTMwPSJ9--></div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/13.1.0/stellar-sdk.js"></script>
+
+    <script>
+        window.createKeyPairFromSeed = (seed) => {
+            const pair = StellarSdk.Keypair.fromSecret(seed);
+
+            return pair.secret() + ":" + pair.publicKey();
+        }
+
+        window.createKeyPair = () => {
+            const pair = StellarSdk.Keypair.random();
+
+            return pair.secret() + ":" + pair.publicKey();
+        }
+    </script>
+
+    <!--
+        Refresh fix for Single Page Applications (SPAs)
+        Source: https://github.com/orgs/community/discussions/50269
+    -->
+    <script type="text/javascript">
+        (function (l) {
+            if (l.search[1] === '/') {
+                var decoded = l.search.slice(1).split('&').map(function (s) {
+                    return s.replace(/~and~/g, '&')
+                }).join('?');
+                window.history.replaceState(null, null,
+                    l.pathname.slice(0, -1) + decoded + l.hash
+                );
+            }
+        }(window.location))
+    </script>
+
+    <script>
+        window.downloadFileFromStream = async (fileName, contentStreamReference) => {
+            const arrayBuffer = await contentStreamReference.arrayBuffer();
+            const blob = new Blob([arrayBuffer]);
+            const url = URL.createObjectURL(blob);
+            const anchorElement = document.createElement('a');
+            anchorElement.href = url;
+            anchorElement.download = fileName ?? '';
+            anchorElement.click();
+            anchorElement.remove();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+    <script>
+        function inIframe() {
+            try {
+                return window.self !== window.top;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function isStandalone() {
+            let displayMode = 'browser tab';
+            var isStandaloneMode = false;
+
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                displayMode = 'standalone';
+                isStandaloneMode = true;
+            }
+            // Log launch display mode to analytics
+            console.log('DISPLAY_MODE_LAUNCH:', displayMode);
+
+            return isStandaloneMode;
+        }
+
+        function openLinkInNewWindow(url) {
+            window.open(url, "_blank");
+        }
+
+        async function downloadFileFromStream(fileName, contentStreamReference) {
+            const arrayBuffer = await contentStreamReference.arrayBuffer();
+            const blob = new Blob([arrayBuffer]);
+            const url = URL.createObjectURL(blob);
+            const anchorElement = document.createElement('a');
+            anchorElement.href = url;
+            anchorElement.download = fileName ?? '';
+            anchorElement.click();
+            anchorElement.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        function getQualifiedMarketingDirectorPhoneNumber() {
+            var iframe = document.getElementById("myFrame");
+            console.log("iframe: " + iframe);
+            var elmnt = iframe.contentWindow.document.getElementsByClassName("client_phone")[0];
+            console.log("phone element: " + elmnt);
+        }
+
+        async function clipboardMethod() {
+            // this works perfectly on Signal Desktop
+
+            var image = await fetch('images/mwr-banner.png');
+
+            var blob = await image.blob();
+
+            await navigator.clipboard.write([
+                new ClipboardItem({
+                    [blob.type]: blob,
+                    'text/plain': new Blob(["my text value"], { type: 'text/plain' })
+                },
+                    {
+                        presentationStyle: "inline"
+                    }),
+            ]);
+        }
+
+        function webshareAllowed() {
+            return navigator.canShare && navigator.canShare({ title: "Value Does Not Matter", text: "Value Does Not Matter" });
+        }
+
+        async function webshare(title, message, imageUrl) {
+            const urlParameterIndex = imageUrl.indexOf('?');
+
+            const fileExtension =
+                urlParameterIndex == -1
+                    ? imageUrl.split('.').pop()
+                    : imageUrl.substring(0, urlParameterIndex).split('.').pop();
+
+            if (navigator.canShare) {
+                const image = await fetch(imageUrl);
+                const blob = await image.blob();
+
+                const data = {
+                    files: [
+                        new File([blob], 'MegaSchool1.' + fileExtension, {
+                            type: blob.type,
+                        }),
+                    ],
+                    title: title,
+                    text: message,
+                };
+
+                await clipboardCopy.copyText(message);
+
+                if (navigator.canShare(data)) {
+
+                    try {
+                        await navigator.share(data);
+                    }
+                    catch (e) {
+                        console.log(`webshare error: ${e}`);
+                    }
+                }
+            }
+        }
+
+        async function clipboardHTMLMethod() {
+            const myContent = document.getElementById("foobar");
+            const type = "text/html";
+            const myBlob = new Blob([myContent.innerHTML], { type });
+            console.log("clipboardHTMLMethod 1 - innerHTML: " + myContent.innerHTML);
+
+            await navigator.clipboard.write([
+                new ClipboardItem({
+                    [myBlob.type]: myBlob,
+                    //'text/plain': new Blob(["my text value"], { type: 'text/plain' })
+                },
+                    {
+                        presentationStyle: "inline"
+                    }),
+            ]);
+            console.log("clipboardHTMLMethod - 2");
+        }
+
+        window.clipboardCopy = {
+            copyText: async function (text) {
+                await navigator.clipboard.writeText(text);
+            }
+        };
+
+        // This variable will save the event for later use.
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', async (e) => {
+            // Prevents the default mini-infobar or install dialog from appearing on mobile
+            e.preventDefault();
+
+            // Save the event because you'll need to trigger it later.
+            deferredPrompt = e;
+        });
+
+        function appInstallationStatusReady() {
+            return !(deferredPrompt === undefined);
+        }
+
+        function appIsInstallable() {
+            return deferredPrompt != null;
+        }
+
+        async function promptToInstall() {
+            // deferredPrompt is a global variable we've been using in the sample to capture the `beforeinstallevent`
+            deferredPrompt.prompt();
+
+            // Find out whether the user confirmed the installation or not
+            const { outcome } = await deferredPrompt.userChoice;
+
+            // The deferredPrompt can only be used once.
+            deferredPrompt = null;
+
+            // Act on the user's choice
+            if (outcome === 'accepted') {
+                await DotNet.invokeMethodAsync("MegaSchool1", "OnInstallClick");
+            } else if (outcome === 'dismissed') {
+                ;
+            }
+        }
+
+        async function promptToInstall(componentReference) {
+            // deferredPrompt is a global variable we've been using in the sample to capture the `beforeinstallevent`
+            deferredPrompt.prompt();
+
+            // Find out whether the user confirmed the installation or not
+            const { outcome } = await deferredPrompt.userChoice;
+
+            // The deferredPrompt can only be used once.
+            deferredPrompt = null;
+
+            // Act on the user's choice
+            if (outcome === 'accepted') {
+                //await componentReference.invokeMethodAsync("ComponentBase", "OnAppInstalled");
+                //componentReference.dispose();
+
+                await DotNet.invokeMethodAsync("MegaSchool1", "OnAppInstalled");
+            } else if (outcome === 'dismissed') {
+                ;
+            }
+        }
+    </script>
+
+
+
+</body></html>
